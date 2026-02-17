@@ -14,6 +14,18 @@ config/name="ZeldaLikeProject"
 config/features=PackedStringArray("4.6", "Forward Plus")
 config/icon="res://icon.svg"
 
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/Todo_Manager/plugin.cfg")
+
+[file_customization]
+
+folder_colors={
+"res://Scripts/": "gray",
+"res://Scripts/Classes/Entity Class/Characters/Player/": "green",
+"res://addons/": "gray"
+}
+
 [physics]
 
 3d/physics_engine="Jolt Physics"
