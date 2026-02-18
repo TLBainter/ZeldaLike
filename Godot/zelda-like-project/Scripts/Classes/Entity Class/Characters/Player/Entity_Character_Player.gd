@@ -12,9 +12,7 @@ extends Character
 @export var input : InputComponent
 #endregion
 #region MISC EXPORT VARIABLES
-@export_group("Misc NPC Variables")
-##the NPC's name as it will be displayed
-@export var npc_name : String
+#
 #endregion
 #region INTERNAL VARIABLES
 ##the NPC's category (whether it is a shopkeeper, standard, or story NPC).
