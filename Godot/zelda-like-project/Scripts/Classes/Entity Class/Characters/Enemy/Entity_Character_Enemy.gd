@@ -4,6 +4,10 @@ class_name Enemy
 extends Character
 
 #region VARIABLES
+#region ENEMY COMPONENTS
+@export_group("Enemy Components")
+##the area within which the player is detected.
+@export var player_detector : Area2D
 #region MISC EXPORT VARIABLES
 @export_group("Misc Enemy Variables")
 ##the NPC's name as it will be displayed

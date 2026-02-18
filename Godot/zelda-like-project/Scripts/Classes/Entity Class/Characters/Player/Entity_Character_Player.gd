@@ -1,15 +1,15 @@
-##[b][color=red]NPC[/color][/b] is a character class stemming from [b]Entity[/b]/[b]Character[/b].[br]
-##This class holds [b]Shopkeepers[/b], [b]Standard NPCs[/b], and [b]Story NPCs[/b].
-class_name NPC
+##[b][color=red]Player[/color][/b] is the player character class stemming from [b]Entity[/b]/[b]Character[/b].[br]
+##This class holds holds the control data for the player.
+class_name Player
 extends Character
 
 #region VARIABLES
 #region NPC COMPONENTS
-@export_group("NPC Components")
-##the area within which the player is detected.
-@export var player_detector : Area2D
-##the component with which the player may interact
-@export var interact : Interact
+@export_group("Player Components")
+##Stamina handler; excepts type [color=green]StaminaComponent[/color]
+@export var stamina : StaminaComponent
+##Input handler; expects type [color=green]InputComponent[/color]
+@export var input : InputComponent
 #endregion
 #region MISC EXPORT VARIABLES
 @export_group("Misc NPC Variables")

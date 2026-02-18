@@ -18,8 +18,12 @@ extends Node2D
 @export var state_machine : StateMachine
 ##the entity's collider
 @export var collider : Area2D
-##the area within which the player is detected.
-@export var player_detector : Area2D
+@export_group("Entity Components : Functionality")
+##Health handler; expects type [color=green]HealthComponent[/color]
+@export var health : HealthComponent
+##Movement handler; excepts type [color=green]MovementComponent[/color]
+@export var move : MoveComponent
+
 #endregion
 #region EXPORT VARIABLES
 @export_group("Misc Entity Variables")

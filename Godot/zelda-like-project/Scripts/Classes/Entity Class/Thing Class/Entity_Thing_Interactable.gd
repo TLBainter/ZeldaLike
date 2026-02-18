@@ -6,6 +6,8 @@ extends Thing
 #region VARIABLES
 #region COMPONENTS
 @export_group("Interactable Components")
+##the area within which the player is detected.
+@export var player_detector : Area2D
 ##a reference to this Interactable's [b]Interact[/b] component.
 @export var interact : Interact
 #region EXPORT VARIABLES
