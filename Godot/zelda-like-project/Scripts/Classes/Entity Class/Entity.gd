@@ -8,10 +8,12 @@ extends Node2D
 @export_group("Entity Components")
 ##a reference to the entity's self as 'me'
 @export var me : Node2D
-##the entity's animation player
+##the entity's animated sprite, if it has one.
 @export var animated_sprite : AnimatedSprite2D
 ##the entity's initial sprite
 @export var sprite : Sprite2D
+##the entity's animation player.
+@export var anim : AnimationPlayer
 ##the entity's shadow sprite
 @export var shadow : Sprite2D
 ##the entity's state machine

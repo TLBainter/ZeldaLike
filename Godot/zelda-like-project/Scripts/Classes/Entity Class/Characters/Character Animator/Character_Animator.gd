@@ -1,13 +1,13 @@
-##[b][color=red]CharacterAnimator[/color][/b] is used to play the animations of a Character-type [b]Entity[/b] if they have an animated Sprite2D.[br]
+##[b][color=red]CharacterAnimator[/color][/b] is used to play the animations of a Character-type [b]Entity[/b] if they have an Animnation Player.[br]
 ##It uses signals from the character's Input Component to play the animations.
 class_name CharacterAnimator
-extends AnimatedSprite2D
+extends AnimationPlayer
 
 #region VARIABLES
 #region Export Variables
 @export_group("Components")
 @export_group("Export Animation Variables")
-##Whether or not this character has diagonal movement; enabling this without diagonal sprites will cause the cahracter to break.
+##Whether or not this character has diagonal movement; enabling this without diagonal animations will cause the cahracter to break.
 @export var has_diagonal_movement : bool = false
 @export_group("Debug")
 ##Whether or not you wish to debug this entity
@@ -17,9 +17,10 @@ extends AnimatedSprite2D
 #endregion Export Variables
 #region Internal Variables
 ## The parent entity; expects a character
-@onready var me : Character = $"../.."
+@onready var me : Character = $".."
 ## A reference to the character's input component
 @onready var input : InputComponent = me.input
+@onready var anim : AnimationPlayer	= me.anim
 ## The direction the character is facing.
 var facing : String = "down"
 #endregion Internal Variables
@@ -94,10 +95,10 @@ func face(face_dir : Vector2, _delta : float):
 	else: anim_type = "Idle"
 	#Capitalize the facing direction to match with animation formatting, then play the relevant animation.
 	var anim_name : String = anim_type + facing.capitalize().replace(" ", "")
-	if get_animation() != anim_name:
-		play(anim_name)
-		if debug_me:
-			print(debug_name, " is playing animation ", anim_name)
+	if has_animation(anim_name) and current_animation != anim_name:
+			play(anim_name)
+			if debug_me:
+				print(debug_name, " is playing animation ", anim_name)
 	
 	#endregion
 

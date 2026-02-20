@@ -11,9 +11,17 @@ config_version=5
 [application]
 
 config/name="ZeldaLikeProject"
-run/main_scene="uid://domh3e18e0ubj"
+run/main_scene="uid://jqso51haqh2i"
 config/features=PackedStringArray("4.6", "Forward Plus")
 config/icon="res://icon.svg"
+
+[autoload]
+
+audioManager="*uid://cct1tqjxxcrx8"
+
+[display]
+
+window/stretch/mode="viewport"
 
 [editor_plugins]
 
@@ -25,10 +33,14 @@ folder_colors={
 "res://Scenes/": "blue",
 "res://Scenes/Characters/Player/": "green",
 "res://Scripts/": "gray",
+"res://Scripts/Classes/Camera Class/Player Camera/": "green",
 "res://Scripts/Classes/Entity Class/Characters/Player/": "green",
 "res://Scripts/Classes/Entity Class/Component Class/Player Components/": "green",
+"res://Sound/": "purple",
+"res://Sound/SFX/Player/": "green",
 "res://Sprites/": "orange",
 "res://Sprites/Character Sprites/Player Sprites/": "green",
+"res://TileMaps/": "yellow",
 "res://addons/": "gray"
 }
 

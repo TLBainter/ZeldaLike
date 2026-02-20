@@ -39,4 +39,8 @@ func move(move_input, move_strength):
 	if debug_me:
 		print(debug_name, ": is moving with a move_dir of ", move_dir, " and a move_str of ", move_str)
 
+##For playing footstep sounds and adding effects, eventually.
+func play_footstep():
+	pass
+	
 #endregion FUNCTIONS
