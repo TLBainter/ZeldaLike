@@ -1,0 +1,216 @@
+[gd_scene format=3 uid="uid://b8q7kuseb62d3"]
+
+[ext_resource type="Script" uid="uid://dufhrug477jj5" path="res://Scripts/UX/ux_playerUX.gd" id="1_5o3k5"]
+[ext_resource type="Script" uid="uid://ddysrg5i8pce7" path="res://Scripts/UX/ux_marginContainer.gd" id="1_icyw3"]
+[ext_resource type="Texture2D" uid="uid://pblx7yfuvxfa" path="res://Sprites/UX/InGameUX/icons_Controller.png" id="1_oxfwa"]
+[ext_resource type="FontFile" uid="uid://cp6wfns5q5k5i" path="res://Sprites/UX/Fonts/minishcap__v10.ttf" id="3_4d04n"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_icyw3"]
+atlas = ExtResource("1_oxfwa")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4d04n"]
+atlas = ExtResource("1_oxfwa")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5o3k5"]
+atlas = ExtResource("1_oxfwa")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_55krk"]
+atlas = ExtResource("1_oxfwa")
+region = Rect2(48, 0, 16, 16)
+
+[sub_resource type="FontVariation" id="FontVariation_5o3k5"]
+base_font = ExtResource("3_4d04n")
+spacing_glyph = 2
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ovlxb"]
+atlas = ExtResource("1_oxfwa")
+region = Rect2(224, 0, 16, 16)
+
+[node name="PlayerUX" type="Control" unique_id=895243336]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_5o3k5")
+debug_me = true
+debug_me_verbose = true
+
+[node name="PlayerInGameCanvas" type="CanvasLayer" parent="." unique_id=1280888797]
+
+[node name="PlayerUI_ActionButtons" type="MarginContainer" parent="PlayerInGameCanvas" unique_id=560227324 node_paths=PackedStringArray("me")]
+texture_filter = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -80.0
+offset_bottom = 80.0
+grow_horizontal = 0
+scale = Vector2(2.5, 2.5)
+pivot_offset = Vector2(80, 0)
+mouse_filter = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+script = ExtResource("1_icyw3")
+me = NodePath("../..")
+
+[node name="ActionButton1_Panel" type="Panel" parent="PlayerInGameCanvas/PlayerUI_ActionButtons" unique_id=1587307217]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+
+[node name="ActionButton1" type="TextureRect" parent="PlayerInGameCanvas/PlayerUI_ActionButtons/ActionButton1_Panel" unique_id=1569243036]
+custom_minimum_size = Vector2(16, 16)
+layout_direction = 1
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -8.0
+offset_top = -16.000002
+offset_right = 8.0
+grow_horizontal = 2
+grow_vertical = 0
+size_flags_horizontal = 4
+size_flags_vertical = 8
+size_flags_stretch_ratio = 0.0
+texture = SubResource("AtlasTexture_icyw3")
+stretch_mode = 4
+
+[node name="ActionButton2_Panel" type="Panel" parent="PlayerInGameCanvas/PlayerUI_ActionButtons" unique_id=370427619]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 4
+
+[node name="ActionButton2" type="TextureRect" parent="PlayerInGameCanvas/PlayerUI_ActionButtons/ActionButton2_Panel" unique_id=1439174938]
+custom_minimum_size = Vector2(16, 16)
+layout_direction = 1
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -16.0
+offset_top = -8.0
+offset_bottom = 8.0
+grow_horizontal = 0
+grow_vertical = 2
+size_flags_horizontal = 8
+size_flags_vertical = 4
+size_flags_stretch_ratio = 0.0
+texture = SubResource("AtlasTexture_4d04n")
+stretch_mode = 4
+
+[node name="ActionButton3_Panel" type="Panel" parent="PlayerInGameCanvas/PlayerUI_ActionButtons" unique_id=700539488]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+
+[node name="ActionButton3" type="TextureRect" parent="PlayerInGameCanvas/PlayerUI_ActionButtons/ActionButton3_Panel" unique_id=345336085]
+custom_minimum_size = Vector2(16, 16)
+layout_direction = 1
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -8.0
+offset_right = 16.0
+offset_bottom = 8.0
+grow_vertical = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+size_flags_stretch_ratio = 0.0
+texture = SubResource("AtlasTexture_5o3k5")
+stretch_mode = 4
+
+[node name="ActionButton4_Panel" type="Panel" parent="PlayerInGameCanvas/PlayerUI_ActionButtons" unique_id=1254066173]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+
+[node name="ActionButton4" type="TextureRect" parent="PlayerInGameCanvas/PlayerUI_ActionButtons/ActionButton4_Panel" unique_id=458720834]
+custom_minimum_size = Vector2(16, 16)
+layout_direction = 1
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -8.0
+offset_right = 8.0
+offset_bottom = 16.0
+grow_horizontal = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+size_flags_stretch_ratio = 0.0
+texture = SubResource("AtlasTexture_55krk")
+stretch_mode = 4
+
+[node name="ActionButton4_Label" type="Label" parent="PlayerInGameCanvas/PlayerUI_ActionButtons/ActionButton4_Panel" unique_id=355201701]
+layout_mode = 0
+offset_left = -47.399998
+offset_top = -11.599999
+offset_right = -6.3999977
+offset_bottom = 11.400001
+theme_override_colors/font_color = Color(0.72464263, 0.7246426, 0.7246426, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 0
+theme_override_constants/shadow_offset_y = 0
+theme_override_constants/outline_size = 3
+theme_override_fonts/font = SubResource("FontVariation_5o3k5")
+theme_override_font_sizes/font_size = 16
+text = "Roll"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="PlayerUI_ConsumableButtons" type="MarginContainer" parent="PlayerInGameCanvas" unique_id=142692430 node_paths=PackedStringArray("me")]
+texture_filter = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -80.0
+offset_right = 79.99994
+grow_vertical = 0
+scale = Vector2(2.5, 2.5)
+pivot_offset = Vector2(0, 80)
+mouse_filter = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+script = ExtResource("1_icyw3")
+me = NodePath("../..")
+
+[node name="ActionButton1_Panel" type="Panel" parent="PlayerInGameCanvas/PlayerUI_ConsumableButtons" unique_id=819551022]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="ActionButton1" type="TextureRect" parent="PlayerInGameCanvas/PlayerUI_ConsumableButtons/ActionButton1_Panel" unique_id=1133107465]
+custom_minimum_size = Vector2(16, 16)
+layout_direction = 1
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -16.0
+offset_top = -16.0
+offset_right = 16.0
+offset_bottom = 16.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+size_flags_stretch_ratio = 0.0
+texture = SubResource("AtlasTexture_ovlxb")
+stretch_mode = 4

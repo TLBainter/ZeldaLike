@@ -94,8 +94,6 @@ func update_cam_pos(delta):
 	var player_pos = player.global_position
 	##The camera's current position when this function is called.
 	var camera_pos = global_position
-	##The viewport size with zoom taken into account.as
-	var viewport_size = get_viewport_rect().size / zoom
 	##The target position for this update.
 	var target_pos = camera_pos
 	#endregion update_cam_pos variables
@@ -112,14 +110,16 @@ func update_cam_pos(delta):
 	#Clamp target position
 	#BUG: These variables are not currently used. You can ignore errors stemming from these, for now.
 	#region set clamp variables
+	##The viewport size with zoom taken into account.
+	#var viewport_size = get_viewport_rect().size / zoom
 	##The minimum position on the x axis
-	var min_x = limit_left + viewport_size.x / 2
+	#var min_x = limit_left + viewport_size.x / 2
 	##the maximum position on the x axis
-	var max_x = limit_right - viewport_size.x / 2
+	#var max_x = limit_right - viewport_size.x / 2
 	##The minimum position on the x axis
-	var min_y = limit_top + viewport_size.y / 2
+	#var min_y = limit_top + viewport_size.y / 2
 	##the maximum position on the x axis
-	var max_y = limit_bottom - viewport_size.y / 2
+	#var max_y = limit_bottom - viewport_size.y / 2
 	#endregion clamp variables
 	
 	# smooth movement control; uses delta to move the camera at the player's speed

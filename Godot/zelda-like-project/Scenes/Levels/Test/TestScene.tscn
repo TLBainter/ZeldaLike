@@ -1258,3 +1258,4 @@ tile_set = SubResource("TileSet_y5uh3")
 
 [node name="Player" parent="." unique_id=209100190 instance=ExtResource("5_ycnog")]
 z_index = 1
+position = Vector2(-543, 50)

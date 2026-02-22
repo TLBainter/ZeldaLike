@@ -19,10 +19,6 @@ config/icon="res://icon.svg"
 
 audioManager="*uid://cct1tqjxxcrx8"
 
-[display]
-
-window/stretch/mode="viewport"
-
 [editor_plugins]
 
 enabled=PackedStringArray("res://addons/Todo_Manager/plugin.cfg")

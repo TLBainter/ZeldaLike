@@ -10,6 +10,8 @@ extends Character
 @export var stamina : StaminaComponent
 ##Input handler; expects type [color=green]InputComponent[/color]
 @export var input : InputComponent
+##A reference to the player UX element.
+@export var player_ux : Control
 #endregion
 #region MISC EXPORT VARIABLES
 #

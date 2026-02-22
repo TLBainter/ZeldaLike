@@ -8,6 +8,7 @@
 [ext_resource type="Script" uid="uid://dk2j50tltutbk" path="res://Scripts/Classes/Entity Class/Component Class/Component_Health.gd" id="4_fu1fx"]
 [ext_resource type="Script" uid="uid://bnvc2tsxle17g" path="res://Scripts/Classes/Entity Class/Component Class/Component_Movement.gd" id="6_fu1fx"]
 [ext_resource type="Script" uid="uid://b8f02yr5l3n5q" path="res://Scripts/Classes/Camera Class/Player Camera/Camera_Player.gd" id="7_1mdwi"]
+[ext_resource type="PackedScene" uid="uid://b8q7kuseb62d3" path="res://Scenes/UX/player_ux_ingame.tscn" id="9_8gg06"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_dxcao"]
 radius = 6.0
@@ -385,10 +386,11 @@ _data = {
 &"WalkUpRight": SubResource("Animation_pr2lv")
 }
 
-[node name="Player" type="Node2D" unique_id=209100190 node_paths=PackedStringArray("stamina", "input", "body", "me", "sprite", "anim", "collider", "health", "move")]
+[node name="Player" type="Node2D" unique_id=209100190 node_paths=PackedStringArray("stamina", "input", "player_ux", "body", "me", "sprite", "anim", "collider", "health", "move")]
 script = ExtResource("1_27cb7")
 stamina = NodePath("Component Manager/StaminaComponent")
 input = NodePath("Component Manager/PlayerInput")
+player_ux = NodePath("PlayerUX")
 body = NodePath("PlayerBody")
 me = NodePath(".")
 sprite = NodePath("PlayerBody/playerSprite")
@@ -444,3 +446,10 @@ debug_name = "Player Cam"
 [node name="PlayerAnimator" type="AnimationPlayer" parent="." unique_id=1778712659]
 libraries/ = SubResource("AnimationLibrary_1mdwi")
 script = ExtResource("3_dxcao")
+
+[node name="PlayerUX" parent="." unique_id=895243336 node_paths=PackedStringArray("me") instance=ExtResource("9_8gg06")]
+offset_left = -1.0
+offset_top = 2.0
+offset_right = -1.0
+offset_bottom = 2.0
+me = NodePath("..")

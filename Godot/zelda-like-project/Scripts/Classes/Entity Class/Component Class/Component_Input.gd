@@ -3,6 +3,7 @@
 class_name InputComponent
 extends Component
 
+@warning_ignore("unused_signal")
 #region SIGNALS
 #region Move Signals
 ##Signal when the move input is given.[br]
