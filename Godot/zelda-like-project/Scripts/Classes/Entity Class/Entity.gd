@@ -20,6 +20,8 @@ extends Node2D
 @export var state_machine : StateMachine
 ##the entity's collider
 @export var collider : CollisionShape2D
+##the entity's audio controller
+@export var audio : AudioControl
 @export_group("Entity Components : Functionality")
 ##Health handler; expects type [color=green]HealthComponent[/color]
 @export var health : HealthComponent

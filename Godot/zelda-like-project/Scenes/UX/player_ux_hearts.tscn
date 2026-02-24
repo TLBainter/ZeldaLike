@@ -1,0 +1,129 @@
+[gd_scene format=3 uid="uid://dwprjilrl8d0p"]
+
+[ext_resource type="Texture2D" uid="uid://1o4duhb0vjbj" path="res://Sprites/UX/InGameUX/PlayerStats/PlayerHearts/playerHeart_4-4.tres" id="1_46yoo"]
+[ext_resource type="Script" uid="uid://co1f1glq28hbq" path="res://Scripts/UX/ux_playerHearts_individualGUI.gd" id="1_ab7fi"]
+[ext_resource type="Texture2D" uid="uid://3ubd5vo4gsd4" path="res://Sprites/UX/InGameUX/PlayerStats/PlayerHearts/playerHeart_3-4.tres" id="3_1bk6c"]
+[ext_resource type="Texture2D" uid="uid://5aei0fm41ba" path="res://Sprites/UX/InGameUX/PlayerStats/PlayerHearts/playerHeart_2-4.tres" id="4_uqgch"]
+[ext_resource type="Texture2D" uid="uid://byjmm5cfh23ha" path="res://Sprites/UX/InGameUX/PlayerStats/PlayerHearts/playerHeart_1-4.tres" id="5_0i4qs"]
+[ext_resource type="Texture2D" uid="uid://bvwdmy8vo6jrx" path="res://Sprites/UX/InGameUX/PlayerStats/PlayerHearts/playerHeart_0-4.tres" id="6_m4dit"]
+[ext_resource type="Script" uid="uid://qbhpk3sbvly6" path="res://Scripts/UX/ux_playerHearts_individualGUI_heartTexture.gd" id="7_uqgch"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ab7fi"]
+bg_color = Color(0.5686275, 0.5686275, 0.5686275, 0)
+
+[sub_resource type="Animation" id="Animation_0i4qs"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("playerHeartTexture:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_m4dit"]
+resource_name = "heart_pulse"
+length = 1.2
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("playerHeartTexture:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.23333333, 0.39999998, 0.6, 0.76666665, 1.2),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1.1, 1.1), Vector2(1, 1), Vector2(1.2, 1.2), Vector2(1.09, 1.09), Vector2(1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_v7aap"]
+_data = {
+&"RESET": SubResource("Animation_0i4qs"),
+&"heart_pulse": SubResource("Animation_m4dit")
+}
+
+[sub_resource type="Animation" id="Animation_uqgch"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("playerHeartTexture:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_v7aap"]
+resource_name = "heart_flash_lowHP"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("playerHeartTexture:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5, 1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 0, 0, 1), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_v7uj8"]
+_data = {
+&"RESET": SubResource("Animation_uqgch"),
+&"heart_flash_lowHP": SubResource("Animation_v7aap")
+}
+
+[node name="playerHeartGUI" type="Panel" unique_id=453209667 node_paths=PackedStringArray("sprite", "pulse_anim", "flash_anim")]
+self_modulate = Color(1, 1, 1, 0)
+custom_minimum_size = Vector2(32, 32)
+offset_right = 32.0
+offset_bottom = 32.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_ab7fi")
+script = ExtResource("1_ab7fi")
+sprite = NodePath("playerHeartTexture")
+pulse_anim = NodePath("HeartPulseAnim")
+flash_anim = NodePath("HeartFlashAnim")
+sprite_4_4_heart = ExtResource("1_46yoo")
+sprite_3_4_heart = ExtResource("3_1bk6c")
+sprite_2_4_heart = ExtResource("4_uqgch")
+sprite_1_4_heart = ExtResource("5_0i4qs")
+sprite_0_4_heart = ExtResource("6_m4dit")
+
+[node name="playerHeartTexture" type="TextureRect" parent="." unique_id=328674179]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -16.0
+offset_top = -16.0
+offset_right = 16.0
+offset_bottom = 16.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset_ratio = Vector2(0.5, 0.5)
+texture = ExtResource("1_46yoo")
+stretch_mode = 4
+script = ExtResource("7_uqgch")
+
+[node name="HeartPulseAnim" type="AnimationPlayer" parent="." unique_id=519440527]
+libraries/ = SubResource("AnimationLibrary_v7aap")
+
+[node name="HeartFlashAnim" type="AnimationPlayer" parent="." unique_id=1504693110]
+libraries/ = SubResource("AnimationLibrary_v7uj8")

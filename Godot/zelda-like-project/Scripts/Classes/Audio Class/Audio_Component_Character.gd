@@ -1,0 +1,148 @@
+##[b][color=red]CharacterAudioControl[b][/color] is used to play audio from an Entity_Character class.
+class_name CharacterAudioControl
+extends AudioControl
+
+#region VARIABLES
+
+@export_category("Components")
+##The Health component of this entity
+@export var health : HealthComponent
+##The parent character (root node)
+@export var me : Character
+##The local audio player for the character (if any)
+@export var local_audio : AudioStreamPlayer2D
+##The character's body
+@onready var body : CharacterBody2D = me.body
+
+#region sound libraries
+#Sound Libraries#
+
+@export_category("Sound Libraries")
+@export_group("Damage and Heal")
+##sounds to play when damaged
+@export var damage_sounds : Array[AudioStream]
+##sounds to play when taking heavy damage
+@export var heavy_damage_sounds : Array[AudioStream]
+##sounds to play when healed
+@export var heal_sounds : Array[AudioStream]
+##sounds to play when dying
+@export var death_sounds : Array[AudioStream]
+@export_group("Footstep")
+##The default walking sounds if others are not available
+@export var generic_walk_sounds : Array[AudioStream]
+##sounds to play when walking on carpet
+@export var carpet_walk_sounds : Array[AudioStream]
+##sounds to play when walking on dirt
+@export var dirt_walk_sounds : Array[AudioStream]
+##sounds to play when walking on grass
+@export var grass_walk_sounds : Array[AudioStream]
+##sounds to play when walking on stone
+@export var stone_walk_sounds : Array[AudioStream]
+##sounds to play when walking on wood
+@export var wood_walk_sounds : Array[AudioStream]
+
+#endregion sound libraries
+#endregion VARIABLES
+
+#region FUNCTIONS
+func _ready():
+	if health:
+		health.healthChanged.connect(_on_health_changed)
+
+#region local sound
+##Plays a sound locally
+func _play_local_sound(stream : AudioStream, bus : String = default_bus):
+	if stream and local_audio:
+		if debug_me:
+			print(debug_name, " is playing sound: ", stream.resource_path, " from local audio!")
+		local_audio.bus = bus
+		local_audio.stream = stream
+		local_audio.play()
+#endregion local sound
+
+#region health and damage audio
+##Receives the health change signal and plays a sound from a set based on the damage or healing received.
+func _on_health_changed(cur_hp : int, _max_hp : int, change_amount : int):
+	#TAKING DEADLY DAMAGE#
+	if cur_hp == 0:
+		_play_death_sound()
+	#TAKING HEAVY DAMAGE#
+	elif change_amount <= -4 and heavy_damage_sounds.has(AudioStream):
+		_play_heavy_damage_sound()
+	#TAKING MOST DAMAGE#
+	elif change_amount < 0:
+		_play_damage_sound()
+	#RECEIVING HEALING#
+	elif change_amount > 0:
+		_play_heal_sound()
+
+##Plays Heavy Damage Sound
+func _play_heavy_damage_sound():
+	#Return if no audio value
+	if heavy_damage_sounds.is_empty():
+		return
+	
+	#Get random sound
+	var clip = heavy_damage_sounds.pick_random()
+	
+	#Play the sound with the appropriate bus
+	#If local audio is available, it will play it there.
+	#Otherwise, it will only play the sound globally with the audio manager.
+	if local_audio != null:
+		_play_local_sound(clip, default_bus)
+	else:
+		play_sound(clip, default_bus)
+
+##Plays Damage Sound
+func _play_damage_sound():
+		#Return if no audio value
+	if damage_sounds.is_empty():
+		return
+	
+	#Get random sound
+	var clip = damage_sounds.pick_random()
+	
+	#Play the sound with the appropriate bus
+	#If local audio is available, it will play it there.
+	#Otherwise, it will only play the sound globally with the audio manager.
+	if local_audio != null:
+		_play_local_sound(clip, default_bus)
+	else:
+		play_sound(clip, default_bus)
+
+##Plays Heal Sound
+func _play_heal_sound():
+		#Return if no audio value
+	if heal_sounds.is_empty():
+		return
+	
+	#Get random sound
+	var clip = heal_sounds.pick_random()
+	
+	#Play the sound with the appropriate bus
+	#If local audio is available, it will play it there.
+	#Otherwise, it will only play the sound globally with the audio manager.
+	if local_audio != null:
+		_play_local_sound(clip, default_bus)
+	else:
+		play_sound(clip, default_bus)
+
+##Plays Death Sound
+func _play_death_sound():
+		#Return if no audio value
+	if death_sounds.is_empty():
+		return
+	
+	#Get random sound
+	var clip = death_sounds.pick_random()
+	
+	#Play the sound with the appropriate bus
+	#If local audio is available, it will play it there.
+	#Otherwise, it will only play the sound globally with the audio manager.
+	if local_audio != null:
+		_play_local_sound(clip, default_bus)
+	else:
+		play_sound(clip, default_bus)
+#endregion health and damage audio
+
+#endregion FUNCTIONS

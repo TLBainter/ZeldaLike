@@ -27,6 +27,7 @@ func _ready():
 	#TODO: Test this functionality
 	#Connects the viewport size change signal to the margin update script.
 	get_viewport().size_changed.connect(_update_margins)
+	me.check_viewport_size.connect(_update_margins)
 	#Link to timer for checking various UX entities
 	#Also verify that 'me' is assigned in inspector
 	if me:
@@ -35,6 +36,7 @@ func _ready():
 			print("overlap signal connected!")
 	else:
 		printerr("PlayerUX not assigned in the Inspector! Check the inspecetor of ", me.debug_name)
+	_update_margins()
 		
 func _check_player_overlap():
 	if not player:
@@ -54,8 +56,6 @@ func _check_player_overlap():
 		print("\tMargin Global Rect: ", my_rect)
 		print("\tIs Overlapping: ", is_overlapping)
 		print("\tis_player_under_ui state: ", is_player_under_ui)
-	else:
-		printerr("Not Printing Debug")
 	
 	#Fade out
 	if is_overlapping and not is_player_under_ui:
@@ -75,25 +75,29 @@ func _process(delta):
 		
 #region MARGINS
 func _update_margins():
-	##the scale of the viewport when this function is called
-	var viewport_size = get_viewport_rect().size
-	
-	#add padding based on viewport size
-	if viewport_size != null:
-		##padding added on the x axis
-		var padding_x = int(viewport_size.x * 0.01) * -1
-		##padding added on the y axis
-		var padding_y = int(viewport_size.y * 0.01) * -1
-		
-		add_theme_constant_override("margin_left", padding_x)
-		add_theme_constant_override("margin_right", padding_x)
-		add_theme_constant_override("margin_top", padding_y)
-		add_theme_constant_override("margin_bottom", padding_y)
-	#resort to default padding
+	if not me.player_cam:
+		return false
 	else:
-		add_theme_constant_override("margin_left", -16)
-		add_theme_constant_override("margin_right", -16)
-		add_theme_constant_override("margin_top", -16)
-		add_theme_constant_override("margin_bottom", -16)
+		##the scale of the viewport when this function is called
+		var viewport_size = get_viewport_rect().size / me.player_cam.zoom
+	
+		#add padding based on viewport size
+		if viewport_size != null:
+			##X axis padding, with a target of 16 pixels.
+			var padding_x = clampi(int(viewport_size.x * 0.01), 16, 32)
+			##Y axis padding, with a target of 16 pixels.
+			var padding_y = clampi(int(viewport_size.y * 0.02), 16, 32)
+			
+			add_theme_constant_override("margin_left", padding_x)
+			add_theme_constant_override("margin_right", padding_x)
+			add_theme_constant_override("margin_top", padding_y)
+			add_theme_constant_override("margin_bottom", padding_y)
+		#resort to default padding
+		else:
+			add_theme_constant_override("margin_left", -16)
+			add_theme_constant_override("margin_right", -16)
+			add_theme_constant_override("margin_top", -16)
+			add_theme_constant_override("margin_bottom", -16)
+		return true
 #endregion MARGINS
 #endregion FUNCTIONS

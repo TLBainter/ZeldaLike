@@ -5,10 +5,20 @@
 [ext_resource type="Script" uid="uid://c2qwo60bn5m36" path="res://Scripts/Classes/Entity Class/Component Class/Player Components/Component_Input_Player.gd" id="2_qqvsf"]
 [ext_resource type="Script" uid="uid://b48vsvx2w4bvf" path="res://Scripts/Classes/Entity Class/Component Class/Player Components/Component_Stamina.gd" id="3_apx8m"]
 [ext_resource type="Script" uid="uid://bthr8p0ps1qbf" path="res://Scripts/Classes/Entity Class/Characters/Character Animator/Character_Animator.gd" id="3_dxcao"]
-[ext_resource type="Script" uid="uid://dk2j50tltutbk" path="res://Scripts/Classes/Entity Class/Component Class/Component_Health.gd" id="4_fu1fx"]
+[ext_resource type="Script" uid="uid://b4n8t40ywnse5" path="res://Scripts/Classes/Entity Class/Component Class/Player Components/Component_Health_Player.gd" id="5_8gg06"]
 [ext_resource type="Script" uid="uid://bnvc2tsxle17g" path="res://Scripts/Classes/Entity Class/Component Class/Component_Movement.gd" id="6_fu1fx"]
 [ext_resource type="Script" uid="uid://b8f02yr5l3n5q" path="res://Scripts/Classes/Camera Class/Player Camera/Camera_Player.gd" id="7_1mdwi"]
+[ext_resource type="Script" uid="uid://clnpwpvwchpab" path="res://Scripts/Classes/Audio Class/Audio_Component_Character.gd" id="7_cscr0"]
+[ext_resource type="AudioStream" uid="uid://dgulod3btgahu" path="res://Sound/SFX/Player/Player UX SFX/Status/healthLoss1.wav" id="8_pr2lv"]
 [ext_resource type="PackedScene" uid="uid://b8q7kuseb62d3" path="res://Scenes/UX/player_ux_ingame.tscn" id="9_8gg06"]
+[ext_resource type="AudioStream" uid="uid://dkv8lrdo2kjcm" path="res://Sound/SFX/Player/Player UX SFX/Status/healthLoss2.wav" id="9_cvakg"]
+[ext_resource type="AudioStream" uid="uid://dyd5gjr5nfilr" path="res://Sound/SFX/Player/Player UX SFX/Status/healthLoss3.wav" id="10_othne"]
+[ext_resource type="AudioStream" uid="uid://duf5t2ntsggx8" path="res://Sound/SFX/Player/Player UX SFX/Status/healthLoss4.wav" id="11_a7o8c"]
+[ext_resource type="AudioStream" uid="uid://rx7h2ln8jnah" path="res://Sound/SFX/Player/Player UX SFX/Status/healthLoss5.wav" id="12_23420"]
+[ext_resource type="AudioStream" uid="uid://bavx8imvdhu1j" path="res://Sound/SFX/Player/Player UX SFX/Status/healthRestore1.wav" id="13_p6wb4"]
+[ext_resource type="AudioStream" uid="uid://dpr0w7beg24fd" path="res://Sound/SFX/Player/Player UX SFX/Status/healthRestore2.wav" id="14_y3fvr"]
+[ext_resource type="AudioStream" uid="uid://sasadx1qy1jc" path="res://Sound/SFX/Player/Player UX SFX/Status/healthRestore3.wav" id="15_roksr"]
+[ext_resource type="AudioStream" uid="uid://bwupi44juye8w" path="res://Sound/SFX/Player/Player UX SFX/Status/healthRestore4.wav" id="16_qn1vu"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_dxcao"]
 radius = 6.0
@@ -386,16 +396,18 @@ _data = {
 &"WalkUpRight": SubResource("Animation_pr2lv")
 }
 
-[node name="Player" type="Node2D" unique_id=209100190 node_paths=PackedStringArray("stamina", "input", "player_ux", "body", "me", "sprite", "anim", "collider", "health", "move")]
+[node name="Player" type="Node2D" unique_id=209100190 node_paths=PackedStringArray("stamina", "input", "player_ux", "player_cam", "body", "me", "sprite", "anim", "collider", "audio", "health", "move")]
 script = ExtResource("1_27cb7")
 stamina = NodePath("Component Manager/StaminaComponent")
 input = NodePath("Component Manager/PlayerInput")
 player_ux = NodePath("PlayerUX")
+player_cam = NodePath("PlayerCam")
 body = NodePath("PlayerBody")
 me = NodePath(".")
 sprite = NodePath("PlayerBody/playerSprite")
 anim = NodePath("PlayerAnimator")
 collider = NodePath("PlayerBody/PlayerBodyCollider")
+audio = NodePath("Component Manager/PlayerAudio")
 health = NodePath("Component Manager/HealthComponent")
 move = NodePath("Component Manager/MoveComponent")
 debug_me = true
@@ -426,7 +438,9 @@ debug_name = "Player Stamina Component"
 metadata/_custom_type_script = "uid://b48vsvx2w4bvf"
 
 [node name="HealthComponent" type="Node" parent="Component Manager" unique_id=490128525]
-script = ExtResource("4_fu1fx")
+script = ExtResource("5_8gg06")
+max_health = 15
+debug_me = true
 debug_name = "Player Health Component"
 metadata/_custom_type_script = "uid://dk2j50tltutbk"
 
@@ -434,6 +448,16 @@ metadata/_custom_type_script = "uid://dk2j50tltutbk"
 script = ExtResource("6_fu1fx")
 debug_name = "Player Move Component"
 metadata/_custom_type_script = "uid://bnvc2tsxle17g"
+
+[node name="PlayerAudio" type="Node" parent="Component Manager" unique_id=2045913602 node_paths=PackedStringArray("health", "me")]
+script = ExtResource("7_cscr0")
+health = NodePath("../HealthComponent")
+me = NodePath("../..")
+damage_sounds = Array[AudioStream]([ExtResource("8_pr2lv"), ExtResource("9_cvakg"), ExtResource("10_othne"), ExtResource("11_a7o8c"), ExtResource("12_23420")])
+heal_sounds = Array[AudioStream]([ExtResource("13_p6wb4"), ExtResource("14_y3fvr"), ExtResource("15_roksr"), ExtResource("16_qn1vu")])
+debug_me = true
+debug_name = "Audio Component"
+metadata/_custom_type_script = "uid://clnpwpvwchpab"
 
 [node name="PlayerCam" type="Camera2D" parent="." unique_id=1506803803 node_paths=PackedStringArray("me")]
 zoom = Vector2(3, 3)
@@ -453,3 +477,5 @@ offset_top = 2.0
 offset_right = -1.0
 offset_bottom = 2.0
 me = NodePath("..")
+debug_me = false
+debug_me_verbose = false

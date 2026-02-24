@@ -5,9 +5,14 @@ extends Node
 
 var audio_players : Array[AudioStreamPlayer]
 
-func play (stream : AudioStream):
+##Plays audio on a new audio stream player (or existing one, if it is freed up)[br]
+##[b]stream[/b]: expects the AudioStream file.[br]
+##[b]bus[/b]: expects the bus to play on, choosing from Music, Ambience, UI, Character, or Environment.[br]
+##[b][i]NOTE[/i][/b]: The bus will default to Sound Effects, so you do not have to send the SFX value!
+func play (stream : AudioStream, bus : String = "Sound Effects"):
 	var ap : AudioStreamPlayer = _get_available_audio_player()
 	ap.stream = stream
+	ap.bus = bus
 	ap.play()
 
 func _get_available_audio_player () -> AudioStreamPlayer:

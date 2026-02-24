@@ -4,6 +4,8 @@
 [ext_resource type="Script" uid="uid://ddysrg5i8pce7" path="res://Scripts/UX/ux_marginContainer.gd" id="1_icyw3"]
 [ext_resource type="Texture2D" uid="uid://pblx7yfuvxfa" path="res://Sprites/UX/InGameUX/icons_Controller.png" id="1_oxfwa"]
 [ext_resource type="FontFile" uid="uid://cp6wfns5q5k5i" path="res://Sprites/UX/Fonts/minishcap__v10.ttf" id="3_4d04n"]
+[ext_resource type="PackedScene" uid="uid://dwprjilrl8d0p" path="res://Scenes/UX/player_ux_hearts.tscn" id="5_55krk"]
+[ext_resource type="Script" uid="uid://ds30kl7uff5mo" path="res://Scripts/UX/ux_playerHearts.gd" id="5_ovlxb"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_icyw3"]
 atlas = ExtResource("1_oxfwa")
@@ -214,3 +216,23 @@ size_flags_vertical = 8
 size_flags_stretch_ratio = 0.0
 texture = SubResource("AtlasTexture_ovlxb")
 stretch_mode = 4
+
+[node name="PlayerUI_Hearts" type="MarginContainer" parent="PlayerInGameCanvas" unique_id=1077872179 node_paths=PackedStringArray("me")]
+offset_right = 39.0
+offset_bottom = 98.0
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+script = ExtResource("1_icyw3")
+me = NodePath("../..")
+
+[node name="PlayerUI_HeartsContainer" type="GridContainer" parent="PlayerInGameCanvas/PlayerUI_Hearts" unique_id=1648414126]
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_constants/h_separation = 2
+theme_override_constants/v_separation = 2
+columns = 10
+script = ExtResource("5_ovlxb")
+heart_gui = ExtResource("5_55krk")
+debug_me = true

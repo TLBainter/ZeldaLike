@@ -12,6 +12,8 @@ extends Character
 @export var input : InputComponent
 ##A reference to the player UX element.
 @export var player_ux : Control
+##reference to the player's camera
+@export var player_cam : PlayerCam
 #endregion
 #region MISC EXPORT VARIABLES
 #

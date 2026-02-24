@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://dkv8lrdo2kjcm"
+path="res://.godot/imported/healthLoss2.wav-f1ae6b83a7846a6fbab8cea64e444659.sample"
+
+[deps]
+
+source_file="res://Sound/SFX/Player/Player UX SFX/Status/healthLoss2.wav"
+dest_files=["res://.godot/imported/healthLoss2.wav-f1ae6b83a7846a6fbab8cea64e444659.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2
