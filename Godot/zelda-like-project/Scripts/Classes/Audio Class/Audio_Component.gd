@@ -13,9 +13,10 @@ extends Component
 ##Call this control component to play a sound. Expects stream (audio stream) and bus (the bus to play at) as an input.
 ##[b]stream[/b]: The audio file to play.
 ##[b]bus[/b]: The bust to play the audio file at (Music, Ambience, UI, Character, or Environment)
-func play_sound(stream : AudioStream, bus : String = default_bus):
+func play_sound(stream : AudioStream, bus : String = default_bus, pitch : float = 1.0) -> AudioStreamPlayer:
 	if stream:
 		if debug_me:
 			print(debug_name, " is playing sound: ", stream.resource_path)
-		audioManager.play(stream, bus)
+		return audioManager.play(stream, bus, pitch)
+	return null
 #endregion FUNCITONS

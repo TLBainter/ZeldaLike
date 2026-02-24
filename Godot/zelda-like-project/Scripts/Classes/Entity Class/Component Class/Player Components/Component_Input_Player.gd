@@ -6,7 +6,15 @@ extends InputComponent
 #region Cam Signals
 ##Signal when the cam up input is given
 signal onCamMove(cam_move_input : Vector2, cam_move_strength : float)
+signal actionButtonPressed(button : String)
 #endregion
+#endregion SIGNALS
+
+#region VARIABLES
+
+const ACTION_BUTTONS = ["actionButton1", "actionButton2", "actionButton3", "actionButton4"]
+
+#endregion VARIABLES
 
 func _process(_delta):
 	#region Move Input
@@ -33,3 +41,18 @@ func _process(_delta):
 		if debug_me:
 			print(debug_name, "	has emitted its cam_move_input value with a value of ", cam_move_input, "\n	and a cam_move_strength value of ", cam_move_strength)
 	#endregion
+
+func _unhandled_input(event : InputEvent):
+	#ACTION BUTTON HANDLING#
+	for action in ACTION_BUTTONS:
+		if event.is_action_pressed(action):
+			_action_button_press(action)
+			break
+
+#region Button Press
+#region Action Button handler
+func _action_button_press(btn : String):
+	actionButtonPressed.emit(btn)
+
+#endregion Action Button handler
+#endregion Button Press

@@ -8,12 +8,17 @@ var audio_players : Array[AudioStreamPlayer]
 ##Plays audio on a new audio stream player (or existing one, if it is freed up)[br]
 ##[b]stream[/b]: expects the AudioStream file.[br]
 ##[b]bus[/b]: expects the bus to play on, choosing from Music, Ambience, UI, Character, or Environment.[br]
-##[b][i]NOTE[/i][/b]: The bus will default to Sound Effects, so you do not have to send the SFX value!
-func play (stream : AudioStream, bus : String = "Sound Effects"):
+##[b][i]NOTE[/i][/b]: The bus will default to Sound Effects, so you do not have to send the SFX value![br]
+##[b]pitch[/b]: The target pitch for the audio stream (1.0 for normal pitch)[br]
+##The player also returns a value of ap, which receivers can use to control their own special player until that player ends.[br]
+##This is useful for things like controlling pitch at intervals or ending looping sounds.
+func play (stream : AudioStream, bus : String = "Sound Effects", pitch : float = 1.0) -> AudioStreamPlayer:
 	var ap : AudioStreamPlayer = _get_available_audio_player()
 	ap.stream = stream
 	ap.bus = bus
+	ap.pitch_scale = pitch
 	ap.play()
+	return ap
 
 func _get_available_audio_player () -> AudioStreamPlayer:
 	#look for an unused audio player

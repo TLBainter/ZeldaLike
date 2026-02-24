@@ -6,6 +6,9 @@
 [ext_resource type="FontFile" uid="uid://cp6wfns5q5k5i" path="res://Sprites/UX/Fonts/minishcap__v10.ttf" id="3_4d04n"]
 [ext_resource type="PackedScene" uid="uid://dwprjilrl8d0p" path="res://Scenes/UX/player_ux_hearts.tscn" id="5_55krk"]
 [ext_resource type="Script" uid="uid://ds30kl7uff5mo" path="res://Scripts/UX/ux_playerHearts.gd" id="5_ovlxb"]
+[ext_resource type="Script" uid="uid://clldbretb10wu" path="res://Scripts/UX/ux_playerUX_Label_Context.gd" id="5_xjdbq"]
+[ext_resource type="Script" uid="uid://dugks6lyfxa4s" path="res://Scripts/Classes/Audio Class/Audio_Component_UI.gd" id="7_ffuv4"]
+[ext_resource type="AudioStream" uid="uid://beb3rdr8gqvde" path="res://Sound/SFX/Player/Player UX SFX/Status/healthLow.wav" id="8_l8e16"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_icyw3"]
 atlas = ExtResource("1_oxfwa")
@@ -27,11 +30,62 @@ region = Rect2(48, 0, 16, 16)
 base_font = ExtResource("3_4d04n")
 spacing_glyph = 2
 
+[sub_resource type="Animation" id="Animation_xjdbq"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PlayerInGameCanvas/PlayerUI_ActionButtons/ActionButton4_Panel/ActionButton4_Label:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_n5wnv"]
+resource_name = "flip"
+length = 0.28
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PlayerInGameCanvas/PlayerUI_ActionButtons/ActionButton4_Panel/ActionButton4_Label:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.13333334, 0.16666667, 0.26666668),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1, 0), Vector2(1, 0), Vector2(1, 1)]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("PlayerInGameCanvas/PlayerUI_ActionButtons/ActionButton4_Panel/ActionButton4_Label")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.13333334),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"swap_text"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_w3cdq"]
+_data = {
+&"RESET": SubResource("Animation_xjdbq"),
+&"flip": SubResource("Animation_n5wnv")
+}
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_ovlxb"]
 atlas = ExtResource("1_oxfwa")
 region = Rect2(224, 0, 16, 16)
 
-[node name="PlayerUX" type="Control" unique_id=895243336]
+[node name="PlayerUX" type="Control" unique_id=895243336 node_paths=PackedStringArray("heartsContainer", "ui_audio", "context_label")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -39,6 +93,9 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_5o3k5")
+heartsContainer = NodePath("PlayerInGameCanvas/PlayerUI_Hearts/PlayerUI_HeartsContainer")
+ui_audio = NodePath("PlayerUXAudioControl")
+context_label = NodePath("PlayerInGameCanvas/PlayerUI_ActionButtons/ActionButton4_Panel/ActionButton4_Label")
 debug_me = true
 debug_me_verbose = true
 
@@ -156,12 +213,13 @@ size_flags_stretch_ratio = 0.0
 texture = SubResource("AtlasTexture_55krk")
 stretch_mode = 4
 
-[node name="ActionButton4_Label" type="Label" parent="PlayerInGameCanvas/PlayerUI_ActionButtons/ActionButton4_Panel" unique_id=355201701]
+[node name="ActionButton4_Label" type="Label" parent="PlayerInGameCanvas/PlayerUI_ActionButtons/ActionButton4_Panel" unique_id=355201701 node_paths=PackedStringArray("anim_player", "player_ux")]
 layout_mode = 0
 offset_left = -47.399998
 offset_top = -11.599999
 offset_right = -6.3999977
 offset_bottom = 11.400001
+pivot_offset_ratio = Vector2(0.5, 0.5)
 theme_override_colors/font_color = Color(0.72464263, 0.7246426, 0.7246426, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/shadow_offset_x = 0
@@ -172,6 +230,13 @@ theme_override_font_sizes/font_size = 16
 text = "Roll"
 horizontal_alignment = 2
 vertical_alignment = 1
+script = ExtResource("5_xjdbq")
+anim_player = NodePath("ContextAnimator")
+player_ux = NodePath("../../../..")
+
+[node name="ContextAnimator" type="AnimationPlayer" parent="PlayerInGameCanvas/PlayerUI_ActionButtons/ActionButton4_Panel/ActionButton4_Label" unique_id=173154019]
+root_node = NodePath("../../../../..")
+libraries/ = SubResource("AnimationLibrary_w3cdq")
 
 [node name="PlayerUI_ConsumableButtons" type="MarginContainer" parent="PlayerInGameCanvas" unique_id=142692430 node_paths=PackedStringArray("me")]
 texture_filter = 1
@@ -227,7 +292,7 @@ theme_override_constants/margin_bottom = 16
 script = ExtResource("1_icyw3")
 me = NodePath("../..")
 
-[node name="PlayerUI_HeartsContainer" type="GridContainer" parent="PlayerInGameCanvas/PlayerUI_Hearts" unique_id=1648414126]
+[node name="PlayerUI_HeartsContainer" type="GridContainer" parent="PlayerInGameCanvas/PlayerUI_Hearts" unique_id=1648414126 node_paths=PackedStringArray("player_ux")]
 layout_mode = 2
 size_flags_vertical = 0
 theme_override_constants/h_separation = 2
@@ -235,4 +300,12 @@ theme_override_constants/v_separation = 2
 columns = 10
 script = ExtResource("5_ovlxb")
 heart_gui = ExtResource("5_55krk")
+player_ux = NodePath("../../..")
 debug_me = true
+
+[node name="PlayerUXAudioControl" type="Node" parent="." unique_id=153550245 node_paths=PackedStringArray("parent", "hearts")]
+script = ExtResource("7_ffuv4")
+parent = NodePath("..")
+hearts = NodePath("../PlayerInGameCanvas/PlayerUI_Hearts/PlayerUI_HeartsContainer")
+low_health_sound = ExtResource("8_l8e16")
+metadata/_custom_type_script = "uid://dugks6lyfxa4s"

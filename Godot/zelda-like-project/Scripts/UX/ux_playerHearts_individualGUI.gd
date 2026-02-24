@@ -39,15 +39,17 @@ func update(update_value : int):
 		4: sprite.texture = sprite_4_4_heart
 
 ##Pulsates a heart; used when the heart is the currently-active one.
-func pulse(pulse_state : bool):
+func pulse(pulse_state : bool, speed : float = 1.0):
 	if not pulse_anim:
 		return
 	if pulse_state:
 		if pulse_anim and pulse_anim.current_animation != "heart_pulse":
 			pulse_anim.play("heart_pulse")
+		pulse_anim.speed_scale = speed
 	elif pulse_anim.is_playing or sprite.scale != Vector2.ONE:
 		sprite.scale = Vector2.ONE
-		pulse_anim.stop()
+		pulse_anim.play("RESET")
+		pulse_anim.speed_scale = 1.0
 
 func flash(flash_state : bool):
 	if not flash_anim:

@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://domh3e18e0ubj"]
 
 [ext_resource type="Script" uid="uid://i7xgv2td1nny" path="res://Scripts/Classes/Entity Class/Characters/Player/Entity_Character_Player.gd" id="1_27cb7"]
+[ext_resource type="Script" uid="uid://ukng11jt2lj5" path="res://Scripts/Body/Body_Player.gd" id="2_aencf"]
 [ext_resource type="Texture2D" uid="uid://boj2fgnqddhmy" path="res://Sprites/Character Sprites/Player Sprites/player.png" id="2_apx8m"]
 [ext_resource type="Script" uid="uid://c2qwo60bn5m36" path="res://Scripts/Classes/Entity Class/Component Class/Player Components/Component_Input_Player.gd" id="2_qqvsf"]
 [ext_resource type="Script" uid="uid://b48vsvx2w4bvf" path="res://Scripts/Classes/Entity Class/Component Class/Player Components/Component_Stamina.gd" id="3_apx8m"]
@@ -9,16 +10,10 @@
 [ext_resource type="Script" uid="uid://bnvc2tsxle17g" path="res://Scripts/Classes/Entity Class/Component Class/Component_Movement.gd" id="6_fu1fx"]
 [ext_resource type="Script" uid="uid://b8f02yr5l3n5q" path="res://Scripts/Classes/Camera Class/Player Camera/Camera_Player.gd" id="7_1mdwi"]
 [ext_resource type="Script" uid="uid://clnpwpvwchpab" path="res://Scripts/Classes/Audio Class/Audio_Component_Character.gd" id="7_cscr0"]
-[ext_resource type="AudioStream" uid="uid://dgulod3btgahu" path="res://Sound/SFX/Player/Player UX SFX/Status/healthLoss1.wav" id="8_pr2lv"]
+[ext_resource type="Resource" uid="uid://c8vmn1mw7sh0i" path="res://Scripts/Resources/Resource Files/Resources_Sound Libraries/damage_sounds_player.tres" id="8_plevq"]
 [ext_resource type="PackedScene" uid="uid://b8q7kuseb62d3" path="res://Scenes/UX/player_ux_ingame.tscn" id="9_8gg06"]
-[ext_resource type="AudioStream" uid="uid://dkv8lrdo2kjcm" path="res://Sound/SFX/Player/Player UX SFX/Status/healthLoss2.wav" id="9_cvakg"]
-[ext_resource type="AudioStream" uid="uid://dyd5gjr5nfilr" path="res://Sound/SFX/Player/Player UX SFX/Status/healthLoss3.wav" id="10_othne"]
-[ext_resource type="AudioStream" uid="uid://duf5t2ntsggx8" path="res://Sound/SFX/Player/Player UX SFX/Status/healthLoss4.wav" id="11_a7o8c"]
-[ext_resource type="AudioStream" uid="uid://rx7h2ln8jnah" path="res://Sound/SFX/Player/Player UX SFX/Status/healthLoss5.wav" id="12_23420"]
-[ext_resource type="AudioStream" uid="uid://bavx8imvdhu1j" path="res://Sound/SFX/Player/Player UX SFX/Status/healthRestore1.wav" id="13_p6wb4"]
-[ext_resource type="AudioStream" uid="uid://dpr0w7beg24fd" path="res://Sound/SFX/Player/Player UX SFX/Status/healthRestore2.wav" id="14_y3fvr"]
-[ext_resource type="AudioStream" uid="uid://sasadx1qy1jc" path="res://Sound/SFX/Player/Player UX SFX/Status/healthRestore3.wav" id="15_roksr"]
-[ext_resource type="AudioStream" uid="uid://bwupi44juye8w" path="res://Sound/SFX/Player/Player UX SFX/Status/healthRestore4.wav" id="16_qn1vu"]
+[ext_resource type="Resource" uid="uid://djc26p3n7j066" path="res://Scripts/Resources/Resource Files/Resources_Sound Libraries/damage_sounds_heavy_player.tres" id="9_p06rw"]
+[ext_resource type="Resource" uid="uid://43r261rifn7h" path="res://Scripts/Resources/Resource Files/Resources_Sound Libraries/heal_sounds_player.tres" id="10_aencf"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_dxcao"]
 radius = 6.0
@@ -407,13 +402,16 @@ me = NodePath(".")
 sprite = NodePath("PlayerBody/playerSprite")
 anim = NodePath("PlayerAnimator")
 collider = NodePath("PlayerBody/PlayerBodyCollider")
-audio = NodePath("Component Manager/PlayerAudio")
+audio = NodePath("Component Manager/AudioComponent")
 health = NodePath("Component Manager/HealthComponent")
 move = NodePath("Component Manager/MoveComponent")
 debug_me = true
 debug_name = "Player Character"
 
 [node name="PlayerBody" type="CharacterBody2D" parent="." unique_id=1872381837]
+script = ExtResource("2_aencf")
+debug_me = true
+debug_name = "Player Body"
 
 [node name="playerSprite" type="Sprite2D" parent="PlayerBody" unique_id=584966771]
 position = Vector2(0, -6)
@@ -439,6 +437,7 @@ metadata/_custom_type_script = "uid://b48vsvx2w4bvf"
 
 [node name="HealthComponent" type="Node" parent="Component Manager" unique_id=490128525]
 script = ExtResource("5_8gg06")
+max_hearts = 20
 max_health = 15
 debug_me = true
 debug_name = "Player Health Component"
@@ -449,12 +448,13 @@ script = ExtResource("6_fu1fx")
 debug_name = "Player Move Component"
 metadata/_custom_type_script = "uid://bnvc2tsxle17g"
 
-[node name="PlayerAudio" type="Node" parent="Component Manager" unique_id=2045913602 node_paths=PackedStringArray("health", "me")]
+[node name="AudioComponent" type="Node" parent="Component Manager" unique_id=2045913602 node_paths=PackedStringArray("health", "me")]
 script = ExtResource("7_cscr0")
 health = NodePath("../HealthComponent")
 me = NodePath("../..")
-damage_sounds = Array[AudioStream]([ExtResource("8_pr2lv"), ExtResource("9_cvakg"), ExtResource("10_othne"), ExtResource("11_a7o8c"), ExtResource("12_23420")])
-heal_sounds = Array[AudioStream]([ExtResource("13_p6wb4"), ExtResource("14_y3fvr"), ExtResource("15_roksr"), ExtResource("16_qn1vu")])
+damage_sounds = ExtResource("8_plevq")
+heavy_damage_sounds = ExtResource("9_p06rw")
+heal_sounds = ExtResource("10_aencf")
 debug_me = true
 debug_name = "Audio Component"
 metadata/_custom_type_script = "uid://clnpwpvwchpab"

@@ -1,3 +1,45 @@
-##[b][color=red]Interact[/color][/b] is the handler for all interactions; lifting pots, talking to NPCs, etc.
+##[b][color=red]Interact[/color][/b] is the handler for all interactions; lifting pots, talking to NPCs, etc.[br]
+##Extends an Area2D associated with an entity.
 class_name Interact
-extends Node
+extends Area2D
+
+#region VARIABLES
+
+@export_category("Interaction Settings")
+##Tell the context label I am this kind of entity
+@export_enum("default", "container", "dodge", "door", "locked", "npc", "pickup", "secret", "shop", "throw", "usable") var context_key : String = "default"
+@export_category("Debug")
+@export var debug_me : bool = false
+@export var debug_name : String = "Interactable"
+#endregion VARIABLES
+
+#region FUNCTIONS
+
+func _ready():
+	body_entered.connect(_on_body_entered)
+	body_exited.connect(_on_body_exited)
+
+##This occurs if the interactable has no type; overwrite the Interact function in subclasses to use this.
+func interact():
+	print("Base Interactable: Nothing happens.")
+
+#region Triggers
+
+##Trigger enter functionality; this sets this interactable to be the player's current interactable and sets the label.
+func _on_body_entered(body : CharacterBody2D):
+	if body is PlayerBody:
+		if "current_interactable" in body:
+			body.current_interactable = self
+		if body.context_label:
+			body.context_label.context_refresh()
+
+##Trigger exit functionality; this resets the label and character body's current interactable
+func _on_body_exited(body : CharacterBody2D):
+	if body is PlayerBody:
+		if "current_interactable" in body and body.current_interactable == self:
+			body.current_interactable = null
+			body.context_label.context_refresh()
+
+#endregion Triggers
+
+#endregion FUNCTIONS

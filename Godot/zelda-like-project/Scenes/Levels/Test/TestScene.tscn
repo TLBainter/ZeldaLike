@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://cmq4jua1rti0e" path="res://TileMaps/Cave/cave_ [bridgeHorizontal].png" id="3_dbhsk"]
 [ext_resource type="Texture2D" uid="uid://nrhdy7n5g0w" path="res://TileMaps/Cave/cave_ [bridgeVertical].png" id="4_u5x20"]
 [ext_resource type="PackedScene" uid="uid://domh3e18e0ubj" path="res://Scenes/Characters/Player/player.tscn" id="5_ycnog"]
+[ext_resource type="Script" uid="uid://dmc56q7was83l" path="res://Scripts/Classes/Interaction Class/Dialogue Class/Interact_Dialogue.gd" id="7_ycnog"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_t5cxl"]
 texture = ExtResource("1_7ds01")
@@ -1239,6 +1240,9 @@ sources/1 = SubResource("TileSetAtlasSource_yx5wt")
 sources/2 = SubResource("TileSetAtlasSource_mskji")
 sources/3 = SubResource("TileSetAtlasSource_3oc0o")
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_mskji"]
+radius = 36.345562
+
 [node name="Main" type="Node2D" unique_id=917202910]
 
 [node name="LevelBase" type="Node" parent="." unique_id=692264676]
@@ -1259,3 +1263,13 @@ tile_set = SubResource("TileSet_y5uh3")
 [node name="Player" parent="." unique_id=209100190 instance=ExtResource("5_ycnog")]
 z_index = 1
 position = Vector2(-543, 50)
+
+[node name="Dialogue Test Area" type="Area2D" parent="." unique_id=334014423]
+z_index = 1
+script = ExtResource("7_ycnog")
+context_key = "npc"
+debug_me = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Dialogue Test Area" unique_id=1276204876]
+position = Vector2(-458, 0)
+shape = SubResource("CircleShape2D_mskji")

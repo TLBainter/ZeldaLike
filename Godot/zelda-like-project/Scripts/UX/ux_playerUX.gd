@@ -19,7 +19,11 @@ signal check_viewport_size
 ## a reference to the player's camera
 @onready var player_cam : PlayerCam = me.player_cam
 ## a reference to the heart container
-@onready var heartsContainer : HeartsDisplay = $PlayerInGameCanvas/PlayerUI_Hearts/PlayerUI_HeartsContainer
+@export var heartsContainer : HeartsDisplay
+## a reference to the audio control node for player UI
+@export var ui_audio : UIAudioControl
+## a reference to the context button's text label (Button 4 Label)
+@export var context_label : ContextLabel
 @export_group("Child Controls")
 ##Controls the speed at which entities within Player UX fade out when the player is beneath them.
 @export var player_detection_fadeout_speed : float = 5.0
@@ -34,6 +38,7 @@ signal check_viewport_size
 #region FUNCTIONS
 
 func _ready():
+	
 	#Creates a timer for reference by other UX elements.
 	#This timer ticks ten times per second, which is more efficient than Physics Process (every frame).
 	var ux_check_timer = Timer.new()
