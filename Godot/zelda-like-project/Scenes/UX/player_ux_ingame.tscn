@@ -487,6 +487,7 @@ theme_override_constants/margin_right = 16
 theme_override_constants/margin_bottom = 16
 
 [node name="PlayerUI_Dialogue_Panel" type="Panel" parent="PlayerInGameCanvas/PlayerUI_Dialogue" unique_id=127341942 node_paths=PackedStringArray("root", "dialogue_label", "char_name", "char_icon")]
+visible = false
 self_modulate = Color(1, 1, 1, 0)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_prcqu")

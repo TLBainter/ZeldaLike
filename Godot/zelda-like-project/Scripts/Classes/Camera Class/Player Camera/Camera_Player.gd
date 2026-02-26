@@ -9,6 +9,8 @@ extends CamClass
 @export var root : Player
 ##The player's body.
 @onready var player : CharacterBody2D = root.body
+##The audio component for the player.
+@onready var audio = root.audio
 ##The players input controller.
 @onready var input : InputComponent = root.input
 @export_group("PlayerCam Variables")
@@ -25,9 +27,19 @@ extends CamClass
 @export var max_pan_distance : Vector2 = Vector2(100.0, 80.0)
 ##How quickly the camera smoothly arrives at its destination
 @export var smoothness : float = 12.0
-## target offset value for pan and zoom lerping
+## target offset value for pan lerping
 var _target_offset : Vector2 = Vector2.ZERO
+## target zoom value for zoom out/in lerping
 var _target_zoom : Vector2 = Vector2(1.0, 1.0)
+@export_subgroup("Camera Audio")
+##the audio file that plays when the camera moves by player input
+@export var cam_whoosh : AudioStream
+##the audio file to play when the camera resets its position after player input
+@export var cam_whoosh_reverse : AudioStream
+##reference to the audio player being used by the cam_whoosh sound to avoid overlapping sfx
+var _current_whoosh_player : AudioStreamPlayer
+##internal value that determines whether the cam_whoosh audio file should be played
+var _was_cam_moved : bool = false
 #TODO: Make the ground variable an array, someday—or something to that effect. Could be a dictionary?[br]
 #This will be necessary if I am going to have more than one ground tilemap layer in a single scene!
 @export_subgroup("Detection")
@@ -61,11 +73,11 @@ func reset_zoom():
 	_target_zoom = init_zoom
 
 ##Sets the value of the ground tilemap(s).[br]
-##This is used to determine the level's bounds.
+##This is used to determine the level's bounds.[br]
 ##The tilemap must have the GroundTileMap script assigned.
 func set_ground() -> void:
 	#sets the value of ground to be the FIRST ground tilemap in the scene; if there is more than one, this will not work.
-	#TODO: Revisit this if there is ever going to be more than a single ground tilemap in a scene.[br]
+	#TODO: Revisit this if there is ever going to be more than a single ground tilemap in a scene.
 	#May need to make this an array.
 	ground = get_tree().current_scene.find_children("*", "GroundTilemap").front() as GroundTilemap
 	if debug_me:
@@ -128,72 +140,109 @@ func update_cam_pos(delta):
 	#Horizontal Movement Control
 	if abs(player_pos.x - camera_pos.x) > horizontal_dead_zone:
 		target_pos.x = player_pos.x
-	#Vertical Movement Control
-	if player_pos.y < camera_pos.y - vertical_dead_zone:
-		target_pos.y = player_pos.y
-	elif player_pos.y > camera_pos.y + vertical_dead_zone:
+	#Vertical Movement Control condensed to match horizontal logic
+	if abs(player_pos.y - camera_pos.y) > vertical_dead_zone:
 		target_pos.y = player_pos.y
 	
-	#Clamp target position
-	#BUG: These variables are not currently used. You can ignore errors stemming from these, for now.
-	#region set clamp variables
-	##The viewport size with zoom taken into account.
-	#var viewport_size = get_viewport_rect().size / zoom
-	##The minimum position on the x axis
-	#var min_x = limit_left + viewport_size.x / 2
-	##the maximum position on the x axis
-	#var max_x = limit_right - viewport_size.x / 2
-	##The minimum position on the x axis
-	#var min_y = limit_top + viewport_size.y / 2
-	##the maximum position on the x axis
-	#var max_y = limit_bottom - viewport_size.y / 2
-	#endregion clamp variables
 	
 	# smooth movement control; uses delta to move the camera at the player's speed
-	global_position.x = move_toward(position.x, target_pos.x, abs(player.velocity.x) * delta)
-	global_position.y = move_toward(position.y, target_pos.y, abs(player.velocity.y) * delta)
+	global_position.x = move_toward(global_position.x, target_pos.x, abs(player.velocity.x) * delta)
+	global_position.y = move_toward(global_position.y, target_pos.y, abs(player.velocity.y) * delta)
 
 ##Addresses inputs from the player that allow the camera to move
 func _handle_pan_zoom(delta):
-	#region Zoom
+	#Get and assign input using built-in vector calculation
 	var is_zooming = Input.is_action_pressed("camZoom")
+	var pan_input = Input.get_vector("camLeft", "camRight", "camUp", "camDown")
+	
+	#Gets the target areas
+	#region Zoom
 	if is_zooming:
 		_target_offset = Vector2.ZERO
 		var viewport_size = get_viewport_rect().size
-		##The current zoom level's width
 		var current_view_width = viewport_size.x / init_zoom.x
-		##The current zoom level's height
 		var current_view_height = viewport_size.y / init_zoom.y
-		##The destination zoom level's width
 		var target_view_width = current_view_width + (max_pan_distance.x / 2.0)
-		##The destination zoom level's hieght
 		var target_view_height = current_view_height + (max_pan_distance.y / 2.0)
 		
-		#Set the target view based on the difference between the current view and the goal view
 		_target_zoom = Vector2((viewport_size.x / target_view_width), (viewport_size.y / target_view_height))
 	#endregion Zoom
 	else:
 		_target_zoom = init_zoom
 	#region Pan
-		#get input from the player
-		var pan_input = Vector2((Input.get_action_strength("camRight")) - Input.get_action_strength("camLeft"), (Input.get_action_strength("camDown") - Input.get_action_strength("camUp")))
-		#set desired offset, cam position, and get the value of half the screen to determine its centerpoint
 		var desired_offset : Vector2 = pan_input * max_pan_distance
 		var base_cam_pos = global_position
 		var safe_zoom = Vector2(max(0.01, zoom.x), max(0.01, zoom.y))
 		var screen_half = (get_viewport_rect().size / safe_zoom) / 2.0
 		
-		#set permissible range
 		var allowed_left = max(0.0, (base_cam_pos.x - screen_half.x) - limit_left)
 		var allowed_right = max(0.0, limit_right - (base_cam_pos.x + screen_half.x))
 		var allowed_top = max(0.0, (base_cam_pos.y - screen_half.y) - limit_top)
 		var allowed_bottom = max(0.0, limit_bottom - (base_cam_pos.y + screen_half.y))
-		#establish target offset
+		
 		_target_offset.x = clamp(desired_offset.x, -allowed_left, allowed_right)
 		_target_offset.y = clamp(desired_offset.y, -allowed_top, allowed_bottom)
 	#endregion Pan
+
+	#Handles playing the camera zoom audio
+	#region audioHandler
+	##determines whether we currently have an input pertaining to zoom/pan
+	var has_input = is_zooming or pan_input.length() > 0.1
+	##checks if we are about to move from our current destination
+	var will_move = offset.distance_to(_target_offset) > 2.0 or zoom.distance_to(_target_zoom) > 0.01
+	
+	var is_new_press = Input.is_action_just_pressed("camZoom") or Input.is_action_just_pressed("camRight") or Input.is_action_just_pressed("camLeft") or Input.is_action_just_pressed("camDown") or Input.is_action_just_pressed("camUp")
+	
+	if not has_input:
+		#controls for zoom/pan released; plays reverse
+		if _was_cam_moved:
+			_play_cam_audio(cam_whoosh_reverse)
+			_was_cam_moved = false
+			if debug_me_verbose:
+				print(debug_name, " is now playing ", cam_whoosh_reverse)
+	#player initiated a move action
+	else:
+		if will_move and (not _was_cam_moved or is_new_press):
+			var is_audio_playing = is_instance_valid(_current_whoosh_player) and _current_whoosh_player.playing
+			if not is_audio_playing:
+				_play_cam_audio(cam_whoosh)
+				_was_cam_moved = true
+				if debug_me_verbose:
+					print(debug_name, " is now playing ", cam_whoosh)
+	#endregion audioHandler
+
+	
+	#Applys zoom and/or pan
 	#region Apply Zoom/Pan
 	offset = offset.lerp(_target_offset, smoothness * delta)
 	zoom = zoom.lerp(_target_zoom, smoothness * delta)
 	#endregion Apply Zoom/Pan
+
+##Handler for audio playing from the camera
+func _play_cam_audio(stream : AudioStream):
+	if not stream:
+		return
+	
+	#region Whoosh SFX
+	#If a whoosh is currently playing, instantly stop and destroy it to prevent stacking
+	if is_instance_valid(_current_whoosh_player):
+		_current_whoosh_player.stop()
+		_current_whoosh_player.queue_free()
+		if debug_me:
+			print("Cleared _current_whoosh_player")
+	_current_whoosh_player = AudioStreamPlayer.new()
+	_current_whoosh_player.stream = stream
+	_current_whoosh_player.bus = "UI"
+	add_child(_current_whoosh_player)
+	_current_whoosh_player.finished.connect(_on_sound_finished.bind(_current_whoosh_player))
+	_current_whoosh_player.play()
+	if debug_me:
+		print("Now playing sound ", stream, " from streamer ", _current_whoosh_player)
+	#endregion Whoosh SFX
+
+func _on_sound_finished(streamer : AudioStreamPlayer):
+	if is_instance_valid(streamer):
+		streamer.queue_free()
+	if debug_me:
+		print("Cleared ", streamer, " from AudioStreamPlayer")
 #endregion

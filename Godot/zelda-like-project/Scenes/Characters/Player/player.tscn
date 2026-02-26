@@ -14,6 +14,8 @@
 [ext_resource type="PackedScene" uid="uid://b8q7kuseb62d3" path="res://Scenes/UX/player_ux_ingame.tscn" id="9_8gg06"]
 [ext_resource type="Resource" uid="uid://djc26p3n7j066" path="res://Scripts/Resources/Resource Files/Resources_Sound Libraries/damage_sounds_heavy_player.tres" id="9_p06rw"]
 [ext_resource type="Resource" uid="uid://43r261rifn7h" path="res://Scripts/Resources/Resource Files/Resources_Sound Libraries/heal_sounds_player.tres" id="10_aencf"]
+[ext_resource type="AudioStream" uid="uid://bvbgekwim8ido" path="res://Sound/SFX/UX/Cam/cam_whoosh.wav" id="13_rtkie"]
+[ext_resource type="AudioStream" uid="uid://dgwmirctw8luo" path="res://Sound/SFX/UX/Cam/cam_whoosh_reverse.wav" id="14_c5nky"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_dxcao"]
 radius = 6.0
@@ -465,6 +467,8 @@ script = ExtResource("7_1mdwi")
 root = NodePath("..")
 init_zoom = Vector2(3, 3)
 max_pan_distance = Vector2(80, 60)
+cam_whoosh = ExtResource("13_rtkie")
+cam_whoosh_reverse = ExtResource("14_c5nky")
 debug_me = true
 debug_me_verbose = true
 debug_name = "Player Cam"
