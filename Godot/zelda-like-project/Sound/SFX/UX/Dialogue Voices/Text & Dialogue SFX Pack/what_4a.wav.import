@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://co5fdclooj4yx"
+path="res://.godot/imported/what_4a.wav-0fe68216131243e346bd3a8bf3c61465.sample"
+
+[deps]
+
+source_file="res://Sound/SFX/UX/Dialogue Voices/Text & Dialogue SFX Pack/what_4a.wav"
+dest_files=["res://.godot/imported/what_4a.wav-0fe68216131243e346bd3a8bf3c61465.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

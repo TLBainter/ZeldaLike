@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://cb17povdcr88b"
+path="res://.godot/imported/underwater_3c.wav-ae389794d25579fe086d6705d21ef3a6.sample"
+
+[deps]
+
+source_file="res://Sound/SFX/UX/Dialogue Voices/Text & Dialogue SFX Pack/underwater_3c.wav"
+dest_files=["res://.godot/imported/underwater_3c.wav-ae389794d25579fe086d6705d21ef3a6.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

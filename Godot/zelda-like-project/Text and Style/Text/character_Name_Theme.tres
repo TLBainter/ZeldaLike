@@ -1,0 +1,7 @@
+[gd_resource type="Theme" format=3 uid="uid://bc52rxei0qqcb"]
+
+[ext_resource type="FontFile" uid="uid://cp6wfns5q5k5i" path="res://Sprites/UX/Fonts/minishcap__v10.ttf" id="1_x76dp"]
+
+[resource]
+default_font = ExtResource("1_x76dp")
+default_font_size = 12

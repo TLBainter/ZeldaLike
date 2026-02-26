@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://g0used367ba7"
+path="res://.godot/imported/subTri_4c.wav-3547696e3324936dd7e99fe2ff88187e.sample"
+
+[deps]
+
+source_file="res://Sound/SFX/UX/Dialogue Voices/Text & Dialogue SFX Pack/subTri_4c.wav"
+dest_files=["res://.godot/imported/subTri_4c.wav-3547696e3324936dd7e99fe2ff88187e.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

@@ -1,0 +1,19 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://dvy4hewrh4cot"
+
+[deps]
+
+files=["res://External/DialogueCSV.Character ID.translation", "res://External/DialogueCSV.English Line 1.translation", "res://External/DialogueCSV.English Line 2.translation", "res://External/DialogueCSV.English Line 3.translation", "res://External/DialogueCSV.English Line 4.translation", "res://External/DialogueCSV.English Line 5.translation", "res://External/DialogueCSV.English Line 6.translation"]
+
+source_file="res://External/DialogueCSV.csv"
+dest_files=["res://External/DialogueCSV.Character ID.translation", "res://External/DialogueCSV.English Line 1.translation", "res://External/DialogueCSV.English Line 2.translation", "res://External/DialogueCSV.English Line 3.translation", "res://External/DialogueCSV.English Line 4.translation", "res://External/DialogueCSV.English Line 5.translation", "res://External/DialogueCSV.English Line 6.translation"]
+
+[params]
+
+compress=1
+delimiter=0
+unescape_keys=false
+unescape_translations=true

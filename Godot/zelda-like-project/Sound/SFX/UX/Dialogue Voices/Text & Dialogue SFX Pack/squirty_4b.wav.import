@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://fgmq1op83gn6"
+path="res://.godot/imported/squirty_4b.wav-8b3ae2a1f37f1ecebc882d7ce25465bb.sample"
+
+[deps]
+
+source_file="res://Sound/SFX/UX/Dialogue Voices/Text & Dialogue SFX Pack/squirty_4b.wav"
+dest_files=["res://.godot/imported/squirty_4b.wav-8b3ae2a1f37f1ecebc882d7ce25465bb.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

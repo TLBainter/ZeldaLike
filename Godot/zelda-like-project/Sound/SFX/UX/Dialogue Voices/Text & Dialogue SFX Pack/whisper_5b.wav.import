@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://bhvp0724rt468"
+path="res://.godot/imported/whisper_5b.wav-f9d67c97f1254567f8167f97ed5ea9d6.sample"
+
+[deps]
+
+source_file="res://Sound/SFX/UX/Dialogue Voices/Text & Dialogue SFX Pack/whisper_5b.wav"
+dest_files=["res://.godot/imported/whisper_5b.wav-f9d67c97f1254567f8167f97ed5ea9d6.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

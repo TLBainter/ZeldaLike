@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="CharacterResource" format=3 uid="uid://2dnpen15efdm"]
+
+[ext_resource type="Script" uid="uid://fd4f227t8jc2" path="res://Scripts/Resources/Resource Scripts/resource_Character.gd" id="1_2k58n"]
+[ext_resource type="Texture2D" uid="uid://dse3fpdx1g32f" path="res://icon.svg" id="1_vwfsv"]
+[ext_resource type="AudioStream" uid="uid://dgqgotkgixull" path="res://Sound/SFX/UX/Dialogue Voices/Text & Dialogue SFX Pack/raspyMetallic_6a.wav" id="3_or4yr"]
+[ext_resource type="AudioStream" uid="uid://bk0ovhht2llhv" path="res://Sound/SFX/UX/Dialogue Voices/Text & Dialogue SFX Pack/raspyMetallic_6b.wav" id="4_axe6i"]
+[ext_resource type="AudioStream" uid="uid://ckdrvbdr8a7su" path="res://Sound/SFX/UX/Dialogue Voices/Text & Dialogue SFX Pack/raspyMetallic_6c.wav" id="5_m0wem"]
+
+[resource]
+script = ExtResource("1_2k58n")
+display_name = "Default Character"
+icon = ExtResource("1_vwfsv")
+voice = Array[AudioStream]([ExtResource("3_or4yr"), ExtResource("4_axe6i"), ExtResource("5_m0wem")])
+metadata/_custom_type_script = "uid://fd4f227t8jc2"

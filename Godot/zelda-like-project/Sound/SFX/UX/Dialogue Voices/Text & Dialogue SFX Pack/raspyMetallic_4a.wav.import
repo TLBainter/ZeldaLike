@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://cbvdy0ctafbnv"
+path="res://.godot/imported/raspyMetallic_4a.wav-99e17f9b2ea25801213870e5a637501e.sample"
+
+[deps]
+
+source_file="res://Sound/SFX/UX/Dialogue Voices/Text & Dialogue SFX Pack/raspyMetallic_4a.wav"
+dest_files=["res://.godot/imported/raspyMetallic_4a.wav-99e17f9b2ea25801213870e5a637501e.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://bxj0ssntw23ng"
+path="res://.godot/imported/whisper_6c.wav-67d872079c6a8a87bc7f65c9c258a634.sample"
+
+[deps]
+
+source_file="res://Sound/SFX/UX/Dialogue Voices/Text & Dialogue SFX Pack/whisper_6c.wav"
+dest_files=["res://.godot/imported/whisper_6c.wav-67d872079c6a8a87bc7f65c9c258a634.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://dxjibbadt0fyh"
+path="res://.godot/imported/sinecrush_2a.wav-5e2781725b8e8b0ad3ed65f2e8d68c4a.sample"
+
+[deps]
+
+source_file="res://Sound/SFX/UX/Dialogue Voices/Text & Dialogue SFX Pack/sinecrush_2a.wav"
+dest_files=["res://.godot/imported/sinecrush_2a.wav-5e2781725b8e8b0ad3ed65f2e8d68c4a.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

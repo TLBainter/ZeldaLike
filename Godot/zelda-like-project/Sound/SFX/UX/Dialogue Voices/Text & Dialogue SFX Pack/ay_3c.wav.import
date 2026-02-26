@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://2tpf2r73xosh"
+path="res://.godot/imported/ay_3c.wav-aeda626b784d82908b15b0beaa2dabeb.sample"
+
+[deps]
+
+source_file="res://Sound/SFX/UX/Dialogue Voices/Text & Dialogue SFX Pack/ay_3c.wav"
+dest_files=["res://.godot/imported/ay_3c.wav-aeda626b784d82908b15b0beaa2dabeb.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

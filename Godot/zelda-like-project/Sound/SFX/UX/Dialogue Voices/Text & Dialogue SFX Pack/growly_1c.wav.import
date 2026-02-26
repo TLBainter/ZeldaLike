@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://bl65w1ppt5wdm"
+path="res://.godot/imported/growly_1c.wav-08cf9376d43808608d34d5299709f2a9.sample"
+
+[deps]
+
+source_file="res://Sound/SFX/UX/Dialogue Voices/Text & Dialogue SFX Pack/growly_1c.wav"
+dest_files=["res://.godot/imported/growly_1c.wav-08cf9376d43808608d34d5299709f2a9.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

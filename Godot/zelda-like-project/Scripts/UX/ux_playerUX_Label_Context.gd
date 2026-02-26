@@ -6,7 +6,7 @@ extends PlayerUXLabel
 #region VARIABLES
 @export_category("Context Components")
 @export var anim_player : AnimationPlayer
-@onready var player : PlayerBody = player_ux.me.body
+@onready var player : PlayerBody = root.root.body
 @export_category("Context Settings")
 @export_group("Defaults")
 ##The default text that appears on the context label.[br]
@@ -70,7 +70,7 @@ func swap_text():
 func context_refresh():
 	if player.current_interactable != null:
 		set_context(player.current_interactable.context_key)
-	elif player.me.can_roll:
+	elif player.root.can_roll:
 		set_context("roll")
 	else:
 		reset()

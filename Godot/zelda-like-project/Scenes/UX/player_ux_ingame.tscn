@@ -4,11 +4,18 @@
 [ext_resource type="Script" uid="uid://ddysrg5i8pce7" path="res://Scripts/UX/ux_marginContainer.gd" id="1_icyw3"]
 [ext_resource type="Texture2D" uid="uid://pblx7yfuvxfa" path="res://Sprites/UX/InGameUX/icons_Controller.png" id="1_oxfwa"]
 [ext_resource type="FontFile" uid="uid://cp6wfns5q5k5i" path="res://Sprites/UX/Fonts/minishcap__v10.ttf" id="3_4d04n"]
+[ext_resource type="Script" uid="uid://b46ts82h6itnm" path="res://Scripts/UX/ux_button_action.gd" id="4_n5wnv"]
 [ext_resource type="PackedScene" uid="uid://dwprjilrl8d0p" path="res://Scenes/UX/player_ux_hearts.tscn" id="5_55krk"]
 [ext_resource type="Script" uid="uid://ds30kl7uff5mo" path="res://Scripts/UX/ux_playerHearts.gd" id="5_ovlxb"]
 [ext_resource type="Script" uid="uid://clldbretb10wu" path="res://Scripts/UX/ux_playerUX_Label_Context.gd" id="5_xjdbq"]
 [ext_resource type="Script" uid="uid://dugks6lyfxa4s" path="res://Scripts/Classes/Audio Class/Audio_Component_UI.gd" id="7_ffuv4"]
 [ext_resource type="AudioStream" uid="uid://beb3rdr8gqvde" path="res://Sound/SFX/Player/Player UX SFX/Status/healthLow.wav" id="8_l8e16"]
+[ext_resource type="Texture2D" uid="uid://c1eocxag7jj8h" path="res://Sprites/UX/Backgrounds/dark ui blank.png" id="9_jwj3h"]
+[ext_resource type="Script" uid="uid://cyj54quh4uo0w" path="res://Scripts/UX/ux_dialogueController.gd" id="9_prcqu"]
+[ext_resource type="Texture2D" uid="uid://dse3fpdx1g32f" path="res://icon.svg" id="10_ktjiq"]
+[ext_resource type="Texture2D" uid="uid://dpqcjyf48nd5j" path="res://Sprites/UX/Backgrounds/dark ui large-long plate.png" id="10_urrej"]
+[ext_resource type="Texture2D" uid="uid://8k5l76ow05w3" path="res://Sprites/UX/Backgrounds/dark ui large plate.png" id="11_ktjiq"]
+[ext_resource type="Theme" uid="uid://bc52rxei0qqcb" path="res://Text and Style/Text/character_Name_Theme.tres" id="12_ktjiq"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_icyw3"]
 atlas = ExtResource("1_oxfwa")
@@ -81,11 +88,142 @@ _data = {
 &"flip": SubResource("Animation_n5wnv")
 }
 
+[sub_resource type="Animation" id="Animation_w3cdq"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../../ActionButton2_Panel/ActionButton2:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("../../ActionButton3_Panel/ActionButton3:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("../../ActionButton4_Panel/ActionButton4:scale")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_8vyf2"]
+resource_name = "actionButton1_press"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.05, 0.1, 0.2),
+"transitions": PackedFloat32Array(1, 6.0224824, 0.435277, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(0.9, 0.5), Vector2(1.1, 1.1), Vector2(1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_jwj3h"]
+resource_name = "actionButton2_press"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../../ActionButton2_Panel/ActionButton2:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.05, 0.1, 0.2),
+"transitions": PackedFloat32Array(1, 6.0224824, 0.435277, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(0.9, 0.5), Vector2(1.1, 1.1), Vector2(1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_urrej"]
+resource_name = "actionButton3_press"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../../ActionButton3_Panel/ActionButton3:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.05, 0.1, 0.2),
+"transitions": PackedFloat32Array(1, 6.0224824, 0.435277, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(0.9, 0.5), Vector2(1.1, 1.1), Vector2(1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_ktjiq"]
+resource_name = "actionButton4_press"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../../ActionButton4_Panel/ActionButton4:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.05, 0.1, 0.2),
+"transitions": PackedFloat32Array(1, 6.0224824, 0.435277, 12.996021),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(0.9, 0.5), Vector2(1.1, 1.1), Vector2(1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_prcqu"]
+_data = {
+&"RESET": SubResource("Animation_w3cdq"),
+&"actionButton1_press": SubResource("Animation_8vyf2"),
+&"actionButton2_press": SubResource("Animation_jwj3h"),
+&"actionButton3_press": SubResource("Animation_urrej"),
+&"actionButton4_press": SubResource("Animation_ktjiq")
+}
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_ovlxb"]
 atlas = ExtResource("1_oxfwa")
 region = Rect2(224, 0, 16, 16)
 
-[node name="PlayerUX" type="Control" unique_id=895243336 node_paths=PackedStringArray("heartsContainer", "ui_audio", "context_label")]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_prcqu"]
+bg_color = Color(0.42352942, 0.6627451, 0.5058824, 0.0627451)
+
+[sub_resource type="FontVariation" id="FontVariation_ktjiq"]
+base_font = ExtResource("3_4d04n")
+spacing_glyph = 2
+
+[node name="PlayerUX" type="Control" unique_id=895243336 node_paths=PackedStringArray("heartsContainer", "ui_audio", "context_label", "dialogue_controller")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -96,12 +234,13 @@ script = ExtResource("1_5o3k5")
 heartsContainer = NodePath("PlayerInGameCanvas/PlayerUI_Hearts/PlayerUI_HeartsContainer")
 ui_audio = NodePath("PlayerUXAudioControl")
 context_label = NodePath("PlayerInGameCanvas/PlayerUI_ActionButtons/ActionButton4_Panel/ActionButton4_Label")
+dialogue_controller = NodePath("PlayerInGameCanvas/PlayerUI_Dialogue/PlayerUI_Dialogue_Panel")
 debug_me = true
 debug_me_verbose = true
 
 [node name="PlayerInGameCanvas" type="CanvasLayer" parent="." unique_id=1280888797]
 
-[node name="PlayerUI_ActionButtons" type="MarginContainer" parent="PlayerInGameCanvas" unique_id=560227324 node_paths=PackedStringArray("me")]
+[node name="PlayerUI_ActionButtons" type="MarginContainer" parent="PlayerInGameCanvas" unique_id=560227324 node_paths=PackedStringArray("root")]
 texture_filter = 1
 anchors_preset = 1
 anchor_left = 1.0
@@ -117,14 +256,14 @@ theme_override_constants/margin_top = 16
 theme_override_constants/margin_right = 16
 theme_override_constants/margin_bottom = 16
 script = ExtResource("1_icyw3")
-me = NodePath("../..")
+root = NodePath("../..")
 
 [node name="ActionButton1_Panel" type="Panel" parent="PlayerInGameCanvas/PlayerUI_ActionButtons" unique_id=1587307217]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 8
 
-[node name="ActionButton1" type="TextureRect" parent="PlayerInGameCanvas/PlayerUI_ActionButtons/ActionButton1_Panel" unique_id=1569243036]
+[node name="ActionButton1" type="TextureRect" parent="PlayerInGameCanvas/PlayerUI_ActionButtons/ActionButton1_Panel" unique_id=1569243036 node_paths=PackedStringArray("anim_player", "root")]
 custom_minimum_size = Vector2(16, 16)
 layout_direction = 1
 layout_mode = 1
@@ -138,18 +277,23 @@ offset_top = -16.000002
 offset_right = 8.0
 grow_horizontal = 2
 grow_vertical = 0
+pivot_offset_ratio = Vector2(0.5, 0.5)
 size_flags_horizontal = 4
 size_flags_vertical = 8
 size_flags_stretch_ratio = 0.0
 texture = SubResource("AtlasTexture_icyw3")
 stretch_mode = 4
+script = ExtResource("4_n5wnv")
+anim_player = NodePath("../../ActionButtonAnimator")
+action_name = "actionButton1"
+root = NodePath("../../../..")
 
 [node name="ActionButton2_Panel" type="Panel" parent="PlayerInGameCanvas/PlayerUI_ActionButtons" unique_id=370427619]
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 4
 
-[node name="ActionButton2" type="TextureRect" parent="PlayerInGameCanvas/PlayerUI_ActionButtons/ActionButton2_Panel" unique_id=1439174938]
+[node name="ActionButton2" type="TextureRect" parent="PlayerInGameCanvas/PlayerUI_ActionButtons/ActionButton2_Panel" unique_id=1439174938 node_paths=PackedStringArray("anim_player", "root")]
 custom_minimum_size = Vector2(16, 16)
 layout_direction = 1
 layout_mode = 1
@@ -163,18 +307,23 @@ offset_top = -8.0
 offset_bottom = 8.0
 grow_horizontal = 0
 grow_vertical = 2
+pivot_offset_ratio = Vector2(0.5, 0.5)
 size_flags_horizontal = 8
 size_flags_vertical = 4
 size_flags_stretch_ratio = 0.0
 texture = SubResource("AtlasTexture_4d04n")
 stretch_mode = 4
+script = ExtResource("4_n5wnv")
+anim_player = NodePath("../../ActionButtonAnimator")
+action_name = "actionButton2"
+root = NodePath("../../../..")
 
 [node name="ActionButton3_Panel" type="Panel" parent="PlayerInGameCanvas/PlayerUI_ActionButtons" unique_id=700539488]
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 4
 
-[node name="ActionButton3" type="TextureRect" parent="PlayerInGameCanvas/PlayerUI_ActionButtons/ActionButton3_Panel" unique_id=345336085]
+[node name="ActionButton3" type="TextureRect" parent="PlayerInGameCanvas/PlayerUI_ActionButtons/ActionButton3_Panel" unique_id=345336085 node_paths=PackedStringArray("anim_player", "root")]
 custom_minimum_size = Vector2(16, 16)
 layout_direction = 1
 layout_mode = 1
@@ -185,18 +334,23 @@ offset_top = -8.0
 offset_right = 16.0
 offset_bottom = 8.0
 grow_vertical = 2
+pivot_offset_ratio = Vector2(0.5, 0.5)
 size_flags_horizontal = 0
 size_flags_vertical = 4
 size_flags_stretch_ratio = 0.0
 texture = SubResource("AtlasTexture_5o3k5")
 stretch_mode = 4
+script = ExtResource("4_n5wnv")
+anim_player = NodePath("../../ActionButtonAnimator")
+action_name = "actionButton3"
+root = NodePath("../../../..")
 
 [node name="ActionButton4_Panel" type="Panel" parent="PlayerInGameCanvas/PlayerUI_ActionButtons" unique_id=1254066173]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 0
 
-[node name="ActionButton4" type="TextureRect" parent="PlayerInGameCanvas/PlayerUI_ActionButtons/ActionButton4_Panel" unique_id=458720834]
+[node name="ActionButton4" type="TextureRect" parent="PlayerInGameCanvas/PlayerUI_ActionButtons/ActionButton4_Panel" unique_id=458720834 node_paths=PackedStringArray("anim_player", "root")]
 custom_minimum_size = Vector2(16, 16)
 layout_direction = 1
 layout_mode = 1
@@ -207,13 +361,20 @@ offset_left = -8.0
 offset_right = 8.0
 offset_bottom = 16.0
 grow_horizontal = 2
+pivot_offset_ratio = Vector2(0.5, 0.5)
 size_flags_horizontal = 4
 size_flags_vertical = 0
 size_flags_stretch_ratio = 0.0
 texture = SubResource("AtlasTexture_55krk")
 stretch_mode = 4
+script = ExtResource("4_n5wnv")
+anim_player = NodePath("../../ActionButtonAnimator")
+action_name = "actionButton4"
+root = NodePath("../../../..")
+debug_me = true
+debug_name = "Y Button (4)"
 
-[node name="ActionButton4_Label" type="Label" parent="PlayerInGameCanvas/PlayerUI_ActionButtons/ActionButton4_Panel" unique_id=355201701 node_paths=PackedStringArray("anim_player", "player_ux")]
+[node name="ActionButton4_Label" type="Label" parent="PlayerInGameCanvas/PlayerUI_ActionButtons/ActionButton4_Panel" unique_id=355201701 node_paths=PackedStringArray("anim_player", "root")]
 layout_mode = 0
 offset_left = -47.399998
 offset_top = -11.599999
@@ -232,13 +393,17 @@ horizontal_alignment = 2
 vertical_alignment = 1
 script = ExtResource("5_xjdbq")
 anim_player = NodePath("ContextAnimator")
-player_ux = NodePath("../../../..")
+root = NodePath("../../../..")
 
 [node name="ContextAnimator" type="AnimationPlayer" parent="PlayerInGameCanvas/PlayerUI_ActionButtons/ActionButton4_Panel/ActionButton4_Label" unique_id=173154019]
 root_node = NodePath("../../../../..")
 libraries/ = SubResource("AnimationLibrary_w3cdq")
 
-[node name="PlayerUI_ConsumableButtons" type="MarginContainer" parent="PlayerInGameCanvas" unique_id=142692430 node_paths=PackedStringArray("me")]
+[node name="ActionButtonAnimator" type="AnimationPlayer" parent="PlayerInGameCanvas/PlayerUI_ActionButtons" unique_id=1156496481]
+root_node = NodePath("../ActionButton1_Panel/ActionButton1")
+libraries/ = SubResource("AnimationLibrary_prcqu")
+
+[node name="PlayerUI_ConsumableButtons" type="MarginContainer" parent="PlayerInGameCanvas" unique_id=142692430 node_paths=PackedStringArray("root")]
 texture_filter = 1
 anchors_preset = 2
 anchor_top = 1.0
@@ -254,14 +419,14 @@ theme_override_constants/margin_top = 16
 theme_override_constants/margin_right = 16
 theme_override_constants/margin_bottom = 16
 script = ExtResource("1_icyw3")
-me = NodePath("../..")
+root = NodePath("../..")
 
-[node name="ActionButton1_Panel" type="Panel" parent="PlayerInGameCanvas/PlayerUI_ConsumableButtons" unique_id=819551022]
+[node name="DPad1_Panel" type="Panel" parent="PlayerInGameCanvas/PlayerUI_ConsumableButtons" unique_id=819551022]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 
-[node name="ActionButton1" type="TextureRect" parent="PlayerInGameCanvas/PlayerUI_ConsumableButtons/ActionButton1_Panel" unique_id=1133107465]
+[node name="DPad1" type="TextureRect" parent="PlayerInGameCanvas/PlayerUI_ConsumableButtons/DPad1_Panel" unique_id=1133107465]
 custom_minimum_size = Vector2(16, 16)
 layout_direction = 1
 layout_mode = 1
@@ -282,7 +447,7 @@ size_flags_stretch_ratio = 0.0
 texture = SubResource("AtlasTexture_ovlxb")
 stretch_mode = 4
 
-[node name="PlayerUI_Hearts" type="MarginContainer" parent="PlayerInGameCanvas" unique_id=1077872179 node_paths=PackedStringArray("me")]
+[node name="PlayerUI_Hearts" type="MarginContainer" parent="PlayerInGameCanvas" unique_id=1077872179 node_paths=PackedStringArray("root")]
 offset_right = 39.0
 offset_bottom = 98.0
 theme_override_constants/margin_left = 16
@@ -290,9 +455,9 @@ theme_override_constants/margin_top = 16
 theme_override_constants/margin_right = 16
 theme_override_constants/margin_bottom = 16
 script = ExtResource("1_icyw3")
-me = NodePath("../..")
+root = NodePath("../..")
 
-[node name="PlayerUI_HeartsContainer" type="GridContainer" parent="PlayerInGameCanvas/PlayerUI_Hearts" unique_id=1648414126 node_paths=PackedStringArray("player_ux")]
+[node name="PlayerUI_HeartsContainer" type="GridContainer" parent="PlayerInGameCanvas/PlayerUI_Hearts" unique_id=1648414126 node_paths=PackedStringArray("root")]
 layout_mode = 2
 size_flags_vertical = 0
 theme_override_constants/h_separation = 2
@@ -300,8 +465,164 @@ theme_override_constants/v_separation = 2
 columns = 10
 script = ExtResource("5_ovlxb")
 heart_gui = ExtResource("5_55krk")
-player_ux = NodePath("../../..")
+root = NodePath("../../..")
 debug_me = true
+
+[node name="PlayerUI_Dialogue" type="MarginContainer" parent="PlayerInGameCanvas" unique_id=1508851987]
+custom_minimum_size = Vector2(550, 200)
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -275.0
+offset_top = -200.0
+offset_right = 275.0
+grow_horizontal = 2
+grow_vertical = 0
+pivot_offset_ratio = Vector2(0.5, 1)
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="PlayerUI_Dialogue_Panel" type="Panel" parent="PlayerInGameCanvas/PlayerUI_Dialogue" unique_id=127341942 node_paths=PackedStringArray("root", "dialogue_label", "char_name", "char_icon")]
+self_modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_prcqu")
+script = ExtResource("9_prcqu")
+root = NodePath("../../..")
+dialogue_label = NodePath("PlayerUI_Dialogue_Contents_Panel/playUI_Dialogue_Bottom_Plate/Dialogue_Label")
+char_name = NodePath("PlayerUI_Dialogue_Character_Details_Panel/playUI_Dialogue_Character_Name/CharacterName_Label")
+char_icon = NodePath("PlayerUI_Dialogue_Character_Details_Panel/playUI_Dialogue_Character_Plate/Character_Icon")
+
+[node name="PlayerUI_Dialogue_Character_Details_Panel" type="Panel" parent="PlayerInGameCanvas/PlayerUI_Dialogue/PlayerUI_Dialogue_Panel" unique_id=1134753859]
+self_modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -89.5
+offset_right = 159.5
+offset_bottom = 89.5
+grow_vertical = 2
+
+[node name="playUI_Dialogue_Character_Plate" type="TextureRect" parent="PlayerInGameCanvas/PlayerUI_Dialogue/PlayerUI_Dialogue_Panel/PlayerUI_Dialogue_Character_Details_Panel" unique_id=1583779027]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -79.875
+offset_right = 79.875
+offset_bottom = 139.0
+grow_horizontal = 2
+pivot_offset_ratio = Vector2(0.5, 0)
+texture = ExtResource("9_jwj3h")
+stretch_mode = 5
+
+[node name="Character_Icon" type="TextureRect" parent="PlayerInGameCanvas/PlayerUI_Dialogue/PlayerUI_Dialogue_Panel/PlayerUI_Dialogue_Character_Details_Panel/playUI_Dialogue_Character_Plate" unique_id=2072084380]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -48.0
+offset_top = -48.0
+offset_right = 48.0
+offset_bottom = 48.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset_ratio = Vector2(0.5, 0.5)
+texture = ExtResource("10_ktjiq")
+expand_mode = 1
+stretch_mode = 4
+
+[node name="playUI_Dialogue_Character_Name" type="TextureRect" parent="PlayerInGameCanvas/PlayerUI_Dialogue/PlayerUI_Dialogue_Panel/PlayerUI_Dialogue_Character_Details_Panel" unique_id=1124208952]
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -81.0
+offset_top = -40.5
+offset_right = 81.0
+grow_horizontal = 2
+grow_vertical = 0
+size_flags_horizontal = 4
+size_flags_vertical = 8
+size_flags_stretch_ratio = 0.0
+texture = ExtResource("10_urrej")
+stretch_mode = 4
+
+[node name="CharacterName_Label" type="Label" parent="PlayerInGameCanvas/PlayerUI_Dialogue/PlayerUI_Dialogue_Panel/PlayerUI_Dialogue_Character_Details_Panel/playUI_Dialogue_Character_Name" unique_id=386866471]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("12_ktjiq")
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+theme_override_font_sizes/font_size = 24
+text = "Character Name"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="PlayerUI_Dialogue_Contents_Panel" type="Panel" parent="PlayerInGameCanvas/PlayerUI_Dialogue/PlayerUI_Dialogue_Panel" unique_id=871835872]
+self_modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -337.0
+offset_top = -78.5
+offset_bottom = 78.5
+grow_horizontal = 0
+grow_vertical = 2
+
+[node name="playUI_Dialogue_Bottom_Plate" type="TextureRect" parent="PlayerInGameCanvas/PlayerUI_Dialogue/PlayerUI_Dialogue_Panel/PlayerUI_Dialogue_Contents_Panel" unique_id=854687939]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -331.0
+offset_top = -83.0
+offset_bottom = 83.0
+grow_horizontal = 0
+grow_vertical = 2
+pivot_offset_ratio = Vector2(1, 0.5)
+texture = ExtResource("11_ktjiq")
+expand_mode = 5
+stretch_mode = 4
+
+[node name="Dialogue_Label" type="Label" parent="PlayerInGameCanvas/PlayerUI_Dialogue/PlayerUI_Dialogue_Panel/PlayerUI_Dialogue_Contents_Panel/playUI_Dialogue_Bottom_Plate" unique_id=2141353800]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 27.0
+offset_top = 6.0
+offset_right = -27.0
+offset_bottom = -7.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("12_ktjiq")
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+theme_override_fonts/font = SubResource("FontVariation_ktjiq")
+theme_override_font_sizes/font_size = 32
+text = "This is what a normal block of dialogue looks like! It shouldn't be longer than this!"
+vertical_alignment = 1
+autowrap_mode = 2
 
 [node name="PlayerUXAudioControl" type="Node" parent="." unique_id=153550245 node_paths=PackedStringArray("parent", "hearts")]
 script = ExtResource("7_ffuv4")

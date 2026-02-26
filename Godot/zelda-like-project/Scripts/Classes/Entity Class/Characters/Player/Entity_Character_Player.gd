@@ -17,6 +17,8 @@ extends Character
 @export_category("Player Flags")
 ##Whether or not the player can currently roll
 var can_roll : bool = true
+##Whether or not the player can currently move
+var can_move : bool = true
 #endregion
 #region MISC EXPORT VARIABLES
 #
@@ -52,8 +54,9 @@ func _on_action_button_pressed(btn):
 
 #region ACTION BUTTON 4
 func _try_interact_or_roll():
+	#Interact with Dialogue
 	if body.current_interactable != null:
-		body.current_interactable.interact()
+		body.current_interactable.interact(self)
 		if debug_me:
 			print("Interacting with ", body.current_interactable)
 	elif can_roll:
@@ -63,3 +66,15 @@ func _try_interact_or_roll():
 		if debug_me:
 			print("I cannot use the context button, right now!")
 #endregion ACTION BUTTON 4
+
+#region INTERACTIVITY CONTROL
+##Prevent the character from moving at all
+func freeze_input(should_freeze : bool):
+	input.set_physics_process(not should_freeze)
+	if should_freeze:
+		body.velocity = Vector2.ZERO
+		if anim:
+			anim.stop()
+	can_move = (not should_freeze)
+		
+#endregion INTERACTIVITY CONTROL

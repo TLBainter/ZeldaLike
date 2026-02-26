@@ -4,7 +4,7 @@ extends Label
 
 #region VARIABLES
 @export_category("Label Components")
-@export var player_ux : PlayerUX
+@export var root : PlayerUX
 @export_category("Debug")
 @export var debug_me : bool = false
 @export var debug_name : String = "PlayerUXLabel"

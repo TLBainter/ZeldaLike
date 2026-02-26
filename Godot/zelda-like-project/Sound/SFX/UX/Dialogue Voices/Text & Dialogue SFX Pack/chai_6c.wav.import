@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://cya22l4jghvdw"
+path="res://.godot/imported/chai_6c.wav-abbc8346cc7df22ddf7035f2251def3a.sample"
+
+[deps]
+
+source_file="res://Sound/SFX/UX/Dialogue Voices/Text & Dialogue SFX Pack/chai_6c.wav"
+dest_files=["res://.godot/imported/chai_6c.wav-abbc8346cc7df22ddf7035f2251def3a.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

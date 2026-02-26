@@ -22,6 +22,11 @@ buses/default_bus_layout="uid://bg6v5msmxacxc"
 [autoload]
 
 audioManager="*uid://cct1tqjxxcrx8"
+dialogueDB="*uid://cbcxd8qo46pai"
+
+[editor]
+
+script/templates_search_path="res://Scripts/_script_templates"
 
 [editor_plugins]
 
@@ -36,6 +41,7 @@ folder_colors={
 "res://Scripts/Classes/Camera Class/Player Camera/": "green",
 "res://Scripts/Classes/Entity Class/Characters/Player/": "green",
 "res://Scripts/Classes/Entity Class/Component Class/Player Components/": "green",
+"res://Scripts/_script_templates/": "red",
 "res://Sound/": "purple",
 "res://Sound/SFX/Player/": "green",
 "res://Sprites/": "orange",

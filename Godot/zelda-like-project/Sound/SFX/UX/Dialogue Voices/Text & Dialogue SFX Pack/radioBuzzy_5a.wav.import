@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://2mm00b3ud11w"
+path="res://.godot/imported/radioBuzzy_5a.wav-ef15e546098767d061b51b75526a2cfa.sample"
+
+[deps]
+
+source_file="res://Sound/SFX/UX/Dialogue Voices/Text & Dialogue SFX Pack/radioBuzzy_5a.wav"
+dest_files=["res://.godot/imported/radioBuzzy_5a.wav-ef15e546098767d061b51b75526a2cfa.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

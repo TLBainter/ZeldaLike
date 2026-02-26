@@ -8,11 +8,11 @@ extends AudioControl
 ##The Health component of this entity
 @export var health : HealthComponent
 ##The parent character (root node)
-@export var me : Character
+@export var root : Character
 ##The local audio player for the character (if any)
 @export var local_audio : AudioStreamPlayer2D
 ##The character's body
-@onready var body : CharacterBody2D = me.body
+@onready var body : CharacterBody2D = root.body
 
 #region sound libraries
 #Sound Libraries#

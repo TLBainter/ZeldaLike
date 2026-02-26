@@ -19,7 +19,10 @@ var active_players : Dictionary = {}
 var min_low_health_sound_pitch : float = 1.0
 ##Pitch when player is nearest to 0 HP
 var max_low_health_sound_pitch : float = 1.2
-##The low_health_threshold of the player
+@export_group("Dialogue Sound Manager")
+##The audio stream player reference for the voice player. Keeps things in a single player since we play a sound multiple times per frame.
+var _voice_player : AudioStreamPlayer
+
 
 #endregion VARIABLES
 
@@ -27,6 +30,24 @@ var max_low_health_sound_pitch : float = 1.2
 
 func _ready():
 	default_bus = "UI"
+
+func intialize_voice_player():
+	if _voice_player:
+		return
+	_voice_player = AudioStreamPlayer.new()
+	_voice_player.bus = "Dialogue"
+	add_child(_voice_player)
+	if debug_me:
+		print(debug_name, " created a new voice player", _voice_player)
+	
+func play_voice_blip(stream : AudioStream, pitch : float = 1.0):
+	if not _voice_player:
+		intialize_voice_player()
+	if _voice_player and stream:
+		_voice_player.stop()
+		_voice_player.stream = stream
+		_voice_player.pitch_scale = pitch
+		_voice_player.play()
 
 ##Updates the low health loop with a set value based on the character's current hit points, calculating a unique, local percentage.[br]
 ##This percentage is then used to determine how fast the sound should be playing.

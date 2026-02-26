@@ -13,17 +13,23 @@ signal check_viewport_size
 #region VARIABLES
 @export_group("PlayerUX External Components")
 ## a reference to the main player node.
-@export var me : Player
+@export var root : Player
 ## a reference to the player's character body 2D.
-@onready var player : CharacterBody2D = me.body
+@onready var player : CharacterBody2D = root.body
 ## a reference to the player's camera
-@onready var player_cam : PlayerCam = me.player_cam
+@onready var player_cam : PlayerCam = root.player_cam
+## a reference to the player's input component
+@export var input : PlayerInputComponent
+@export_group("Player UX Internal Components")
 ## a reference to the heart container
 @export var heartsContainer : HeartsDisplay
 ## a reference to the audio control node for player UI
 @export var ui_audio : UIAudioControl
 ## a reference to the context button's text label (Button 4 Label)
 @export var context_label : ContextLabel
+## a reference to the dialogue controller
+@export var dialogue_controller : DialogueUI
+
 @export_group("Child Controls")
 ##Controls the speed at which entities within Player UX fade out when the player is beneath them.
 @export var player_detection_fadeout_speed : float = 5.0
@@ -50,7 +56,7 @@ func _ready():
 		print("ux_check_timer created!")
 	
 	#Set maximum hearts
-	var hp_component : PlayerHealthComponent = me.health
+	var hp_component : PlayerHealthComponent = root.health
 	heartsContainer.set_max_hearts(hp_component.max_hearts)
 	heartsContainer.update_hearts(hp_component.cur_health)
 	hp_component.healthChanged.connect(_on_health_changed)

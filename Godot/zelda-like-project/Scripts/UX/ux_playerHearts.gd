@@ -8,9 +8,9 @@ extends GridContainer
 ##A reference to the heart gui scene; make sure the scene has the playerHeartGUI panel as its parent and is of the HeartGUI class!
 @export var heart_gui : PackedScene
 ##A reference to the main ui control node
-@export var player_ux : PlayerUX
+@export var root : PlayerUX
 ##A reference to the audio control component in the player ux
-@onready var ui_audio : UIAudioControl = player_ux.ui_audio
+@onready var ui_audio : UIAudioControl = root.ui_audio
 var min_pulse_speed : float = 1.0
 var max_pulse_speed : float = 1.2
 @export_category("Debug")

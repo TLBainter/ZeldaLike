@@ -17,10 +17,10 @@ extends AnimationPlayer
 #endregion Export Variables
 #region Internal Variables
 ## The parent entity; expects a character
-@onready var me : Character = $".."
+@onready var root : Character = $".."
 ## A reference to the character's input component
-@onready var input : InputComponent = me.input
-@onready var anim : AnimationPlayer	= me.anim
+@onready var input : InputComponent = root.input
+@onready var anim : AnimationPlayer	= root.anim
 ## The direction the character is facing.
 var facing : String = "down"
 #endregion Internal Variables

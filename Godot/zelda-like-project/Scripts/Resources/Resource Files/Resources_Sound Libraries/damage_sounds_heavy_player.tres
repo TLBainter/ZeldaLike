@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="SoundLibrary" format=3 uid="uid://djc26p3n7j066"]
 
-[ext_resource type="Script" uid="uid://vdqimlmcg4ql" path="res://Scripts/Resources/Resource Scripts/Sound_Library.gd" id="1_nr37y"]
+[ext_resource type="Script" uid="uid://vdqimlmcg4ql" path="res://Scripts/Resources/Resource Scripts/resource_Sound_Library.gd" id="1_nr37y"]
 [ext_resource type="AudioStream" uid="uid://dgulod3btgahu" path="res://Sound/SFX/Player/Player UX SFX/Status/healthLoss1.wav" id="2_0imlv"]
 [ext_resource type="AudioStream" uid="uid://dkv8lrdo2kjcm" path="res://Sound/SFX/Player/Player UX SFX/Status/healthLoss2.wav" id="3_6kd2m"]
 [ext_resource type="AudioStream" uid="uid://dyd5gjr5nfilr" path="res://Sound/SFX/Player/Player UX SFX/Status/healthLoss3.wav" id="4_h5tj6"]

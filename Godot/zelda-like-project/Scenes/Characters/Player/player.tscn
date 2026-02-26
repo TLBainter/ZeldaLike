@@ -391,14 +391,14 @@ _data = {
 &"WalkUpRight": SubResource("Animation_pr2lv")
 }
 
-[node name="Player" type="Node2D" unique_id=209100190 node_paths=PackedStringArray("stamina", "input", "player_ux", "player_cam", "body", "me", "sprite", "anim", "collider", "audio", "health", "move")]
+[node name="Player" type="Node2D" unique_id=209100190 node_paths=PackedStringArray("stamina", "input", "player_ux", "player_cam", "body", "root", "sprite", "anim", "collider", "audio", "health", "move")]
 script = ExtResource("1_27cb7")
 stamina = NodePath("Component Manager/StaminaComponent")
 input = NodePath("Component Manager/PlayerInput")
 player_ux = NodePath("PlayerUX")
 player_cam = NodePath("PlayerCam")
 body = NodePath("PlayerBody")
-me = NodePath(".")
+root = NodePath(".")
 sprite = NodePath("PlayerBody/playerSprite")
 anim = NodePath("PlayerAnimator")
 collider = NodePath("PlayerBody/PlayerBodyCollider")
@@ -437,7 +437,7 @@ metadata/_custom_type_script = "uid://b48vsvx2w4bvf"
 
 [node name="HealthComponent" type="Node" parent="Component Manager" unique_id=490128525]
 script = ExtResource("5_8gg06")
-max_hearts = 20
+max_hearts = 4
 max_health = 15
 debug_me = true
 debug_name = "Player Health Component"
@@ -448,10 +448,10 @@ script = ExtResource("6_fu1fx")
 debug_name = "Player Move Component"
 metadata/_custom_type_script = "uid://bnvc2tsxle17g"
 
-[node name="AudioComponent" type="Node" parent="Component Manager" unique_id=2045913602 node_paths=PackedStringArray("health", "me")]
+[node name="AudioComponent" type="Node" parent="Component Manager" unique_id=2045913602 node_paths=PackedStringArray("health", "root")]
 script = ExtResource("7_cscr0")
 health = NodePath("../HealthComponent")
-me = NodePath("../..")
+root = NodePath("../..")
 damage_sounds = ExtResource("8_plevq")
 heavy_damage_sounds = ExtResource("9_p06rw")
 heal_sounds = ExtResource("10_aencf")
@@ -459,10 +459,10 @@ debug_me = true
 debug_name = "Audio Component"
 metadata/_custom_type_script = "uid://clnpwpvwchpab"
 
-[node name="PlayerCam" type="Camera2D" parent="." unique_id=1506803803 node_paths=PackedStringArray("me")]
+[node name="PlayerCam" type="Camera2D" parent="." unique_id=1506803803 node_paths=PackedStringArray("root")]
 zoom = Vector2(3, 3)
 script = ExtResource("7_1mdwi")
-me = NodePath("..")
+root = NodePath("..")
 debug_me = true
 debug_me_verbose = true
 debug_name = "Player Cam"
@@ -471,11 +471,12 @@ debug_name = "Player Cam"
 libraries/ = SubResource("AnimationLibrary_1mdwi")
 script = ExtResource("3_dxcao")
 
-[node name="PlayerUX" parent="." unique_id=895243336 node_paths=PackedStringArray("me") instance=ExtResource("9_8gg06")]
+[node name="PlayerUX" parent="." unique_id=895243336 node_paths=PackedStringArray("root", "input") instance=ExtResource("9_8gg06")]
 offset_left = -1.0
 offset_top = 2.0
 offset_right = -1.0
 offset_bottom = 2.0
-me = NodePath("..")
+root = NodePath("..")
+input = NodePath("../Component Manager/PlayerInput")
 debug_me = false
 debug_me_verbose = false

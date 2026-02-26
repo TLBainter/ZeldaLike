@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://b72s6d66ik3kl"
+path="res://.godot/imported/zappy_5c.wav-a73de5a202d730a6ed8798f6d9cb0930.sample"
+
+[deps]
+
+source_file="res://Sound/SFX/UX/Dialogue Voices/Text & Dialogue SFX Pack/zappy_5c.wav"
+dest_files=["res://.godot/imported/zappy_5c.wav-a73de5a202d730a6ed8798f6d9cb0930.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

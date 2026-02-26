@@ -6,8 +6,8 @@ extends Node2D
 #region VARIABLES
 #region COMPONENTS
 @export_group("Entity Components")
-##a reference to the entity's self as 'me'
-@export var me : Node2D
+##a reference to the entity's self as 'root'
+@export var root : Node2D
 ##the entity's animated sprite, if it has one.
 @export var animated_sprite : AnimatedSprite2D
 ##the entity's initial sprite

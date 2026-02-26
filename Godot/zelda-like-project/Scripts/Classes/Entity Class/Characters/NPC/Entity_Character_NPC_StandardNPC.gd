@@ -5,9 +5,8 @@ extends NPC
 
 #region VARIABLES
 #region COMPONENTS
-@export_group("Shopkeeper Components")
-##a reference to the Node dialogue component of the NPC.
-@export var dialogue : Dialogue
+@export_group("Standard NPC Components")
+
 #endregion
 #endregion
 

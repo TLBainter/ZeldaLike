@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://dpt82d4p5v3i4"
+path="res://.godot/imported/breathyOo_6b.wav-2efa5ab77a0dfca2d7b861cd586abecb.sample"
+
+[deps]
+
+source_file="res://Sound/SFX/UX/Dialogue Voices/Text & Dialogue SFX Pack/breathyOo_6b.wav"
+dest_files=["res://.godot/imported/breathyOo_6b.wav-2efa5ab77a0dfca2d7b861cd586abecb.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

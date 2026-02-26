@@ -8,13 +8,13 @@ extends MarginContainer
 ##a reference to the player.
 @export_group("Margin Container Components")
 ##a reference to the UX control node.
-@export var me : PlayerUX
+@export var root : PlayerUX
 ##a reference to the player.
-@onready var player : CharacterBody2D = me.player
+@onready var player : CharacterBody2D = root.player
 ##how fast this entity will fade out when the player is beneath it.
-@onready var fade_out_speed : float = me.player_detection_fadeout_speed
+@onready var fade_out_speed : float = root.player_detection_fadeout_speed
 ##the target alpha when fading out.
-@onready var ux_fade_target : float = me.ux_min_alpha
+@onready var ux_fade_target : float = root.ux_min_alpha
 ##current goal alpha value for UX elements. Changes throughout the script.
 var target_alpha : float = 1.0
 var is_player_under_ui : bool = false
@@ -27,21 +27,21 @@ func _ready():
 	#TODO: Test this functionality
 	#Connects the viewport size change signal to the margin update script.
 	get_viewport().size_changed.connect(_update_margins)
-	me.check_viewport_size.connect(_update_margins)
+	root.check_viewport_size.connect(_update_margins)
 	#Link to timer for checking various UX entities
 	#Also verify that 'me' is assigned in inspector
-	if me:
-		me.check_ux_overlap.connect(_check_player_overlap)
-		if me.debug_me and me.debug_me_verbose:
+	if root:
+		root.check_ux_overlap.connect(_check_player_overlap)
+		if root.debug_me and root.debug_me_verbose:
 			print("overlap signal connected!")
 	else:
-		printerr("PlayerUX not assigned in the Inspector! Check the inspecetor of ", me.debug_name)
+		printerr("PlayerUX not assigned in the Inspector! Check the inspecetor of ", root.debug_name)
 	_update_margins()
 		
 func _check_player_overlap():
 	if not player:
 		#assign the player if it has a null value
-		player = me.player
+		player = root.player
 		return
 	
 	##A reference to the player's position on the screen
@@ -50,7 +50,7 @@ func _check_player_overlap():
 	var is_overlapping = get_global_rect().has_point(player_screen_pos)
 	
 	#Debug Print
-	if me and me.debug_me and me.debug_me_verbose:
+	if root and root.debug_me and root.debug_me_verbose:
 		print("--- UX Overlap Check ---")
 		print("\tPlayer Screen Pos: ", player_screen_pos)
 		print("\tMargin Global Rect: ", my_rect)
@@ -75,11 +75,11 @@ func _process(delta):
 		
 #region MARGINS
 func _update_margins():
-	if not me.player_cam:
+	if not root.player_cam:
 		return false
 	else:
 		##the scale of the viewport when this function is called
-		var viewport_size = get_viewport_rect().size / me.player_cam.zoom
+		var viewport_size = get_viewport_rect().size / root.player_cam.zoom
 	
 		#add padding based on viewport size
 		if viewport_size != null:

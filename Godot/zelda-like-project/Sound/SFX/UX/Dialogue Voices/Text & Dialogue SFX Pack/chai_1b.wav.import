@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://pilk2ixir8io"
+path="res://.godot/imported/chai_1b.wav-7e847b73643902b077f46e2071aa2d6f.sample"
+
+[deps]
+
+source_file="res://Sound/SFX/UX/Dialogue Voices/Text & Dialogue SFX Pack/chai_1b.wav"
+dest_files=["res://.godot/imported/chai_1b.wav-7e847b73643902b077f46e2071aa2d6f.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

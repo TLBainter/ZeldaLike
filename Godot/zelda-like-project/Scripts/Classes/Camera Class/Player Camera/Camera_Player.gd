@@ -6,11 +6,11 @@ extends CamClass
 #region VARIABLES
 @export_group("PlayerCam Components")
 ##A reference to the main player node.
-@export var me : Player
+@export var root : Player
 ##The player's body.
-@onready var player : CharacterBody2D = me.body
+@onready var player : CharacterBody2D = root.body
 ##The players input controller.
-@onready var input : InputComponent = me.input
+@onready var input : InputComponent = root.input
 @export_group("PlayerCam Variables")
 ##Where you want the camera to stop horizontally.
 @export var horizontal_dead_zone : float = 30.0

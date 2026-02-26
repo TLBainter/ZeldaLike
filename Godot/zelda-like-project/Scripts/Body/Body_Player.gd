@@ -3,10 +3,10 @@ class_name PlayerBody
 extends Body
 
 #region VARIABLES
-@onready var me : Player = $".."
-@onready var player_ux : PlayerUX = me.player_ux
+@onready var root : Player = $".."
+@onready var player_ux : PlayerUX = root.player_ux
 @onready var context_label : ContextLabel = player_ux.context_label
-@onready var input : PlayerInputComponent = me.input
+@onready var input : PlayerInputComponent = root.input
 var current_interactable : Interact = null
 #endregion VARIABLES
 
@@ -16,7 +16,7 @@ func _ready():
 	#region INITIALIZE
 	#INITIALIZE#
 	if player_ux == null:
-		player_ux = me.player_ux
+		player_ux = root.player_ux
 		if debug_me:
 			print("player_ux was null and is now ", player_ux)
 	if context_label == null:
@@ -24,7 +24,7 @@ func _ready():
 		if debug_me:
 			print("context_label was null and is now ", context_label)
 	if input == null:
-		input = me.input
+		input = root.input
 		if debug_me:
 			print("input was null and is now ", input)
 	#END INITIALIZE
