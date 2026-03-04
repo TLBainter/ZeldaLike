@@ -33,15 +33,13 @@ var category : String
 func _ready():
 	super._ready()
 	#establish variables
-	subtype = "NPC"
-	if can_roll:
-		player_ux.context_label.set_context("roll")
+	subtype = "Player"
 	input.actionButtonPressed.connect(_on_action_button_pressed)
 
 func _on_action_button_pressed(btn):
 	match btn:
 		"actionButton4":
-			_try_interact_or_roll()
+			print("button4")
 		#TODO: Add action button 3 logic
 		"actionButton3":
 			print("button3")
@@ -53,18 +51,7 @@ func _on_action_button_pressed(btn):
 			print("button1")
 
 #region ACTION BUTTON 4
-func _try_interact_or_roll():
-	#Interact with Dialogue
-	if body.current_interactable != null:
-		body.current_interactable.interact(self)
-		if debug_me:
-			print("Interacting with ", body.current_interactable)
-	elif can_roll:
-		#TODO: Create rolling function.
-		print("rolling")
-	else:
-		if debug_me:
-			print("I cannot use the context button, right now!")
+
 #endregion ACTION BUTTON 4
 
 #region INTERACTIVITY CONTROL

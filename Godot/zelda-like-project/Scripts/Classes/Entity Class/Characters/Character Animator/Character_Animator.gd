@@ -21,11 +21,13 @@ extends AnimationPlayer
 ## A reference to the character's input component
 @onready var input : InputComponent = root.input
 @onready var anim : AnimationPlayer	= root.anim
-## The direction the character is facing.
+##The direction the character is facing.
 var facing : String = "down"
-#endregion Internal Variables
+##Whether the character's facing direction can be changed.
+var can_update_facing : bool = true
 ##whether or not the character is currently moving.
 var is_moving : bool = false
+#endregion Internal Variables
 #endregion VARIABLES
 
 #region FUNCTIONS
@@ -35,6 +37,8 @@ func _ready():
 #TODO: Add diagonal facing directions
 ##This function sets the 'facing direction' of the character.
 func face(face_dir : Vector2, _delta : float):
+	if not can_update_facing:
+		return
 	##whether the character is looking down
 	var down : bool = false
 	##whether the character is looking right
@@ -99,7 +103,30 @@ func face(face_dir : Vector2, _delta : float):
 			play(anim_name)
 			if debug_me:
 				print(debug_name, " is playing animation ", anim_name)
-	
 	#endregion
 
+##Forces the character to face a given direction, bypassing input and state machine checks.[br]
+##Used for interactions, cutscenes, and other scripted moments.[br]
+##Plays the Idle animation for the resulting facing direction.
+
+func force_face(face_dir : Vector2):
+	if face_dir == Vector2.ZERO:
+		return
+	if abs(face_dir.x) > abs(face_dir.y):
+		if face_dir.x < 0:
+			facing = "left"
+		else:
+			facing = "right"
+	else:
+		if face_dir.y < 0:
+			facing = "up"
+		else:
+			facing = "down"
+	var anim_name : String = "Idle" + facing.capitalize().replace(" ","")
+	if has_animation(anim_name):
+		play(anim_name)
+	elif debug_me:
+		print(debug_name, " does not have an animation called ", anim_name)
+	if debug_me:
+		print(debug_name, " forced to face ", facing)
 #endregion FUNCTIONS

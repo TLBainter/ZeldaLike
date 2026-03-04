@@ -3,6 +3,13 @@
 class_name Interact
 extends Area2D
 
+#region SIGNALS
+##Emitted when this interaction is completed.[br]
+##States and other listeners use this to know when to resume ordinary behavior.
+signal interaction_finished
+
+#endregion SIGNALS
+
 #region VARIABLES
 
 @export_category("Interaction Settings")
@@ -30,15 +37,16 @@ func _on_body_entered(body : CharacterBody2D):
 	if body is PlayerBody:
 		if "current_interactable" in body:
 			body.current_interactable = self
-		if body.context_label:
-			body.context_label.context_refresh()
+		if body.root and body.root.state_machine:
+			body.root.state_machine.request_context_refresh()
 
 ##Trigger exit functionality; this resets the label and character body's current interactable
 func _on_body_exited(body : CharacterBody2D):
 	if body is PlayerBody:
 		if "current_interactable" in body and body.current_interactable == self:
 			body.current_interactable = null
-			body.context_label.context_refresh()
+	if body.root and body.root.state_machine:
+		body.root.state_machine.request_context_refresh()
 
 #endregion Triggers
 

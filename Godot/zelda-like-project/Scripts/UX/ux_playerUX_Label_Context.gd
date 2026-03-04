@@ -43,6 +43,13 @@ func _ready():
 	#pivot_offset = size / 2.0
 	text = default_context_text
 	reset()
+	#Connect to context label from the state machine.
+	var coordinator = player.root.state_machine
+	if coordinator and not coordinator.context_changed.is_connected(_on_context_changed):
+		coordinator.context_changed.connect(_on_context_changed)
+
+func _on_context_changed(context_key : String):
+	set_context(context_key)
 
 func set_context(context_key : String):
 	var display_text : String = ""
@@ -66,14 +73,6 @@ func update_label(new_text : String):
 func swap_text():
 	text = _pending_text
 	#pivot_offset = size / 2.0
-
-func context_refresh():
-	if player.current_interactable != null:
-		set_context(player.current_interactable.context_key)
-	elif player.root.can_roll:
-		set_context("roll")
-	else:
-		reset()
 
 func reset():
 	update_label(default_context_text)

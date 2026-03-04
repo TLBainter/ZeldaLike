@@ -16,6 +16,14 @@
 [ext_resource type="Resource" uid="uid://43r261rifn7h" path="res://Scripts/Resources/Resource Files/Resources_Sound Libraries/heal_sounds_player.tres" id="10_aencf"]
 [ext_resource type="AudioStream" uid="uid://bvbgekwim8ido" path="res://Sound/SFX/UX/Cam/cam_whoosh.wav" id="13_rtkie"]
 [ext_resource type="AudioStream" uid="uid://dgwmirctw8luo" path="res://Sound/SFX/UX/Cam/cam_whoosh_reverse.wav" id="14_c5nky"]
+[ext_resource type="Script" uid="uid://1h1iqx2yk781" path="res://Scripts/Classes/State Machine Class/StateCoordinator.gd" id="17_xcbxy"]
+[ext_resource type="Script" uid="uid://cv00auxwsog0v" path="res://Scripts/Classes/State Machine Class/StateMachineLayer.gd" id="18_a7o8c"]
+[ext_resource type="Script" uid="uid://46pctm4i5qsj" path="res://Scripts/Classes/State Machine Class/Movement States/State_Idling.gd" id="19_23420"]
+[ext_resource type="Script" uid="uid://c01o50a0tyt5f" path="res://Scripts/Classes/State Machine Class/Movement States/State_Move.gd" id="20_p6wb4"]
+[ext_resource type="Script" uid="uid://0cxa44lve11l" path="res://Scripts/Classes/State Machine Class/Movement States/State_Run.gd" id="21_y3fvr"]
+[ext_resource type="Script" uid="uid://dgxcbaxmlfxj1" path="res://Scripts/Classes/State Machine Class/Action States/State_NoAction.gd" id="22_roksr"]
+[ext_resource type="Script" uid="uid://d2f4ms7sfau7o" path="res://Scripts/Classes/State Machine Class/No Control States/State_Initialized.gd" id="23_23420"]
+[ext_resource type="Script" uid="uid://db438pwfdwnsg" path="res://Scripts/Classes/State Machine Class/Action States/State_Interact.gd" id="23_p6wb4"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_dxcao"]
 radius = 6.0
@@ -393,7 +401,7 @@ _data = {
 &"WalkUpRight": SubResource("Animation_pr2lv")
 }
 
-[node name="Player" type="Node2D" unique_id=209100190 node_paths=PackedStringArray("stamina", "input", "player_ux", "player_cam", "body", "root", "sprite", "anim", "collider", "audio", "health", "move")]
+[node name="Player" type="Node2D" unique_id=209100190 node_paths=PackedStringArray("stamina", "input", "player_ux", "player_cam", "body", "root", "sprite", "anim", "state_machine", "collider", "audio", "health", "move")]
 script = ExtResource("1_27cb7")
 stamina = NodePath("Component Manager/StaminaComponent")
 input = NodePath("Component Manager/PlayerInput")
@@ -403,6 +411,7 @@ body = NodePath("PlayerBody")
 root = NodePath(".")
 sprite = NodePath("PlayerBody/playerSprite")
 anim = NodePath("PlayerAnimator")
+state_machine = NodePath("StateCoordinator")
 collider = NodePath("PlayerBody/PlayerBodyCollider")
 audio = NodePath("Component Manager/AudioComponent")
 health = NodePath("Component Manager/HealthComponent")
@@ -486,3 +495,72 @@ root = NodePath("..")
 input = NodePath("../Component Manager/PlayerInput")
 debug_me = false
 debug_me_verbose = false
+
+[node name="StateCoordinator" type="Node" parent="." unique_id=2022870187 node_paths=PackedStringArray("root", "movement_layer", "action_layer", "no_control_layer")]
+script = ExtResource("17_xcbxy")
+root = NodePath("..")
+movement_layer = NodePath("Movement Layer")
+action_layer = NodePath("Action Layer")
+no_control_layer = NodePath("No Control Layer")
+debug_me = true
+debug_me_verbose = true
+metadata/_custom_type_script = "uid://1h1iqx2yk781"
+
+[node name="Movement Layer" type="Node" parent="StateCoordinator" unique_id=1108137752 node_paths=PackedStringArray("starting_state")]
+script = ExtResource("18_a7o8c")
+starting_state = NodePath("StateIdling")
+debug_me = true
+debug_name = "Movement"
+metadata/_custom_type_script = "uid://cv00auxwsog0v"
+
+[node name="StateIdling" type="Node" parent="StateCoordinator/Movement Layer" unique_id=532054090 node_paths=PackedStringArray("move_state")]
+script = ExtResource("19_23420")
+move_state = NodePath("../StateMove")
+debug_me = true
+metadata/_custom_type_script = "uid://46pctm4i5qsj"
+
+[node name="StateMove" type="Node" parent="StateCoordinator/Movement Layer" unique_id=730167415 node_paths=PackedStringArray("idle_state", "run_state")]
+script = ExtResource("20_p6wb4")
+idle_state = NodePath("../StateIdling")
+run_state = NodePath("../StateRun")
+debug_me = true
+metadata/_custom_type_script = "uid://c01o50a0tyt5f"
+
+[node name="StateRun" type="Node" parent="StateCoordinator/Movement Layer" unique_id=2088020969 node_paths=PackedStringArray("idle_state", "move_state")]
+script = ExtResource("21_y3fvr")
+idle_state = NodePath("../StateIdling")
+move_state = NodePath("../StateMove")
+debug_me = true
+metadata/_custom_type_script = "uid://0cxa44lve11l"
+
+[node name="Action Layer" type="Node" parent="StateCoordinator" unique_id=2064601243 node_paths=PackedStringArray("starting_state")]
+script = ExtResource("18_a7o8c")
+starting_state = NodePath("StateNoAction")
+debug_me = true
+debug_name = "Action"
+metadata/_custom_type_script = "uid://cv00auxwsog0v"
+
+[node name="StateNoAction" type="Node" parent="StateCoordinator/Action Layer" unique_id=101410199 node_paths=PackedStringArray("interact_state")]
+script = ExtResource("22_roksr")
+interact_state = NodePath("../StateInteract")
+debug_me = true
+metadata/_custom_type_script = "uid://dgxcbaxmlfxj1"
+
+[node name="StateInteract" type="Node" parent="StateCoordinator/Action Layer" unique_id=773485714 node_paths=PackedStringArray("no_action_state")]
+script = ExtResource("23_p6wb4")
+no_action_state = NodePath("../StateNoAction")
+debug_me = true
+debug_name = "Interact State"
+metadata/_custom_type_script = "uid://db438pwfdwnsg"
+
+[node name="No Control Layer" type="Node" parent="StateCoordinator" unique_id=762655186 node_paths=PackedStringArray("starting_state")]
+script = ExtResource("18_a7o8c")
+starting_state = NodePath("StateInitialized")
+debug_me = true
+debug_name = "No Control"
+metadata/_custom_type_script = "uid://cv00auxwsog0v"
+
+[node name="StateInitialized" type="Node" parent="StateCoordinator/No Control Layer" unique_id=2054958520]
+script = ExtResource("23_23420")
+debug_me = true
+metadata/_custom_type_script = "uid://d2f4ms7sfau7o"

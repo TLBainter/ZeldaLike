@@ -31,6 +31,11 @@ func _ready():
 func move(move_input, move_strength):
 	move_dir = move_input
 	move_str = move_strength
+	#Configures the state machine to prevent moving while the movement layer is frozen.
+	if root.state_machine and root.state_machine.movement_layer \
+	and not root.state_machine.movement_layer.is_active:
+		body.velocity = Vector2.ZERO
+		return
 	#The move direction and rate of movement for the character; determined by their move input.
 	#Pulls a reference to the character's main self for this function.
 	body.velocity = move_dir * root.move_speed

@@ -4,6 +4,10 @@ extends Control
 
 #region SIGNALS
 
+##Emitted when the dialogue UI finishes and closes.[br]
+##THe Interact node associated listens for this to emit its own interaction_finished signal that states listen for.
+signal dialogue_closed
+
 #endregion SIGNALS
 
 #region VARIABLES
@@ -167,7 +171,8 @@ func _end_dialogue():
 	if _active_speak_component:
 		_active_speak_component.dialogue_finished()
 	if root and root.root:
-		root.root.freeze_input(false)
+		dialogue_closed.emit()
 	#emit the dialogue clsoed signal for use by other entities
+
 
 #endregion FUNCTIONS

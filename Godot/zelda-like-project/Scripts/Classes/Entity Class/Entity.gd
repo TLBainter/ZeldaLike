@@ -17,7 +17,7 @@ extends Node2D
 ##the entity's shadow sprite
 @export var shadow : Sprite2D
 ##the entity's state machine
-@export var state_machine : StateMachine
+@export var state_machine : StateCoordinator
 ##the entity's collider
 @export var collider : CollisionShape2D
 ##the entity's audio controller
