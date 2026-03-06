@@ -14,10 +14,12 @@ signal interaction_finished
 
 @export_category("Interaction Settings")
 ##Tell the context label I am this kind of entity
-@export_enum("default", "container", "dodge", "door", "locked", "npc", "pickup", "secret", "shop", "throw", "usable") var context_key : String = "default"
+@export_enum("default", "container", "dodge", "door", "grab", "locked", "npc", "pickup", "secret", "shop", "throw", "usable") var context_key : String = "default"
 @export_category("Debug")
 @export var debug_me : bool = false
 @export var debug_name : String = "Interactable"
+@export_category("Interaction Components")
+@export var root : EntityClass
 #endregion VARIABLES
 
 #region FUNCTIONS
@@ -45,8 +47,8 @@ func _on_body_exited(body : CharacterBody2D):
 	if body is PlayerBody:
 		if "current_interactable" in body and body.current_interactable == self:
 			body.current_interactable = null
-	if body.root and body.root.state_machine:
-		body.root.state_machine.request_context_refresh()
+		if body.root and body.root.state_machine:
+			body.root.state_machine.request_context_refresh()
 
 #endregion Triggers
 

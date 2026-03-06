@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="ObjectMaterial" format=3 uid="uid://dken81xfqf3fc"]
+
+[ext_resource type="Resource" uid="uid://d208uruapun8o" path="res://Scripts/Resources/Resource Files/Resources_Sound Libraries/ceramic_sounds_break.tres" id="1_mrliv"]
+[ext_resource type="Script" uid="uid://dsodv6v8xihed" path="res://Scripts/Resources/Resource Scripts/resource_Object_Material.gd" id="1_sf0te"]
+[ext_resource type="Resource" uid="uid://cwn74druenciq" path="res://Scripts/Resources/Resource Files/Resources_Sound Libraries/ceramic_sounds_drop.tres" id="2_qkrrk"]
+[ext_resource type="Resource" uid="uid://dhsm220trv4v2" path="res://Scripts/Resources/Resource Files/Resources_Sound Libraries/ceramic_sounds_lift.tres" id="3_8mpdn"]
+[ext_resource type="Resource" uid="uid://cd4n2t5x3apvb" path="res://Scripts/Resources/Resource Files/Resources_Sound Libraries/ceramic_sounds_drag.tres" id="4_thajc"]
+
+[resource]
+script = ExtResource("1_sf0te")
+break_sounds = ExtResource("1_mrliv")
+lift_sounds = ExtResource("3_8mpdn")
+move_sounds = ExtResource("4_thajc")
+drop_sounds = ExtResource("2_qkrrk")
+metadata/_custom_type_script = "uid://dsodv6v8xihed"

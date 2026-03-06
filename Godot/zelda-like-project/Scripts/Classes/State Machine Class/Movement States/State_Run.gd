@@ -40,11 +40,15 @@ func _on_move(move_input : Vector2, move_strength : float):
 		state_machine.change_state(move_state)
 
 func get_context_key() -> String:
+	if coordinator.held_object:
+		return "throw"
 	return "roll"
 
 func process_input(event : InputEvent) -> State:
 	#TODO: Add roll input action and conenct to roll_State once Roll is implemented.
 	if event.is_action_pressed("actionButton4") and roll_state:
+		if coordinator.held_object:
+			return null
 		if roll_state:
 			return roll_state
 		#INFO: This is for debugging purposes while roll state is still not created.

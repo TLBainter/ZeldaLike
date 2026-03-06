@@ -1,0 +1,62 @@
+##[b][color=red]StateDrop[/color][/b] is the Action layer state for dropping a held object.[br]
+##Places the object at the player's feet, re-enables its collision, and transitions to NoAction.[br]
+##[br]
+##[b]Layer[/b]: Action
+class_name StateDrop
+extends State
+
+#region VARIABLES
+
+@export_group("In-Layer Transitions")
+##The state to return to after dropping.
+@export var no_action_state : Node ## : State
+
+@export_group("Drop Settings")
+##Offset from the player's body position where the object is placed on drop.[br]
+##Typically a small distance in the facing direction.
+@export var drop_distance : float = 12.0
+
+#endregion VARIABLES
+
+#region FUNCTIONS
+
+func enter() -> void:
+	super()
+	var character = get_character()
+	var held = coordinator.held_object
+	if not character or not held:
+		if debug_me:
+			printerr(debug_name, ": Nothing to drop!")
+		if no_action_state:
+			state_machine.change_state(no_action_state)
+		return
+	#Calculate drop position in the facing direction.
+	var facing_dir : Vector2 = _get_facing_vector(character.anim.facing) if character.anim else Vector2.DOWN
+	var drop_pos : Vector2 = character.body.global_position + (facing_dir * drop_distance)
+	#Release the object at the drop position.
+	held.release(drop_pos)
+	#Play drop animation if available.
+	if character.anim and character.anim is CharacterAnimator:
+		character.anim.play_directional_anim("Drop")
+	#Play drop sound.
+	if held.object_data and held.object_data.material and held.object_data.material.drop_sounds:
+		if character.audio:
+			character.audio.play_sound(held.object_data.material.drop_sounds.sl.pick_random())
+	#Clear held object.
+	coordinator.held_object = null
+	if debug_me:
+		print(debug_name, ": Dropped object at ", drop_pos)
+	#Transition to NoAction.
+	if no_action_state:
+		state_machine.change_state(no_action_state)
+
+##Converts a facing string to a Vector2 direction.
+func _get_facing_vector(facing : String) -> Vector2:
+	match facing:
+		"up": return Vector2.UP
+		"down": return Vector2.DOWN
+		"left": return Vector2.LEFT
+		"right": return Vector2.RIGHT
+	return Vector2.DOWN
+
+#endregion FUNCTIONS

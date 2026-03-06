@@ -47,9 +47,18 @@ func _on_move(move_input : Vector2, move_strength : float):
 
 ##Fetch the context key from the interactable nearby.
 func get_context_key() -> String:
+	if coordinator.held_object:
+		return "drop"
 	var character = get_character()
 	if character and character.body.current_interactable:
-		return character.body.current_interactable.context_key
+		var interact_node = character.body.current_interactable
+		var owner = interact_node.root if "root" in interact_node else null
+		if owner and owner is DynamicInteractable and owner.object_data:
+			if owner.object_data.liftable:
+				return "pickup"
+			elif owner.object_data.pushable or owner.object_data.pullable:
+				return "grab"
+		return interact_node.context_key
 	return ""
 
 #endregion FUNCTIONS

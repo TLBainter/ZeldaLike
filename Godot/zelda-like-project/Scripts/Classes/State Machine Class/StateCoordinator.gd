@@ -30,6 +30,15 @@ signal context_changed(context_key : String)
 ##The name used to identify this coordinator in the debug output.
 @export var debug_name : String = "StateCoordinator"
 #============#
+#Internal Variables
+##The DynamicInteractable currently being grabbed by the relevant entity.
+##Set by StateGrab, read by GrabIdle/Pushing/Pulling States. Null when not grabbing.
+var grabbed_object : DynamicInteractable = null
+##The DynamicInteractable currently being held by the relevant entity.
+##Set by StateLift, read by HoldingAction/Throw/Drop States. Null when not holding.
+var held_object : DynamicInteractable = null
+##Whether or not context can currently be updated by a given state.
+var context_locked : bool = false
 #endregion VARIABLES
 
 #region FUNCTIONS
@@ -123,14 +132,26 @@ func request_action_change(new_state : State):
 	if debug_me and debug_me_verbose:
 		print(root.debug_name, " ", debug_name, " requested Action -> ", new_state.debug_name.trim_prefix("State"))
 
+##Prevents movement states from updating the context label.
+func lock_context():
+	context_locked = true
+
+##Allows movement states to update the context label again.
+func unlock_context():
+	context_locked = false
+
 ##Emits the context_changed signal with the given key.
-func update_context(context_key : String):
+func update_context(context_key : String, force : bool = false):
+	if context_locked and not force:
+		return
 	context_changed.emit(context_key)
 
 ##Asks the current state to reevaluate and emit its context.[br]
 ##Call this when external conditions change, such as entering or exiting an interact area.
 
 func request_context_refresh():
+	if context_locked:
+		return
 	if movement_layer and not movement_layer.is_active:
 		return
 	if movement_layer and movement_layer.current_state:

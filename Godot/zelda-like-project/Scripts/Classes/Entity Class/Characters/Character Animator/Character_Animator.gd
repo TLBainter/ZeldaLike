@@ -34,11 +34,15 @@ var is_moving : bool = false
 func _ready():
 	input.onMove.connect(face)
 
-#TODO: Add diagonal facing directions
-##This function sets the 'facing direction' of the character.
-func face(face_dir : Vector2, _delta : float):
-	if not can_update_facing:
+##Sets the facing direction of the relevant character's sprite.[br]
+##Has functionality for diagonal animations if required for the entity.
+##Accepts "Vector2" to determine the face direction.
+func set_facing(face_dir : Vector2):
+	if face_dir == Vector2.ZERO:
+		if facing == "":
+			facing = "down"
 		return
+	#region face variables
 	##whether the character is looking down
 	var down : bool = false
 	##whether the character is looking right
@@ -47,34 +51,28 @@ func face(face_dir : Vector2, _delta : float):
 	var up : bool = false
 	##whether the character is looking left
 	var left : bool = false
-	#region left/right facing directions
-	if face_dir.length() > 0.1:
-		if abs(face_dir.x) > abs(face_dir.y):
-			# Mostly Horizontal
-			if face_dir.x < 0:
-				left = true
-				right = false
-				facing = "left"
-			else:
-				right = true
-				left = false
-				facing = "right"
+	#endregion face variables
+	#region set facing direction
+	if abs(face_dir.x) > abs(face_dir.y):
+		if face_dir.x < 0:
+			facing = "left"
+			left = true
+			right = false
 		else:
-			# Mostly Vertical
-			if face_dir.y < 0:
-				up = true
-				down = false
-				facing = "up"
-			else:
-				down = true
-				up = false
-				facing = "down"
-	#if you do not have a facing direction, set it to down.
-	if face_dir == Vector2.ZERO and facing == "":
-		down = true
-		facing = "down"
-	#endregion
-	#region Diagonal Facing
+			facing = "right"
+			right = true
+			left = false
+	else:
+		if face_dir.y < 0:
+			facing = "up"
+			up = true
+			down = false
+		else:
+			facing = "down"
+			down = true
+			up = false
+	#endregion set facing direction
+	#region diagonal facing directions
 	if has_diagonal_movement:
 		if up and left:
 			facing = "up_left"
@@ -84,49 +82,46 @@ func face(face_dir : Vector2, _delta : float):
 			facing = "down_left"
 		elif down and right:
 			facing = "down_right"
-	#endregion
-	#region Walk/Run
-	#set the animation type prefix
-	var anim_type : String
-	#If we are moving...
-	if face_dir != Vector2.ZERO:
-		anim_type = "Walk"
-	#
-	#
-	#INFO: This is where you will put other options, with 'else' being the idle animation.
-	#
-	#
-	else: anim_type = "Idle"
-	#Capitalize the facing direction to match with animation formatting, then play the relevant animation.
-	var anim_name : String = anim_type + facing.capitalize().replace(" ", "")
-	if has_animation(anim_name) and current_animation != anim_name:
-			play(anim_name)
-			if debug_me:
-				print(debug_name, " is playing animation ", anim_name)
-	#endregion
+	#endregion diagonal facing directions
+	
+##Plays the animation dictated by the prefix combined with the current facing direction.[br]
+##For example, [b]play_directional_anim("Lift")[/b] with facing [i]down[/i] plays "LiftDown".[br]
+##Returns [b]true[/b] if the animation was found and played, [b]false[/b] otherwise (for debugging).[br]
+func play_directional_anim(prefix : String, force : bool = false) -> bool:
+	var anim_name : String = prefix + facing.capitalize().replace(" ", "")
+	if has_animation(anim_name) and (force or current_animation != anim_name):
+		play(anim_name)
+		if debug_me:
+			print(debug_name, " is playing animation ", anim_name)
+		return true
+	elif debug_me and not has_animation(anim_name):
+		printerr(debug_name, " received a request to play ", prefix, " while facing ", facing, ", but ", anim_name, " does not exist for this animation player!")
+	return false
 
+#TODO: Remove walk/idle from this function and instead call animations based on what animation should be played.
+#Will rely on state machines to determine.
+##Sets the player's facing direction and plays their Walk Animation and Idle animation based on input.
+func face(face_dir : Vector2, _delta : float):
+	if not can_update_facing:
+		return
+	set_facing(face_dir)
+	var is_holding : bool = false
+	if root.state_machine and root.state_machine.held_object:
+		is_holding = true
+	if face_dir != Vector2.ZERO:
+		play_directional_anim("HoldWalk" if is_holding else "Walk")
+	else:
+		play_directional_anim("HoldIdle" if is_holding else "Idle")
+
+#TODO: Remove forced idle from this function and instead call animations based on what animation should be played.
+#Will rely on state machines to determine.
 ##Forces the character to face a given direction, bypassing input and state machine checks.[br]
 ##Used for interactions, cutscenes, and other scripted moments.[br]
-##Plays the Idle animation for the resulting facing direction.
-
+##Plays the Idle animation for the resulting facing direction by default.
 func force_face(face_dir : Vector2):
 	if face_dir == Vector2.ZERO:
 		return
-	if abs(face_dir.x) > abs(face_dir.y):
-		if face_dir.x < 0:
-			facing = "left"
-		else:
-			facing = "right"
-	else:
-		if face_dir.y < 0:
-			facing = "up"
-		else:
-			facing = "down"
-	var anim_name : String = "Idle" + facing.capitalize().replace(" ","")
-	if has_animation(anim_name):
-		play(anim_name)
-	elif debug_me:
-		print(debug_name, " does not have an animation called ", anim_name)
+	set_facing(face_dir)
+	play_directional_anim("Idle")
 	if debug_me:
 		print(debug_name, " forced to face ", facing)
-#endregion FUNCTIONS

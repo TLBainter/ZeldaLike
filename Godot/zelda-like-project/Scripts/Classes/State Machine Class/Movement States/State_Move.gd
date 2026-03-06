@@ -50,8 +50,20 @@ func _on_move(move_input : Vector2, move_strength : float):
 		state_machine.change_state(run_state)
 
 func get_context_key() -> String:
+	if coordinator.held_object:
+		return "drop"
 	var character = get_character()
 	if character and character.body.current_interactable:
-		return character.body.current_interactable.context_key
+		var interact_node = character.body.current_interactable
+		var owner = interact_node.root if "root" in interact_node else null
+		if owner and owner is DynamicInteractable and owner.object_data:
+			var data = owner.object_data
+			#While moving, grabbable objects show "grab" (even if also liftable)
+			if data.pushable or data.pullable:
+				return "grab"
+			#Liftable-only while moving still shows "pickup"
+			elif data.liftable:
+				return "pickup"
+		return interact_node.context_key
 	return ""
 #endregion FUNCTIONS

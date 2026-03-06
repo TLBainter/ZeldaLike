@@ -6,8 +6,9 @@ extends Interact
 #region VARIABLES
 
 @export_category("Dialogue Settings")
+#The root node/parent of this dialogue component
+@export var parent : EntityClass
 ##The speak component of this dialogue
-@export var root : EntityClass
 @export var speaker : SpeakComponent
 #endregion VARIABLES
 

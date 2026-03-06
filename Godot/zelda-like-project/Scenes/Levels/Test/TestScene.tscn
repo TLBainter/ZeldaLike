@@ -10,7 +10,11 @@
 [ext_resource type="Script" uid="uid://dmc56q7was83l" path="res://Scripts/Classes/Interaction Class/Dialogue Class/Interact_Dialogue.gd" id="8_3oc0o"]
 [ext_resource type="Script" uid="uid://c54o2iwjc4ysm" path="res://Scripts/Classes/Interaction Class/Dialogue Class/Dialogue_Speak_Component.gd" id="9_g8bl4"]
 [ext_resource type="Script" uid="uid://bistbs770jaqo" path="res://Scripts/Resources/Resource Scripts/resource_Dialogue.gd" id="10_oswxe"]
-[ext_resource type="Resource" uid="uid://cjeaecyfwjv0w" path="res://Scripts/Resources/Resource Files/Resources_Dialogue/test_dialogue_seq.tres" id="11_6qfvj"]
+[ext_resource type="Resource" uid="uid://cjeaecyfwjv0w" path="res://Scripts/Resources/Resource Files/Resources_Dialogues/test_dialogue_seq.tres" id="11_6qfvj"]
+[ext_resource type="Texture2D" uid="uid://csaqjksdow7tj" path="res://Sprites/Object Sprites/Breakables/object_sprite_pot-brown_small.png" id="12_6qfvj"]
+[ext_resource type="Script" uid="uid://8f6k1ofc2o6v" path="res://Scripts/Classes/Entity Class/Thing Class/Entity_Thing_Interactable_Dynamic.gd" id="12_nrk3t"]
+[ext_resource type="Resource" uid="uid://cjbf6urjarnj0" path="res://Scripts/Resources/Resource Files/Resources_Interactable Objects/normal_clay_pot.tres" id="13_3ubh8"]
+[ext_resource type="Script" uid="uid://dtctgg8bg5iee" path="res://Scripts/Classes/Interaction Class/Interact.gd" id="14_3ubh8"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_t5cxl"]
 texture = ExtResource("1_7ds01")
@@ -1247,6 +1251,50 @@ sources/3 = SubResource("TileSetAtlasSource_3oc0o")
 [sub_resource type="CircleShape2D" id="CircleShape2D_ycnog"]
 radius = 21.0
 
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_53jui"]
+radius = 5.0
+height = 12.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_su1sj"]
+radius = 8.0
+
+[sub_resource type="Animation" id="Animation_3ubh8"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ObjectBody/ObjectSprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_su1sj"]
+resource_name = "break"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ObjectBody/ObjectSprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.033333335, 0.06666666),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [1, 2, 3]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ut0kp"]
+_data = {
+&"RESET": SubResource("Animation_3ubh8"),
+&"break": SubResource("Animation_su1sj")
+}
+
 [node name="Main" type="Node2D" unique_id=917202910]
 
 [node name="LevelBase" type="Node" parent="." unique_id=692264676]
@@ -1274,11 +1322,12 @@ position = Vector2(-393, -39)
 script = ExtResource("7_ycnog")
 metadata/_custom_type_script = "uid://tahhhchxgem6"
 
-[node name="NPC Interact Area" type="Area2D" parent="Dialogue Test NPC" unique_id=698386632 node_paths=PackedStringArray("root", "speaker")]
+[node name="NPC Interact Area" type="Area2D" parent="Dialogue Test NPC" unique_id=698386632 node_paths=PackedStringArray("parent", "speaker", "root")]
 script = ExtResource("8_3oc0o")
-root = NodePath("..")
+parent = NodePath("..")
 speaker = NodePath("../SpeakComponent")
 debug_me = true
+root = NodePath("..")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Dialogue Test NPC/NPC Interact Area" unique_id=1554193010]
 shape = SubResource("CircleShape2D_ycnog")
@@ -1288,3 +1337,49 @@ script = ExtResource("9_g8bl4")
 dialogue_sequences = Array[ExtResource("10_oswxe")]([ExtResource("11_6qfvj")])
 debug_me = true
 metadata/_custom_type_script = "uid://c54o2iwjc4ysm"
+
+[node name="Grab-Lift Test Object" type="Node2D" parent="." unique_id=1166854168 node_paths=PackedStringArray("body", "interact", "root", "sprite", "anim", "shadow", "collider")]
+z_index = 1
+position = Vector2(-483, 35)
+script = ExtResource("12_nrk3t")
+object_data = ExtResource("13_3ubh8")
+body = NodePath("ObjectBody")
+interact = NodePath("ObjectBody/InteractArea")
+root = NodePath(".")
+sprite = NodePath("ObjectBody/ObjectSprite")
+anim = NodePath("AnimationPlayer")
+shadow = NodePath("ObjectBody/ObjectSprite/ObjectShadow")
+collider = NodePath("ObjectBody/ObjectCollider")
+
+[node name="ObjectBody" type="CharacterBody2D" parent="Grab-Lift Test Object" unique_id=1629629772]
+
+[node name="ObjectSprite" type="Sprite2D" parent="Grab-Lift Test Object/ObjectBody" unique_id=1641755739]
+y_sort_enabled = true
+texture = ExtResource("12_6qfvj")
+hframes = 4
+vframes = 2
+
+[node name="ObjectShadow" type="Sprite2D" parent="Grab-Lift Test Object/ObjectBody/ObjectSprite" unique_id=1849549637]
+z_as_relative = false
+texture = ExtResource("12_6qfvj")
+hframes = 4
+vframes = 2
+frame = 4
+
+[node name="ObjectCollider" type="CollisionShape2D" parent="Grab-Lift Test Object/ObjectBody" unique_id=1363872231]
+position = Vector2(0, 1)
+shape = SubResource("CapsuleShape2D_53jui")
+
+[node name="InteractArea" type="Area2D" parent="Grab-Lift Test Object/ObjectBody" unique_id=262425138 node_paths=PackedStringArray("root")]
+script = ExtResource("14_3ubh8")
+context_key = "grab"
+debug_me = true
+debug_name = "Pot Interactable"
+root = NodePath("../..")
+
+[node name="InteractCollider" type="CollisionShape2D" parent="Grab-Lift Test Object/ObjectBody/InteractArea" unique_id=659797363]
+shape = SubResource("CircleShape2D_su1sj")
+debug_color = Color(0.92156863, 0.24705882, 0.34901962, 0.09411765)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Grab-Lift Test Object" unique_id=1045932170]
+libraries/ = SubResource("AnimationLibrary_ut0kp")
