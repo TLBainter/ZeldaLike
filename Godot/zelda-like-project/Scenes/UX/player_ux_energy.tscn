@@ -1,0 +1,120 @@
+[gd_scene format=3 uid="uid://dfbybk6c0g253"]
+
+[ext_resource type="Texture2D" uid="uid://bs1f02d5rw22g" path="res://Sprites/UX/InGameUX/PlayerStats/playerEnergy_0-4.tres" id="1_m8k6a"]
+[ext_resource type="Script" uid="uid://dqik0l8ppq5l2" path="res://Scripts/UX/ux_playerEnergy_individualGUI_boltTexture.gd" id="2_mxt1c"]
+[ext_resource type="Texture2D" uid="uid://d0vlb0u47hn4x" path="res://Sprites/UX/InGameUX/PlayerStats/playerEnergy_4-4.tres" id="3_rr4yr"]
+[ext_resource type="Texture2D" uid="uid://6yv78fxb0mv1" path="res://Sprites/UX/InGameUX/PlayerStats/playerEnergy_3-4.tres" id="4_pjh71"]
+[ext_resource type="Texture2D" uid="uid://cx0eirrc7fbdq" path="res://Sprites/UX/InGameUX/PlayerStats/playerEnergy_2-4.tres" id="5_tr2d2"]
+[ext_resource type="Texture2D" uid="uid://cdf1v63oaac1u" path="res://Sprites/UX/InGameUX/PlayerStats/playerEnergy_1-4.tres" id="6_iu8ym"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nqf21"]
+
+[sub_resource type="Animation" id="Animation_mxt1c"]
+resource_name = "ActiveEnergy"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("playerEnergyTexture:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5, 1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1.25, 1.25), Vector2(1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_rr4yr"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("playerEnergyTexture:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_pjh71"]
+_data = {
+&"ActiveEnergy": SubResource("Animation_mxt1c"),
+&"RESET": SubResource("Animation_rr4yr")
+}
+
+[sub_resource type="Animation" id="Animation_pjh71"]
+resource_name = "EnergyUseFlash"
+length = 0.53333336
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("playerEnergyTexture:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.06666667, 0.25, 0.33333334, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(3.3975437, 3.3430011, 0, 0.8784314), Color(1, 1, 1, 1), Color(3.3975437, 3.3430011, 0, 0.8784314), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_tr2d2"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("playerEnergyTexture:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_iu8ym"]
+_data = {
+&"EnergyUseFlash": SubResource("Animation_pjh71"),
+&"RESET": SubResource("Animation_tr2d2")
+}
+
+[node name="playerEnergyGUI" type="Panel" unique_id=1919023596 node_paths=PackedStringArray("sprite", "animator", "flasher")]
+self_modulate = Color(1, 1, 1, 0)
+custom_minimum_size = Vector2(16, 16)
+offset_right = 40.0
+offset_bottom = 40.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_nqf21")
+script = ExtResource("2_mxt1c")
+sprite = NodePath("playerEnergyTexture")
+animator = NodePath("playerEnergyAnimator")
+flasher = NodePath("playerEnergyFlasher")
+sprite_full = ExtResource("3_rr4yr")
+sprite_3_4 = ExtResource("4_pjh71")
+sprite_half = ExtResource("5_tr2d2")
+sprite_1_4 = ExtResource("6_iu8ym")
+sprite_empty = ExtResource("1_m8k6a")
+debug_me = true
+debug_name = "EnergyBoltPanel"
+
+[node name="playerEnergyTexture" type="TextureRect" parent="." unique_id=1145908879]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset_ratio = Vector2(0.5, 0.5)
+texture = ExtResource("5_tr2d2")
+stretch_mode = 5
+
+[node name="playerEnergyAnimator" type="AnimationPlayer" parent="." unique_id=346186364]
+libraries/ = SubResource("AnimationLibrary_pjh71")
+
+[node name="playerEnergyFlasher" type="AnimationPlayer" parent="." unique_id=1019763701]
+libraries/ = SubResource("AnimationLibrary_iu8ym")

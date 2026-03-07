@@ -27,3 +27,4 @@ func _ready():
 	super._ready()
 	#establish variables
 	subtype = "NPC"
+	add_to_group("entities")

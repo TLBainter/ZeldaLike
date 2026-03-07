@@ -1,0 +1,114 @@
+[gd_scene format=3 uid="uid://21qvkrep0b38"]
+
+[ext_resource type="Script" uid="uid://brriaxwp6aeki" path="res://Scripts/UX/ux_playerMagic_individualGUI.gd" id="1_abmj6"]
+[ext_resource type="Texture2D" uid="uid://bu0whfgp7bf1u" path="res://Sprites/UX/InGameUX/PlayerStats/ux_magic_sprite_1.png" id="2_kooxa"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nqf21"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_70e8f"]
+atlas = ExtResource("2_kooxa")
+region = Rect2(0, 0, 17, 17)
+
+[sub_resource type="Animation" id="Animation_abmj6"]
+resource_name = "ActiveMedallion"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("playerMagicTexture:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5, 1.0333333),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1.25, 1.25), Vector2(1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_kooxa"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("playerMagicTexture:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_70e8f"]
+_data = {
+&"ActiveMedallion": SubResource("Animation_abmj6"),
+&"RESET": SubResource("Animation_kooxa")
+}
+
+[sub_resource type="Animation" id="Animation_hvx68"]
+resource_name = "MagicUseFlash"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("playerMagicTexture:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.06666667, 0.25, 0.33333334, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(0, 2.1430645, 3.3975437, 0.8784314), Color(1, 1, 1, 1), Color(0, 2.143, 3.398, 0.878), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_70e8f"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("playerMagicTexture:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_61dvo"]
+_data = {
+&"MagicUseFlash": SubResource("Animation_hvx68"),
+&"RESET": SubResource("Animation_70e8f")
+}
+
+[node name="playerMagicGUI" type="Panel" unique_id=1919023596 node_paths=PackedStringArray("sprite", "animator", "flasher")]
+self_modulate = Color(1, 1, 1, 0)
+custom_minimum_size = Vector2(17, 17)
+offset_right = 40.0
+offset_bottom = 40.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_nqf21")
+script = ExtResource("1_abmj6")
+sprite = NodePath("playerMagicTexture")
+animator = NodePath("playerMagicAnimator")
+flasher = NodePath("playerMagicFlasher")
+sprite_sheet = ExtResource("2_kooxa")
+debug_me = true
+
+[node name="playerMagicTexture" type="TextureRect" parent="." unique_id=1145908879]
+custom_minimum_size = Vector2(17, 17)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset_ratio = Vector2(0.5, 0.5)
+texture = SubResource("AtlasTexture_70e8f")
+stretch_mode = 5
+
+[node name="playerMagicAnimator" type="AnimationPlayer" parent="." unique_id=321002387]
+libraries/ = SubResource("AnimationLibrary_70e8f")
+
+[node name="playerMagicFlasher" type="AnimationPlayer" parent="." unique_id=333721252]
+libraries/ = SubResource("AnimationLibrary_61dvo")

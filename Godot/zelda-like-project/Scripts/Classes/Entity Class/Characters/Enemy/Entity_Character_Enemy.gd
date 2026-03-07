@@ -24,3 +24,4 @@ func _ready():
 	super._ready()
 	#establish variables
 	subtype = "Enemy"
+	add_to_group("enemies")

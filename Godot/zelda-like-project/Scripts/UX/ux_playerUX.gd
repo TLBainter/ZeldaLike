@@ -29,6 +29,10 @@ signal check_viewport_size
 @export var context_label : ContextLabel
 ## a reference to the dialogue controller
 @export var dialogue_controller : DialogueUI
+## a reference to the energy display for the player.
+@export var energy_display : EnergyDisplay
+## a reference to the magic display for the player.
+@export var magic_display : MagicDisplay
 
 @export_group("Child Controls")
 ##Controls the speed at which entities within Player UX fade out when the player is beneath them.
@@ -62,6 +66,37 @@ func _ready():
 	hp_component.healthChanged.connect(_on_health_changed)
 	#Calls the margin update on player UX launch.
 	check_viewport_size.emit()
+	
+	#Set energy display
+	var energy_comp : EnergyComponent = root.energy
+	if energy_comp and energy_display:
+		energy_display.initialize(energy_comp, player, player_cam)
+	
+	#Set magic display
+	var magic_comp : MagicComponent = root.magic
+	if magic_comp and magic_display:
+		magic_display.initialize(magic_comp, player, player_cam)
+	
+	#Configure zoom call connections
+	if player_cam:
+		if energy_display and not player_cam.zoom_changed.is_connected(_on_zoom_changed):
+			player_cam.zoom_changed.connect(_on_zoom_changed)
+
+func _on_zoom_changed(is_zoomed : bool) -> void:
+	if energy_display:
+		if is_zoomed:
+			energy_display.force_show(true)
+		else:
+			energy_display.force_show(false)
+			if energy_display._energy_component and energy_display._energy_component.is_full():
+				energy_display._target_alpha = 0.0
+	if magic_display:
+		if is_zoomed:
+			magic_display.force_show(true)
+		else:
+			magic_display.force_show(false)
+			if magic_display._magic_component and magic_display._magic_component.is_full():
+				magic_display._target_alpha = 0.0
 
 func _on_health_changed(new_hp, _max_hp, _change):
 	heartsContainer.update_hearts(new_hp)

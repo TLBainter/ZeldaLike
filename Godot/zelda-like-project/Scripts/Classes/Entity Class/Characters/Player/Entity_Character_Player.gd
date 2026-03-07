@@ -6,9 +6,11 @@ extends Character
 #region VARIABLES
 #region NPC COMPONENTS
 @export_category("Player Components")
+##Magic handler; expects type [color=blue]MagicComponents[/color]
+@export var magic : MagicComponent
 ##Stamina handler; excepts type [color=green]StaminaComponent[/color]
-@export var stamina : StaminaComponent
-##Input handler; expects type [color=green]InputComponent[/color]
+@export var energy : EnergyComponent
+##Input handler; expects type [color=grey]InputComponent[/color]
 @export var input : InputComponent
 ##A reference to the player UX element.
 @export var player_ux : PlayerUX

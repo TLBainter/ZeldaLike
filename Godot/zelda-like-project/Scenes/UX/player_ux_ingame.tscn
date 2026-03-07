@@ -16,6 +16,10 @@
 [ext_resource type="Texture2D" uid="uid://dpqcjyf48nd5j" path="res://Sprites/UX/Backgrounds/dark ui large-long plate.png" id="10_urrej"]
 [ext_resource type="Texture2D" uid="uid://8k5l76ow05w3" path="res://Sprites/UX/Backgrounds/dark ui large plate.png" id="11_ktjiq"]
 [ext_resource type="Theme" uid="uid://bc52rxei0qqcb" path="res://Text and Style/Text/character_Name_Theme.tres" id="12_ktjiq"]
+[ext_resource type="Script" uid="uid://bfjba62rroymv" path="res://Scripts/UX/ux_playerEnergy.gd" id="15_nqf21"]
+[ext_resource type="PackedScene" uid="uid://dfbybk6c0g253" path="res://Scenes/UX/player_ux_energy.tscn" id="16_n1r0t"]
+[ext_resource type="Script" uid="uid://bwwuj8p4p4kdl" path="res://Scripts/UX/ux_playerMagic.gd" id="17_puhic"]
+[ext_resource type="PackedScene" uid="uid://21qvkrep0b38" path="res://Scenes/UX/player_ux_magic.tscn" id="18_t6yf8"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_icyw3"]
 atlas = ExtResource("1_oxfwa")
@@ -223,7 +227,7 @@ bg_color = Color(0.42352942, 0.6627451, 0.5058824, 0.0627451)
 base_font = ExtResource("3_4d04n")
 spacing_glyph = 2
 
-[node name="PlayerUX" type="Control" unique_id=895243336 node_paths=PackedStringArray("heartsContainer", "ui_audio", "context_label", "dialogue_controller")]
+[node name="PlayerUX" type="Control" unique_id=895243336 node_paths=PackedStringArray("heartsContainer", "ui_audio", "context_label", "dialogue_controller", "energy_display", "magic_display")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -235,8 +239,10 @@ heartsContainer = NodePath("PlayerInGameCanvas/PlayerUI_Hearts/PlayerUI_HeartsCo
 ui_audio = NodePath("PlayerUXAudioControl")
 context_label = NodePath("PlayerInGameCanvas/PlayerUI_ActionButtons/ActionButton4_Panel/ActionButton4_Label")
 dialogue_controller = NodePath("PlayerInGameCanvas/PlayerUI_Dialogue/PlayerUI_Dialogue_Panel")
+energy_display = NodePath("PlayerInGameCanvas/PlayerUI_Energy")
+magic_display = NodePath("PlayerInGameCanvas/PlayerUI_Magic")
 debug_me = true
-debug_me_verbose = true
+debug_name = "Player UX"
 
 [node name="PlayerInGameCanvas" type="CanvasLayer" parent="." unique_id=1280888797]
 
@@ -624,6 +630,55 @@ theme_override_font_sizes/font_size = 32
 text = "This is what a normal block of dialogue looks like! It shouldn't be longer than this!"
 vertical_alignment = 1
 autowrap_mode = 2
+
+[node name="PlayerUI_Magic" type="Control" parent="PlayerInGameCanvas" unique_id=425141234 node_paths=PackedStringArray("root", "medallion_container", "energy_display")]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("17_puhic")
+medallion_gui_scene = ExtResource("18_t6yf8")
+root = NodePath("../..")
+medallion_container = NodePath("MedallionContainer")
+energy_display = NodePath("../PlayerUI_Energy")
+debug_me = true
+
+[node name="MedallionContainer" type="Control" parent="PlayerInGameCanvas/PlayerUI_Magic" unique_id=899180698]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="PlayerUI_Energy" type="Control" parent="PlayerInGameCanvas" unique_id=1253651711 node_paths=PackedStringArray("root", "bolt_container")]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset_ratio = Vector2(0.5, 0.5)
+script = ExtResource("15_nqf21")
+bolt_gui_scene = ExtResource("16_n1r0t")
+root = NodePath("../..")
+bolt_container = NodePath("BoltContainer")
+debug_me = true
+
+[node name="BoltContainer" type="Control" parent="PlayerInGameCanvas/PlayerUI_Energy" unique_id=1178192764]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset_ratio = Vector2(0.5, 0.5)
+mouse_filter = 2
 
 [node name="PlayerUXAudioControl" type="Node" parent="." unique_id=153550245 node_paths=PackedStringArray("parent", "hearts")]
 script = ExtResource("7_ffuv4")

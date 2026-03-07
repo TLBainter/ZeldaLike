@@ -3,6 +3,10 @@
 class_name PlayerCam
 extends CamClass
 
+#region SIGNALS
+signal zoom_changed(zoom_changed : bool)
+#endregion SIGNALS
+
 #region VARIABLES
 @export_group("PlayerCam Components")
 ##A reference to the main player node.
@@ -31,6 +35,8 @@ extends CamClass
 var _target_offset : Vector2 = Vector2.ZERO
 ## target zoom value for zoom out/in lerping
 var _target_zoom : Vector2 = Vector2(1.0, 1.0)
+## whether the camera was just zooming
+var _was_zooming : bool = false
 @export_subgroup("Camera Audio")
 ##the audio file that plays when the camera moves by player input
 @export var cam_whoosh : AudioStream
@@ -154,6 +160,13 @@ func _handle_pan_zoom(delta):
 	#Get and assign input using built-in vector calculation
 	var is_zooming = Input.is_action_pressed("camZoom")
 	var pan_input = Input.get_vector("camLeft", "camRight", "camUp", "camDown")
+	
+	#Emit 'was zooming' signal
+	if is_zooming and not _was_zooming:
+		zoom_changed.emit(true)
+	elif not is_zooming and _was_zooming:
+		zoom_changed.emit(false)
+	_was_zooming = is_zooming
 	
 	#Gets the target areas
 	#region Zoom

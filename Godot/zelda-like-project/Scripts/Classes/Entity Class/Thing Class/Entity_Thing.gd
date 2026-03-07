@@ -22,3 +22,4 @@ func _ready():
 	super._ready()
 	#establish variables
 	type = "Thing"
+	add_to_group("entities")
