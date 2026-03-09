@@ -23,3 +23,9 @@ func _ready():
 	#establish variables
 	type = "Thing"
 	add_to_group("entities")
+
+func _find_player():
+	var players = get_tree().get_nodes_in_group("player")
+	if not players.is_empty():
+		return players[0]
+	return null

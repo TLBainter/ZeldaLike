@@ -20,6 +20,11 @@
 [ext_resource type="PackedScene" uid="uid://dfbybk6c0g253" path="res://Scenes/UX/player_ux_energy.tscn" id="16_n1r0t"]
 [ext_resource type="Script" uid="uid://bwwuj8p4p4kdl" path="res://Scripts/UX/ux_playerMagic.gd" id="17_puhic"]
 [ext_resource type="PackedScene" uid="uid://21qvkrep0b38" path="res://Scenes/UX/player_ux_magic.tscn" id="18_t6yf8"]
+[ext_resource type="Script" uid="uid://co36o7cw6w40a" path="res://Scripts/UX/ux_playerCurrency.gd" id="19_xwql8"]
+[ext_resource type="Texture2D" uid="uid://dhscs6m6qbsgt" path="res://Sprites/UX/InGameUX/PlayerStats/playerCurrency_pocketWallet.tres" id="20_3i3k8"]
+[ext_resource type="Texture2D" uid="uid://ces8kldpfj5vg" path="res://Sprites/UX/InGameUX/PlayerStats/playerCurrency_bigWallet.tres" id="20_xwql8"]
+[ext_resource type="Texture2D" uid="uid://dcq2ns3w2eybl" path="res://Sprites/UX/InGameUX/PlayerStats/playerCurrency_Wallet.tres" id="21_37lcq"]
+[ext_resource type="Resource" uid="uid://b578mryux50rt" path="res://Scripts/Resources/Resource Files/Resources_Sound Libraries/currency_sounds.tres" id="23_37lcq"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_icyw3"]
 atlas = ExtResource("1_oxfwa")
@@ -227,7 +232,75 @@ bg_color = Color(0.42352942, 0.6627451, 0.5058824, 0.0627451)
 base_font = ExtResource("3_4d04n")
 spacing_glyph = 2
 
-[node name="PlayerUX" type="Control" unique_id=895243336 node_paths=PackedStringArray("heartsContainer", "ui_audio", "context_label", "dialogue_controller", "energy_display", "magic_display")]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xwql8"]
+bg_color = Color(0.1316, 0.28, 0.16622667, 0.4862745)
+
+[sub_resource type="FontVariation" id="FontVariation_3i3k8"]
+base_font = ExtResource("3_4d04n")
+spacing_glyph = 3
+
+[sub_resource type="Animation" id="Animation_3i3k8"]
+resource_name = "CurrencyChanged"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PlayerCurrencyValue:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.0333333, 0.16666667, 0.3, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1, 1.725), Vector2(1, 0.439), Vector2(1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("PlayerWalletSprite:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1.2, 1.2), Vector2(1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_37lcq"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PlayerCurrencyValue:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("PlayerWalletSprite:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ov3gu"]
+_data = {
+&"CurrencyChanged": SubResource("Animation_3i3k8"),
+&"RESET": SubResource("Animation_37lcq")
+}
+
+[node name="PlayerUX" type="Control" unique_id=895243336 node_paths=PackedStringArray("currency_display", "heartsContainer", "ui_audio", "context_label", "dialogue_controller", "energy_display", "magic_display")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -235,6 +308,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_5o3k5")
+currency_display = NodePath("PlayerInGameCanvas/PlayerUI_Currency/PlayerCurrencyContainer")
 heartsContainer = NodePath("PlayerInGameCanvas/PlayerUI_Hearts/PlayerUI_HeartsContainer")
 ui_audio = NodePath("PlayerUXAudioControl")
 context_label = NodePath("PlayerInGameCanvas/PlayerUI_ActionButtons/ActionButton4_Panel/ActionButton4_Label")
@@ -679,6 +753,74 @@ grow_horizontal = 2
 grow_vertical = 2
 pivot_offset_ratio = Vector2(0.5, 0.5)
 mouse_filter = 2
+
+[node name="PlayerUI_Currency" type="MarginContainer" parent="PlayerInGameCanvas" unique_id=556773078 node_paths=PackedStringArray("root")]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -140.0
+offset_top = -97.0
+grow_horizontal = 0
+grow_vertical = 0
+pivot_offset_ratio = Vector2(1, 1)
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+script = ExtResource("1_icyw3")
+root = NodePath("../..")
+
+[node name="PlayerCurrencyContainer" type="Panel" parent="PlayerInGameCanvas/PlayerUI_Currency" unique_id=721001578 node_paths=PackedStringArray("wallet_sprite", "currency_label", "change_anim", "root")]
+self_modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_xwql8")
+script = ExtResource("19_xwql8")
+wallet_sprite = NodePath("PlayerWalletSprite")
+currency_label = NodePath("PlayerCurrencyValue")
+change_anim = NodePath("CurrencyAnimator")
+root = NodePath("../../..")
+sprite_pocket = ExtResource("20_3i3k8")
+sprite_wallet = ExtResource("21_37lcq")
+sprite_big_wallet = ExtResource("20_xwql8")
+change_sounds = ExtResource("23_37lcq")
+
+[node name="PlayerWalletSprite" type="TextureRect" parent="PlayerInGameCanvas/PlayerUI_Currency/PlayerCurrencyContainer" unique_id=2050965963]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -20.0
+offset_right = 40.0
+offset_bottom = 20.0
+grow_vertical = 2
+pivot_offset_ratio = Vector2(0, 0.5)
+texture = ExtResource("20_3i3k8")
+stretch_mode = 4
+
+[node name="PlayerCurrencyValue" type="Label" parent="PlayerInGameCanvas/PlayerUI_Currency/PlayerCurrencyContainer" unique_id=689669539]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -52.0
+offset_top = -13.0
+offset_bottom = 13.0
+grow_horizontal = 0
+grow_vertical = 2
+pivot_offset_ratio = Vector2(1, 0.5)
+theme_override_colors/font_outline_color = Color(0.029228108, 0.13597238, 0, 1)
+theme_override_constants/outline_size = 2
+theme_override_fonts/font = SubResource("FontVariation_3i3k8")
+theme_override_font_sizes/font_size = 24
+text = "0000"
+horizontal_alignment = 1
+
+[node name="CurrencyAnimator" type="AnimationPlayer" parent="PlayerInGameCanvas/PlayerUI_Currency/PlayerCurrencyContainer" unique_id=1618777925]
+libraries/ = SubResource("AnimationLibrary_ov3gu")
 
 [node name="PlayerUXAudioControl" type="Node" parent="." unique_id=153550245 node_paths=PackedStringArray("parent", "hearts")]
 script = ExtResource("7_ffuv4")

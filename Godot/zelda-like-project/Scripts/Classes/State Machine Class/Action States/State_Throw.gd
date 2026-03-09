@@ -29,6 +29,13 @@ func enter():
 		if no_action_state:
 			state_machine.change_state(no_action_state)
 		return
+	if character.energy:
+		if not character.energy.consume(1):
+			if debug_me:
+				print(debug_name, ": Not enough energy to throw, dropping instead.")
+			if no_action_state:
+				state_machine.change_state(no_action_state)
+			return
 	#Freeze movement during the throw.
 	coordinator.freeze_movement()
 	#Calculate throw direction from facing.

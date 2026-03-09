@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="PickupResource" format=3 uid="uid://dtj7axjeaxc16"]
+
+[ext_resource type="Resource" uid="uid://cvurgob0dtb6n" path="res://Scripts/Resources/Resource Files/Resources_Items/item_bead_10.tres" id="1_mnnjy"]
+[ext_resource type="Script" uid="uid://dkn4fmtx66vbj" path="res://Scripts/Resources/Resource Scripts/resource_Pickup.gd" id="2_rr4mf"]
+
+[resource]
+script = ExtResource("2_rr4mf")
+item = ExtResource("1_mnnjy")
+rarity = 2
+metadata/_custom_type_script = "uid://dkn4fmtx66vbj"

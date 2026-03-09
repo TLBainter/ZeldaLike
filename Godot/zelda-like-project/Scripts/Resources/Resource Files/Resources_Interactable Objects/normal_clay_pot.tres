@@ -2,6 +2,7 @@
 
 [ext_resource type="Resource" uid="uid://dken81xfqf3fc" path="res://Scripts/Resources/Resource Files/Resources_Object Materials/ceramic.tres" id="1_5rlq1"]
 [ext_resource type="Script" uid="uid://bu2x2mmnn71f3" path="res://Scripts/Resources/Resource Scripts/resource_Interactable_Object.gd" id="1_vwt2p"]
+[ext_resource type="Resource" uid="uid://bp4oxqa6sdrgx" path="res://Scripts/Resources/Resource Files/Resources_Drop Tables/drop_table_1_TEST.tres" id="1_y6uy5"]
 
 [resource]
 script = ExtResource("1_vwt2p")
@@ -13,4 +14,5 @@ pushable = true
 throw_arc_height = 18.0
 weight = 30
 material = ExtResource("1_5rlq1")
+drop_table = ExtResource("1_y6uy5")
 metadata/_custom_type_script = "uid://bu2x2mmnn71f3"

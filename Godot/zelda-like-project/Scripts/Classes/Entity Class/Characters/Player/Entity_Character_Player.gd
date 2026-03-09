@@ -6,7 +6,9 @@ extends Character
 #region VARIABLES
 #region NPC COMPONENTS
 @export_category("Player Components")
-##Magic handler; expects type [color=blue]MagicComponents[/color]
+##Currency/money handler; expects type [color=yellow]CurrencyComponent[/color]
+@export var currency : CurrencyComponent
+##Magic handler; expects type [color=blue]MagicComponent[/color]
 @export var magic : MagicComponent
 ##Stamina handler; excepts type [color=green]StaminaComponent[/color]
 @export var energy : EnergyComponent
@@ -36,6 +38,7 @@ func _ready():
 	super._ready()
 	#establish variables
 	subtype = "Player"
+	add_to_group("player")
 	input.actionButtonPressed.connect(_on_action_button_pressed)
 
 func _on_action_button_pressed(btn):

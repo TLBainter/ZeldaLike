@@ -25,7 +25,17 @@ func enter():
 	super()
 	if root.input and not root.input.onMove.is_connected(_on_move):
 		root.input.onMove.connect(_on_move)
+	if not state_machine.is_active:
+		return
 	coordinator.update_context(get_context_key())
+	var character = get_character()
+	if character and character.anim and character.anim is CharacterAnimator:
+		if character.energy and character.energy.is_exhausted_state:
+			character.anim.idle_prefix = "ExhaustedIdle"
+			character.anim.walk_prefix = "ExhaustedWalk"
+		else:
+			character.anim.idle_prefix = "Idle"
+			character.anim.walk_prefix = "Walk"
 	
 func exit():
 	if root.input and root.input.onMove.is_connected(_on_move):
@@ -45,8 +55,10 @@ func resume():
 func _on_move(move_input : Vector2, move_strength : float):
 	if move_strength < 0.15 and idle_state:
 		state_machine.change_state(idle_state)
-	#TODO: Test this value to make sure it is reasonable for entering the running state.
 	elif move_strength > 0.49 and run_state:
+		var character = get_character()
+		if character and character.energy and character.energy.is_exhausted_state:
+			return
 		state_machine.change_state(run_state)
 
 func get_context_key() -> String:

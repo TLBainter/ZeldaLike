@@ -139,6 +139,7 @@ func enable_collision():
 		interact.set_deferred("monitoring", true)
 		interact.set_deferred("monitorable", true)
 
+#region BREAK
 ##Breaks this object. Plays break animation, sound, drops loot, and queues free.[br]
 ##Called by ProjectileComponent on impact if breakable.
 func break_me():
@@ -153,10 +154,72 @@ func break_me():
 		if not anim.animation_finished.is_connected(_on_break_anim_finished):
 			anim.animation_finished.connect(_on_break_anim_finished, CONNECT_ONE_SHOT)
 	else:
+		_spawn_drops(_find_player())
 		queue_free()
 
+func _spawn_drops(player = null):
+	if not object_data or not object_data.drop_table:
+		return
+	var drops : Array[PickupResource] = object_data.drop_table.resolve(player)
+	if drops.is_empty():
+		return
+	var spawn_pos = body.global_position if body else global_position
+	var space_state = get_world_2d().direct_space_state
+	for i in range(drops.size()):
+		var pickup = drops[i]
+		if not pickup:
+			continue
+		var world_item = _create_world_item()
+		world_item.pickup_data = pickup
+		get_tree().current_scene.add_child(world_item)
+		#Scatter items in different directions.
+		var scatter_angle = (TAU / max(drops.size(), 1)) * i + randf_range(-0.3, 0.3)
+		var scatter_dir = Vector2(cos(scatter_angle), sin(scatter_angle))
+		scatter_dir = _find_clear_direction(space_state, spawn_pos, scatter_dir)
+		var item_spawn_pos = spawn_pos + Vector2(0, -8)
+		world_item.spawn(item_spawn_pos, spawn_pos.y, scatter_dir)
+		if debug_me:
+			print(debug_name, ": Spawned drop '", pickup.item.item_name if pickup.item else "unknown", "' at ", item_spawn_pos)
+
+func _find_clear_direction(space_state : PhysicsDirectSpaceState2D, origin : Vector2, preferred_dir : Vector2) -> Vector2:
+	var ray_length : float = 24.0
+	var attempts : int = 8
+	var angle_step : float = TAU / attempts
+	for i in range(attempts):
+		var test_angle = preferred_dir.angle() + (angle_step * i)
+		var test_dir = Vector2(cos(test_angle), sin(test_angle))
+		var query = PhysicsRayQueryParameters2D.create(origin, origin + test_dir * ray_length)
+		query.collision_mask = 1
+		var result = space_state.intersect_ray(query)
+		if result.is_empty():
+			return test_dir
+	#All directions blocked — use original.
+	return preferred_dir
+
+func _create_world_item() -> WorldItem:
+	var item = WorldItem.new()
+	var item_spr = Sprite2D.new()
+	item_spr.name = "ItemSprite"
+	item.add_child(item_spr)
+	item.item_sprite = item_spr
+	var shadow_spr = Sprite2D.new()
+	shadow_spr.name = "ShadowSprite"
+	shadow_spr.y_sort_enabled = false
+	item.add_child(shadow_spr)
+	item.shadow_sprite = shadow_spr
+	var col_shape = CollisionShape2D.new()
+	col_shape.name = "CollisionShape2D"
+	var shape = CircleShape2D.new()
+	shape.radius = 6.0
+	col_shape.shape = shape
+	item.add_child(col_shape)
+	item.collision = col_shape
+	return item
+
 func _on_break_anim_finished(_anim_name : String):
-	#TODO: Spawn drops from drop_table here.
+	_spawn_drops(_find_player())
 	queue_free()
+
+#endregion BREAK
 
 #endregion FUNCTIONS

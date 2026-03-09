@@ -71,6 +71,13 @@ func exit() -> void:
 
 ##Called when the lift animation finishes. Transitions to HoldingAction.
 func _on_lift_finished(anim_name : String) -> void:
+	if not "Lift" in anim_name:
+		#Wrong animation finished — reconnect and wait for the real one.
+		var character = get_character()
+		if character and character.anim:
+			if not character.anim.animation_finished.is_connected(_on_lift_finished):
+				character.anim.animation_finished.connect(_on_lift_finished, CONNECT_ONE_SHOT)
+		return
 	if holding_action_state:
 		state_machine.change_state(holding_action_state)
 

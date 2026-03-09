@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="SoundLibrary" format=3 uid="uid://b578mryux50rt"]
+
+[ext_resource type="Script" uid="uid://vdqimlmcg4ql" path="res://Scripts/Resources/Resource Scripts/resource_Sound_Library.gd" id="1_yt1ye"]
+[ext_resource type="AudioStream" uid="uid://bx3mek88678od" path="res://Sound/SFX/UX/Currency/bead_1.wav" id="2_rxtby"]
+[ext_resource type="AudioStream" uid="uid://bxcwpq3f8c5il" path="res://Sound/SFX/UX/Currency/bead_2.wav" id="3_4hs1r"]
+[ext_resource type="AudioStream" uid="uid://djr704nsp7qop" path="res://Sound/SFX/UX/Currency/bead_3.wav" id="4_bktud"]
+[ext_resource type="AudioStream" uid="uid://da7dw65dvbpsg" path="res://Sound/SFX/UX/Currency/bead_4.wav" id="5_3wadt"]
+[ext_resource type="AudioStream" uid="uid://b4yyv18m4ogjy" path="res://Sound/SFX/UX/Currency/bead_5.wav" id="6_xjdjs"]
+[ext_resource type="AudioStream" uid="uid://2ypfg2wegcmd" path="res://Sound/SFX/UX/Currency/bead_6.wav" id="7_qvnmc"]
+[ext_resource type="AudioStream" uid="uid://qec1s6odlsnt" path="res://Sound/SFX/UX/Currency/bead_7.wav" id="8_ama2q"]
+[ext_resource type="AudioStream" uid="uid://c0klj5hek4lyf" path="res://Sound/SFX/UX/Currency/bead_8.wav" id="9_7tdel"]
+[ext_resource type="AudioStream" uid="uid://clecmfar3pn07" path="res://Sound/SFX/UX/Currency/bead_9.wav" id="10_3kioc"]
+[ext_resource type="AudioStream" uid="uid://1cronh56k26i" path="res://Sound/SFX/UX/Currency/bead_10.wav" id="11_rfnvj"]
+[ext_resource type="AudioStream" uid="uid://bi8noxi44vf54" path="res://Sound/SFX/UX/Currency/bead_11.wav" id="12_wga2i"]
+[ext_resource type="AudioStream" uid="uid://bxxniul11g3h3" path="res://Sound/SFX/UX/Currency/bead_12.wav" id="13_bft0g"]
+[ext_resource type="AudioStream" uid="uid://bbkp6nvxrqa5j" path="res://Sound/SFX/UX/Currency/bead_13.wav" id="14_1wqea"]
+[ext_resource type="AudioStream" uid="uid://chdq32uim6rqp" path="res://Sound/SFX/UX/Currency/bead_14.wav" id="15_7w1kk"]
+
+[resource]
+script = ExtResource("1_yt1ye")
+sl = Array[AudioStream]([ExtResource("2_rxtby"), ExtResource("3_4hs1r"), ExtResource("4_bktud"), ExtResource("5_3wadt"), ExtResource("6_xjdjs"), ExtResource("7_qvnmc"), ExtResource("8_ama2q"), ExtResource("9_7tdel"), ExtResource("10_3kioc"), ExtResource("11_rfnvj"), ExtResource("12_wga2i"), ExtResource("13_bft0g"), ExtResource("14_1wqea"), ExtResource("15_7w1kk")])
+metadata/_custom_type_script = "uid://vdqimlmcg4ql"

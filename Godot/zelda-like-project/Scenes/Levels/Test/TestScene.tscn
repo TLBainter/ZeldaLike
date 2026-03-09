@@ -1296,4 +1296,19 @@ debug_me = true
 metadata/_custom_type_script = "uid://c54o2iwjc4ysm"
 
 [node name="Grab-Lift Test Object" parent="." unique_id=1295838823 instance=ExtResource("12_6qfvj")]
-position = Vector2(-483, 74)
+position = Vector2(-445, 27)
+
+[node name="Grab-Lift Test Object4" parent="." unique_id=1086858883 instance=ExtResource("12_6qfvj")]
+position = Vector2(-459, 88)
+
+[node name="Grab-Lift Test Object5" parent="." unique_id=299796667 instance=ExtResource("12_6qfvj")]
+position = Vector2(-517, 81)
+
+[node name="Grab-Lift Test Object6" parent="." unique_id=769473091 instance=ExtResource("12_6qfvj")]
+position = Vector2(-424, 73)
+
+[node name="Grab-Lift Test Object2" parent="." unique_id=413450925 instance=ExtResource("12_6qfvj")]
+position = Vector2(-509, 47)
+
+[node name="Grab-Lift Test Object3" parent="." unique_id=622300057 instance=ExtResource("12_6qfvj")]
+position = Vector2(-467, 51)

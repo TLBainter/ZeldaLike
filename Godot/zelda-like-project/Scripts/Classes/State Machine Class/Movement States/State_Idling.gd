@@ -20,8 +20,19 @@ func enter():
 	super()
 	coordinator.update_context(get_context_key())
 	root.body.velocity = Vector2.ZERO
-	if root.input and not root.input.onMove.is_connected(_on_move):
-		root.input.onMove.connect(_on_move)
+	if not state_machine.is_active:
+		if root.input and not root.input.onMove.is_connected(_on_move):
+			root.input.onMove.connect(_on_move)
+		return
+	var character = get_character()
+	if character and character.anim and character.anim is CharacterAnimator:
+		if character.energy and character.energy.is_exhausted_state:
+			character.anim.idle_prefix = "ExhaustedIdle"
+			character.anim.walk_prefix = "ExhaustedWalk"
+		else:
+			character.anim.idle_prefix = "Idle"
+			character.anim.walk_prefix = "Walk"
+		character.anim.play_directional_anim(character.anim.idle_prefix)
 
 func exit():
 	if root.input and root.input.onMove.is_connected(_on_move):

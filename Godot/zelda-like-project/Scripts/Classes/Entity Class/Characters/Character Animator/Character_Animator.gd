@@ -23,6 +23,10 @@ extends AnimationPlayer
 @onready var anim : AnimationPlayer	= root.anim
 ##The direction the character is facing.
 var facing : String = "down"
+##The current prefix for idle animations. Set by states.
+var idle_prefix : String = "Idle"
+##The current prefix for walk animations. Set by stats.
+var walk_prefix : String = "Walk"
 ##Whether the character's facing direction can be changed.
 var can_update_facing : bool = true
 ##whether or not the character is currently moving.
@@ -105,13 +109,10 @@ func face(face_dir : Vector2, _delta : float):
 	if not can_update_facing:
 		return
 	set_facing(face_dir)
-	var is_holding : bool = false
-	if root.state_machine and root.state_machine.held_object:
-		is_holding = true
 	if face_dir != Vector2.ZERO:
-		play_directional_anim("HoldWalk" if is_holding else "Walk")
+		play_directional_anim(walk_prefix)
 	else:
-		play_directional_anim("HoldIdle" if is_holding else "Idle")
+		play_directional_anim(idle_prefix)
 
 #TODO: Remove forced idle from this function and instead call animations based on what animation should be played.
 #Will rely on state machines to determine.

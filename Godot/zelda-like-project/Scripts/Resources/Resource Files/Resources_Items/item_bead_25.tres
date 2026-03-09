@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="ItemResource" format=3 uid="uid://csiwja4im8uot"]
+
+[ext_resource type="Texture2D" uid="uid://d0nnexuwr0xpq" path="res://Sprites/Item Sprites/bead_25_pickup.tres" id="1_mb0p1"]
+[ext_resource type="Script" uid="uid://dps4pg1os47me" path="res://Scripts/Resources/Resource Scripts/resource_Item.gd" id="2_5xtj3"]
+[ext_resource type="Texture2D" uid="uid://bcifbh3vly7iw" path="res://Sprites/Item Sprites/item_pickup_shadow.tres" id="3_iidsw"]
+[ext_resource type="Resource" uid="uid://b578mryux50rt" path="res://Scripts/Resources/Resource Files/Resources_Sound Libraries/currency_sounds.tres" id="4_5xtj3"]
+
+[resource]
+script = ExtResource("2_5xtj3")
+item_name = "Orange Bead"
+item_description = "It's worth 25 notes!"
+item_strip = ExtResource("1_mb0p1")
+shadow_strip = ExtResource("3_iidsw")
+grant_notes = 25
+use_sounds = ExtResource("4_5xtj3")
+first_get_dialogue_ref = 13
+metadata/_custom_type_script = "uid://dps4pg1os47me"

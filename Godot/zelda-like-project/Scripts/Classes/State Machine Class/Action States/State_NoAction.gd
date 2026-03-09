@@ -33,6 +33,9 @@ func process_input(event : InputEvent) -> State:
 		var interactable = character.body.current_interactable
 		var owner = interactable.root if "root" in interactable else null
 		if owner and owner is DynamicInteractable and owner.object_data:
+			#Don't allow this transition if character is exhausted
+			if character.energy and character.energy.is_exhausted_state:
+				return null
 			var data = owner.object_data
 			var is_moving : bool = character.body.velocity.length() > 0.1
 			# grab the object if it can be grabbed, lift if it can be lifted.

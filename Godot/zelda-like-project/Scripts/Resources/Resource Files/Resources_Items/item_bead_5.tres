@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="ItemResource" format=3 uid="uid://b86w6fi7irgeg"]
+
+[ext_resource type="Texture2D" uid="uid://cc5k4ku0uuox4" path="res://Sprites/Item Sprites/bead_5_pickup.tres" id="1_4xevu"]
+[ext_resource type="Script" uid="uid://dps4pg1os47me" path="res://Scripts/Resources/Resource Scripts/resource_Item.gd" id="2_iw7ft"]
+[ext_resource type="Texture2D" uid="uid://bcifbh3vly7iw" path="res://Sprites/Item Sprites/item_pickup_shadow.tres" id="3_b0p1h"]
+[ext_resource type="Resource" uid="uid://b578mryux50rt" path="res://Scripts/Resources/Resource Files/Resources_Sound Libraries/currency_sounds.tres" id="4_iw7ft"]
+
+[resource]
+script = ExtResource("2_iw7ft")
+item_name = "Blue Bead"
+item_description = "It's worth 5 notes!"
+item_strip = ExtResource("1_4xevu")
+shadow_strip = ExtResource("3_b0p1h")
+grant_notes = 5
+use_sounds = ExtResource("4_iw7ft")
+first_get_dialogue_ref = 11
+metadata/_custom_type_script = "uid://dps4pg1os47me"

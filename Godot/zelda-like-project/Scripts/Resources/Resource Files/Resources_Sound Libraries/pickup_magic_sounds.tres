@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="SoundLibrary" format=3 uid="uid://busdqy6uhm3l"]
+
+[ext_resource type="Script" uid="uid://vdqimlmcg4ql" path="res://Scripts/Resources/Resource Scripts/resource_Sound_Library.gd" id="1_sfaii"]
+[ext_resource type="AudioStream" uid="uid://cd841lx1cpd76" path="res://Sound/SFX/UX/Pickups/Magic/magic_pickup_1.wav" id="2_wpnr8"]
+[ext_resource type="AudioStream" uid="uid://bgrnelry5w3yj" path="res://Sound/SFX/UX/Pickups/Magic/magic_pickup_2.wav" id="3_w8m1r"]
+[ext_resource type="AudioStream" uid="uid://qvaobjxgr75q" path="res://Sound/SFX/UX/Pickups/Magic/magic_pickup_3.wav" id="4_0dk8s"]
+[ext_resource type="AudioStream" uid="uid://ddamotl2n4tlf" path="res://Sound/SFX/UX/Pickups/Magic/magic_pickup_4.wav" id="5_g0v8d"]
+[ext_resource type="AudioStream" uid="uid://dujsh3x2f0x1q" path="res://Sound/SFX/UX/Pickups/Magic/magic_pickup_5.wav" id="6_hfu60"]
+[ext_resource type="AudioStream" uid="uid://devmwwv1sin82" path="res://Sound/SFX/UX/Pickups/Magic/magic_pickup_6.wav" id="7_cpjcl"]
+[ext_resource type="AudioStream" uid="uid://bc375lv2gthmr" path="res://Sound/SFX/UX/Pickups/Magic/magic_pickup_7.wav" id="8_h5acl"]
+
+[resource]
+script = ExtResource("1_sfaii")
+sl = Array[AudioStream]([ExtResource("2_wpnr8"), ExtResource("3_w8m1r"), ExtResource("4_0dk8s"), ExtResource("5_g0v8d"), ExtResource("6_hfu60"), ExtResource("7_cpjcl"), ExtResource("8_h5acl")])
+metadata/_custom_type_script = "uid://vdqimlmcg4ql"

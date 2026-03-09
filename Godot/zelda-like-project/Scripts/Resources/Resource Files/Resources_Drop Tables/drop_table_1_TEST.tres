@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="DropTable" format=3 uid="uid://bp4oxqa6sdrgx"]
+
+[ext_resource type="Script" uid="uid://dkn4fmtx66vbj" path="res://Scripts/Resources/Resource Scripts/resource_Pickup.gd" id="1_78hyb"]
+[ext_resource type="Resource" uid="uid://cn5g78mly144w" path="res://Scripts/Resources/Resource Files/Resources_Pickups/pickup_bead_1.tres" id="2_20265"]
+[ext_resource type="Script" uid="uid://ck1p1jsh1h2qo" path="res://Scripts/Resources/Resource Scripts/resource_Drop_Table.gd" id="2_bo3au"]
+[ext_resource type="Resource" uid="uid://cjht7nigofbls" path="res://Scripts/Resources/Resource Files/Resources_Pickups/pickup_bead_5.tres" id="3_cfvb6"]
+[ext_resource type="Resource" uid="uid://dtj7axjeaxc16" path="res://Scripts/Resources/Resource Files/Resources_Pickups/pickup_bead_10.tres" id="4_l2de1"]
+[ext_resource type="Resource" uid="uid://ihrpencnmhke" path="res://Scripts/Resources/Resource Files/Resources_Pickups/pickup_bead_25.tres" id="5_i0ut5"]
+[ext_resource type="Resource" uid="uid://c710iksygomvs" path="res://Scripts/Resources/Resource Files/Resources_Pickups/pickup_energy_orb.tres" id="6_jmjkb"]
+[ext_resource type="Resource" uid="uid://cg7y317c5bste" path="res://Scripts/Resources/Resource Files/Resources_Pickups/pickup_magic_shard.tres" id="7_tbcuy"]
+[ext_resource type="Resource" uid="uid://bl283us0wn7dk" path="res://Scripts/Resources/Resource Files/Resources_Pickups/pickup_small_heart.tres" id="8_60avi"]
+
+[resource]
+script = ExtResource("2_bo3au")
+drop_pool = Dictionary[ExtResource("1_78hyb"), int]({
+ExtResource("2_20265"): 0,
+ExtResource("3_cfvb6"): 0,
+ExtResource("4_l2de1"): 0,
+ExtResource("5_i0ut5"): 0,
+ExtResource("6_jmjkb"): 0,
+ExtResource("7_tbcuy"): 0,
+ExtResource("8_60avi"): 0
+})
+metadata/_custom_type_script = "uid://ck1p1jsh1h2qo"

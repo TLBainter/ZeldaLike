@@ -25,6 +25,8 @@ func enter():
 	super()
 	if root.input and not root.input.onMove.is_connected(_on_move):
 		root.input.onMove.connect(_on_move)
+	if not state_machine.is_active:
+		return
 	coordinator.update_context(get_context_key())
 	
 func exit():

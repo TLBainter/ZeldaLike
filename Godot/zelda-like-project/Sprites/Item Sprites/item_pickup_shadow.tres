@@ -1,0 +1,7 @@
+[gd_resource type="AtlasTexture" format=3 uid="uid://bcifbh3vly7iw"]
+
+[ext_resource type="Texture2D" uid="uid://cgkydwvbs0ojh" path="res://Sprites/Item Sprites/item_pickups_recover-and-currency.png" id="1_okww5"]
+
+[resource]
+atlas = ExtResource("1_okww5")
+region = Rect2(0, 112, 80, 16)

@@ -21,6 +21,8 @@ signal check_viewport_size
 ## a reference to the player's input component
 @export var input : PlayerInputComponent
 @export_group("Player UX Internal Components")
+## a reference to the player's currency display
+@export var currency_display : CurrencyDisplay
 ## a reference to the heart container
 @export var heartsContainer : HeartsDisplay
 ## a reference to the audio control node for player UI
@@ -77,6 +79,11 @@ func _ready():
 	if magic_comp and magic_display:
 		magic_display.initialize(magic_comp, player, player_cam)
 	
+	#Set currency display
+	var currency_comp : CurrencyComponent = root.currency
+	if currency_comp and currency_display:
+		currency_display.initialize(currency_comp)
+	
 	#Configure zoom call connections
 	if player_cam:
 		if energy_display and not player_cam.zoom_changed.is_connected(_on_zoom_changed):
@@ -97,6 +104,8 @@ func _on_zoom_changed(is_zoomed : bool) -> void:
 			magic_display.force_show(false)
 			if magic_display._magic_component and magic_display._magic_component.is_full():
 				magic_display._target_alpha = 0.0
+	if currency_display:
+		currency_display.force_show(is_zoomed)
 
 func _on_health_changed(new_hp, _max_hp, _change):
 	heartsContainer.update_hearts(new_hp)
