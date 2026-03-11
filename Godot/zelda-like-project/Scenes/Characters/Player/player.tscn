@@ -35,10 +35,133 @@
 [ext_resource type="Script" uid="uid://efny0654vj8a" path="res://Scripts/Classes/State Machine Class/Action States/State_Drop.gd" id="29_4yec0"]
 [ext_resource type="Script" uid="uid://u7tc08rpnemp" path="res://Scripts/Classes/State Machine Class/Action States/State_HoldingAction.gd" id="30_me3gr"]
 [ext_resource type="Script" uid="uid://cv26r6a3savpe" path="res://Scripts/Classes/State Machine Class/Action States/State_Throw.gd" id="31_2iqoh"]
+[ext_resource type="Script" uid="uid://bdbkkcliin28w" path="res://Scripts/Classes/State Machine Class/Action States/State_Attack.gd" id="35_gii1i"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_dxcao"]
 radius = 6.0
 height = 14.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2iqoh"]
+
+[sub_resource type="Animation" id="Animation_8bd3e"]
+resource_name = "Attack1Down"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PlayerBody/playerSprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.05, 0.1, 0.15, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": [80, 81, 82, 83, 84]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("StateCoordinator")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.05),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"attack_hit"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_5qakp"]
+resource_name = "Attack1Left"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PlayerBody/playerSprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.05, 0.1, 0.15, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": [90, 91, 92, 93, 94]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("StateCoordinator")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.05),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"attack_hit"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_j8mah"]
+resource_name = "Attack1Right"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PlayerBody/playerSprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.05, 0.1, 0.15, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": [100, 101, 102, 103, 104]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("StateCoordinator")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.05),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"attack_hit"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_3spsx"]
+resource_name = "Attack1Up"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PlayerBody/playerSprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.05, 0.1, 0.15, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": [110, 111, 112, 113, 114]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("StateCoordinator")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.05),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"attack_hit"
+}]
+}
 
 [sub_resource type="Animation" id="Animation_j3cns"]
 resource_name = "DropDown"
@@ -1193,6 +1316,10 @@ tracks/1/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_1mdwi"]
 _data = {
+&"Attack1Down": SubResource("Animation_8bd3e"),
+&"Attack1Left": SubResource("Animation_5qakp"),
+&"Attack1Right": SubResource("Animation_j8mah"),
+&"Attack1Up": SubResource("Animation_3spsx"),
 &"DropDown": SubResource("Animation_j3cns"),
 &"DropLeft": SubResource("Animation_fu5o4"),
 &"DropRight": SubResource("Animation_sofil"),
@@ -1271,6 +1398,7 @@ debug_name = "Player Character"
 
 [node name="PlayerBody" type="CharacterBody2D" parent="." unique_id=1872381837]
 z_as_relative = false
+collision_mask = 3
 script = ExtResource("2_aencf")
 debug_me = true
 debug_name = "Player Body"
@@ -1285,6 +1413,18 @@ vframes = 24
 [node name="PlayerBodyCollider" type="CollisionShape2D" parent="PlayerBody" unique_id=1953398805]
 position = Vector2(0, -7)
 shape = SubResource("CapsuleShape2D_dxcao")
+
+[node name="AttackArea" type="Area2D" parent="PlayerBody" unique_id=625801724]
+show_behind_parent = true
+collision_mask = 7
+monitoring = false
+
+[node name="Attack1Area" type="CollisionShape2D" parent="PlayerBody/AttackArea" unique_id=658478025]
+position = Vector2(0, 6)
+rotation = 0.7853982
+scale = Vector2(0.9999999, 0.9999999)
+shape = SubResource("RectangleShape2D_2iqoh")
+debug_color = Color(0.9755257, 0, 0.422273, 0.41960785)
 
 [node name="Component Manager" type="Node" parent="." unique_id=995905587]
 
@@ -1358,12 +1498,9 @@ debug_name = "Player Cam"
 [node name="PlayerAnimator" type="AnimationPlayer" parent="." unique_id=1778712659]
 libraries/ = SubResource("AnimationLibrary_1mdwi")
 script = ExtResource("3_dxcao")
+debug_me = true
 
 [node name="PlayerUX" parent="." unique_id=895243336 node_paths=PackedStringArray("root", "input") instance=ExtResource("9_8gg06")]
-offset_left = -1.0
-offset_top = 2.0
-offset_right = -1.0
-offset_bottom = 2.0
 root = NodePath("..")
 input = NodePath("../Component Manager/PlayerInput")
 debug_me = false
@@ -1431,8 +1568,9 @@ debug_me = true
 debug_name = "Action"
 metadata/_custom_type_script = "uid://cv00auxwsog0v"
 
-[node name="StateNoAction" type="Node" parent="StateCoordinator/Action Layer" unique_id=101410199 node_paths=PackedStringArray("interact_state", "grab_state", "lift_state")]
+[node name="StateNoAction" type="Node" parent="StateCoordinator/Action Layer" unique_id=101410199 node_paths=PackedStringArray("attack_state", "interact_state", "grab_state", "lift_state")]
 script = ExtResource("22_roksr")
+attack_state = NodePath("../StateAttack")
 interact_state = NodePath("../StateInteract")
 grab_state = NodePath("../StateGrab")
 lift_state = NodePath("../StateLift")
@@ -1477,8 +1615,14 @@ metadata/_custom_type_script = "uid://u7tc08rpnemp"
 [node name="StateThrow" type="Node" parent="StateCoordinator/Action Layer" unique_id=782550121 node_paths=PackedStringArray("no_action_state")]
 script = ExtResource("31_2iqoh")
 no_action_state = NodePath("../StateNoAction")
-debug_me = true
 metadata/_custom_type_script = "uid://cv26r6a3savpe"
+
+[node name="StateAttack" type="Node" parent="StateCoordinator/Action Layer" unique_id=2085364015 node_paths=PackedStringArray("no_action_state", "attack_area")]
+script = ExtResource("35_gii1i")
+no_action_state = NodePath("../StateNoAction")
+attack_area = NodePath("../../../PlayerBody/AttackArea")
+debug_me = true
+metadata/_custom_type_script = "uid://bdbkkcliin28w"
 
 [node name="No Control Layer" type="Node" parent="StateCoordinator" unique_id=762655186 node_paths=PackedStringArray("starting_state")]
 script = ExtResource("18_a7o8c")

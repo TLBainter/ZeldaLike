@@ -16,7 +16,7 @@ extends State
 
 @export_group("Lift Settings")
 ##The vertical offset above the player's body where the held object sits.
-@export var hold_offset : Vector2 = Vector2(0, -12)
+@export var hold_offset : Vector2 = Vector2(0, -20)
 
 #endregion VARIABLES
 

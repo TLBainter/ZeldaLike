@@ -1,8 +1,10 @@
-##[b][color=red]CurrencyDisplay[/color][/b] controls the visual display of the player's currency (notes).[br]
+##[b][color=red]CurrencyDisplay[/color][/b] extends [b]UXElement[/b] for the player's currency (notes) display.[br]
 ##Manages wallet size sprites, leading-zero label formatting, tick-up/down animation,[br]
-##sound effects, and visibility rules.[br]
+##sound effects, and max-value color change.[br]
+##[br]
+##[b]Wallet Sizes[/b]: Pocket (99), Wallet (999), Big Wallet (9999).
 class_name CurrencyDisplay
-extends Panel
+extends UXElement
 
 #region VARIABLES
 
@@ -30,31 +32,18 @@ extends Panel
 @export var change_sounds : SoundLibrary
 
 @export_group("Tick Speed")
-##The maximum duration for the full tick animation (in seconds).[br]
-##If the change would take longer, tick speed increases.
+##The maximum duration for the full tick animation (in seconds).
 @export var max_tick_duration : float = 3.0
 ##The minimum delay between ticks (in seconds). Prevents going too fast.
 @export var min_tick_interval : float = 0.02
 ##The default delay between ticks (in seconds).
 @export var default_tick_interval : float = 0.05
 
-@export_group("Visibility")
-##How long the display stays visible after changes finish (in seconds).
-@export var visibility_duration : float = 3.0
-##How fast the display fades in.
-@export var fade_in_speed : float = 12.0
-##How fast the display fades out.
-@export var fade_out_speed : float = 2.0
-
 @export_group("Colors")
 ##The normal color of the currency label.
 @export var normal_color : Color = Color.WHITE
 ##The color when currency is at maximum.
 @export var max_color : Color = Color.YELLOW
-
-@export_category("Debug")
-@export var debug_me : bool = false
-@export var debug_name : String = "CurrencyDisplay"
 
 #=======INTERNAL VARIABLES=======#
 
@@ -70,12 +59,6 @@ var _is_ticking : bool = false
 var _tick_time : float = 0.0
 ##Current interval between ticks (adjusted for large changes).
 var _tick_interval : float = 0.05
-##Current target alpha for fade.
-var _target_alpha : float = 0.0
-##Whether the display is forced visible (zoom, etc).
-var _force_visible : bool = false
-##Timer for visibility countdown after ticking finishes.
-var _visibility_timer : Timer
 ##The number of digits for leading zeroes (based on max currency).
 var _digit_count : int = 2
 
@@ -83,29 +66,34 @@ var _digit_count : int = 2
 
 #region FUNCTIONS
 
-func _ready():
-	modulate.a = 0.0
-	_target_alpha = 0.0
-	set_process(false)
-	_visibility_timer = Timer.new()
-	_visibility_timer.one_shot = true
-	_visibility_timer.wait_time = visibility_duration
-	_visibility_timer.timeout.connect(_on_visibility_timeout)
-	add_child(_visibility_timer)
-
-##Initializes the currency display with references.[br]
-##Called by PlayerUX after all components are ready.
+##Initializes the currency display with the currency component reference.
 func initialize(currency_comp : CurrencyComponent) -> void:
+	print("CurrencyDisplay.initialize called! comp=", currency_comp)
 	_currency_component = currency_comp
 	if _currency_component:
 		if not _currency_component.notesChanged.is_connected(_on_notes_changed):
 			_currency_component.notesChanged.connect(_on_notes_changed)
+			print("CurrencyDisplay: notesChanged signal connected.")
+
 		_display_value = _currency_component.cur_notes
 		_target_value = _display_value
 		_update_wallet_size()
 		_update_label()
 	if debug_me:
 		print(debug_name, " initialized.")
+
+func _can_fade_out() -> bool:
+	return not _is_ticking
+
+func _should_start_fade_timer() -> bool:
+	return not _is_ticking
+
+func _on_element_process(delta : float) -> void:
+	if _is_ticking:
+		_tick_time += delta
+		if _tick_time >= _tick_interval:
+			_tick_time = 0.0
+			_perform_tick()
 
 #region WALLET SIZE
 
@@ -148,8 +136,9 @@ func _update_label() -> void:
 
 #region CURRENCY CHANGE HANDLER
 
-##Called when the currency component emits notesChanged.
-func _on_notes_changed(cur_notes : int, max_notes : int, change_amount : int) -> void:
+func _on_notes_changed(cur_notes : int, max_notes : int, change_amount : int):
+	print("CurrencyDisplay._on_notes_changed! cur=", cur_notes, " change=", change_amount)
+
 	_target_value = cur_notes
 	var change_size : int = absi(_target_value - _display_value)
 	if change_size > 0:
@@ -157,29 +146,14 @@ func _on_notes_changed(cur_notes : int, max_notes : int, change_amount : int) ->
 		_tick_interval = clampf(calculated_interval, min_tick_interval, default_tick_interval)
 	_is_ticking = true
 	_tick_time = 0.0
-	_show()
+	show_element()
 	_play_change_anim()
-	set_process(true)
 	if debug_me:
 		print(debug_name, ": Notes changed by ", change_amount, ". Ticking from ", _display_value, " to ", _target_value, " interval=", _tick_interval)
 
 #endregion CURRENCY CHANGE HANDLER
 
 #region TICK ANIMATION
-
-func _process(delta : float) -> void:
-	if _is_ticking:
-		_tick_time += delta
-		if _tick_time >= _tick_interval:
-			_tick_time = 0.0
-			_perform_tick()
-	if modulate.a != _target_alpha:
-		var speed = fade_in_speed if _target_alpha > modulate.a else fade_out_speed
-		modulate.a = move_toward(modulate.a, _target_alpha, speed * delta)
-		if modulate.a <= 0.0:
-			modulate.a = 0.0
-			if not _force_visible and not _is_ticking:
-				set_process(false)
 
 ##Advances the displayed value by 1 toward the target.
 func _perform_tick() -> void:
@@ -188,12 +162,14 @@ func _perform_tick() -> void:
 	elif _display_value > _target_value:
 		_display_value -= 1
 	_update_label()
+	#Play tick sound with randomized pitch.
 	if change_sounds and not change_sounds.sl.is_empty():
 		var clip = change_sounds.sl.pick_random()
 		if audioManager:
-			var player_node = audioManager.play(clip, "World Items")
+			var player_node = audioManager.play(clip, "UI")
 			if player_node and player_node is AudioStreamPlayer:
-				player_node.pitch_scale = randf_range(0.8, 1.25)
+				player_node.pitch_scale = randf_range(0.9, 1.15)
+	#Check if ticking is complete.
 	if _display_value == _target_value:
 		_is_ticking = false
 		_play_change_anim()
@@ -209,34 +185,6 @@ func _play_change_anim() -> void:
 		change_anim.play("CurrencyChanged")
 
 #endregion TICK ANIMATION
-
-#region VISIBILITY
-
-##Shows the currency display with fade in.
-func _show() -> void:
-	_target_alpha = 1.0
-	_visibility_timer.stop()
-	set_process(true)
-
-##Called when the visibility timer expires. Begins fading out.
-func _on_visibility_timeout() -> void:
-	if _force_visible:
-		return
-	if not _is_ticking:
-		_target_alpha = 0.0
-
-##Forces the display to stay visible (e.g., during camera zoom).
-func force_show(should_force : bool) -> void:
-	_force_visible = should_force
-	if should_force:
-		_target_alpha = 1.0
-		_visibility_timer.stop()
-		set_process(true)
-	else:
-		if not _is_ticking:
-			_visibility_timer.start(visibility_duration)
-
-#endregion VISIBILITY
 
 ##Called when the wallet is upgraded. Updates sprite and digit count.
 func on_wallet_upgraded() -> void:

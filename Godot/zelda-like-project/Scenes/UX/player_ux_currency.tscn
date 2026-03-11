@@ -1,0 +1,122 @@
+[gd_scene format=3 uid="uid://cv8mrdsulnqih"]
+
+[ext_resource type="Script" uid="uid://71lrqo2bakmd" path="res://Scripts/UX/ux_playerElement_Currency.gd" id="1_v3227"]
+[ext_resource type="Texture2D" uid="uid://dhscs6m6qbsgt" path="res://Sprites/UX/InGameUX/PlayerStats/playerCurrency_pocketWallet.tres" id="2_apo8w"]
+[ext_resource type="Texture2D" uid="uid://dcq2ns3w2eybl" path="res://Sprites/UX/InGameUX/PlayerStats/playerCurrency_Wallet.tres" id="3_48oc8"]
+[ext_resource type="FontFile" uid="uid://cp6wfns5q5k5i" path="res://Sprites/UX/Fonts/minishcap__v10.ttf" id="3_c0og6"]
+[ext_resource type="Texture2D" uid="uid://ces8kldpfj5vg" path="res://Sprites/UX/InGameUX/PlayerStats/playerCurrency_bigWallet.tres" id="4_qb6qp"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xwql8"]
+bg_color = Color(0.1316, 0.28, 0.16622667, 0)
+
+[sub_resource type="FontVariation" id="FontVariation_3i3k8"]
+base_font = ExtResource("3_c0og6")
+spacing_glyph = 3
+
+[sub_resource type="Animation" id="Animation_3i3k8"]
+resource_name = "CurrencyChanged"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PlayerCurrencyValue:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.0333333, 0.16666667, 0.3, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1, 1.725), Vector2(1, 0.439), Vector2(1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("PlayerWalletSprite:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1.2, 1.2), Vector2(1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_37lcq"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PlayerCurrencyValue:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("PlayerWalletSprite:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ov3gu"]
+_data = {
+&"CurrencyChanged": SubResource("Animation_3i3k8"),
+&"RESET": SubResource("Animation_37lcq")
+}
+
+[node name="PlayerCurrencyContainer" type="Panel" unique_id=2078205985 node_paths=PackedStringArray("wallet_sprite", "currency_label", "change_anim")]
+self_modulate = Color(1, 1, 1, 0)
+theme_override_styles/panel = SubResource("StyleBoxFlat_xwql8")
+script = ExtResource("1_v3227")
+wallet_sprite = NodePath("PlayerWalletSprite")
+currency_label = NodePath("PlayerCurrencyValue")
+change_anim = NodePath("CurrencyAnimator")
+sprite_pocket = ExtResource("2_apo8w")
+sprite_wallet = ExtResource("3_48oc8")
+sprite_big_wallet = ExtResource("4_qb6qp")
+
+[node name="PlayerWalletSprite" type="TextureRect" parent="." unique_id=1696019507]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -20.0
+offset_right = 40.0
+offset_bottom = 20.0
+grow_vertical = 2
+pivot_offset_ratio = Vector2(0, 0.5)
+texture = ExtResource("2_apo8w")
+stretch_mode = 4
+
+[node name="PlayerCurrencyValue" type="Label" parent="." unique_id=1360216297]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -52.0
+offset_top = -13.0
+offset_bottom = 13.0
+grow_horizontal = 0
+grow_vertical = 2
+pivot_offset_ratio = Vector2(1, 0.5)
+theme_override_colors/font_outline_color = Color(0.029228108, 0.13597238, 0, 1)
+theme_override_constants/outline_size = 2
+theme_override_fonts/font = SubResource("FontVariation_3i3k8")
+theme_override_font_sizes/font_size = 24
+text = "0000"
+horizontal_alignment = 1
+
+[node name="CurrencyAnimator" type="AnimationPlayer" parent="." unique_id=2102169485]
+libraries/ = SubResource("AnimationLibrary_ov3gu")

@@ -63,6 +63,7 @@ collider = NodePath("ObjectBody/ObjectCollider")
 
 [node name="ObjectBody" type="CharacterBody2D" parent="." unique_id=1628527175]
 z_as_relative = false
+collision_layer = 2
 
 [node name="ObjectSprite" type="Sprite2D" parent="ObjectBody" unique_id=1973276313]
 z_as_relative = false

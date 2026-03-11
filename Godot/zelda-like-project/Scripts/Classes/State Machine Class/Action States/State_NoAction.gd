@@ -26,6 +26,12 @@ func enter():
 ##Listens for action button presses to transition to action states.
 func process_input(event : InputEvent) -> State:
 	#Handle interaction when able
+	#region Light Attack
+	if event.is_action_pressed("attackLight"):
+		if attack_state:
+			return attack_state
+	#endregion Light Attack
+	#region Context Button
 	if event.is_action_pressed("actionButton4") and interact_state:
 		var character = get_character()
 		if not character or not character.body.current_interactable:
@@ -51,6 +57,7 @@ func process_input(event : InputEvent) -> State:
 				return lift_state
 		elif interact_state:
 			return interact_state
+	#endregion Context Button
 	return null
 
 #endregion FUNCTIONS

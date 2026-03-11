@@ -81,6 +81,8 @@ func _ready():
 	
 	#Set currency display
 	var currency_comp : CurrencyComponent = root.currency
+	print("PlayerUX currency check: comp=", currency_comp, " display=", currency_display)
+
 	if currency_comp and currency_display:
 		currency_display.initialize(currency_comp)
 	
@@ -89,7 +91,7 @@ func _ready():
 		if energy_display and not player_cam.zoom_changed.is_connected(_on_zoom_changed):
 			player_cam.zoom_changed.connect(_on_zoom_changed)
 
-func _on_zoom_changed(is_zoomed : bool) -> void:
+func _on_zoom_changed(is_zoomed : bool):
 	if energy_display:
 		if is_zoomed:
 			energy_display.force_show(true)

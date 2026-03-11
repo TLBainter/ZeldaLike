@@ -110,6 +110,10 @@ var _horizontal_velocity : float = 0.0
 var _bounces_remaining : int = 0
 ##Current bounce height (decreases each bounce).
 var _current_bounce_height : float = 0.0
+##Initial horizontal impulse applied on spawn (decays over time).
+var _impulse_velocity : Vector2 = Vector2.ZERO
+##How fast the impulse decays.
+var _impulse_decay : float = 200.0
 #endregion Spawn State
 
 #region Bob State
@@ -195,7 +199,7 @@ func _apply_static_sprites() -> void:
 ##[b]spawn_pos[/b]: Where the item appears.[br]
 ##[b]ground_y[/b]: The Y position to fall to (ground level).[br]
 ##[b]scatter_direction[/b]: Direction to scatter horizontally.
-func spawn(spawn_pos : Vector2, ground_y : float = -1.0, scatter_direction : Vector2 = Vector2.ZERO) -> void:
+func spawn(spawn_pos : Vector2, ground_y : float = -1.0, scatter_direction : Vector2 = Vector2.ZERO, impulse_speed : float = 0.0) -> void:
 	global_position = spawn_pos
 	_target_y = ground_y if ground_y >= 0.0 else spawn_pos.y
 	_scatter_dir = scatter_direction.normalized()
@@ -214,11 +218,15 @@ func spawn(spawn_pos : Vector2, ground_y : float = -1.0, scatter_direction : Vec
 			"Drop":
 				_vertical_velocity = -drop_arc_strength
 				_horizontal_velocity = _scatter_dir.x * drop_fall_speed * 0.3
+			"Fall":
+				_vertical_velocity = -drop_arc_strength * 0.4
 			"Bounce":
 				_bounces_remaining = randi_range(1, 5)
 				_current_bounce_height = bounce_initial_height
 				_vertical_velocity = -_current_bounce_height
 				_horizontal_velocity = _scatter_dir.x * bounce_speed * 0.4
+	if impulse_speed > 0.0 and scatter_direction != Vector2.ZERO:
+		_impulse_velocity = scatter_direction.normalized() * impulse_speed
 	set_physics_process(true)
 	if debug_me:
 		print(debug_name, ": Spawned at ", spawn_pos, " target_y=", _target_y, " gravity=", pickup_data.gravity_type if pickup_data else "none")
@@ -230,11 +238,16 @@ func _physics_process(delta : float) -> void:
 	if not pickup_data:
 		_finish_spawn()
 		return
+	if _impulse_velocity.length() > 0.5:
+		global_position += _impulse_velocity * delta
+		_impulse_velocity = _impulse_velocity.move_toward(Vector2.ZERO, _impulse_decay * delta)
 	match pickup_data.gravity_type:
 		"Float":
 			_process_float(delta)
 		"Drop":
 			_process_drop(delta)
+		"Fall":
+			_process_fall(delta)
 		"Bounce":
 			_process_bounce(delta)
 		_:
@@ -255,6 +268,14 @@ func _process_drop(delta : float) -> void:
 	global_position.y += _vertical_velocity * delta
 	global_position.x += _horizontal_velocity * delta
 	_horizontal_velocity = move_toward(_horizontal_velocity, 0.0, drop_fall_speed * delta)
+	if global_position.y >= _target_y:
+		global_position.y = _target_y
+		_finish_spawn()
+
+##Drop heavily; has a minor, negligible arc.
+func _process_fall(delta : float) -> void:
+	_vertical_velocity += drop_fall_speed * 1.5 * delta
+	global_position.y += _vertical_velocity * delta
 	if global_position.y >= _target_y:
 		global_position.y = _target_y
 		_finish_spawn()

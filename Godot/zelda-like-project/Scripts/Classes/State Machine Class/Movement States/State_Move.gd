@@ -57,6 +57,8 @@ func _on_move(move_input : Vector2, move_strength : float):
 		state_machine.change_state(idle_state)
 	elif move_strength > 0.49 and run_state:
 		var character = get_character()
+		if coordinator.context_locked:
+			return
 		if character and character.energy and character.energy.is_exhausted_state:
 			return
 		state_machine.change_state(run_state)

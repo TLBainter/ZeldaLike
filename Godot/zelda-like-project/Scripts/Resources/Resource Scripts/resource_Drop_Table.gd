@@ -14,6 +14,9 @@ extends Resource
 ##[b]Guaranteed[/b]: All items in the pool are dropped.[br]
 ##[b]Random[/b]: Items are selected via weighted random rolls.
 @export_enum("Guaranteed", "Random") var drop_type : String = "Random"
+##The percentage chance (0-100) that this drop table is checked at all.[br]
+##100 = always drops. 50 = 50% chance to skip entirely and drop nothing.
+@export_range(0, 100) var drop_chance : int = 100
 
 @export_category("Item Drops")
 ##The pool of possible drops.[br]
@@ -35,6 +38,10 @@ func resolve(player = null) -> Array[PickupResource]:
 	var results : Array[PickupResource] = []
 	if drop_pool.is_empty():
 		return results
+	if drop_chance < 100:
+		var roll = randi_range(1, 100)
+		if roll > drop_chance:
+			return results
 	#Build a filtered pool excluding items the player doesn't need.
 	var eligible_pickups : Array[PickupResource] = []
 	for pickup in drop_pool.keys():

@@ -26,8 +26,11 @@ var state_machine
 @export_group("Debug")
 ##Whether or not you want this state to print debug output.
 @export var debug_me : bool = false
+##Whether you want verbose debug content for this state.
+@export var debug_me_verbose : bool = true
 ##The name that will be used for the debug output of this state.
 @export var debug_name : String = "State"
+
 #=====================#
 ##Whether or not process_input's variable provided was used by the given state.
 var input_consumed : bool = false

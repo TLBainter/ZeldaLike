@@ -148,7 +148,6 @@ func update_context(context_key : String, force : bool = false):
 
 ##Asks the current state to reevaluate and emit its context.[br]
 ##Call this when external conditions change, such as entering or exiting an interact area.
-
 func request_context_refresh():
 	if context_locked:
 		return
@@ -157,5 +156,10 @@ func request_context_refresh():
 	if movement_layer and movement_layer.current_state:
 		var key = movement_layer.current_state.get_context_key()
 		context_changed.emit(key)
+
+##Sends an attack hit message to target(s) of attacks
+func attack_hit() -> void:
+	if action_layer and action_layer.current_state is StateAttack:
+		action_layer.current_state.execute_hit()
 
 #endregion FUNCTIONS

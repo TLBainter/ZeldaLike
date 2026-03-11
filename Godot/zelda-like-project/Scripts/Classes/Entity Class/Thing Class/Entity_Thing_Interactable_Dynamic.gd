@@ -29,6 +29,9 @@ var _snap_target : Vector2 = Vector2.ZERO
 var _snap_active : bool = false
 var _snap_speed : float = 80.0
 
+var _last_damage_source_pos : Vector2 = Vector2.ZERO
+var _damaged_by_attack : bool = false
+
 #endregion VARIABLES
 
 #region FUNCTIONS
@@ -39,7 +42,7 @@ func _ready():
 
 func _physics_process(delta : float):
 	if _is_held and _hold_character and body:
-		body.global_position = _hold_character.body.global_position + _hold_offset
+		body.global_position = _hold_character.body.global_position + Vector2(0, 1)
 	elif _snap_active and body:
 		var distance_left = body.global_position.distance_to(_snap_target)
 		var move_amount = _snap_speed * delta
@@ -99,7 +102,9 @@ func hold(offset : Vector2, character):
 		root.shadow.visible = false
 	disable_collision()
 	if body and character.body:
-		body.global_position = character.body.global_position + offset
+		body.global_position = character.body.global_position + Vector2(0, 1)
+	if root and root.sprite:
+		root.sprite.position = offset
 	set_physics_process(true)
 	if debug_me:
 		print(debug_name, " is now being held by ", character, ".")
@@ -112,6 +117,8 @@ func release(position : Vector2, restore_collision : bool = true):
 	set_physics_process(false)
 	if body:
 		body.global_position = position
+	if root and root.sprite:
+		root.sprite.position = Vector2.ZERO
 	if restore_collision:
 		enable_collision()
 	if root and root.shadow:
@@ -165,6 +172,9 @@ func _spawn_drops(player = null):
 		return
 	var spawn_pos = body.global_position if body else global_position
 	var space_state = get_world_2d().direct_space_state
+	var base_scatter_dir = Vector2.ZERO
+	if _damaged_by_attack and _last_damage_source_pos != Vector2.ZERO:
+		base_scatter_dir = (spawn_pos - _last_damage_source_pos).normalized()
 	for i in range(drops.size()):
 		var pickup = drops[i]
 		if not pickup:
@@ -173,13 +183,22 @@ func _spawn_drops(player = null):
 		world_item.pickup_data = pickup
 		get_tree().current_scene.add_child(world_item)
 		#Scatter items in different directions.
-		var scatter_angle = (TAU / max(drops.size(), 1)) * i + randf_range(-0.3, 0.3)
-		var scatter_dir = Vector2(cos(scatter_angle), sin(scatter_angle))
+		var scatter_dir : Vector2
+		if base_scatter_dir != Vector2.ZERO:
+			var spread_angle = randf_range(-0.6, 0.6)
+			scatter_dir = base_scatter_dir.rotated(spread_angle)
+		else:
+			var scatter_angle = (TAU / max(drops.size(), 1)) * i + randf_range(-0.3, 0.3)
+			scatter_dir = Vector2(cos(scatter_angle), sin(scatter_angle))
 		scatter_dir = _find_clear_direction(space_state, spawn_pos, scatter_dir)
-		var item_spawn_pos = spawn_pos + Vector2(0, -8)
-		world_item.spawn(item_spawn_pos, spawn_pos.y, scatter_dir)
+		var spawn_offset = scatter_dir * 12.0
+		var item_spawn_pos = spawn_pos + spawn_offset + Vector2(0, -8)
+		var impulse = 60.0 if _damaged_by_attack else 0.0
+		world_item.spawn(item_spawn_pos, spawn_pos.y + spawn_offset.y, scatter_dir, impulse)
 		if debug_me:
 			print(debug_name, ": Spawned drop '", pickup.item.item_name if pickup.item else "unknown", "' at ", item_spawn_pos)
+	_damaged_by_attack = false
+	_last_damage_source_pos = Vector2.ZERO
 
 func _find_clear_direction(space_state : PhysicsDirectSpaceState2D, origin : Vector2, preferred_dir : Vector2) -> Vector2:
 	var ray_length : float = 24.0
@@ -221,5 +240,35 @@ func _on_break_anim_finished(_anim_name : String):
 	queue_free()
 
 #endregion BREAK
+
+#region DAMAGE
+##Takes damage from an external source (attack, projectile, etc).[br]
+##Reduces durability. When durability reaches 0, breaks the object.
+func take_damage(amount : int) -> void:
+	if not object_data:
+		if debug_me:
+			print(debug_name, ": take_damage called but no object_data!")
+		return
+	_damaged_by_attack = true
+	var player = _find_player()
+	if player and player.body:
+		_last_damage_source_pos = player.body.global_position
+	if debug_me:
+		print(debug_name, ": take_damage(", amount, ") — durability before: ", object_data.durability)
+	object_data.durability -= amount
+	if debug_me:
+		print(debug_name, ": Took ", amount, " damage. Durability: ", object_data.durability)
+	#Play impact sound.
+	if object_data.material and object_data.material.impact_sounds:
+		if not object_data.material.impact_sounds.sl.is_empty():
+			var clip = object_data.material.impact_sounds.sl.pick_random()
+			if audioManager:
+				audioManager.play(clip, "Environment")
+	#Break if durability depleted.
+	if object_data.durability <= 0:
+		if debug_me:
+			print(debug_name, ": Durability depleted! Breaking.")
+		break_me()
+#endregion DAMAGE
 
 #endregion FUNCTIONS
