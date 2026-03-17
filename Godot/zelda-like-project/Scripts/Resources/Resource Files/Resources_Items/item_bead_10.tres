@@ -3,7 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://b8767nmff018p" path="res://Sprites/Item Sprites/bead_10_pickup.tres" id="1_ru0na"]
 [ext_resource type="Script" uid="uid://dps4pg1os47me" path="res://Scripts/Resources/Resource Scripts/resource_Item.gd" id="2_dfuvp"]
 [ext_resource type="Texture2D" uid="uid://bcifbh3vly7iw" path="res://Sprites/Item Sprites/item_pickup_shadow.tres" id="3_i7fxf"]
-[ext_resource type="Resource" uid="uid://b578mryux50rt" path="res://Scripts/Resources/Resource Files/Resources_Sound Libraries/currency_sounds.tres" id="4_dfuvp"]
+[ext_resource type="Resource" uid="uid://b578mryux50rt" path="res://Scripts/Resources/Resource Files/Resources_Sound Libraries/UX Libraries/currency_sounds.tres" id="4_dfuvp"]
 
 [resource]
 script = ExtResource("2_dfuvp")

@@ -21,7 +21,7 @@
 [ext_resource type="Script" uid="uid://dwp4hegm041y7" path="res://Scripts/UX/ux_playerElement_Display_Energy.gd" id="16_xwql8"]
 [ext_resource type="PackedScene" uid="uid://21qvkrep0b38" path="res://Scenes/UX/player_ux_magic.tscn" id="18_t6yf8"]
 [ext_resource type="PackedScene" uid="uid://cv8mrdsulnqih" path="res://Scenes/UX/player_ux_currency.tscn" id="19_cmm85"]
-[ext_resource type="Resource" uid="uid://b578mryux50rt" path="res://Scripts/Resources/Resource Files/Resources_Sound Libraries/currency_sounds.tres" id="23_37lcq"]
+[ext_resource type="Resource" uid="uid://b578mryux50rt" path="res://Scripts/Resources/Resource Files/Resources_Sound Libraries/UX Libraries/currency_sounds.tres" id="23_37lcq"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_icyw3"]
 atlas = ExtResource("1_oxfwa")

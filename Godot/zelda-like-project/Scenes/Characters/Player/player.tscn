@@ -1498,7 +1498,7 @@ debug_name = "Player Cam"
 [node name="PlayerAnimator" type="AnimationPlayer" parent="." unique_id=1778712659]
 libraries/ = SubResource("AnimationLibrary_1mdwi")
 script = ExtResource("3_dxcao")
-debug_me = true
+debug_name = "Player Animator"
 
 [node name="PlayerUX" parent="." unique_id=895243336 node_paths=PackedStringArray("root", "input") instance=ExtResource("9_8gg06")]
 root = NodePath("..")

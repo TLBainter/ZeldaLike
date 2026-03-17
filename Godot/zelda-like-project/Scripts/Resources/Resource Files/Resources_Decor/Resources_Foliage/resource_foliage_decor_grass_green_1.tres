@@ -2,6 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://c4ltjc5konle8" path="res://Sprites/Decor Sprites/Foliage/Grass/grass_green_1.tres" id="1_hxww6"]
 [ext_resource type="Script" uid="uid://beqevcm47w0f4" path="res://Scripts/Resources/Resource Scripts/resource_DecorObject.gd" id="1_v86ou"]
+[ext_resource type="Resource" uid="uid://bx3ukerx758gp" path="res://Scripts/Resources/Resource Files/Resources_Sound Libraries/Objects and Materials/grass_sounds_cut.tres" id="2_fl2us"]
 [ext_resource type="Resource" uid="uid://c7pt0r6pf1gmo" path="res://Scripts/Resources/Resource Files/Resources_Drop Tables/grass_drop_table.tres" id="2_wat1r"]
 
 [resource]
@@ -9,5 +10,6 @@ script = ExtResource("1_v86ou")
 atlas_strip = ExtResource("1_hxww6")
 initial_frames = Array[int]([0, 1, 2])
 particle_frames = Array[int]([4, 5])
+break_sounds = ExtResource("2_fl2us")
 drop_table = ExtResource("2_wat1r")
 metadata/_custom_type_script = "uid://beqevcm47w0f4"
