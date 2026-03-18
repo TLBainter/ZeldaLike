@@ -32,9 +32,18 @@ func enter() -> void:
 		return
 	#Calculate drop position in the facing direction.
 	var facing_dir : Vector2 = _get_facing_vector(character.anim.facing) if character.anim else Vector2.DOWN
-	var drop_pos : Vector2 = held.body.global_position
-	if facing_dir.x != 0:
-		drop_pos.x += facing_dir.x * drop_distance
+	var drop_pos : Vector2 = character.body.global_position
+	match character.anim.facing if character.anim else "down":
+		"right":
+			drop_pos.x += 12
+			drop_pos.y -= 6
+		"left":
+			drop_pos.x -= 12
+			drop_pos.y -= 6
+		"down":
+			drop_pos.y += 6
+		"up":
+			drop_pos.y -= 21
 	held.release(drop_pos)
 	if debug_me_verbose:
 		var pre_lift = coordinator.get_meta("pre_lift_pos") if coordinator.has_meta("pre_lift_pos") else Vector2.ZERO
