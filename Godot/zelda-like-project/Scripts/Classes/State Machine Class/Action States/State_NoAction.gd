@@ -43,7 +43,11 @@ func process_input(event : InputEvent) -> State:
 			if character.energy and character.energy.is_exhausted_state:
 				return null
 			var data = owner.object_data
-			var is_moving : bool = character.body.velocity.length() > 0.1
+			var move_input = Input.get_vector("moveLeft", "moveRight", "moveUp", "moveDown")
+			var is_moving : bool = move_input.length() > 0.15
+			if debug_me_verbose:
+				print("NoAction ROUTING: is_moving=", is_moving, " velocity=", character.body.velocity, " vel_length=", character.body.velocity.length())
+				print("  pushable=", data.pushable, " pullable=", data.pullable, " liftable=", data.liftable)
 			# grab the object if it can be grabbed, lift if it can be lifted.
 			#note some objects are grabbable and liftable.
 			#In such cases, the player will only grab if they are moving while pressing the action button; otherwise, they'll lift it.

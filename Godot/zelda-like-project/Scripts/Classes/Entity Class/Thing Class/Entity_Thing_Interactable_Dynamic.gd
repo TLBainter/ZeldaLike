@@ -117,14 +117,13 @@ func release(position : Vector2, restore_collision : bool = true):
 	set_physics_process(false)
 	if body:
 		body.global_position = position
-	if root and root.sprite:
-		root.sprite.position = Vector2.ZERO
+		body.z_index = 0
 	if restore_collision:
+		if root and root.sprite:
+			root.sprite.position = Vector2.ZERO
 		enable_collision()
-	if root and root.shadow:
-		root.shadow.visible = true
-	if debug_me:
-		print(debug_name, " released at ", position)
+		if root and root.shadow:
+			root.shadow.visible = true
 
 ##Disable all CollisionShape2D nodes on the body and stop Interact monitoring.
 func disable_collision():

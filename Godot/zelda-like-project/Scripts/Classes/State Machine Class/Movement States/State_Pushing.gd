@@ -152,10 +152,17 @@ func _physics_process(delta : float) -> void:
 	var distance_left = character.body.global_position.distance_to(_player_snap_target)
 	var move_amount = _snap_speed * delta
 	if move_amount >= distance_left:
-		character.body.global_position = _player_snap_target
+		var remaining = _player_snap_target - character.body.global_position
+		var collision = character.body.move_and_collide(remaining)
+		if collision:
+			_is_snapping = false
+			set_physics_process(false)
 	else:
 		var direction = (_player_snap_target - character.body.global_position).normalized()
-		character.body.global_position += direction * move_amount
+		var collision = character.body.move_and_collide(direction * move_amount)
+		if collision:
+			_is_snapping = false
+			set_physics_process(false)
 
 ##Called when the smooth snap finishes. Checks for continued input or grab release.
 func _on_snap_completed() -> void:

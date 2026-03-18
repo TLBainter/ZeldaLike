@@ -1602,6 +1602,8 @@ metadata/_custom_type_script = "uid://bvgarrfwthp7x"
 [node name="StateDrop" type="Node" parent="StateCoordinator/Action Layer" unique_id=663427068 node_paths=PackedStringArray("no_action_state")]
 script = ExtResource("29_4yec0")
 no_action_state = NodePath("../StateNoAction")
+drop_distance = 4.0
+debug_me = true
 metadata/_custom_type_script = "uid://efny0654vj8a"
 
 [node name="StateHoldingAction" type="Node" parent="StateCoordinator/Action Layer" unique_id=1241853523 node_paths=PackedStringArray("throw_state", "drop_state", "no_action_state", "run_state")]

@@ -56,6 +56,14 @@ func enter() -> void:
 		if not character.anim.animation_finished.is_connected(_on_lift_finished):
 			character.anim.animation_finished.connect(_on_lift_finished, CONNECT_ONE_SHOT)
 		###===END SIGNAL CONNECTION===###
+	if interactable.body:
+		coordinator.set_meta("pre_lift_pos", interactable.body.global_position)
+		coordinator.set_meta("lift_y_offset", interactable.body.global_position.y - character.body.global_position.y)
+		if debug_me_verbose:
+			print("LIFT: Original object body pos: ", interactable.body.global_position)
+			print("LIFT: Player body pos: ", character.body.global_position)
+			print("LIFT: Difference (obj - player): ", interactable.body.global_position - character.body.global_position)
+###===END CHANGE #1===###
 	#Disable collision on the held object.
 	interactable.hold(hold_offset, character)
 	if debug_me:

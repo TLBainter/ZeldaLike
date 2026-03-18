@@ -32,9 +32,22 @@ func enter() -> void:
 		return
 	#Calculate drop position in the facing direction.
 	var facing_dir : Vector2 = _get_facing_vector(character.anim.facing) if character.anim else Vector2.DOWN
-	var drop_pos : Vector2 = character.body.global_position + (facing_dir * drop_distance)
-	#Release the object at the drop position.
+	var drop_pos : Vector2 = held.body.global_position
+	if facing_dir.x != 0:
+		drop_pos.x += facing_dir.x * drop_distance
 	held.release(drop_pos)
+	if debug_me_verbose:
+		var pre_lift = coordinator.get_meta("pre_lift_pos") if coordinator.has_meta("pre_lift_pos") else Vector2.ZERO
+		print("--- DROP POSITION DEBUG ---")
+		print("  Pre-lift object pos: ", pre_lift)
+		print("  Player body pos: ", character.body.global_position)
+		print("  Player-to-original offset: ", pre_lift - character.body.global_position)
+		print("  Calculated drop pos: ", drop_pos)
+		print("  Drop vs original diff: ", drop_pos - pre_lift)
+		print("--- END DROP POSITION DEBUG ---")
+		print("  After release body pos: ", held.body.global_position)
+		print("  After release sprite pos: ", held.root.sprite.position if held.root and held.root.sprite else "no sprite")
+		print("--- END DROP DEBUG ---")
 	#Play drop animation if available.
 	if character.anim and character.anim is CharacterAnimator:
 		character.anim.play_directional_anim("Drop")

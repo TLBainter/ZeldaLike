@@ -115,6 +115,10 @@ func _land(hit_something : bool):
 		_sprite.position = _sprite_original_offset
 	var broke : bool = false
 	#Check if the object should break.
+	if _body and _body.get_parent() and "ObjectSprite" in _body.get_parent():
+		_body.get_parent().sprite.position = Vector2.ZERO
+	if _body and _body.get_parent() and "ObjectShadow" in _body.get_parent():
+		_body.get_parent().shadow.visible = true
 	if _object and _object.object_data:
 		if _object.object_data.breakable:
 			_object.break_me()
