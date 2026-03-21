@@ -1,12 +1,12 @@
 [gd_resource type="Resource" script_class="SoundLibrary" format=3 uid="uid://cwn74druenciq"]
 
 [ext_resource type="Script" uid="uid://vdqimlmcg4ql" path="res://Scripts/Resources/Resource Scripts/resource_Sound_Library.gd" id="1_je0gb"]
-[ext_resource type="AudioStream" uid="uid://dayk5ffle6fnn" path="res://Sound/Materials/Ceramic/ceramic_drop_1.wav" id="2_a87bj"]
-[ext_resource type="AudioStream" uid="uid://dkrw00scxhh7k" path="res://Sound/Materials/Ceramic/ceramic_drop_2.wav" id="3_68s6w"]
-[ext_resource type="AudioStream" uid="uid://bv0xbdlvykfvg" path="res://Sound/Materials/Ceramic/ceramic_drop_3.wav" id="4_2hpkp"]
-[ext_resource type="AudioStream" uid="uid://ckxx44dwcu8w0" path="res://Sound/Materials/Ceramic/ceramic_drop_4.wav" id="5_7gv2i"]
-[ext_resource type="AudioStream" uid="uid://btsdsyu4x63h8" path="res://Sound/Materials/Ceramic/ceramic_drop_5.wav" id="6_qlajb"]
-[ext_resource type="AudioStream" uid="uid://w4mhn80eov6g" path="res://Sound/Materials/Ceramic/ceramic_drop_6.wav" id="7_02q2m"]
+[ext_resource type="AudioStream" uid="uid://dayk5ffle6fnn" path="res://Sound/SFX/Materials/Ceramic/ceramic_drop_1.wav" id="2_a87bj"]
+[ext_resource type="AudioStream" uid="uid://dkrw00scxhh7k" path="res://Sound/SFX/Materials/Ceramic/ceramic_drop_2.wav" id="3_68s6w"]
+[ext_resource type="AudioStream" uid="uid://bv0xbdlvykfvg" path="res://Sound/SFX/Materials/Ceramic/ceramic_drop_3.wav" id="4_2hpkp"]
+[ext_resource type="AudioStream" uid="uid://ckxx44dwcu8w0" path="res://Sound/SFX/Materials/Ceramic/ceramic_drop_4.wav" id="5_7gv2i"]
+[ext_resource type="AudioStream" uid="uid://btsdsyu4x63h8" path="res://Sound/SFX/Materials/Ceramic/ceramic_drop_5.wav" id="6_qlajb"]
+[ext_resource type="AudioStream" uid="uid://w4mhn80eov6g" path="res://Sound/SFX/Materials/Ceramic/ceramic_drop_6.wav" id="7_02q2m"]
 
 [resource]
 script = ExtResource("1_je0gb")

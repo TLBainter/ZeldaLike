@@ -1,9 +1,9 @@
 [gd_resource type="Resource" script_class="SoundLibrary" format=3 uid="uid://bx3ukerx758gp"]
 
 [ext_resource type="Script" uid="uid://vdqimlmcg4ql" path="res://Scripts/Resources/Resource Scripts/resource_Sound_Library.gd" id="1_6baqt"]
-[ext_resource type="AudioStream" uid="uid://dsujamcle5bms" path="res://Sound/Materials/Grass/grass-cut_01.wav" id="2_jwaot"]
-[ext_resource type="AudioStream" uid="uid://b8iv3ksgi6lv5" path="res://Sound/Materials/Grass/grass-cut_02.wav" id="3_aubya"]
-[ext_resource type="AudioStream" uid="uid://dvb6npfx28uf4" path="res://Sound/Materials/Grass/grass-cut_03.wav" id="4_4bdsh"]
+[ext_resource type="AudioStream" uid="uid://dsujamcle5bms" path="res://Sound/SFX/Materials/Grass/grass-cut_01.wav" id="2_jwaot"]
+[ext_resource type="AudioStream" uid="uid://b8iv3ksgi6lv5" path="res://Sound/SFX/Materials/Grass/grass-cut_02.wav" id="3_aubya"]
+[ext_resource type="AudioStream" uid="uid://dvb6npfx28uf4" path="res://Sound/SFX/Materials/Grass/grass-cut_03.wav" id="4_4bdsh"]
 
 [resource]
 script = ExtResource("1_6baqt")

@@ -1,0 +1,80 @@
+[gd_scene format=3 uid="uid://k2xjf6ebp7x8"]
+
+[ext_resource type="Script" uid="uid://ud12qe3s1pf2" path="res://Scripts/UX/ux_pauseMenu_menuHoverable.gd" id="1_hs65m"]
+[ext_resource type="Texture2D" uid="uid://csbyknolw1ify" path="res://Sprites/UX/Pause Menu Elements/ux_menu_slot_square-small.png" id="2_xdy3j"]
+[ext_resource type="Texture2D" uid="uid://354uv6aeyi2n" path="res://Sprites/UX/Pause Menu Elements/Cursor Images/ux_cursor-small-square.png" id="3_tpnf1"]
+[ext_resource type="Texture2D" uid="uid://dyf62j83ix406" path="res://Sprites/UX/Pause Menu Elements/ux_menu_slot_square-xtra-small.png" id="4_xdy3j"]
+[ext_resource type="Texture2D" uid="uid://cm8v5p88vwlr8" path="res://Sprites/UX/Pause Menu Elements/Cursor Images/ux_cursor-xtra-small-square.png" id="5_tpnf1"]
+
+[sub_resource type="Animation" id="Animation_jfkd1"]
+resource_name = "CursorActive"
+length = 0.5
+loop_mode = 2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.33333334, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1.04, 1.04), Vector2(1.05, 1.05)]
+}
+
+[sub_resource type="Animation" id="Animation_nqh24"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_pr1q6"]
+_data = {
+&"CursorActive": SubResource("Animation_jfkd1"),
+&"RESET": SubResource("Animation_nqh24")
+}
+
+[node name="MenuPanel" type="Panel" unique_id=370079235 node_paths=PackedStringArray("panel_rect", "cursor_anim", "cursor_rect")]
+self_modulate = Color(1, 1, 1, 0)
+size_flags_horizontal = 0
+size_flags_vertical = 0
+script = ExtResource("1_hs65m")
+panel_rect = NodePath("PanelBCKG")
+panel_texture = ExtResource("2_xdy3j")
+content_anchors_preset = 0
+cursor_anim = NodePath("PanelBCKG/PanelCursor/CursorActiveAnimator")
+cursor_texture = ExtResource("3_tpnf1")
+cursor_rect = NodePath("PanelBCKG/PanelCursor")
+
+[node name="PanelBCKG" type="TextureRect" parent="." unique_id=1291658304]
+layout_mode = 1
+offset_right = 48.0
+offset_bottom = 48.0
+pivot_offset_ratio = Vector2(0.5, 0.5)
+texture = ExtResource("4_xdy3j")
+stretch_mode = 5
+
+[node name="PanelCursor" type="TextureRect" parent="PanelBCKG" unique_id=299574781]
+z_index = 1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset_ratio = Vector2(0.4, 0.5)
+texture = ExtResource("5_tpnf1")
+stretch_mode = 5
+
+[node name="CursorActiveAnimator" type="AnimationPlayer" parent="PanelBCKG/PanelCursor" unique_id=2141237903]
+libraries/ = SubResource("AnimationLibrary_pr1q6")

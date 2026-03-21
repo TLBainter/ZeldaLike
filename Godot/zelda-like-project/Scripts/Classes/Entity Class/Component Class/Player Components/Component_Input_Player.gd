@@ -12,6 +12,14 @@ signal actionButtonPressed(button : String)
 
 #region VARIABLES
 
+@export_group("External Components")
+##A reference to the pause menu's scene file.
+@export var pause_menu_scene : PackedScene
+
+#region Internal Variables
+#region pause menu variables
+var _pause_menu_instance : PauseMenu = null
+#region Input References
 const ACTION_BUTTONS = ["actionButton1", "actionButton2", "actionButton3", "actionButton4"]
 
 #endregion VARIABLES
@@ -43,11 +51,31 @@ func _process(_delta):
 	#endregion
 
 func _unhandled_input(event : InputEvent):
+	#PAUSE BUTTON HANDLING#
+	if event.is_action_pressed("pause"):
+		if get_tree().paused:
+			return #NOTE: Pause Menu handles its own close input
+		_open_pause_menu()
 	#ACTION BUTTON HANDLING#
 	for action in ACTION_BUTTONS:
 		if event.is_action_pressed(action):
 			_action_button_press(action)
 			break
+
+#region Pause Menu
+
+func _open_pause_menu():
+	if not pause_menu_scene:
+		return
+	if _pause_menu_instance and is_instance_valid(_pause_menu_instance):
+		#Reuse existing instance.
+		_pause_menu_instance.open()
+	else:
+		#First time — instantiate and keep reference.
+		_pause_menu_instance = pause_menu_scene.instantiate()
+		get_tree().root.add_child(_pause_menu_instance)
+
+#endregion PauseMenu
 
 #region Button Press
 #region Action Button handler

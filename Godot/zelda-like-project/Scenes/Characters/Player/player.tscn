@@ -6,6 +6,7 @@
 [ext_resource type="Script" uid="uid://c2qwo60bn5m36" path="res://Scripts/Classes/Entity Class/Component Class/Player Components/Component_Input_Player.gd" id="2_qqvsf"]
 [ext_resource type="Script" uid="uid://b48vsvx2w4bvf" path="res://Scripts/Classes/Entity Class/Component Class/Player Components/Component_Stamina.gd" id="3_apx8m"]
 [ext_resource type="Script" uid="uid://bthr8p0ps1qbf" path="res://Scripts/Classes/Entity Class/Characters/Character Animator/Character_Animator.gd" id="3_dxcao"]
+[ext_resource type="PackedScene" uid="uid://tgithof7e8op" path="res://Scenes/UX/menu_pause.tscn" id="5_1ujki"]
 [ext_resource type="Script" uid="uid://djapfq7f0epj" path="res://Scripts/Classes/Entity Class/Component Class/Player Components/Component_Currency.gd" id="5_2iqoh"]
 [ext_resource type="Script" uid="uid://b4n8t40ywnse5" path="res://Scripts/Classes/Entity Class/Component Class/Player Components/Component_Health_Player.gd" id="5_8gg06"]
 [ext_resource type="Script" uid="uid://bnvc2tsxle17g" path="res://Scripts/Classes/Entity Class/Component Class/Component_Movement.gd" id="6_fu1fx"]
@@ -1430,6 +1431,7 @@ debug_color = Color(0.9755257, 0, 0.422273, 0.41960785)
 
 [node name="PlayerInput" type="Node" parent="Component Manager" unique_id=129810198]
 script = ExtResource("2_qqvsf")
+pause_menu_scene = ExtResource("5_1ujki")
 debug_name = "Player Input Component"
 metadata/_custom_type_script = "uid://dnjxdytfvi2k6"
 
