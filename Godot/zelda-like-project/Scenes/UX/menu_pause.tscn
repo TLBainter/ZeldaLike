@@ -1,0 +1,442 @@
+[gd_scene format=3 uid="uid://tgithof7e8op"]
+
+[ext_resource type="Texture2D" uid="uid://cj0l7whoss57g" path="res://Sprites/UX/Pause Menu Elements/ux_menu_background.png" id="1_j1coy"]
+[ext_resource type="Texture2D" uid="uid://csbyknolw1ify" path="res://Sprites/UX/Pause Menu Elements/ux_menu_slot_square-small.png" id="2_a6vh7"]
+[ext_resource type="Texture2D" uid="uid://dyf62j83ix406" path="res://Sprites/UX/Pause Menu Elements/ux_menu_slot_square-xtra-small.png" id="3_yrxvj"]
+[ext_resource type="Texture2D" uid="uid://cmjjjpb3gqdqv" path="res://Sprites/UX/Pause Menu Elements/ux_menu_info-box.png" id="4_u5gy4"]
+[ext_resource type="FontFile" uid="uid://m1c0i2aa4cyp" path="res://Text and Style/Fonts/GothicPixelBody.ttf" id="5_cfx7s"]
+[ext_resource type="Texture2D" uid="uid://wmhlgfrjl7mt" path="res://Sprites/UX/Pause Menu Elements/ux_menu_slot_rectangle-tall.png" id="6_buinw"]
+[ext_resource type="Texture2D" uid="uid://my2ubnoedmvu" path="res://Sprites/UX/Pause Menu Elements/ux_menu_slot_rectangle-wide.png" id="7_s3wyq"]
+[ext_resource type="Texture2D" uid="uid://6a2omo18dffh" path="res://Sprites/UX/Pause Menu Elements/ux_menu_slot_rectangle-ultra-wide.png" id="8_6131l"]
+
+[sub_resource type="Theme" id="Theme_buinw"]
+default_font = ExtResource("5_cfx7s")
+
+[node name="PauseMenu" type="Control" unique_id=569803401]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PauseMenuCanvas" type="CanvasLayer" parent="." unique_id=385865346]
+
+[node name="MarginContainer" type="MarginContainer" parent="PauseMenuCanvas" unique_id=686872215]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="MenuBackgroundPanel" type="Panel" parent="PauseMenuCanvas/MarginContainer" unique_id=1208118477]
+self_modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+
+[node name="MenuBackgroundTexture" type="TextureRect" parent="PauseMenuCanvas/MarginContainer/MenuBackgroundPanel" unique_id=1906844450]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_j1coy")
+stretch_mode = 3
+
+[node name="MenuBackgroundContainer" type="Panel" parent="PauseMenuCanvas/MarginContainer/MenuBackgroundPanel" unique_id=1358152468]
+self_modulate = Color(1, 0, 0, 0)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -475.0
+offset_top = -270.0
+offset_right = 475.0
+offset_bottom = 270.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset_ratio = Vector2(0.5, 0.5)
+
+[node name="MenuSpellPanels" type="PanelContainer" parent="PauseMenuCanvas/MarginContainer/MenuBackgroundPanel/MenuBackgroundContainer" unique_id=983105635]
+self_modulate = Color(1, 1, 1, 0)
+custom_minimum_size = Vector2(705, 36)
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -352.5
+offset_top = 75.0
+offset_right = 352.5
+offset_bottom = 175.0
+grow_horizontal = 2
+pivot_offset_ratio = Vector2(0.5, 0)
+
+[node name="MenuSpellContainer" type="GridContainer" parent="PauseMenuCanvas/MarginContainer/MenuBackgroundPanel/MenuBackgroundContainer/MenuSpellPanels" unique_id=540965915]
+layout_mode = 2
+theme_override_constants/h_separation = 151
+theme_override_constants/v_separation = 0
+columns = 5
+
+[node name="MenuSpellPanel1" type="Panel" parent="PauseMenuCanvas/MarginContainer/MenuBackgroundPanel/MenuBackgroundContainer/MenuSpellPanels/MenuSpellContainer" unique_id=61270577]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="PauseMenuCanvas/MarginContainer/MenuBackgroundPanel/MenuBackgroundContainer/MenuSpellPanels/MenuSpellContainer/MenuSpellPanel1" unique_id=1210831901]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("2_a6vh7")
+
+[node name="MenuSpellPanel2" type="Panel" parent="PauseMenuCanvas/MarginContainer/MenuBackgroundPanel/MenuBackgroundContainer/MenuSpellPanels/MenuSpellContainer" unique_id=1049775834]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="PauseMenuCanvas/MarginContainer/MenuBackgroundPanel/MenuBackgroundContainer/MenuSpellPanels/MenuSpellContainer/MenuSpellPanel2" unique_id=1172479846]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("2_a6vh7")
+
+[node name="MenuSpellPanel3" type="Panel" parent="PauseMenuCanvas/MarginContainer/MenuBackgroundPanel/MenuBackgroundContainer/MenuSpellPanels/MenuSpellContainer" unique_id=458148432]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="PauseMenuCanvas/MarginContainer/MenuBackgroundPanel/MenuBackgroundContainer/MenuSpellPanels/MenuSpellContainer/MenuSpellPanel3" unique_id=975654845]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("2_a6vh7")
+
+[node name="MenuSpellPanel4" type="Panel" parent="PauseMenuCanvas/MarginContainer/MenuBackgroundPanel/MenuBackgroundContainer/MenuSpellPanels/MenuSpellContainer" unique_id=1308615239]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="PauseMenuCanvas/MarginContainer/MenuBackgroundPanel/MenuBackgroundContainer/MenuSpellPanels/MenuSpellContainer/MenuSpellPanel4" unique_id=712590812]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("2_a6vh7")
+
+[node name="MenuSpellPanel5" type="Panel" parent="PauseMenuCanvas/MarginContainer/MenuBackgroundPanel/MenuBackgroundContainer/MenuSpellPanels/MenuSpellContainer" unique_id=1730179661]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="PauseMenuCanvas/MarginContainer/MenuBackgroundPanel/MenuBackgroundContainer/MenuSpellPanels/MenuSpellContainer/MenuSpellPanel5" unique_id=278082662]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("2_a6vh7")
+
+[node name="MenuIngredientPanels" type="PanelContainer" parent="PauseMenuCanvas/MarginContainer/MenuBackgroundPanel/MenuBackgroundContainer" unique_id=328296351]
+self_modulate = Color(0.59, 0, 0, 0)
+custom_minimum_size = Vector2(96, 192)
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 75.0
+offset_top = -45.0
+offset_right = 171.0
+offset_bottom = 147.0
+grow_vertical = 2
+pivot_offset_ratio = Vector2(0.5, 0.5)
+
+[node name="MenuIngredientContainer" type="GridContainer" parent="PauseMenuCanvas/MarginContainer/MenuBackgroundPanel/MenuBackgroundContainer/MenuIngredientPanels" unique_id=1227621573]
+layout_mode = 2
+theme_override_constants/h_separation = 48
+theme_override_constants/v_separation = 48
+columns = 2
+
+[node name="MenuIngredientPanel1" type="Panel" parent="PauseMenuCanvas/MarginContainer/MenuBackgroundPanel/MenuBackgroundContainer/MenuIngredientPanels/MenuIngredientContainer" unique_id=782917649]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="PauseMenuCanvas/MarginContainer/MenuBackgroundPanel/MenuBackgroundContainer/MenuIngredientPanels/MenuIngredientContainer/MenuIngredientPanel1" unique_id=1104673619]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("3_yrxvj")
+stretch_mode = 4
+
+[node name="MenuIngredientPanel2" type="Panel" parent="PauseMenuCanvas/MarginContainer/MenuBackgroundPanel/MenuBackgroundContainer/MenuIngredientPanels/MenuIngredientContainer" unique_id=176178954]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="PauseMenuCanvas/MarginContainer/MenuBackgroundPanel/MenuBackgroundContainer/MenuIngredientPanels/MenuIngredientContainer/MenuIngredientPanel2" unique_id=2046652159]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("3_yrxvj")
+stretch_mode = 4
+
+[node name="MenuIngredientPanel3" type="Panel" parent="PauseMenuCanvas/MarginContainer/MenuBackgroundPanel/MenuBackgroundContainer/MenuIngredientPanels/MenuIngredientContainer" unique_id=1824332822]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="PauseMenuCanvas/MarginContainer/MenuBackgroundPanel/MenuBackgroundContainer/MenuIngredientPanels/MenuIngredientContainer/MenuIngredientPanel3" unique_id=428234150]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("3_yrxvj")
+stretch_mode = 4
+
+[node name="MenuIngredientPanel4" type="Panel" parent="PauseMenuCanvas/MarginContainer/MenuBackgroundPanel/MenuBackgroundContainer/MenuIngredientPanels/MenuIngredientContainer" unique_id=1615823261]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="PauseMenuCanvas/MarginContainer/MenuBackgroundPanel/MenuBackgroundContainer/MenuIngredientPanels/MenuIngredientContainer/MenuIngredientPanel4" unique_id=274800113]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("3_yrxvj")
+stretch_mode = 4
+
+[node name="MenuIngredientPanel5" type="Panel" parent="PauseMenuCanvas/MarginContainer/MenuBackgroundPanel/MenuBackgroundContainer/MenuIngredientPanels/MenuIngredientContainer" unique_id=1024994375]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="PauseMenuCanvas/MarginContainer/MenuBackgroundPanel/MenuBackgroundContainer/MenuIngredientPanels/MenuIngredientContainer/MenuIngredientPanel5" unique_id=1440239774]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("3_yrxvj")
+stretch_mode = 4
+
+[node name="MenuIngredientPanel6" type="Panel" parent="PauseMenuCanvas/MarginContainer/MenuBackgroundPanel/MenuBackgroundContainer/MenuIngredientPanels/MenuIngredientContainer" unique_id=874612116]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="PauseMenuCanvas/MarginContainer/MenuBackgroundPanel/MenuBackgroundContainer/MenuIngredientPanels/MenuIngredientContainer/MenuIngredientPanel6" unique_id=771843265]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("3_yrxvj")
+stretch_mode = 4
+
+[node name="MenuIngredientPanel7" type="Panel" parent="PauseMenuCanvas/MarginContainer/MenuBackgroundPanel/MenuBackgroundContainer/MenuIngredientPanels/MenuIngredientContainer" unique_id=1469639657]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="PauseMenuCanvas/MarginContainer/MenuBackgroundPanel/MenuBackgroundContainer/MenuIngredientPanels/MenuIngredientContainer/MenuIngredientPanel7" unique_id=1626839779]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("3_yrxvj")
+stretch_mode = 4
+
+[node name="MenuIngredientPanel8" type="Panel" parent="PauseMenuCanvas/MarginContainer/MenuBackgroundPanel/MenuBackgroundContainer/MenuIngredientPanels/MenuIngredientContainer" unique_id=208328321]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="PauseMenuCanvas/MarginContainer/MenuBackgroundPanel/MenuBackgroundContainer/MenuIngredientPanels/MenuIngredientContainer/MenuIngredientPanel8" unique_id=479011404]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("3_yrxvj")
+stretch_mode = 4
+
+[node name="MenuDungeonItemPanels" type="PanelContainer" parent="PauseMenuCanvas/MarginContainer/MenuBackgroundPanel/MenuBackgroundContainer" unique_id=1535245570]
+self_modulate = Color(0.59, 0, 0, 0)
+custom_minimum_size = Vector2(48, 192)
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 200.0
+offset_top = -45.0
+offset_right = 248.0
+offset_bottom = 147.0
+grow_vertical = 2
+pivot_offset_ratio = Vector2(0.5, 0.5)
+
+[node name="MenuDungeonItemContainer" type="GridContainer" parent="PauseMenuCanvas/MarginContainer/MenuBackgroundPanel/MenuBackgroundContainer/MenuDungeonItemPanels" unique_id=835493731]
+layout_mode = 2
+theme_override_constants/h_separation = 48
+theme_override_constants/v_separation = 72
+
+[node name="MenuDungeonItemPanel1" type="Panel" parent="PauseMenuCanvas/MarginContainer/MenuBackgroundPanel/MenuBackgroundContainer/MenuDungeonItemPanels/MenuDungeonItemContainer" unique_id=1114787653]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="PauseMenuCanvas/MarginContainer/MenuBackgroundPanel/MenuBackgroundContainer/MenuDungeonItemPanels/MenuDungeonItemContainer/MenuDungeonItemPanel1" unique_id=1380190477]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("3_yrxvj")
+stretch_mode = 4
+
+[node name="MenuDungeonItemPanel2" type="Panel" parent="PauseMenuCanvas/MarginContainer/MenuBackgroundPanel/MenuBackgroundContainer/MenuDungeonItemPanels/MenuDungeonItemContainer" unique_id=1020693444]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="PauseMenuCanvas/MarginContainer/MenuBackgroundPanel/MenuBackgroundContainer/MenuDungeonItemPanels/MenuDungeonItemContainer/MenuDungeonItemPanel2" unique_id=520315399]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("3_yrxvj")
+stretch_mode = 4
+
+[node name="MenuDungeonItemPanel3" type="Panel" parent="PauseMenuCanvas/MarginContainer/MenuBackgroundPanel/MenuBackgroundContainer/MenuDungeonItemPanels/MenuDungeonItemContainer" unique_id=183812370]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="PauseMenuCanvas/MarginContainer/MenuBackgroundPanel/MenuBackgroundContainer/MenuDungeonItemPanels/MenuDungeonItemContainer/MenuDungeonItemPanel3" unique_id=145933983]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("3_yrxvj")
+stretch_mode = 4
+
+[node name="MenuInfoBoxCont" type="PanelContainer" parent="PauseMenuCanvas/MarginContainer/MenuBackgroundPanel/MenuBackgroundContainer" unique_id=1819133476]
+self_modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -145.5
+offset_top = -49.0
+offset_right = 145.5
+offset_bottom = 148.00006
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset_ratio = Vector2(0.5, 0.5)
+
+[node name="InfoBoxPanel" type="Panel" parent="PauseMenuCanvas/MarginContainer/MenuBackgroundPanel/MenuBackgroundContainer/MenuInfoBoxCont" unique_id=1961221656]
+self_modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="PauseMenuCanvas/MarginContainer/MenuBackgroundPanel/MenuBackgroundContainer/MenuInfoBoxCont/InfoBoxPanel" unique_id=1370098033]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("4_u5gy4")
+stretch_mode = 4
+
+[node name="RichTextLabel" type="RichTextLabel" parent="PauseMenuCanvas/MarginContainer/MenuBackgroundPanel/MenuBackgroundContainer/MenuInfoBoxCont/InfoBoxPanel" unique_id=408575077]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -125.0
+offset_top = -87.5
+offset_right = 125.0
+offset_bottom = 87.5
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_buinw")
+bbcode_enabled = true
+text = "[color=red]Info Box Container[/color]
+This is the info box!"
+
+[node name="MenuConcoctionPanels" type="PanelContainer" parent="PauseMenuCanvas/MarginContainer/MenuBackgroundPanel/MenuBackgroundContainer" unique_id=767783779]
+self_modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -275.0
+offset_top = -49.0
+offset_right = -81.0
+offset_bottom = 48.0
+grow_horizontal = 0
+grow_vertical = 2
+pivot_offset_ratio = Vector2(1, 0.5)
+
+[node name="ConcoctionPanel1" type="Panel" parent="PauseMenuCanvas/MarginContainer/MenuBackgroundPanel/MenuBackgroundContainer/MenuConcoctionPanels" unique_id=258766734]
+self_modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="TextureRect" type="TextureRect" parent="PauseMenuCanvas/MarginContainer/MenuBackgroundPanel/MenuBackgroundContainer/MenuConcoctionPanels/ConcoctionPanel1" unique_id=772603836]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("6_buinw")
+
+[node name="ConcoctionPanel2" type="Panel" parent="PauseMenuCanvas/MarginContainer/MenuBackgroundPanel/MenuBackgroundContainer/MenuConcoctionPanels" unique_id=23152430]
+self_modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+size_flags_horizontal = 8
+
+[node name="TextureRect" type="TextureRect" parent="PauseMenuCanvas/MarginContainer/MenuBackgroundPanel/MenuBackgroundContainer/MenuConcoctionPanels/ConcoctionPanel2" unique_id=1241933100]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -49.0
+offset_bottom = 98.0
+grow_horizontal = 0
+pivot_offset_ratio = Vector2(1, 0)
+texture = ExtResource("6_buinw")
+
+[node name="ConcoctionPanel3" type="Panel" parent="PauseMenuCanvas/MarginContainer/MenuBackgroundPanel/MenuBackgroundContainer/MenuConcoctionPanels" unique_id=1621974675]
+self_modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="TextureRect" type="TextureRect" parent="PauseMenuCanvas/MarginContainer/MenuBackgroundPanel/MenuBackgroundContainer/MenuConcoctionPanels/ConcoctionPanel3" unique_id=877149170]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -48.5
+offset_right = 48.5
+offset_bottom = 49.0
+grow_horizontal = 2
+texture = ExtResource("7_s3wyq")
+stretch_mode = 4
+
+[node name="ConcoctionPanel4" type="Panel" parent="PauseMenuCanvas/MarginContainer/MenuBackgroundPanel/MenuBackgroundContainer/MenuConcoctionPanels" unique_id=49815355]
+self_modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+size_flags_vertical = 8
+
+[node name="TextureRect" type="TextureRect" parent="PauseMenuCanvas/MarginContainer/MenuBackgroundPanel/MenuBackgroundContainer/MenuConcoctionPanels/ConcoctionPanel4" unique_id=440769718]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -48.5
+offset_top = -49.0
+offset_right = 48.5
+grow_horizontal = 2
+grow_vertical = 0
+texture = ExtResource("7_s3wyq")
+stretch_mode = 4
+
+[node name="MenuCurrencyPanels" type="PanelContainer" parent="PauseMenuCanvas/MarginContainer/MenuBackgroundPanel/MenuBackgroundContainer" unique_id=958024018]
+self_modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -275.0
+offset_top = 100.0
+offset_right = -81.0
+offset_bottom = 150.0
+grow_horizontal = 0
+grow_vertical = 2
+pivot_offset_ratio = Vector2(1, 0.5)
+
+[node name="CurrencyPanel" type="Panel" parent="PauseMenuCanvas/MarginContainer/MenuBackgroundPanel/MenuBackgroundContainer/MenuCurrencyPanels" unique_id=1547504336]
+self_modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+size_flags_vertical = 8
+
+[node name="TextureRect" type="TextureRect" parent="PauseMenuCanvas/MarginContainer/MenuBackgroundPanel/MenuBackgroundContainer/MenuCurrencyPanels/CurrencyPanel" unique_id=950440281]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -48.5
+offset_top = -49.0
+offset_right = 48.5
+grow_horizontal = 2
+grow_vertical = 0
+texture = ExtResource("8_6131l")
+stretch_mode = 4
