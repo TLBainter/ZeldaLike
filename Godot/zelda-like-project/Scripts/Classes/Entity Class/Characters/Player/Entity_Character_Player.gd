@@ -18,6 +18,8 @@ extends Character
 @export var player_ux : PlayerUX
 ##reference to the player's camera
 @export var player_cam : PlayerCam
+##reference to the player's Inventory Component.
+@export var inventory : InventoryComponentPlayer
 @export_category("Player Flags")
 ##Whether or not the player can currently roll
 var can_roll : bool = true

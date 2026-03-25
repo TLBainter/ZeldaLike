@@ -27,11 +27,14 @@ var _held_direction : String = ""
 var _held_time : float = 0.0
 ##Whether the initial repeat delay has passed.
 var _repeat_started : bool = false
+##A reference to the player's inventory component.
+var _inventory : InventoryComponent = null
 
 #endregion VARIABLES
 
 #region FUNCTIONS
 
+#region INITIALIZE
 func _ready():
 	process_mode = Node.PROCESS_MODE_WHEN_PAUSED
 	set_process(false)
@@ -46,6 +49,25 @@ func activate() -> void:
 	set_process(true)
 	if debug_me:
 		print(debug_name, ": Activated. Starting at ", default_hoverable.debug_name if default_hoverable else "null")
+		
+##Sets the inventory reference on all hoverables in the tree.
+func set_inventory(inv : InventoryComponent) -> void:
+	_inventory = inv
+	var hoverables = _get_all_hoverables(get_parent())
+	for h in hoverables:
+		h.inventory = inv
+	if debug_me:
+		print(debug_name, ": Inventory set on ", hoverables.size(), " hoverables.")
+
+##Finds all MenuHoverable nodes under the given root.
+func _get_all_hoverables(node : Node) -> Array[MenuHoverable]:
+	var result : Array[MenuHoverable] = []
+	if node is MenuHoverable:
+		result.append(node)
+	for child in node.get_children():
+		result.append_array(_get_all_hoverables(child))
+	return result
+#endregion INITIALIZE
 
 ##Call this when the menu closes to clean up.
 func deactivate() -> void:

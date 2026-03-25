@@ -23,6 +23,7 @@ buses/default_bus_layout="uid://bg6v5msmxacxc"
 
 audioManager="*uid://cct1tqjxxcrx8"
 dialogueDB="*uid://cbcxd8qo46pai"
+debugConsole="*uid://l8t30uovjgbg"
 
 [display]
 

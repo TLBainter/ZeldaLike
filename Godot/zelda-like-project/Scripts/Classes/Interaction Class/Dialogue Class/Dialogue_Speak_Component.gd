@@ -23,8 +23,14 @@ func start_interaction() -> Dictionary:
 		return{}
 	var current_sequence = dialogue_sequences[_active_sequence_index]
 	var ref_id = current_sequence.get_next_ref_id()
+	if debug_me:
+		print("SpeakComponent requesting ref_id: ", ref_id, " — exists in DB: ", dialogueDB._dialogue_library.has(ref_id))
 	var dialogue_data = dialogueDB.get_dialogue_data(ref_id)
 	#Set the source component for the dialogue controller.
+	if dialogue_data.is_empty():
+		if debug_me:
+			printerr(debug_name, ": No dialogue data found for ref_id ", ref_id)
+		return {}
 	dialogue_data["source_component"] = self
 	if debug_me:
 		print(debug_name, " starting dialogue Ref ID: ", ref_id)

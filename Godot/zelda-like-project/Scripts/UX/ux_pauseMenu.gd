@@ -53,6 +53,10 @@ func _ready():
 	process_mode = Node.PROCESS_MODE_WHEN_PAUSED
 	#Create the dark overlay on a separate CanvasLayer below the menu.
 	_create_overlay()
+	#get inventory data
+	var player = _find_player()
+	if player and player.inventory and menu_controller:
+		menu_controller.set_inventory(player.inventory)
 	#configure the menu controller
 	if menu_controller:
 		menu_controller.activate()
@@ -79,6 +83,11 @@ func open() -> void:
 		_overlay.color.a = 0.0
 	if menu_container:
 		menu_container.modulate.a = 0.0
+	var player = _find_player()
+	if player and player.inventory and menu_controller:
+		menu_controller.set_inventory(player.inventory)
+	if menu_controller:
+		menu_controller.activate()
 	get_tree().paused = true
 	_fading_in = true
 	set_process(true)
@@ -170,4 +179,11 @@ func _close() -> void:
 
 #endregion CLOSE
 
+#region FIND PLAYER
+func _find_player() -> Player:
+	var players = get_tree().get_nodes_in_group("player")
+	if not players.is_empty():
+		return players[0] as Player
+	return null
+#endregion FIND PLAYER
 #endregion FUNCTIONS

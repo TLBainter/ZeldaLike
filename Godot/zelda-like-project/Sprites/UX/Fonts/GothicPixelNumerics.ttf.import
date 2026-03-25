@@ -3,12 +3,12 @@
 importer="font_data_dynamic"
 type="FontFile"
 uid="uid://hmspkjbm2loq"
-path="res://.godot/imported/GothicPixelNumerics.ttf-23a833b15b7309e10facf2de33428b59.fontdata"
+path="res://.godot/imported/GothicPixelNumerics.ttf-45f6f6ba6425d21d7340b97c1734d1c8.fontdata"
 
 [deps]
 
-source_file="res://Text and Style/Fonts/GothicPixelNumerics.ttf"
-dest_files=["res://.godot/imported/GothicPixelNumerics.ttf-23a833b15b7309e10facf2de33428b59.fontdata"]
+source_file="res://Sprites/UX/Fonts/GothicPixelNumerics.ttf"
+dest_files=["res://.godot/imported/GothicPixelNumerics.ttf-45f6f6ba6425d21d7340b97c1734d1c8.fontdata"]
 
 [params]
 

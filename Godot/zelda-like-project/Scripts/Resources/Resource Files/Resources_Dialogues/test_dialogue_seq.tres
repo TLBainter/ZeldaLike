@@ -4,6 +4,7 @@
 
 [resource]
 script = ExtResource("1_s2ae6")
-dialogue_refs = Array[int]([0, 1, 2])
-sequence_type = "Random"
+dialogue_refs = Array[int]([1, 2, 3, 7])
+on_finish = "Switch"
+target_switch_index = 7
 metadata/_custom_type_script = "uid://bistbs770jaqo"

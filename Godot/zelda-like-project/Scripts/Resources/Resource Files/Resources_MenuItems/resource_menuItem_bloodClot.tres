@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="MenuItemResource" format=3 uid="uid://bgq3gvj78xp1q"]
+
+[ext_resource type="Texture2D" uid="uid://dn68oe1fy0vic" path="res://Sprites/Item Sprites/Ingredients/ingredient_menu_bloodClot.tres" id="1_2hv6p"]
+[ext_resource type="Script" uid="uid://cs0x7737rheme" path="res://Scripts/Resources/Resource Scripts/resource_menuItem.gd" id="1_7fsxb"]
+[ext_resource type="FontFile" uid="uid://bsube4x6p1pws" path="res://Sprites/UX/Fonts/GothicPixelSerif.ttf" id="1_mu861"]
+[ext_resource type="Texture2D" uid="uid://do8mrtajvul1a" path="res://Sprites/Item Sprites/Ingredients/ingredient_menuMini_bloodClot.tres" id="2_mu861"]
+[ext_resource type="Texture2D" uid="uid://cj7ih0phnja5h" path="res://Sprites/Item Sprites/Ingredients/ingredient_menuOutline_bloodClot.tres" id="3_3uob4"]
+
+[resource]
+script = ExtResource("1_7fsxb")
+item_id = "blood_clot"
+outline = ExtResource("3_3uob4")
+main = ExtResource("1_2hv6p")
+mini = ExtResource("2_mu861")
+name = "Blood Clot"
+description = "A semi-solid mass of blood cells."
+effect = "Used as an alchemical ingredient for healing salves."
+flash_color = Color(1, 0.6361667, 0.63, 1)
+display_quantity = true
+metadata/_custom_type_script = "uid://cs0x7737rheme"

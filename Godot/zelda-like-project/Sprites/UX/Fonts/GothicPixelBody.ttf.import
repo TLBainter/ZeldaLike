@@ -2,13 +2,13 @@
 
 importer="font_data_dynamic"
 type="FontFile"
-uid="uid://c7dx1gflvghhh"
-path="res://.godot/imported/GothicPixelScript.ttf-d0cb7581a3cba7879a0aed2c20f67a88.fontdata"
+uid="uid://m1c0i2aa4cyp"
+path="res://.godot/imported/GothicPixelBody.ttf-882c0a4ab9fe505e68914a7427e675d2.fontdata"
 
 [deps]
 
-source_file="res://Text and Style/Fonts/GothicPixelScript.ttf"
-dest_files=["res://.godot/imported/GothicPixelScript.ttf-d0cb7581a3cba7879a0aed2c20f67a88.fontdata"]
+source_file="res://Sprites/UX/Fonts/GothicPixelBody.ttf"
+dest_files=["res://.godot/imported/GothicPixelBody.ttf-882c0a4ab9fe505e68914a7427e675d2.fontdata"]
 
 [params]
 
