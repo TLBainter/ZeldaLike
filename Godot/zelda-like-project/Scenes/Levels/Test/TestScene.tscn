@@ -1272,7 +1272,7 @@ tile_map_data = PackedByteArray("AAAHAAIAAgACAAMAAAAHAAMAAQABAAIAAAAIAAIAAQAGAAE
 tile_set = SubResource("TileSet_y5uh3")
 
 [node name="Player" parent="." unique_id=209100190 instance=ExtResource("5_ycnog")]
-position = Vector2(-543, 50)
+position = Vector2(-431, 18)
 
 [node name="Dialogue Test NPC" type="Node2D" parent="." unique_id=1073728327]
 z_index = 1
@@ -1297,8 +1297,7 @@ debug_me = true
 metadata/_custom_type_script = "uid://c54o2iwjc4ysm"
 
 [node name="Grab-Lift Test Object" parent="." unique_id=1295838823 instance=ExtResource("12_6qfvj")]
-position = Vector2(-445, 27)
-debug_me = true
+position = Vector2(-390, 53)
 debug_name = "jar 0"
 
 [node name="Grab-Lift Test Object4" parent="." unique_id=1086858883 instance=ExtResource("12_6qfvj")]
@@ -1328,97 +1327,78 @@ debug_name = "jar 7"
 
 [node name="GrassInstance" parent="." unique_id=802736167 instance=ExtResource("13_53jui")]
 position = Vector2(-505, 16)
-debug_me = true
 debug_name = "grass"
 
 [node name="GrassInstance2" parent="." unique_id=843990254 instance=ExtResource("13_53jui")]
 position = Vector2(-454, 16)
-debug_me = true
 debug_name = "grass"
 
 [node name="GrassInstance3" parent="." unique_id=1077849806 instance=ExtResource("13_53jui")]
 position = Vector2(-471, 16)
-debug_me = true
 debug_name = "grass"
 
 [node name="GrassInstance4" parent="." unique_id=1093299637 instance=ExtResource("13_53jui")]
 position = Vector2(-522, 16)
-debug_me = true
 debug_name = "grass"
 
 [node name="GrassInstance5" parent="." unique_id=1814816652 instance=ExtResource("13_53jui")]
 position = Vector2(-488, 16)
-debug_me = true
 debug_name = "grass"
 
 [node name="GrassInstance6" parent="." unique_id=1788624700 instance=ExtResource("13_53jui")]
 position = Vector2(-505, 8)
-debug_me = true
 debug_name = "grass"
 
 [node name="GrassInstance7" parent="." unique_id=1544137339 instance=ExtResource("13_53jui")]
 position = Vector2(-454, 8)
-debug_me = true
 debug_name = "grass"
 
 [node name="GrassInstance8" parent="." unique_id=1984332583 instance=ExtResource("13_53jui")]
 position = Vector2(-471, 8)
-debug_me = true
 debug_name = "grass"
 
 [node name="GrassInstance9" parent="." unique_id=1118058048 instance=ExtResource("13_53jui")]
 position = Vector2(-522, 8)
-debug_me = true
 debug_name = "grass"
 
 [node name="GrassInstance10" parent="." unique_id=1009224608 instance=ExtResource("13_53jui")]
 position = Vector2(-488, 8)
-debug_me = true
 debug_name = "grass"
 
 [node name="GrassInstance11" parent="." unique_id=465486640 instance=ExtResource("13_53jui")]
 position = Vector2(-505, -1)
-debug_me = true
 debug_name = "grass"
 
 [node name="GrassInstance12" parent="." unique_id=1897666050 instance=ExtResource("13_53jui")]
 position = Vector2(-454, -1)
-debug_me = true
 debug_name = "grass"
 
 [node name="GrassInstance13" parent="." unique_id=2057438511 instance=ExtResource("13_53jui")]
 position = Vector2(-471, -1)
-debug_me = true
 debug_name = "grass"
 
 [node name="GrassInstance14" parent="." unique_id=1178095462 instance=ExtResource("13_53jui")]
 position = Vector2(-522, -1)
-debug_me = true
 debug_name = "grass"
 
 [node name="GrassInstance15" parent="." unique_id=699750257 instance=ExtResource("13_53jui")]
 position = Vector2(-488, -1)
-debug_me = true
 debug_name = "grass"
 
 [node name="GrassInstance16" parent="." unique_id=445085151 instance=ExtResource("13_53jui")]
 position = Vector2(-505, -9)
-debug_me = true
 debug_name = "grass"
 
 [node name="GrassInstance17" parent="." unique_id=1666073671 instance=ExtResource("13_53jui")]
 position = Vector2(-454, -9)
-debug_me = true
 debug_name = "grass"
 
 [node name="GrassInstance18" parent="." unique_id=320015672 instance=ExtResource("13_53jui")]
 position = Vector2(-471, -9)
-debug_me = true
 debug_name = "grass"
 
 [node name="GrassInstance19" parent="." unique_id=1660374881 instance=ExtResource("13_53jui")]
 position = Vector2(-522, -9)
-debug_me = true
 debug_name = "grass"
 
 [node name="GrassInstance20" parent="." unique_id=2108052278 instance=ExtResource("13_53jui")]

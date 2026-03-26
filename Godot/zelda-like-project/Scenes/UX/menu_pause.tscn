@@ -10,11 +10,18 @@
 [ext_resource type="FontFile" uid="uid://m1c0i2aa4cyp" path="res://Sprites/UX/Fonts/GothicPixelBody.ttf" id="5_cfx7s"]
 [ext_resource type="Texture2D" uid="uid://wmhlgfrjl7mt" path="res://Sprites/UX/Pause Menu Elements/ux_menu_slot_rectangle-tall.png" id="6_buinw"]
 [ext_resource type="Texture2D" uid="uid://my2ubnoedmvu" path="res://Sprites/UX/Pause Menu Elements/ux_menu_slot_rectangle-wide.png" id="7_s3wyq"]
+[ext_resource type="Resource" uid="uid://b75122ufnuokb" path="res://Scripts/Resources/Resource Files/Resources_MenuItems/resource_menuItem_redGarnet.tres" id="7_w81et"]
+[ext_resource type="Resource" uid="uid://b84q5tiyurkok" path="res://Scripts/Resources/Resource Files/Resources_MenuItems/resource_menuItem_ritualSteel.tres" id="8_0flxu"]
 [ext_resource type="Texture2D" uid="uid://6a2omo18dffh" path="res://Sprites/UX/Pause Menu Elements/ux_menu_slot_rectangle-ultra-wide.png" id="8_6131l"]
 [ext_resource type="Texture2D" uid="uid://blcfg2kosjo22" path="res://Sprites/UX/Pause Menu Elements/Cursor Images/ux_cursor-wide-rectangle.png" id="9_lvwnl"]
+[ext_resource type="Resource" uid="uid://b2r2oglv6i3ds" path="res://Scripts/Resources/Resource Files/Resources_MenuItems/resource_menuItem_stardust.tres" id="9_w81et"]
 [ext_resource type="Script" uid="uid://d2524m1m5p2j0" path="res://Scripts/Classes/Entity Class/Component Class/Component_Input_menuInput.gd" id="10_6131l"]
+[ext_resource type="Resource" uid="uid://bc6f4hpymrj01" path="res://Scripts/Resources/Resource Files/Resources_MenuItems/resource_menuItem_fulgurite.tres" id="10_c30w2"]
 [ext_resource type="Texture2D" uid="uid://d30wf4t8s2qtp" path="res://Sprites/UX/Pause Menu Elements/Cursor Images/ux_cursor-tall-rectangle.png" id="11_0o2fh"]
+[ext_resource type="Resource" uid="uid://cuiamqd82qicm" path="res://Scripts/Resources/Resource Files/Resources_MenuItems/resource_menuItem_kidney.tres" id="11_p8y57"]
+[ext_resource type="Resource" uid="uid://mcmhyu6mjy6s" path="res://Scripts/Resources/Resource Files/Resources_MenuItems/resource_menuItem_heart.tres" id="12_nj55d"]
 [ext_resource type="Texture2D" uid="uid://bme8ht4t0gibd" path="res://Sprites/UX/Pause Menu Elements/Cursor Images/ux_cursor-xtra-wide-rectangle.png" id="13_1eqdh"]
+[ext_resource type="Resource" uid="uid://co7nrr10clj5s" path="res://Scripts/Resources/Resource Files/Resources_MenuItems/resource_menuItem_meteorite.tres" id="13_xtbrc"]
 
 [sub_resource type="Theme" id="Theme_buinw"]
 default_font = ExtResource("5_cfx7s")
@@ -172,11 +179,10 @@ down_nav = NodePath("../MenuIngredientPanel3")
 right_nav = NodePath("../MenuIngredientPanel2")
 content_pivot_x = 0.0
 content_pivot_y = 0.0
-player_has_item = true
 info_box = NodePath("../../../MenuInfoBoxCont/InfoBoxPanel/RichTextLabel")
 cursor_texture = ExtResource("5_05ck7")
 
-[node name="MenuIngredientPanel2" parent="PauseMenuCanvas/InventoryMenuMarginCont/MenuBackgroundPanel/MenuBackgroundContainer/MenuIngredientPanels/MenuIngredientContainer" unique_id=1831398678 node_paths=PackedStringArray("up_nav", "down_nav", "left_nav", "right_nav") instance=ExtResource("3_05ck7")]
+[node name="MenuIngredientPanel2" parent="PauseMenuCanvas/InventoryMenuMarginCont/MenuBackgroundPanel/MenuBackgroundContainer/MenuIngredientPanels/MenuIngredientContainer" unique_id=1831398678 node_paths=PackedStringArray("up_nav", "down_nav", "left_nav", "right_nav", "info_box") instance=ExtResource("3_05ck7")]
 custom_minimum_size = Vector2(48, 48)
 layout_mode = 2
 size_flags_horizontal = 1
@@ -187,9 +193,11 @@ left_nav = NodePath("../MenuIngredientPanel1")
 right_nav = NodePath("../../../MenuMobilityItemsPanels/MenuMobilityItemsContainer/MenuMobilityItem1")
 content_pivot_x = 0.0
 content_pivot_y = 0.0
+item_resource = ExtResource("7_w81et")
+info_box = NodePath("../../../MenuInfoBoxCont/InfoBoxPanel/RichTextLabel")
 cursor_texture = ExtResource("5_05ck7")
 
-[node name="MenuIngredientPanel3" parent="PauseMenuCanvas/InventoryMenuMarginCont/MenuBackgroundPanel/MenuBackgroundContainer/MenuIngredientPanels/MenuIngredientContainer" unique_id=2140406256 node_paths=PackedStringArray("up_nav", "down_nav", "right_nav") instance=ExtResource("3_05ck7")]
+[node name="MenuIngredientPanel3" parent="PauseMenuCanvas/InventoryMenuMarginCont/MenuBackgroundPanel/MenuBackgroundContainer/MenuIngredientPanels/MenuIngredientContainer" unique_id=2140406256 node_paths=PackedStringArray("up_nav", "down_nav", "right_nav", "info_box") instance=ExtResource("3_05ck7")]
 custom_minimum_size = Vector2(48, 48)
 layout_mode = 2
 size_flags_horizontal = 1
@@ -199,9 +207,11 @@ down_nav = NodePath("../MenuIngredientPanel5")
 right_nav = NodePath("../MenuIngredientPanel4")
 content_pivot_x = 0.0
 content_pivot_y = 0.0
+item_resource = ExtResource("8_0flxu")
+info_box = NodePath("../../../MenuInfoBoxCont/InfoBoxPanel/RichTextLabel")
 cursor_texture = ExtResource("5_05ck7")
 
-[node name="MenuIngredientPanel4" parent="PauseMenuCanvas/InventoryMenuMarginCont/MenuBackgroundPanel/MenuBackgroundContainer/MenuIngredientPanels/MenuIngredientContainer" unique_id=1441290143 node_paths=PackedStringArray("up_nav", "down_nav", "left_nav", "right_nav") instance=ExtResource("3_05ck7")]
+[node name="MenuIngredientPanel4" parent="PauseMenuCanvas/InventoryMenuMarginCont/MenuBackgroundPanel/MenuBackgroundContainer/MenuIngredientPanels/MenuIngredientContainer" unique_id=1441290143 node_paths=PackedStringArray("up_nav", "down_nav", "left_nav", "right_nav", "info_box") instance=ExtResource("3_05ck7")]
 custom_minimum_size = Vector2(48, 48)
 layout_mode = 2
 size_flags_horizontal = 1
@@ -212,9 +222,11 @@ left_nav = NodePath("../MenuIngredientPanel3")
 right_nav = NodePath("../../../MenuMobilityItemsPanels/MenuMobilityItemsContainer/MenuMobilityItem2")
 content_pivot_x = 0.0
 content_pivot_y = 0.0
+item_resource = ExtResource("9_w81et")
+info_box = NodePath("../../../MenuInfoBoxCont/InfoBoxPanel/RichTextLabel")
 cursor_texture = ExtResource("5_05ck7")
 
-[node name="MenuIngredientPanel5" parent="PauseMenuCanvas/InventoryMenuMarginCont/MenuBackgroundPanel/MenuBackgroundContainer/MenuIngredientPanels/MenuIngredientContainer" unique_id=1390295189 node_paths=PackedStringArray("up_nav", "down_nav", "right_nav") instance=ExtResource("3_05ck7")]
+[node name="MenuIngredientPanel5" parent="PauseMenuCanvas/InventoryMenuMarginCont/MenuBackgroundPanel/MenuBackgroundContainer/MenuIngredientPanels/MenuIngredientContainer" unique_id=1390295189 node_paths=PackedStringArray("up_nav", "down_nav", "right_nav", "info_box") instance=ExtResource("3_05ck7")]
 custom_minimum_size = Vector2(48, 48)
 layout_mode = 2
 size_flags_horizontal = 1
@@ -224,9 +236,11 @@ down_nav = NodePath("../MenuIngredientPanel7")
 right_nav = NodePath("../MenuIngredientPanel6")
 content_pivot_x = 0.0
 content_pivot_y = 0.0
+item_resource = ExtResource("10_c30w2")
+info_box = NodePath("../../../MenuInfoBoxCont/InfoBoxPanel/RichTextLabel")
 cursor_texture = ExtResource("5_05ck7")
 
-[node name="MenuIngredientPanel6" parent="PauseMenuCanvas/InventoryMenuMarginCont/MenuBackgroundPanel/MenuBackgroundContainer/MenuIngredientPanels/MenuIngredientContainer" unique_id=816904984 node_paths=PackedStringArray("up_nav", "down_nav", "left_nav", "right_nav") instance=ExtResource("3_05ck7")]
+[node name="MenuIngredientPanel6" parent="PauseMenuCanvas/InventoryMenuMarginCont/MenuBackgroundPanel/MenuBackgroundContainer/MenuIngredientPanels/MenuIngredientContainer" unique_id=816904984 node_paths=PackedStringArray("up_nav", "down_nav", "left_nav", "right_nav", "info_box") instance=ExtResource("3_05ck7")]
 custom_minimum_size = Vector2(48, 48)
 layout_mode = 2
 size_flags_horizontal = 1
@@ -237,9 +251,11 @@ left_nav = NodePath("../MenuIngredientPanel5")
 right_nav = NodePath("../../../MenuMobilityItemsPanels/MenuMobilityItemsContainer/MenuMobilityItem2")
 content_pivot_x = 0.0
 content_pivot_y = 0.0
+item_resource = ExtResource("11_p8y57")
+info_box = NodePath("../../../MenuInfoBoxCont/InfoBoxPanel/RichTextLabel")
 cursor_texture = ExtResource("5_05ck7")
 
-[node name="MenuIngredientPanel7" parent="PauseMenuCanvas/InventoryMenuMarginCont/MenuBackgroundPanel/MenuBackgroundContainer/MenuIngredientPanels/MenuIngredientContainer" unique_id=526353162 node_paths=PackedStringArray("up_nav", "right_nav") instance=ExtResource("3_05ck7")]
+[node name="MenuIngredientPanel7" parent="PauseMenuCanvas/InventoryMenuMarginCont/MenuBackgroundPanel/MenuBackgroundContainer/MenuIngredientPanels/MenuIngredientContainer" unique_id=526353162 node_paths=PackedStringArray("up_nav", "right_nav", "info_box") instance=ExtResource("3_05ck7")]
 custom_minimum_size = Vector2(48, 48)
 layout_mode = 2
 size_flags_horizontal = 1
@@ -248,9 +264,11 @@ up_nav = NodePath("../MenuIngredientPanel5")
 right_nav = NodePath("../MenuIngredientPanel8")
 content_pivot_x = 0.0
 content_pivot_y = 0.0
+item_resource = ExtResource("12_nj55d")
+info_box = NodePath("../../../MenuInfoBoxCont/InfoBoxPanel/RichTextLabel")
 cursor_texture = ExtResource("5_05ck7")
 
-[node name="MenuIngredientPanel8" parent="PauseMenuCanvas/InventoryMenuMarginCont/MenuBackgroundPanel/MenuBackgroundContainer/MenuIngredientPanels/MenuIngredientContainer" unique_id=541002357 node_paths=PackedStringArray("up_nav", "left_nav", "right_nav") instance=ExtResource("3_05ck7")]
+[node name="MenuIngredientPanel8" parent="PauseMenuCanvas/InventoryMenuMarginCont/MenuBackgroundPanel/MenuBackgroundContainer/MenuIngredientPanels/MenuIngredientContainer" unique_id=541002357 node_paths=PackedStringArray("up_nav", "left_nav", "right_nav", "info_box") instance=ExtResource("3_05ck7")]
 custom_minimum_size = Vector2(48, 48)
 layout_mode = 2
 size_flags_horizontal = 1
@@ -260,6 +278,8 @@ left_nav = NodePath("../MenuIngredientPanel7")
 right_nav = NodePath("../../../MenuMobilityItemsPanels/MenuMobilityItemsContainer/MenuMobilityItem3")
 content_pivot_x = 0.0
 content_pivot_y = 0.0
+item_resource = ExtResource("13_xtbrc")
+info_box = NodePath("../../../MenuInfoBoxCont/InfoBoxPanel/RichTextLabel")
 cursor_texture = ExtResource("5_05ck7")
 
 [node name="MenuMobilityItemsPanels" type="PanelContainer" parent="PauseMenuCanvas/InventoryMenuMarginCont/MenuBackgroundPanel/MenuBackgroundContainer" unique_id=1535245570]

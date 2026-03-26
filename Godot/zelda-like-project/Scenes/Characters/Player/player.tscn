@@ -1627,6 +1627,8 @@ metadata/_custom_type_script = "uid://u7tc08rpnemp"
 [node name="StateThrow" type="Node" parent="StateCoordinator/Action Layer" unique_id=782550121 node_paths=PackedStringArray("no_action_state")]
 script = ExtResource("31_2iqoh")
 no_action_state = NodePath("../StateNoAction")
+debug_me = true
+debug_name = "ThrowState"
 metadata/_custom_type_script = "uid://cv26r6a3savpe"
 
 [node name="StateAttack" type="Node" parent="StateCoordinator/Action Layer" unique_id=2085364015 node_paths=PackedStringArray("no_action_state", "attack_area")]

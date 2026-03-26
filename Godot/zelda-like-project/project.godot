@@ -27,7 +27,6 @@ debugConsole="*uid://l8t30uovjgbg"
 
 [display]
 
-window/size/mode=2
 window/stretch/mode="viewport"
 window/stretch/scale_mode="integer"
 

@@ -100,7 +100,7 @@ func _physics_process(delta : float):
 		#Parabolic arc: peaks at 0.5 progress.
 		var arc_offset : float = -_arc_height * 4.0 * progress * (1.0 - progress)
 		_sprite.position = _sprite_original_offset + Vector2(0, arc_offset)
-		if debug_me:
+		if debug_me and debug_me_verbose:
 			print(debug_name, ": progress=", snapped(progress, 0.01), " arc_offset=", snapped(arc_offset, 0.1), " sprite.pos=", _sprite.position)
 	#Check if we've reached max distance.
 	if _distance_traveled >= _max_distance:

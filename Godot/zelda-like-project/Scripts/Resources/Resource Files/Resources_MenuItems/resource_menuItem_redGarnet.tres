@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="MenuItemResource" format=3 uid="uid://b75122ufnuokb"]
+
+[ext_resource type="FontFile" uid="uid://bsube4x6p1pws" path="res://Sprites/UX/Fonts/GothicPixelSerif.ttf" id="1_y4sov"]
+[ext_resource type="Texture2D" uid="uid://bgfnfnaa5offp" path="res://Sprites/Item Sprites/Ingredients/ingredient_menu_redGarnet.tres" id="2_y4sov"]
+[ext_resource type="Texture2D" uid="uid://dqguutft7vs4c" path="res://Sprites/Item Sprites/Ingredients/ingredient_menuMini_redGarnet.tres" id="3_xu46l"]
+[ext_resource type="Texture2D" uid="uid://db7tt2wkra6fn" path="res://Sprites/Item Sprites/Ingredients/ingredient_menuOutline_redGarnet.tres" id="4_ekmsa"]
+[ext_resource type="Script" uid="uid://cs0x7737rheme" path="res://Scripts/Resources/Resource Scripts/resource_menuItem.gd" id="5_dtx6y"]
+
+[resource]
+script = ExtResource("5_dtx6y")
+item_id = "red_garnet"
+outline = ExtResource("4_ekmsa")
+main = ExtResource("2_y4sov")
+mini = ExtResource("3_xu46l")
+name = "Red Garnet"
+description = "A blood-red mineral used by some witches in self-improvement rituals."
+effect = "Used as an alchemical ingredient for healing salves."
+flash_color = Color(0.8491907, 0.0001994779, 0.020920608, 1)
+display_quantity = true
+metadata/_custom_type_script = "uid://cs0x7737rheme"

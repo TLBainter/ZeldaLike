@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="MenuItemResource" format=3 uid="uid://b84q5tiyurkok"]
+
+[ext_resource type="FontFile" uid="uid://bsube4x6p1pws" path="res://Sprites/UX/Fonts/GothicPixelSerif.ttf" id="1_34ecx"]
+[ext_resource type="Texture2D" uid="uid://b2osawgwxu54t" path="res://Sprites/Item Sprites/Ingredients/ingredient_menu_ritualSteel.tres" id="2_34ecx"]
+[ext_resource type="Texture2D" uid="uid://budctafgrrmnl" path="res://Sprites/Item Sprites/Ingredients/ingredient_menuMini_ritualSteel.tres" id="3_dk3tw"]
+[ext_resource type="Texture2D" uid="uid://dpkg78tvx66n1" path="res://Sprites/Item Sprites/Ingredients/ingredient_menuOutline_ritualSteel.tres" id="4_84rs8"]
+[ext_resource type="Script" uid="uid://cs0x7737rheme" path="res://Scripts/Resources/Resource Scripts/resource_menuItem.gd" id="5_o2gs3"]
+
+[resource]
+script = ExtResource("5_o2gs3")
+item_id = "ritual_steel"
+outline = ExtResource("4_84rs8")
+main = ExtResource("2_34ecx")
+mini = ExtResource("3_dk3tw")
+name = "Ritual Steel"
+description = "The remains of an ancient dagger once used in a dark ritual."
+effect = "Melted down for use as an alchemical ingredient in arcane concoctions."
+flash_color = Color(0.25356707, 0.8372287, 0.97392374, 1)
+display_quantity = true
+metadata/_custom_type_script = "uid://cs0x7737rheme"

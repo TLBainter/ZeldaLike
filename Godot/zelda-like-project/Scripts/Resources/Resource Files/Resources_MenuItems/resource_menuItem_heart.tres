@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="MenuItemResource" format=3 uid="uid://mcmhyu6mjy6s"]
+
+[ext_resource type="FontFile" uid="uid://bsube4x6p1pws" path="res://Sprites/UX/Fonts/GothicPixelSerif.ttf" id="1_eswhs"]
+[ext_resource type="Texture2D" uid="uid://bjq1csvphvqal" path="res://Sprites/Item Sprites/Ingredients/ingredient_menu_heart.tres" id="2_eswhs"]
+[ext_resource type="Texture2D" uid="uid://cumubkosa1q71" path="res://Sprites/Item Sprites/Ingredients/ingredient_menuMini_heart.tres" id="3_rktta"]
+[ext_resource type="Texture2D" uid="uid://7137nunmdk8v" path="res://Sprites/Item Sprites/Ingredients/ingredient_menuOutline_heart.tres" id="4_dmjbk"]
+[ext_resource type="Script" uid="uid://cs0x7737rheme" path="res://Scripts/Resources/Resource Scripts/resource_menuItem.gd" id="5_ijrqx"]
+
+[resource]
+script = ExtResource("5_ijrqx")
+item_id = "heart"
+outline = ExtResource("4_dmjbk")
+main = ExtResource("2_eswhs")
+mini = ExtResource("3_rktta")
+name = "Heart"
+description = "The extracted and preserved heart of a powerful being. It still beats..."
+effect = "Used as an alchemical ingredient for powerful recovery salves."
+flash_color = Color(0.70963013, 0.40050858, 0.9369611, 1)
+display_quantity = true
+metadata/_custom_type_script = "uid://cs0x7737rheme"

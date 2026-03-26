@@ -53,6 +53,7 @@ func enter():
 	#Create and launch the projectile component.
 	_projectile = ProjectileComponent.new()
 	_projectile.debug_me = debug_me
+	_projectile.debug_me_verbose = debug_me_verbose
 	_projectile.debug_name = debug_name + "/Projectile"
 	held.add_child(_projectile)
 	###===SIGNAL CONNECTION: wait for projectile to land===###

@@ -17,7 +17,7 @@ script = ExtResource("1_2jcs7")
 decor_data = ExtResource("2_x2w03")
 decor_sprite = NodePath("GrassBody/GrassSprite")
 body = NodePath("GrassBody")
-interact = NodePath("InteractArea")
+interact = NodePath("GrassBody/InteractArea")
 root = NodePath(".")
 sprite = NodePath("GrassBody/GrassSprite")
 collider = NodePath("GrassBody/GrassCollider")
@@ -34,11 +34,11 @@ position = Vector2(0, 2.5)
 shape = SubResource("RectangleShape2D_6fic6")
 debug_color = Color(0.81, 0.74952, 0.29160002, 0.7921569)
 
-[node name="InteractArea" type="Area2D" parent="." unique_id=295243959]
+[node name="InteractArea" type="Area2D" parent="GrassBody" unique_id=295243959]
 top_level = true
 position = Vector2(0, -1)
 collision_layer = 4
 script = ExtResource("3_x2w03")
 
-[node name="InteractCollider" type="CollisionShape2D" parent="InteractArea" unique_id=146988846]
+[node name="InteractCollider" type="CollisionShape2D" parent="GrassBody/InteractArea" unique_id=146988846]
 shape = SubResource("CircleShape2D_6w6n3")
