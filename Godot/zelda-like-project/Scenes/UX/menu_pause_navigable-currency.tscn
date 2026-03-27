@@ -1,0 +1,120 @@
+[gd_scene format=3 uid="uid://dmxavjnxxgqy8"]
+
+[ext_resource type="Script" uid="uid://dbn03j7e4rbgn" path="res://Scripts/UX/ux_pauseMenu_menuHoverable_currency.gd" id="1_ae00n"]
+[ext_resource type="FontFile" uid="uid://bsube4x6p1pws" path="res://Sprites/UX/Fonts/GothicPixelSerif.ttf" id="2_wt8bi"]
+[ext_resource type="Texture2D" uid="uid://6a2omo18dffh" path="res://Sprites/UX/Pause Menu Elements/ux_menu_slot_rectangle-ultra-wide.png" id="3_yn16f"]
+[ext_resource type="Texture2D" uid="uid://bme8ht4t0gibd" path="res://Sprites/UX/Pause Menu Elements/Cursor Images/ux_cursor-xtra-wide-rectangle.png" id="4_w7m10"]
+[ext_resource type="Texture2D" uid="uid://dhscs6m6qbsgt" path="res://Sprites/UX/InGameUX/PlayerStats/playerCurrency_pocketWallet.tres" id="5_4ephe"]
+[ext_resource type="FontFile" uid="uid://hmspkjbm2loq" path="res://Sprites/UX/Fonts/GothicPixelNumerics.ttf" id="6_8gtmh"]
+
+[sub_resource type="FontVariation" id="FontVariation_g3vwm"]
+base_font = ExtResource("6_8gtmh")
+spacing_glyph = 4
+
+[sub_resource type="Animation" id="Animation_jfkd1"]
+resource_name = "CursorActive"
+length = 0.5
+loop_mode = 2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.33333334, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1.04, 1.04), Vector2(1.05, 1.05)]
+}
+
+[sub_resource type="Animation" id="Animation_nqh24"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_mwiei"]
+_data = {
+&"CursorActive": SubResource("Animation_jfkd1"),
+&"RESET": SubResource("Animation_nqh24")
+}
+
+[node name="CurrencyPanel" type="Panel" unique_id=1803250299 node_paths=PackedStringArray("wallet_rect", "currency_label", "panel_rect", "cursor_rect", "cursor_anim")]
+self_modulate = Color(1, 1, 1, 0)
+size_flags_vertical = 8
+script = ExtResource("1_ae00n")
+wallet_rect = NodePath("PanelTexture/WalletTexture")
+currency_label = NodePath("PanelTexture/CurrentCurrency")
+info_description = "Used to purchase goods and services in the realm."
+info_effect = "You have [currency] remaining and can store an additional [difference] in your [wallet size]."
+description_font = ExtResource("2_wt8bi")
+effect_font = ExtResource("2_wt8bi")
+panel_rect = NodePath("PanelTexture")
+panel_texture = ExtResource("3_yn16f")
+content_anchors_preset = 0
+cursor_texture = ExtResource("4_w7m10")
+cursor_rect = NodePath("CurrencyCursor")
+cursor_anim = NodePath("CurrencyCursor/CursorActiveAnimator2")
+
+[node name="PanelTexture" type="TextureRect" parent="." unique_id=737922099]
+layout_mode = 1
+offset_right = 194.0
+offset_bottom = 50.0
+pivot_offset = Vector2(97, 25)
+texture = ExtResource("3_yn16f")
+stretch_mode = 4
+
+[node name="WalletTexture" type="TextureRect" parent="PanelTexture" unique_id=1041466661]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -20.0
+offset_right = 40.0
+offset_bottom = 20.0
+grow_vertical = 2
+pivot_offset_ratio = Vector2(0, 0.5)
+texture = ExtResource("5_4ephe")
+
+[node name="CurrentCurrency" type="Label" parent="PanelTexture" unique_id=490361201]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -138.0
+offset_top = -16.0
+offset_right = -5.0
+offset_bottom = 16.0
+grow_horizontal = 0
+grow_vertical = 2
+pivot_offset_ratio = Vector2(1, 0.5)
+theme_override_constants/outline_size = 3
+theme_override_fonts/font = SubResource("FontVariation_g3vwm")
+theme_override_font_sizes/font_size = 31
+text = "0000/0000"
+horizontal_alignment = 2
+
+[node name="CurrencyCursor" type="TextureRect" parent="." unique_id=877226270]
+layout_mode = 1
+offset_left = 1.63
+offset_top = 1.375
+offset_right = 193.63
+offset_bottom = 51.375
+pivot_offset = Vector2(97, 25)
+texture = ExtResource("4_w7m10")
+stretch_mode = 4
+
+[node name="CursorActiveAnimator2" type="AnimationPlayer" parent="CurrencyCursor" unique_id=2058952920]
+libraries/ = SubResource("AnimationLibrary_mwiei")

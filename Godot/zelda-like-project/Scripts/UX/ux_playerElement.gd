@@ -51,7 +51,7 @@ func _process(delta : float) -> void:
 	_process_fade(delta)
 
 ##Virtual. Called each frame before fade processing. Override for per-frame logic.
-func _on_element_process(delta : float) -> void:
+func _on_element_process(_delta : float) -> void:
 	pass
 
 ##Handles fade interpolation toward _target_alpha.

@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="MenuItemResource" format=3 uid="uid://b36ujhj0jbidh"]
+
+[ext_resource type="FontFile" uid="uid://bsube4x6p1pws" path="res://Sprites/UX/Fonts/GothicPixelSerif.ttf" id="1_031xa"]
+[ext_resource type="Texture2D" uid="uid://biecb7676sc46" path="res://Sprites/Item Sprites/Mobility/mobility_menu_bat.tres" id="2_031xa"]
+[ext_resource type="Texture2D" uid="uid://bhwp75n5xon74" path="res://Sprites/Item Sprites/Mobility/mobility_menuMini_bat.tres" id="3_6krli"]
+[ext_resource type="Texture2D" uid="uid://3mvbfanlqavj" path="res://Sprites/Item Sprites/Mobility/mobility_menuOutline_bat.tres" id="4_v4nv7"]
+[ext_resource type="Script" uid="uid://cs0x7737rheme" path="res://Scripts/Resources/Resource Scripts/resource_menuItem.gd" id="5_woxqr"]
+
+[resource]
+script = ExtResource("5_woxqr")
+item_id = "bat_form"
+outline = ExtResource("4_v4nv7")
+main = ExtResource("2_031xa")
+mini_icon = ExtResource("3_6krli")
+name = "Bat Form"
+description = "A unique form vampires can briefly take to avoid danger.."
+effect = "Used to evade attacks or cross short gaps."
+flash_color = Color(0.86275643, 0.8226531, 0.9870593, 1)
+metadata/_custom_type_script = "uid://cs0x7737rheme"

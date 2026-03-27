@@ -52,7 +52,7 @@ func resume():
 	super()
 
 ##Transitions to the move state if beyond joystick deadzone.
-func _on_move(move_input : Vector2, move_strength : float):
+func _on_move(_move_input : Vector2, move_strength : float):
 	if move_strength > 0.15 and move_state:
 		state_machine.change_state(move_state)
 
@@ -63,11 +63,11 @@ func get_context_key() -> String:
 	var character = get_character()
 	if character and character.body.current_interactable:
 		var interact_node = character.body.current_interactable
-		var owner = interact_node.root if "root" in interact_node else null
-		if owner and owner is DynamicInteractable and owner.object_data:
-			if owner.object_data.liftable:
+		var interactable_owner = interact_node.root if "root" in interact_node else null
+		if interactable_owner and interactable_owner is DynamicInteractable and interactable_owner.object_data:
+			if interactable_owner.object_data.liftable:
 				return "pickup"
-			elif owner.object_data.pushable or owner.object_data.pullable:
+			elif interactable_owner.object_data.pushable or interactable_owner.object_data.pullable:
 				return "grab"
 		return interact_node.context_key
 	return ""

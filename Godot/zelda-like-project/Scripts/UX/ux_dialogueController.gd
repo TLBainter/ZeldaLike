@@ -100,6 +100,8 @@ func _show_next_line():
 		return
 	#Set the line text
 	var line_text = _current_lines[_current_line_index]
+	if textResolver:
+		line_text = textResolver.resolve(line_text)
 	dialogue_label.text = line_text
 	
 	#Reset PROCESS Variables

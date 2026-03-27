@@ -73,7 +73,7 @@ func exit():
 ##Called on unhandled input events. Return a [b]State[/b] to transition to or [b]null[/b] to remain.[br]
 ##Use this for movement, collision checks, etc.[br]
 ##Asks for an event (InputEvent) to determine which state should be entered.
-func process_input(event : InputEvent) -> State:
+func process_input(_event : InputEvent) -> State:
 	return null
 
 ##Called to pull character information.

@@ -25,6 +25,8 @@ extends Character
 var can_roll : bool = true
 ##Whether or not the player can currently move
 var can_move : bool = true
+##The display name for the player
+var display_name : String = "Count"
 #endregion
 #region MISC EXPORT VARIABLES
 #
@@ -41,7 +43,16 @@ func _ready():
 	#establish variables
 	subtype = "Player"
 	add_to_group("player")
+	if textResolver:
+		textResolver.register_category("player", _resolve_text)
 	input.actionButtonPressed.connect(_on_action_button_pressed)
+
+func _resolve_text(key : String):
+	match key:
+		"name": return display_name if "display_name" in self else "Dracula"
+		"health": return health.cur_health if health else 0
+		"max_health": return health.max_health if health else 0
+	return null
 
 func _on_action_button_pressed(btn):
 	match btn:

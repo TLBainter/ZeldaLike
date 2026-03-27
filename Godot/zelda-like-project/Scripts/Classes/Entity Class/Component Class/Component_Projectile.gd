@@ -61,7 +61,7 @@ func launch(object : DynamicInteractable, direction : Vector2, max_distance : fl
 	_distance_traveled = 0.0
 	_active = true
 	#Find the sprite for visual arc offset.
-	_sprite = object.animated_sprite if object.animated_sprite else object.sprite
+	_sprite = object.animated_sprite as Node2D if object.animated_sprite else object.sprite as Node2D
 	if _sprite:
 		_sprite_original_offset = _sprite.position
 	#Re-enable collision for the projectile to detect walls.

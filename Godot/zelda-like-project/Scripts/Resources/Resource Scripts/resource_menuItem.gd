@@ -14,7 +14,7 @@ extends Resource
 ##The primary strip of data; should be a 9-frame sprite with 32px size.
 @export var main : AtlasTexture
 ##The smaller, 16px version of the image
-@export var mini : AtlasTexture
+@export var mini_icon : AtlasTexture
 @export_group("Text")
 ##The name of the entity.
 @export var name : String = str(outline)
@@ -33,6 +33,11 @@ extends Resource
 @export var flash : bool = true
 ##What color the sprite should flash while it is hovered over:
 @export var flash_color : Color = Color(1.0, 1.0, 1.0, 1.0)
+@export_subgroup("Sprite Sheet")
+##The number of vertical frames on the sprite sheet.
+@export var v_frames : int = 1
+##The number of horizontal frames on the sprite sheet.
+@export var h_frames : int = 9
 @export_subgroup("Count")
 ##Whether the sprite should show its text quantity.
 @export var display_quantity : bool = false

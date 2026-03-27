@@ -37,12 +37,12 @@ func process_input(event : InputEvent) -> State:
 		if not character or not character.body.current_interactable:
 			return null
 		var interactable = character.body.current_interactable
-		var owner = interactable.root if "root" in interactable else null
-		if owner and owner is DynamicInteractable and owner.object_data:
+		var interactable_owner = interactable.root if "root" in interactable else null
+		if interactable_owner and interactable_owner is DynamicInteractable and interactable_owner.object_data:
 			#Don't allow this transition if character is exhausted
 			if character.energy and character.energy.is_exhausted_state:
 				return null
-			var data = owner.object_data
+			var data = interactable_owner.object_data
 			var move_input = Input.get_vector("moveLeft", "moveRight", "moveUp", "moveDown")
 			var is_moving : bool = move_input.length() > 0.15
 			if debug_me_verbose:

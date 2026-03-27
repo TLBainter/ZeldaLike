@@ -31,7 +31,6 @@ func enter() -> void:
 			state_machine.change_state(no_action_state)
 		return
 	#Calculate drop position in the facing direction.
-	var facing_dir : Vector2 = _get_facing_vector(character.anim.facing) if character.anim else Vector2.DOWN
 	var drop_pos : Vector2 = character.body.global_position
 	match character.anim.facing if character.anim else "down":
 		"right":

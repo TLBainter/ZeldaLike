@@ -37,8 +37,22 @@ var cur_notes : int = 0:
 
 func _ready():
 	cur_notes = clampi(starting_notes, 0, max_notes)
+	if textResolver:
+		textResolver.register_category("cur", _resolve_text)
 	if debug_me:
 		print(debug_name, " initialized with ", cur_notes, "/", max_notes, " notes.")
+
+##Calls the text resolver autoload for parsing of text.
+func _resolve_text(key : String):
+	match key:
+		"currency": return cur_notes
+		"max": return max_notes
+		"difference": return max_notes - cur_notes
+		"wallet":
+			if max_notes <= 99: return "Pocket"
+			elif max_notes <= 999: return "Wallet"
+			else: return "Big Wallet"
+	return null
 
 ##Adds notes to the player's currency.[br]
 ##Returns [b]true[/b] if any notes were added, [b]false[/b] if already at max.

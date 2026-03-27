@@ -1,7 +1,6 @@
 [gd_scene format=3 uid="uid://k2xjf6ebp7x8"]
 
-[ext_resource type="Script" uid="uid://ud12qe3s1pf2" path="res://Scripts/UX/ux_pauseMenu_menuHoverable.gd" id="1_hs65m"]
-[ext_resource type="Resource" uid="uid://bgq3gvj78xp1q" path="res://Scripts/Resources/Resource Files/Resources_MenuItems/resource_menuItem_bloodClot.tres" id="3_jfkd1"]
+[ext_resource type="Script" uid="uid://d1taqjbkp7d8f" path="res://Scripts/UX/ux_pauseMenu_menuHoverable_item.gd" id="1_tpnf1"]
 [ext_resource type="Texture2D" uid="uid://354uv6aeyi2n" path="res://Sprites/UX/Pause Menu Elements/Cursor Images/ux_cursor-small-square.png" id="3_tpnf1"]
 [ext_resource type="Texture2D" uid="uid://cj7ih0phnja5h" path="res://Sprites/Item Sprites/Ingredients/ingredient_menuOutline_bloodClot.tres" id="4_tpnf1"]
 [ext_resource type="Texture2D" uid="uid://dyf62j83ix406" path="res://Sprites/UX/Pause Menu Elements/ux_menu_slot_square-xtra-small.png" id="4_xdy3j"]
@@ -86,19 +85,17 @@ _data = {
 base_font = ExtResource("6_jfkd1")
 spacing_glyph = 1
 
-[node name="MenuPanel" type="Panel" unique_id=370079235 node_paths=PackedStringArray("panel_rect", "item_rect", "flash_player", "quantity_label", "cursor_rect", "cursor_anim")]
+[node name="MenuPanel" type="Panel" unique_id=370079235 node_paths=PackedStringArray("item_rect", "flash_player", "quantity_label", "panel_rect", "cursor_rect", "cursor_anim")]
 self_modulate = Color(1, 1, 1, 0)
 size_flags_horizontal = 0
 size_flags_vertical = 0
-script = ExtResource("1_hs65m")
+script = ExtResource("1_tpnf1")
+item_rect = NodePath("PanelBCKG/OutlineTexture")
+flash_player = NodePath("PanelBCKG/OutlineTexture/FlashAnimator")
+quantity_label = NodePath("PanelBCKG/QuantityLabel")
 panel_rect = NodePath("PanelBCKG")
 panel_texture = ExtResource("4_xdy3j")
 content_anchors_preset = 0
-item_resource = ExtResource("3_jfkd1")
-item_rect = NodePath("PanelBCKG/OutlineTexture")
-anim_fps = 8.0
-flash_player = NodePath("PanelBCKG/OutlineTexture/FlashAnimator")
-quantity_label = NodePath("PanelBCKG/QuantityLabel")
 cursor_texture = ExtResource("3_tpnf1")
 cursor_rect = NodePath("PanelBCKG/PanelCursor")
 cursor_anim = NodePath("PanelBCKG/PanelCursor/CursorActiveAnimator")
@@ -135,15 +132,15 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -32.0
-offset_top = -32.0
-offset_right = 32.0
-offset_bottom = 32.0
+offset_left = -16.0
+offset_top = -16.0
+offset_right = 16.0
+offset_bottom = 16.0
 grow_horizontal = 2
 grow_vertical = 2
 pivot_offset_ratio = Vector2(0.5, 0.5)
 texture = ExtResource("4_tpnf1")
-stretch_mode = 3
+stretch_mode = 5
 
 [node name="FlashAnimator" type="AnimationPlayer" parent="PanelBCKG/OutlineTexture" unique_id=993298837]
 libraries/ = SubResource("AnimationLibrary_6vul3")

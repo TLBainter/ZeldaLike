@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="MenuItemResource" format=3 uid="uid://c4tjxi0lm8b3w"]
+
+[ext_resource type="FontFile" uid="uid://bsube4x6p1pws" path="res://Sprites/UX/Fonts/GothicPixelSerif.ttf" id="1_p8fid"]
+[ext_resource type="Texture2D" uid="uid://6u7cvlfgekbk" path="res://Sprites/Item Sprites/Spells/spell_menu_summon.tres" id="2_p8fid"]
+[ext_resource type="Texture2D" uid="uid://c40e3p1nlpy86" path="res://Sprites/Item Sprites/Spells/spell_menuOutline_summon.tres" id="4_rb0c5"]
+[ext_resource type="Script" uid="uid://cs0x7737rheme" path="res://Scripts/Resources/Resource Scripts/resource_menuItem.gd" id="5_otnm7"]
+
+[resource]
+script = ExtResource("5_otnm7")
+item_id = "spell_summon"
+outline = ExtResource("4_rb0c5")
+main = ExtResource("2_p8fid")
+mini_icon = ExtResource("4_rb0c5")
+name = "Summon Spell"
+description = "A spell that conjures a zombie or skeleton to aid the caster."
+effect = "Face the direction where you wish to summon the undead and press the action button."
+flash_color = Color(0.6862745, 0.70980394, 0.8666667, 1)
+h_frames = 8
+metadata/_custom_type_script = "uid://cs0x7737rheme"

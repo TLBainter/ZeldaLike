@@ -29,6 +29,8 @@ var _held_time : float = 0.0
 var _repeat_started : bool = false
 ##A reference to the player's inventory component.
 var _inventory : InventoryComponent = null
+##The navigation move sounds from the pause menu interface.
+var nav_move_sounds : SoundLibrary
 
 #endregion VARIABLES
 
@@ -55,9 +57,15 @@ func set_inventory(inv : InventoryComponent) -> void:
 	_inventory = inv
 	var hoverables = _get_all_hoverables(get_parent())
 	for h in hoverables:
-		h.inventory = inv
-	if debug_me:
-		print(debug_name, ": Inventory set on ", hoverables.size(), " hoverables.")
+		if h is MenuHoverableItem:
+			h.inventory = inv
+
+##Sets the currency reference on all hoverables in the tree (there SHOULD only be one...)
+func set_currency(currency_comp : CurrencyComponent) -> void:
+	var hoverables = _get_all_hoverables(get_parent())
+	for h in hoverables:
+		if h is MenuHoverableCurrency:
+			h.set_currency(currency_comp)
 
 ##Finds all MenuHoverable nodes under the given root.
 func _get_all_hoverables(node : Node) -> Array[MenuHoverable]:
@@ -122,6 +130,9 @@ func _navigate_to(target : MenuHoverable) -> void:
 		_current.unhover()
 	_current = target
 	_current.hover()
+	if nav_move_sounds and not nav_move_sounds.sl.is_empty():
+		if audioManager:
+			audioManager.play(nav_move_sounds.sl.pick_random(), "UI")
 	if debug_me:
 		print(debug_name, ": Navigated to ", _current.debug_name)
 

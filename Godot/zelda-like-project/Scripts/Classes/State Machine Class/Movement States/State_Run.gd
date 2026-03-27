@@ -34,7 +34,7 @@ func exit():
 		root.input.onMove.disconnect(_on_move)
 	super()
 
-func _on_move(move_input : Vector2, move_strength : float):
+func _on_move(_move_input : Vector2, move_strength : float):
 	if move_strength < 0.15 and idle_state:
 		state_machine.change_state(idle_state)
 	#TODO: Test this value to make sure it is reasonable for entering the running state.

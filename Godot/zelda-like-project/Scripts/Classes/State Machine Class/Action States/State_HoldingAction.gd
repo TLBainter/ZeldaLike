@@ -52,7 +52,7 @@ func exit():
 	coordinator.unlock_context()
 	super()
 
-func _on_move(move_input : Vector2, move_strength : float):
+func _on_move(_move_input : Vector2, move_strength : float):
 	var was_running = _is_running
 	_is_running = move_strength > 0.49
 	if _is_running != was_running:

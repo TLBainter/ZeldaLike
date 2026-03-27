@@ -39,13 +39,13 @@ var coordinator : StateCoordinator
 ##Afterward, enter the starting state (assigned by the export variable starting_state.[br]
 ##[b]ROOT[/b]: The Character entity node this state machine controls.[br]
 ##[b]COORDINATOR[/b]: The State Coordinator managing this layer and its siblings.
-func init_refs(root : EntityClass, coordinator : StateCoordinator):
-	self.root = root
-	self.coordinator = coordinator
+func init_refs(p_root : EntityClass, p_coordinator : StateCoordinator):
+	self.root = p_root
+	self.coordinator = p_coordinator
 	for child in get_children():
 		if child is State:
-			child.root = root
-			child.coordinator = coordinator
+			child.root = p_root
+			child.coordinator = p_coordinator
 			child.state_machine = self
 	if self.root and self.coordinator:
 		init()

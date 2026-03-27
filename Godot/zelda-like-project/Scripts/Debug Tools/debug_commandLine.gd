@@ -40,10 +40,12 @@ func _input(event : InputEvent) -> void:
 		_close()
 
 func _open() -> void:
+	print("CONSOLE: _open() called")
 	_is_open = true
 	_panel.visible = true
 	_input_field.text = ""
 	_input_field.grab_focus()
+	print("CONSOLE: after grab_focus. has_focus=", _input_field.has_focus())
 	#Find inventory if we don't have it yet.
 	if not _inventory:
 		var players = get_tree().get_nodes_in_group("player")
@@ -51,16 +53,20 @@ func _open() -> void:
 			_inventory = players[0].inventory
 
 func _close() -> void:
+	print("CONSOLE: _close() called")
 	_is_open = false
 	_panel.visible = false
 	_input_field.release_focus()
 
-func _on_text_submitted(text : String) -> void:
-	_input_field.text = ""
-	text = text.strip_edges()
-	if text.is_empty():
-		return
-	_execute_command(text)
+func _on_input_gui_input(event : InputEvent) -> void:
+	if event is InputEventKey and event.pressed and event.keycode == KEY_ENTER:
+		_input_field.accept_event()
+		var text = _input_field.text.strip_edges()
+		_input_field.text = ""
+		_input_field.caret_column = 0
+		if text.is_empty():
+			return
+		_execute_command(text)
 
 func _execute_command(text : String) -> void:
 	var parts = text.split(" ", false)
@@ -85,6 +91,9 @@ func _cmd_give(parts : Array) -> void:
 	if parts.size() < 2:
 		_print_output("[color=red]Usage: /give item_id [quantity][/color]")
 		return
+	if parts[1].to_lower() == "all":
+		_cmd_give_all(parts)
+		return
 	var item_id = parts[1]
 	var quantity = 1
 	if parts.size() >= 3:
@@ -99,9 +108,48 @@ func _cmd_give(parts : Array) -> void:
 	_inventory.add_item(item_id, quantity)
 	_print_output("[color=green]Gave " + str(quantity) + "x " + item_id + ". Total: " + str(_inventory.get_quantity(item_id)) + "[/color]")
 
+func _cmd_give_all(parts : Array) -> void:
+	if not _inventory:
+		_print_output("[color=red]No inventory found on player.[/color]")
+		return
+	var quantity = 1
+	#Check for category name.
+	if parts.size() >= 3:
+		var category = parts[2].to_lower()
+		#Check if third arg is a number (quantity for "give all").
+		if category.is_valid_int():
+			quantity = int(category)
+			_give_all_items(quantity)
+			return
+		#Check for optional quantity after category.
+		if parts.size() >= 4:
+			quantity = int(parts[3])
+			if quantity <= 0:
+				quantity = 1
+		if ItemID.CATEGORIES.has(category):
+			var items = ItemID.CATEGORIES[category]
+			for item_id in items:
+				_inventory.add_item(item_id, quantity)
+			_print_output("[color=green]Gave " + str(quantity) + "x of all " + str(items.size()) + " " + category + " items.[/color]")
+		else:
+			var valid = ", ".join(ItemID.CATEGORIES.keys())
+			_print_output("[color=red]Unknown category: '" + category + "'. Valid: " + valid + "[/color]")
+	else:
+		#No category — give everything.
+		_give_all_items(quantity)
+
+func _give_all_items(quantity : int = 1) -> void:
+	var all_ids = _get_all_item_ids()
+	for item_id in all_ids:
+		_inventory.add_item(item_id, quantity)
+	_print_output("[color=green]Gave " + str(quantity) + "x of all " + str(all_ids.size()) + " items.[/color]")
+
 func _cmd_remove(parts : Array) -> void:
 	if parts.size() < 2:
 		_print_output("[color=red]Usage: /remove item_id [quantity][/color]")
+		return
+	if parts[1].to_lower() == "all":
+		_cmd_remove_all(parts)
 		return
 	var item_id = parts[1]
 	var quantity = 1
@@ -114,6 +162,25 @@ func _cmd_remove(parts : Array) -> void:
 		return
 	var removed = _inventory.remove_item(item_id, quantity)
 	_print_output("[color=green]Removed " + str(removed) + "x " + item_id + ". Remaining: " + str(_inventory.get_quantity(item_id)) + "[/color]")
+
+func _cmd_remove_all(parts : Array) -> void:
+	if not _inventory:
+		_print_output("[color=red]No inventory found on player.[/color]")
+		return
+	if parts.size() >= 3:
+		var category = parts[2].to_lower()
+		if ItemID.CATEGORIES.has(category):
+			var items = ItemID.CATEGORIES[category]
+			for item_id in items:
+				_inventory.set_quantity(item_id, 0)
+			_print_output("[color=green]Removed all " + category + " items.[/color]")
+			return
+		else:
+			var valid = ", ".join(ItemID.CATEGORIES.keys())
+			_print_output("[color=red]Unknown category: '" + category + "'. Valid: " + valid + "[/color]")
+			return
+	_inventory.clear_inventory()
+	_print_output("[color=green]Cleared entire inventory.[/color]")
 
 func _cmd_list() -> void:
 	if not _inventory:
@@ -150,7 +217,6 @@ func _validate_item_id(item_id : String) -> bool:
 ##Reads all constant values from the ItemID class dynamically.
 func _get_all_item_ids() -> Array[String]:
 	var result : Array[String] = []
-	var props = ItemID.new().get_property_list()
 	#ItemID uses const, which won't show in property list.
 	#Instead, we use the script's get_script_constant_map.
 	var script = load("res://Scripts/Constants/const_itemIDs.gd") as GDScript
@@ -188,8 +254,15 @@ func _build_ui() -> void:
 	vbox.add_child(_output_label)
 	_input_field = LineEdit.new()
 	_input_field.placeholder_text = "Type a command... (/give, /remove, /list, /items)"
-	_input_field.text_submitted.connect(_on_text_submitted)
+	_input_field.gui_input.connect(_on_input_gui_input)
+	_input_field.focus_exited.connect(_on_input_focus_lost)
 	vbox.add_child(_input_field)
+
+func _on_input_focus_lost() -> void:
+	print("CONSOLE: focus_exited fired. is_open=", _is_open, " panel_visible=", _panel.visible)
+	if _is_open:
+		print("CONSOLE: attempting deferred grab_focus")
+		_input_field.call_deferred("grab_focus")
 
 func _print_output(text : String) -> void:
 	_output_label.append_text(text + "\n")

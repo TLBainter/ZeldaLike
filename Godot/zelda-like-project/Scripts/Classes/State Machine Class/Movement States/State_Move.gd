@@ -52,7 +52,7 @@ func resume():
 	if root.input and not root.input.onMove.is_connected(_on_move):
 		root.input.onMove.connect(_on_move)
 
-func _on_move(move_input : Vector2, move_strength : float):
+func _on_move(_move_input : Vector2, move_strength : float):
 	if move_strength < 0.15 and idle_state:
 		state_machine.change_state(idle_state)
 	elif move_strength > 0.49 and run_state:
@@ -69,9 +69,9 @@ func get_context_key() -> String:
 	var character = get_character()
 	if character and character.body.current_interactable:
 		var interact_node = character.body.current_interactable
-		var owner = interact_node.root if "root" in interact_node else null
-		if owner and owner is DynamicInteractable and owner.object_data:
-			var data = owner.object_data
+		var interactable_owner = interact_node.root if "root" in interact_node else null
+		if interactable_owner and interactable_owner is DynamicInteractable and interactable_owner.object_data:
+			var data = interactable_owner.object_data
 			#While moving, grabbable objects show "grab" (even if also liftable)
 			if data.pushable or data.pullable:
 				return "grab"

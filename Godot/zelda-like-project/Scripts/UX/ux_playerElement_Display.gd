@@ -41,8 +41,6 @@ const CORNER_OFFSETS : Array[Vector2] = [
 	Vector2(-1, 1),   # bottom-left
 	Vector2(1, 1),    # bottom-right
 ]
-##The currently selected corner index.
-var _current_corner : int = 0
 
 #endregion VARIABLES
 
@@ -60,7 +58,7 @@ func _on_display_initialized() -> void:
 	pass
 
 ##Called each frame. Updates position while visible.
-func _on_element_process(delta : float) -> void:
+func _on_element_process(_delta : float) -> void:
 	if modulate.a > 0.0:
 		update_position()
 

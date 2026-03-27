@@ -24,6 +24,7 @@ buses/default_bus_layout="uid://bg6v5msmxacxc"
 audioManager="*uid://cct1tqjxxcrx8"
 dialogueDB="*uid://cbcxd8qo46pai"
 debugConsole="*uid://l8t30uovjgbg"
+textResolver="*uid://bqwsqn6f06yrk"
 
 [display]
 
@@ -207,3 +208,4 @@ dPadRight={
 
 textures/canvas_textures/default_texture_filter=0
 rendering_device/driver.windows="d3d12"
+2d/snap/snap_2d_transforms_to_pixel=true

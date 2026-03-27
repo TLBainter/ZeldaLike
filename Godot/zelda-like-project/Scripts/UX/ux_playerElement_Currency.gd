@@ -60,7 +60,7 @@ var _tick_time : float = 0.0
 ##Current interval between ticks (adjusted for large changes).
 var _tick_interval : float = 0.05
 ##The number of digits for leading zeroes (based on max currency).
-var _digit_count : int = 2
+var digit_count : int = 2
 
 #endregion VARIABLES
 
@@ -103,19 +103,19 @@ func _update_wallet_size() -> void:
 		return
 	var max_notes = _currency_component.max_notes
 	if max_notes <= 99:
-		_digit_count = 2
+		digit_count = 2
 		if wallet_sprite and sprite_pocket:
 			wallet_sprite.texture = sprite_pocket
 	elif max_notes <= 999:
-		_digit_count = 3
+		digit_count = 3
 		if wallet_sprite and sprite_wallet:
 			wallet_sprite.texture = sprite_wallet
 	else:
-		_digit_count = 4
+		digit_count = 4
 		if wallet_sprite and sprite_big_wallet:
 			wallet_sprite.texture = sprite_big_wallet
 	if debug_me:
-		print(debug_name, ": Wallet size updated. Max: ", max_notes, " Digits: ", _digit_count)
+		print(debug_name, ": Wallet size updated. Max: ", max_notes, " Digits: ", digit_count)
 
 #endregion WALLET SIZE
 
@@ -125,7 +125,7 @@ func _update_wallet_size() -> void:
 func _update_label() -> void:
 	if not currency_label:
 		return
-	var text = str(_display_value).pad_zeros(_digit_count)
+	var text = str(_display_value).pad_zeros(digit_count)
 	currency_label.text = text
 	if _currency_component and _display_value >= _currency_component.max_notes:
 		currency_label.add_theme_color_override("font_color", max_color)
@@ -137,7 +137,8 @@ func _update_label() -> void:
 #region CURRENCY CHANGE HANDLER
 
 func _on_notes_changed(cur_notes : int, max_notes : int, change_amount : int):
-	print("CurrencyDisplay._on_notes_changed! cur=", cur_notes, " change=", change_amount)
+	if debug_me:
+		print("CurrencyDisplay._on_notes_changed! cur=", cur_notes, "/", max_notes, " change=", change_amount)
 
 	_target_value = cur_notes
 	var change_size : int = absi(_target_value - _display_value)

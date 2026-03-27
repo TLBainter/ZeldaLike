@@ -111,16 +111,16 @@ func hold(offset : Vector2, character):
 
 ##Releases this object from being held and places it at the given position.[br]
 ##[b]restore_collision[/b]: Whether to re-enable collision on release. False for throws (projectile handles it).
-func release(position : Vector2, restore_collision : bool = true):
+func release(drop_position : Vector2, restore_collision : bool = true):
 	_is_held = false
 	_hold_character = null
 	set_physics_process(false)
 	if body:
-		body.global_position = position
+		body.global_position = drop_position
 		body.z_index = 0
 	if restore_collision:
 		if root and root.sprite:
-			root.sprite.position = Vector2.ZERO
+			root.sprite.drop_position = Vector2.ZERO
 		enable_collision()
 		if root and root.shadow:
 			root.shadow.visible = true

@@ -6,6 +6,7 @@ extends Area2D
 #region SIGNALS
 ##Emitted when this interaction is completed.[br]
 ##States and other listeners use this to know when to resume ordinary behavior.
+@warning_ignore("unused_signal")
 signal interaction_finished
 
 #endregion SIGNALS

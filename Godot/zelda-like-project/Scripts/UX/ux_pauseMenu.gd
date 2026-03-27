@@ -57,9 +57,12 @@ func _ready():
 	var player = _find_player()
 	if player and player.inventory and menu_controller:
 		menu_controller.set_inventory(player.inventory)
+	if player and player.currency and menu_controller:
+		menu_controller.set_currency(player.currency)
 	#configure the menu controller
 	if menu_controller:
 		menu_controller.activate()
+		menu_controller.nav_move_sounds = nav_move_sounds
 	#Hide menu content initially, fade it in.
 	if menu_container:
 		menu_container.modulate.a = 0.0
@@ -86,8 +89,11 @@ func open() -> void:
 	var player = _find_player()
 	if player and player.inventory and menu_controller:
 		menu_controller.set_inventory(player.inventory)
+	if player and player.currency and menu_controller:
+		menu_controller.set_currency(player.currency)
 	if menu_controller:
 		menu_controller.activate()
+		menu_controller.nav_move_sounds = nav_move_sounds
 	get_tree().paused = true
 	_fading_in = true
 	set_process(true)

@@ -64,7 +64,7 @@ func _slice_frames() -> void:
 	var frame_w : int = decor_data.frame_width
 	var frame_h : int = decor_data.frame_height
 	var total_width : int = int(strip.region.size.x)
-	var frame_count : int = total_width / frame_w
+	var frame_count : int = int(float(total_width) / float(frame_w))
 	for i in range(frame_count):
 		var frame = AtlasTexture.new()
 		frame.atlas = strip.atlas
@@ -169,21 +169,21 @@ func _spawn_particles() -> void:
 		print(debug_name, ": Particle spawned at ", particle_sprite.global_position)
 
 ##Advances the particle sprite to the next frame using recursive timer calls.
-func _animate_particle(sprite : Sprite2D, frame_index : int) -> void:
-	if not is_instance_valid(sprite):
+func _animate_particle(particle_sprite : Sprite2D, frame_index : int) -> void:
+	if not is_instance_valid(particle_sprite):
 		return
 	if frame_index >= decor_data.particle_frames.size():
 		#Animation finished — despawn.
-		sprite.queue_free()
+		particle_sprite.queue_free()
 		if debug_me:
 			print(debug_name, ": Particle animation finished. Despawning.")
 		return
 	var atlas_index = decor_data.particle_frames[frame_index]
 	if atlas_index >= 0 and atlas_index < _frames.size():
-		sprite.texture = _frames[atlas_index]
+		particle_sprite.texture = _frames[atlas_index]
 	#Schedule next frame.
 	get_tree().create_timer(decor_data.particle_frame_duration).timeout.connect(
-		_animate_particle.bind(sprite, frame_index + 1)
+		_animate_particle.bind(particle_sprite, frame_index + 1)
 	)
 
 #endregion PARTICLES

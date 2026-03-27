@@ -109,7 +109,7 @@ func collect_shard() -> void:
 
 ##Returns the number of complete medallions (6 shards each).
 func get_complete_medallion_count() -> int:
-	return total_shards / 6
+	return int(total_shards / 6.0)
 
 ##Returns how many shards are in the incomplete/partial medallion (0-5).[br]
 ##Returns 0 if all medallions are complete.

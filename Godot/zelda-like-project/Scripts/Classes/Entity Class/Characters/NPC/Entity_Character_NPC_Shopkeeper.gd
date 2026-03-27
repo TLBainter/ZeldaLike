@@ -7,7 +7,7 @@ extends NPC
 #region COMPONENTS
 @export_group("Shopkeeper Components")
 ##a reference to the Node inventory component of the shopkeep.
-@export var inventory : Inventory
+@export var inventory : InventoryComponent
 #endregion
 #endregion
 

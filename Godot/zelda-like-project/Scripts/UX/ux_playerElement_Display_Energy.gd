@@ -115,7 +115,7 @@ func update_position() -> void:
 	if not _player_body:
 		return
 	var screen_pos = _get_player_screen_pos()
-	var corner_dir = CORNER_OFFSETS[_current_corner]
+	var corner_dir = CORNER_OFFSETS[0]
 	var bolt_count = gui_container.get_child_count() if gui_container else 1
 	var total_height = bolt_count * 16.0 + max(0, bolt_count - 1) * stack_spacing
 	var offset = Vector2.ZERO
