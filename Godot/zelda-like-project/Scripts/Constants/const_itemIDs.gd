@@ -32,13 +32,17 @@ const ALBEDO_HOOD = "albedo_hood"
 #endregion MOBILITY ITEMS
 
 #region CONCOCTIONS
-
+const ARCANE_SALVE = "arcane_salve"
+const BLOOD_SALVE = "blood_salve"
+const ENERGIZING_SALVE = "energizing_salve"
+const RESTORATIVE_SALVE = "restorative_salve"
 #endregion CONCOCTIONS
 
 #region CATEGORIES=======#
 const CATEGORIES : Dictionary = {
 	"spell": [SPELL_GRAPPLE, SPELL_IGNITE, SPELL_HAMMER, SPELL_SUMMON, SPELL_HASTE],
 	"ingredient": [BLOOD_CLOT, RED_GARNET, RITUAL_STEEL, STARDUST, FULGURITE, HEART, KIDNEY, METEORITE],
-	"mobility": [WAVEWALK_BOOTS, BAT_FORM, ALBEDO_HOOD]
+	"mobility": [WAVEWALK_BOOTS, BAT_FORM, ALBEDO_HOOD],
+	"concoction": [ARCANE_SALVE, BLOOD_SALVE, ENERGIZING_SALVE, RESTORATIVE_SALVE]
 }
 #endregion CATEGORIES=======#

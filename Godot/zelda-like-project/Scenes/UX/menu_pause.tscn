@@ -29,7 +29,11 @@
 [ext_resource type="Resource" uid="uid://b36ujhj0jbidh" path="res://Scripts/Resources/Resource Files/Resources_MenuItems/resource_menuItem_bat.tres" id="20_sulb2"]
 [ext_resource type="Resource" uid="uid://c1b307yt58ox2" path="res://Scripts/Resources/Resource Files/Resources_MenuItems/resource_menuItem_hood.tres" id="21_mwiei"]
 [ext_resource type="Resource" uid="uid://4xljrl2gbnrp" path="res://Scripts/Resources/Resource Files/Resources_MenuItems/resource_menuItem_boots.tres" id="22_og677"]
+[ext_resource type="Resource" uid="uid://c3nedqqe2nl6y" path="res://Scripts/Resources/Resource Files/Resources_MenuItems/resource_menuItem_bloodSalve.tres" id="25_ibj3f"]
 [ext_resource type="PackedScene" uid="uid://dmxavjnxxgqy8" path="res://Scenes/UX/menu_pause_navigable-currency.tscn" id="25_p8y57"]
+[ext_resource type="Resource" uid="uid://cn3x277pcc2wa" path="res://Scripts/Resources/Resource Files/Resources_MenuItems/resource_menuItem_restorativeSalve.tres" id="28_cr7bs"]
+[ext_resource type="Resource" uid="uid://bm0stmr3hatbd" path="res://Scripts/Resources/Resource Files/Resources_MenuItems/resource_menuItem_energizingSalve.tres" id="31_lfds0"]
+[ext_resource type="Resource" uid="uid://dd4r0q5rfvm4d" path="res://Scripts/Resources/Resource Files/Resources_MenuItems/resource_menuItem_arcaneSalve.tres" id="32_8hmri"]
 
 [sub_resource type="Theme" id="Theme_buinw"]
 default_font = ExtResource("5_cfx7s")
@@ -441,25 +445,28 @@ layout_mode = 2
 theme_override_constants/h_separation = 48
 columns = 4
 
-[node name="MenuConcoctionsPanel1" parent="PauseMenuCanvas/InventoryMenuMarginCont/MenuBackgroundPanel/MenuBackgroundContainer/MenuConcoctionPanels/GridContainer" unique_id=508357866 node_paths=PackedStringArray("up_nav", "down_nav", "left_nav", "right_nav") instance=ExtResource("3_05ck7")]
+[node name="MenuConcoctionsPanel1" parent="PauseMenuCanvas/InventoryMenuMarginCont/MenuBackgroundPanel/MenuBackgroundContainer/MenuConcoctionPanels/GridContainer" unique_id=508357866 node_paths=PackedStringArray("up_nav", "down_nav", "left_nav", "right_nav", "info_box") instance=ExtResource("3_05ck7")]
 layout_mode = 2
 size_flags_vertical = 1
+item_resource = ExtResource("25_ibj3f")
 up_nav = NodePath("../../../MenuSpellPanels/MenuSpellContainer/MenuSpellPanel4")
 down_nav = NodePath("../../../MenuCurrencyPanels/CurrencyPanel")
 left_nav = NodePath("../../../MenuMobilityItemsPanels/MenuMobilityItemsContainer/MenuMobilityItem1")
 right_nav = NodePath("../VBoxContainer/MenuConcoctionsPanel2")
 panel_texture = ExtResource("6_buinw")
 content_pivot_x = 0.0
+info_box = NodePath("../../../MenuInfoBoxCont/InfoBoxPanel/RichTextLabel")
 cursor_texture = ExtResource("11_0o2fh")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="PauseMenuCanvas/InventoryMenuMarginCont/MenuBackgroundPanel/MenuBackgroundContainer/MenuConcoctionPanels/GridContainer" unique_id=429988976]
 layout_mode = 2
 theme_override_constants/separation = 48
 
-[node name="MenuConcoctionsPanel2" parent="PauseMenuCanvas/InventoryMenuMarginCont/MenuBackgroundPanel/MenuBackgroundContainer/MenuConcoctionPanels/GridContainer/VBoxContainer" unique_id=2100538437 node_paths=PackedStringArray("up_nav", "down_nav", "left_nav", "right_nav") instance=ExtResource("3_05ck7")]
+[node name="MenuConcoctionsPanel2" parent="PauseMenuCanvas/InventoryMenuMarginCont/MenuBackgroundPanel/MenuBackgroundContainer/MenuConcoctionPanels/GridContainer/VBoxContainer" unique_id=2100538437 node_paths=PackedStringArray("up_nav", "down_nav", "left_nav", "right_nav", "info_box") instance=ExtResource("3_05ck7")]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 8
+item_resource = ExtResource("28_cr7bs")
 up_nav = NodePath("../../../../MenuSpellPanels/MenuSpellContainer/MenuSpellPanel5")
 down_nav = NodePath("../MenuConcoctionsPanel3")
 left_nav = NodePath("../../MenuConcoctionsPanel1")
@@ -468,12 +475,14 @@ panel_texture = ExtResource("7_s3wyq")
 content_anchors_preset = 5
 content_pivot_x = 0.0
 content_pivot_y = 0.0
+info_box = NodePath("../../../../MenuInfoBoxCont/InfoBoxPanel/RichTextLabel")
 cursor_texture = ExtResource("9_lvwnl")
 
-[node name="MenuConcoctionsPanel3" parent="PauseMenuCanvas/InventoryMenuMarginCont/MenuBackgroundPanel/MenuBackgroundContainer/MenuConcoctionPanels/GridContainer/VBoxContainer" unique_id=2103383497 node_paths=PackedStringArray("up_nav", "down_nav", "left_nav", "right_nav") instance=ExtResource("3_05ck7")]
+[node name="MenuConcoctionsPanel3" parent="PauseMenuCanvas/InventoryMenuMarginCont/MenuBackgroundPanel/MenuBackgroundContainer/MenuConcoctionPanels/GridContainer/VBoxContainer" unique_id=2103383497 node_paths=PackedStringArray("up_nav", "down_nav", "left_nav", "right_nav", "info_box") instance=ExtResource("3_05ck7")]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 8
+item_resource = ExtResource("31_lfds0")
 up_nav = NodePath("../MenuConcoctionsPanel2")
 down_nav = NodePath("../../../../MenuCurrencyPanels/CurrencyPanel")
 left_nav = NodePath("../../MenuConcoctionsPanel1")
@@ -482,6 +491,7 @@ panel_texture = ExtResource("7_s3wyq")
 content_anchors_preset = 5
 content_pivot_x = 0.0
 content_pivot_y = 0.0
+info_box = NodePath("../../../../MenuInfoBoxCont/InfoBoxPanel/RichTextLabel")
 cursor_texture = ExtResource("9_lvwnl")
 
 [node name="Spacer" type="Control" parent="PauseMenuCanvas/InventoryMenuMarginCont/MenuBackgroundPanel/MenuBackgroundContainer/MenuConcoctionPanels/GridContainer" unique_id=1669695286]
@@ -490,6 +500,7 @@ layout_mode = 2
 [node name="MenuConcoctionsPanel4" parent="PauseMenuCanvas/InventoryMenuMarginCont/MenuBackgroundPanel/MenuBackgroundContainer/MenuConcoctionPanels/GridContainer" unique_id=233175310 node_paths=PackedStringArray("up_nav", "down_nav", "left_nav", "info_box") instance=ExtResource("3_05ck7")]
 layout_mode = 2
 size_flags_vertical = 1
+item_resource = ExtResource("32_8hmri")
 up_nav = NodePath("../../../MenuSpellPanels/MenuSpellContainer/MenuSpellPanel5")
 down_nav = NodePath("../../../MenuCurrencyPanels/CurrencyPanel")
 left_nav = NodePath("../VBoxContainer/MenuConcoctionsPanel3")

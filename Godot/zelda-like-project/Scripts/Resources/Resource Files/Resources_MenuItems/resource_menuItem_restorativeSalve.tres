@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="MenuItemResource" format=3 uid="uid://cn3x277pcc2wa"]
+
+[ext_resource type="FontFile" uid="uid://bsube4x6p1pws" path="res://Sprites/UX/Fonts/GothicPixelSerif.ttf" id="1_7pj8u"]
+[ext_resource type="Texture2D" uid="uid://xc0mec6rlvwr" path="res://Sprites/Item Sprites/Concoctions/concoction_menu_restorativeSalve.tres" id="2_7pj8u"]
+[ext_resource type="Texture2D" uid="uid://dregxh3whq5ae" path="res://Sprites/Item Sprites/Concoctions/concoction_menuMini_restorativeSalve.tres" id="3_4qhtn"]
+[ext_resource type="Texture2D" uid="uid://fxbacj05uuyq" path="res://Sprites/Item Sprites/Concoctions/concoction_menuOutline_restorativeSalve.tres" id="4_eiq4v"]
+[ext_resource type="Script" uid="uid://cs0x7737rheme" path="res://Scripts/Resources/Resource Scripts/resource_menuItem.gd" id="5_3s6jh"]
+
+[resource]
+script = ExtResource("5_3s6jh")
+item_id = "restorative_salve"
+outline = ExtResource("4_eiq4v")
+main = ExtResource("2_7pj8u")
+mini_icon = ExtResource("3_4qhtn")
+name = "Restorative Salve"
+description = "An incredible alchemical achievement that invigorates the user."
+effect = "Used to recover 4 hearts and all energy and magic."
+flash_color = Color(0.5882353, 0.047058824, 1, 1)
+display_quantity = true
+metadata/_custom_type_script = "uid://cs0x7737rheme"

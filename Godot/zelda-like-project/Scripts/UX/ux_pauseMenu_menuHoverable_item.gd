@@ -80,15 +80,18 @@ func _slice_item_frames() -> void:
 	var strip = item_resource.main
 	var base_x : int = int(strip.region.position.x)
 	var base_y : int = int(strip.region.position.y)
-	var frame_size : int = int(strip.region.size.y)
+	var strip_width : int = int(strip.region.size.x)
+	var strip_height : int = int(strip.region.size.y)
+	var frame_w : int = int(float(strip_width) / float(item_resource.h_frames))
+	var frame_h : int = strip_height
 	for i in range(item_resource.h_frames):
 		var frame = AtlasTexture.new()
 		frame.atlas = strip.atlas
 		frame.region = Rect2(
-			base_x + (i * frame_size),
+			base_x + (i * frame_w),
 			base_y,
-			frame_size,
-			frame_size
+			frame_w,
+			frame_h
 		)
 		frame.filter_clip = true
 		_item_frames.append(frame)

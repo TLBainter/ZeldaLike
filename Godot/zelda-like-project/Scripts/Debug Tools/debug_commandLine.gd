@@ -16,6 +16,8 @@ var _output_label : RichTextLabel
 var _panel : PanelContainer
 var _is_open : bool = false
 var _inventory : InventoryComponent = null
+var _health : PlayerHealthComponent = null
+var _currency : CurrencyComponent = null
 
 #endregion VARIABLES
 
@@ -51,6 +53,14 @@ func _open() -> void:
 		var players = get_tree().get_nodes_in_group("player")
 		if not players.is_empty() and "inventory" in players[0]:
 			_inventory = players[0].inventory
+	if not _currency:
+		var players = get_tree().get_nodes_in_group("player")
+		if "currency" in players[0]:
+			_currency = players[0].currency
+	if not _health:
+		var players = get_tree().get_nodes_in_group("player")
+		if "health" in players[0]:
+			_health = players[0].health
 
 func _close() -> void:
 	print("CONSOLE: _close() called")
@@ -78,12 +88,16 @@ func _execute_command(text : String) -> void:
 			_cmd_give(parts)
 		"/remove":
 			_cmd_remove(parts)
+		"/set":
+			_cmd_set(parts)
 		"/list":
 			_cmd_list()
 		"/items":
 			_cmd_items()
+		"/help":
+			_cmd_help()
 		_:
-			_print_output("[color=red]Unknown command: " + command + "[/color]")
+			_print_output("[color=red]Unknown command: " + command + ". Type /help for commands.[/color]")
 
 #region COMMANDS
 
@@ -229,6 +243,119 @@ func _get_all_item_ids() -> Array[String]:
 
 #endregion VALIDATION
 
+func _cmd_set(parts : Array) -> void:
+	if parts.size() < 3:
+		_print_output("[color=red]Usage: /set <target> <value>[/color]")
+		_print_output("[color=gray]  /set wallet pocket|wallet|big[/color]")
+		_print_output("[color=gray]  /set currency <amount>[/color]")
+		_print_output("[color=gray]  /set health <amount>[/color]")
+		_print_output("[color=gray]  /set <item_id> <quantity>[/color]")
+		_print_output("[color=gray]  /set all <category> <quantity>[/color]")
+		return
+	var target = parts[1].to_lower()
+	var value = parts[2].to_lower()
+	match target:
+		"wallet":
+			_cmd_set_wallet(value)
+		"currency":
+			_cmd_set_currency(int(parts[2]))
+		"health":
+			_cmd_set_health(int(parts[2]))
+		"all":
+			_cmd_set_all(parts)
+		_:
+			#Treat as item_id with quantity.
+			_cmd_set_item(target, int(parts[2]))
+
+func _cmd_set_wallet(wallet_type : String) -> void:
+	if not _currency:
+		_print_output("[color=red]No currency component found on player.[/color]")
+		return
+	match wallet_type:
+		"pocket":
+			_currency.max_notes = 99
+		"wallet":
+			_currency.max_notes = 999
+		"big":
+			_currency.max_notes = 9999
+		_:
+			_print_output("[color=red]Unknown wallet type: '" + wallet_type + "'. Use: pocket, wallet, big[/color]")
+			return
+	#Clamp current currency to new max.
+	if _currency.cur_notes > _currency.max_notes:
+		_currency.cur_notes = _currency.max_notes
+	_print_output("[color=green]Wallet set to '" + wallet_type + "' (max: " + str(_currency.max_notes) + ").[/color]")
+
+func _cmd_set_currency(amount : int) -> void:
+	if not _currency:
+		_print_output("[color=red]No currency component found on player.[/color]")
+		return
+	amount = clampi(amount, 0, _currency.max_notes)
+	_currency.cur_notes = amount
+	_currency.notesChanged.emit(_currency.cur_notes, _currency.max_notes, 0)
+	_print_output("[color=green]Currency set to " + str(amount) + " / " + str(_currency.max_notes) + ".[/color]")
+
+func _cmd_set_health(amount : int) -> void:
+	if not _health:
+		_print_output("[color=red]No health component found on player.[/color]")
+		return
+	amount = clampi(amount, 0, _health.max_health)
+	var change = amount - _health.cur_health
+	_health.cur_health = amount
+	_health.healthChanged.emit(_health.cur_health, _health.max_health, change)
+	_print_output("[color=green]Health set to " + str(amount) + " / " + str(_health.max_health) + ".[/color]")
+
+func _cmd_set_item(item_id : String, quantity : int) -> void:
+	if not _inventory:
+		_print_output("[color=red]No inventory found on player.[/color]")
+		return
+	if not _validate_item_id(item_id):
+		_print_output("[color=yellow]Warning: '" + item_id + "' not found in ItemID constants. Setting anyway.[/color]")
+	quantity = maxi(quantity, 0)
+	_inventory.set_quantity(item_id, quantity)
+	_print_output("[color=green]Set " + item_id + " to " + str(quantity) + ".[/color]")
+
+func _cmd_set_all(parts : Array) -> void:
+	if not _inventory:
+		_print_output("[color=red]No inventory found on player.[/color]")
+		return
+	if parts.size() < 4:
+		_print_output("[color=red]Usage: /set all <category> <quantity>[/color]")
+		return
+	var category = parts[2].to_lower()
+	var quantity = int(parts[3])
+	quantity = maxi(quantity, 0)
+	if ItemID.CATEGORIES.has(category):
+		var items = ItemID.CATEGORIES[category]
+		for item_id in items:
+			_inventory.set_quantity(item_id, quantity)
+		_print_output("[color=green]Set all " + str(items.size()) + " " + category + " items to " + str(quantity) + ".[/color]")
+	else:
+		var valid = ", ".join(ItemID.CATEGORIES.keys())
+		_print_output("[color=red]Unknown category: '" + category + "'. Valid: " + valid + "[/color]")
+
+#endregion SET COMMAND
+
+#region HELP
+
+func _cmd_help() -> void:
+	var text = "[color=white]Available commands:[/color]\n"
+	text += "  [color=gray]/give <item_id> [quantity][/color] — Add items\n"
+	text += "  [color=gray]/give all [category] [quantity][/color] — Add all items\n"
+	text += "  [color=gray]/remove <item_id> [quantity][/color] — Remove items\n"
+	text += "  [color=gray]/remove all [category][/color] — Remove all items\n"
+	text += "  [color=gray]/set wallet pocket|wallet|big[/color] — Set wallet size\n"
+	text += "  [color=gray]/set currency <amount>[/color] — Set currency\n"
+	text += "  [color=gray]/set health <amount>[/color] — Set health\n"
+	text += "  [color=gray]/set <item_id> <quantity>[/color] — Set item quantity\n"
+	text += "  [color=gray]/set all <category> <quantity>[/color] — Set all in category\n"
+	text += "  [color=gray]/list[/color] — Show inventory\n"
+	text += "  [color=gray]/items[/color] — Show valid item IDs\n"
+	text += "  [color=gray]/help[/color] — Show this message\n"
+	_print_output(text)
+
+#endregion HELP
+
 #region UI BUILDING
 
 func _build_ui() -> void:
@@ -253,7 +380,7 @@ func _build_ui() -> void:
 	_output_label.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	vbox.add_child(_output_label)
 	_input_field = LineEdit.new()
-	_input_field.placeholder_text = "Type a command... (/give, /remove, /list, /items)"
+	_input_field.placeholder_text = "Type /help for a list of possible commands"
 	_input_field.gui_input.connect(_on_input_gui_input)
 	_input_field.focus_exited.connect(_on_input_focus_lost)
 	vbox.add_child(_input_field)

@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="MenuItemResource" format=3 uid="uid://bm0stmr3hatbd"]
+
+[ext_resource type="FontFile" uid="uid://bsube4x6p1pws" path="res://Sprites/UX/Fonts/GothicPixelSerif.ttf" id="1_tswdg"]
+[ext_resource type="Texture2D" uid="uid://b8gejc5yftm2m" path="res://Sprites/Item Sprites/Concoctions/concoction_menu_energizingSalve.tres" id="2_tswdg"]
+[ext_resource type="Texture2D" uid="uid://0f6trikogopy" path="res://Sprites/Item Sprites/Concoctions/concoction_menuMini_energizingSalve.tres" id="3_vn0ok"]
+[ext_resource type="Texture2D" uid="uid://clomwm4sqc0iv" path="res://Sprites/Item Sprites/Concoctions/concoction_menuOutline_energizingSalve.tres" id="4_fouxb"]
+[ext_resource type="Script" uid="uid://cs0x7737rheme" path="res://Scripts/Resources/Resource Scripts/resource_menuItem.gd" id="5_w2mxb"]
+
+[resource]
+script = ExtResource("5_w2mxb")
+item_id = "energizing_salve"
+outline = ExtResource("4_fouxb")
+main = ExtResource("2_tswdg")
+mini_icon = ExtResource("3_vn0ok")
+name = "Energizing Salve"
+description = "An electrifying concoction that boosts one's adrenalin."
+effect = "Used to recover 4 points of energy."
+flash_color = Color(0.93333334, 0.8784314, 0.69411767, 1)
+display_quantity = true
+metadata/_custom_type_script = "uid://cs0x7737rheme"

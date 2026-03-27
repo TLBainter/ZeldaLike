@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="MenuItemResource" format=3 uid="uid://dd4r0q5rfvm4d"]
+
+[ext_resource type="FontFile" uid="uid://bsube4x6p1pws" path="res://Sprites/UX/Fonts/GothicPixelSerif.ttf" id="1_qhdtn"]
+[ext_resource type="Texture2D" uid="uid://d320f4tyw2rjm" path="res://Sprites/Item Sprites/Concoctions/concoction_menu_arcaneSalve.tres" id="2_qhdtn"]
+[ext_resource type="Texture2D" uid="uid://cm24ookdkh53l" path="res://Sprites/Item Sprites/Concoctions/concoction_menuMini_arcaneSalve.tres" id="3_nijke"]
+[ext_resource type="Texture2D" uid="uid://df7v6hm36ndew" path="res://Sprites/Item Sprites/Concoctions/concoction_menuOutline_arcaneSalve.tres" id="4_dlmca"]
+[ext_resource type="Script" uid="uid://cs0x7737rheme" path="res://Scripts/Resources/Resource Scripts/resource_menuItem.gd" id="5_4473d"]
+
+[resource]
+script = ExtResource("5_4473d")
+item_id = "arcane_salve"
+outline = ExtResource("4_dlmca")
+main = ExtResource("2_qhdtn")
+mini_icon = ExtResource("3_nijke")
+name = "Arcane Salve"
+description = "A magical salve that restores one's ability to cast spells."
+effect = "Used to retore 1 medallion."
+display_quantity = true
+metadata/_custom_type_script = "uid://cs0x7737rheme"
