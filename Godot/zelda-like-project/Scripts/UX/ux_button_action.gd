@@ -14,6 +14,14 @@ extends ButtonSprite
 @export var available_tint : Color = Color(1, 1, 1, 1)
 ##the tint and visibility to apply when the button is unavailable
 @export var unavailable_tint : Color = Color(0.5, 0.5, 0.5, 0.5)
+##The TextureRect for displaying the assigned spell's mini icon.
+@export var spell_texture_rect : TextureRect
+
+#====INTERNAL====#
+#SPELL TRACKING VARIABLES#
+var _current_spell : MenuItemResource = null
+var _equipped_spells : EquippedSpellsComponent = null
+var _my_slot : int = -1
 #endregion VARIABLES
 
 #region FUNCTIONS
@@ -49,5 +57,30 @@ func set_available(active : bool):
 		modulate = available_tint
 	else:
 		modulate = unavailable_tint
+
+#region Spell Setting===========#
+func set_equipped_spells(equipped_spells : EquippedSpellsComponent, slot_index : int) -> void:
+	_equipped_spells = equipped_spells
+	_my_slot = slot_index
+	if _equipped_spells and not _equipped_spells.spell_equip_changed.is_connected(_on_spell_equip_changed):
+		_equipped_spells.spell_equip_changed.connect(_on_spell_equip_changed)
+	_current_spell = _equipped_spells.get_spell(_my_slot) if _equipped_spells else null
+	_update_spell_display()
+
+func _on_spell_equip_changed(slot : int, spell_resource : MenuItemResource) -> void:
+	if slot != _my_slot:
+		return
+	_current_spell = spell_resource
+	_update_spell_display()
+
+func _update_spell_display() -> void:
+	if not spell_texture_rect:
+		return
+	if _current_spell and _current_spell.mini_icon:
+		spell_texture_rect.visible = true
+		spell_texture_rect.texture = _current_spell.mini_icon
+	else:
+		spell_texture_rect.visible = false
+#endregion Spell Setting===========#
 
 #endregion FUNCTIONS

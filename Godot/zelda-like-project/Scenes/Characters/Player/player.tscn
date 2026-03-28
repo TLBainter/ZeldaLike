@@ -24,6 +24,7 @@
 [ext_resource type="Script" uid="uid://1h1iqx2yk781" path="res://Scripts/Classes/State Machine Class/StateCoordinator.gd" id="17_xcbxy"]
 [ext_resource type="Script" uid="uid://nfws2da5iy01" path="res://Scripts/Classes/Entity Class/Component Class/Player Components/Component_ItemUse_Concoction.gd" id="17_ywskp"]
 [ext_resource type="Script" uid="uid://cv00auxwsog0v" path="res://Scripts/Classes/State Machine Class/StateMachineLayer.gd" id="18_a7o8c"]
+[ext_resource type="Script" uid="uid://cf2mib56agbq3" path="res://Scripts/Classes/Entity Class/Component Class/Player Components/Component_EquippedSpells.gd" id="18_gelu2"]
 [ext_resource type="Script" uid="uid://46pctm4i5qsj" path="res://Scripts/Classes/State Machine Class/Movement States/State_Idling.gd" id="19_23420"]
 [ext_resource type="Script" uid="uid://c01o50a0tyt5f" path="res://Scripts/Classes/State Machine Class/Movement States/State_Move.gd" id="20_p6wb4"]
 [ext_resource type="Script" uid="uid://0cxa44lve11l" path="res://Scripts/Classes/State Machine Class/Movement States/State_Run.gd" id="21_y3fvr"]
@@ -1378,7 +1379,7 @@ _data = {
 &"WalkUpRight": SubResource("Animation_pr2lv")
 }
 
-[node name="Player" type="Node2D" unique_id=209100190 node_paths=PackedStringArray("currency", "magic", "energy", "input", "player_ux", "player_cam", "inventory", "concoction_use", "body", "root", "sprite", "anim", "state_machine", "collider", "audio", "health", "move")]
+[node name="Player" type="Node2D" unique_id=209100190 node_paths=PackedStringArray("currency", "magic", "energy", "input", "player_ux", "player_cam", "equipped_spells", "inventory", "concoction_use", "body", "root", "sprite", "anim", "state_machine", "collider", "audio", "health", "move")]
 y_sort_enabled = true
 script = ExtResource("1_27cb7")
 currency = NodePath("Component Manager/CurrencyComponent")
@@ -1387,6 +1388,7 @@ energy = NodePath("Component Manager/EnergyComponent")
 input = NodePath("Component Manager/PlayerInput")
 player_ux = NodePath("PlayerUX")
 player_cam = NodePath("PlayerCam")
+equipped_spells = NodePath("Component Manager/EquippedSpellsComponent")
 inventory = NodePath("Component Manager/InventoryComponent")
 concoction_use = NodePath("Component Manager/ConcoctionItemUse")
 body = NodePath("PlayerBody")
@@ -1505,6 +1507,10 @@ debug_me = true
 debug_me_verbose = true
 debug_name = "ConcoctionItemUse Component"
 metadata/_custom_type_script = "uid://nfws2da5iy01"
+
+[node name="EquippedSpellsComponent" type="Node" parent="Component Manager" unique_id=1269797781]
+script = ExtResource("18_gelu2")
+metadata/_custom_type_script = "uid://cf2mib56agbq3"
 
 [node name="PlayerCam" type="Camera2D" parent="." unique_id=1506803803 node_paths=PackedStringArray("root")]
 zoom = Vector2(3, 3)

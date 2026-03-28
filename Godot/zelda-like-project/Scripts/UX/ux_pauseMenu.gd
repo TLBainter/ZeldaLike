@@ -49,6 +49,7 @@ var _fading_out : bool = false
 #region FUNCTIONS
 
 func _ready():
+	#TODO: Compile _ready() and open()'s common functions into a singular _initialize() function, as I'm finding myself repeating work.
 	#This node must process while paused.
 	process_mode = Node.PROCESS_MODE_WHEN_PAUSED
 	#Create the dark overlay on a separate CanvasLayer below the menu.
@@ -59,6 +60,8 @@ func _ready():
 		menu_controller.set_inventory(player.inventory)
 	if player and player.currency and menu_controller:
 		menu_controller.set_currency(player.currency)
+	if player and player.equipped_spells and menu_controller:
+		menu_controller.set_equipped_spells(player.equipped_spells)
 	#configure the menu controller
 	if menu_controller:
 		menu_controller.activate()
@@ -76,6 +79,7 @@ func _ready():
 
 ##Open the pause menu; used in place of [color=blue]_ready()[/color] once the menu has been instantiated.
 func open() -> void:
+	#TODO: Compile _ready() and open()'s common functions into a singular _initialize() function, as I'm finding myself repeating work.
 	_is_closing = false
 	_fading_out = false
 	if canvas:
@@ -91,6 +95,8 @@ func open() -> void:
 		menu_controller.set_inventory(player.inventory)
 	if player and player.currency and menu_controller:
 		menu_controller.set_currency(player.currency)
+	if player and player.equipped_spells and menu_controller:
+		menu_controller.set_equipped_spells(player.equipped_spells)
 	if menu_controller:
 		menu_controller.activate()
 		menu_controller.nav_move_sounds = nav_move_sounds
@@ -103,6 +109,11 @@ func open() -> void:
 func _unhandled_input(event : InputEvent) -> void:
 	if _is_closing:
 		return
+	#Handle assignment of Spell Buttons
+	if event.is_action_pressed("actionButton1") or event.is_action_pressed("actionButton2") or event.is_action_pressed("actionButton3"):
+		if menu_controller and menu_controller.get_current() is MenuHoverableSpell:
+			get_viewport().set_input_as_handled()
+			return
 	#Close on pause or actionButton1.
 	if event.is_action_pressed("pause") or event.is_action_pressed("actionButton1"):
 		get_viewport().set_input_as_handled()

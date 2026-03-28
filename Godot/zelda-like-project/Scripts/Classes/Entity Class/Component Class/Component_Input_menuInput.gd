@@ -67,6 +67,13 @@ func set_currency(currency_comp : CurrencyComponent) -> void:
 		if h is MenuHoverableCurrency:
 			h.set_currency(currency_comp)
 
+##Sets the spell slots for the player.
+func set_equipped_spells(equipped_spells : EquippedSpellsComponent) -> void:
+	var hoverables = _get_all_hoverables(get_parent())
+	for h in hoverables:
+		if h is MenuHoverableSpell:
+			h.set_equipped_spells(equipped_spells)
+
 ##Finds all MenuHoverable nodes under the given root.
 func _get_all_hoverables(node : Node) -> Array[MenuHoverable]:
 	var result : Array[MenuHoverable] = []
@@ -113,6 +120,12 @@ func _process(delta : float) -> void:
 		_held_direction = ""
 		_held_time = 0.0
 		_repeat_started = false
+	#Manage Spell Hoverable assignment to action buttons.
+	if _current and _current is MenuHoverableSpell:
+		for i in range(1, 4):
+			var action = "actionButton" + str(i)
+			if Input.is_action_just_pressed(action):
+				_current.try_assign_to_slot(i)
 
 #region NAVIGATION
 

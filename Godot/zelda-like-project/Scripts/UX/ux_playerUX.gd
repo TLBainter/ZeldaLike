@@ -36,6 +36,11 @@ signal check_viewport_size
 ## a reference to the magic display for the player.
 @export var magic_display : MagicDisplay
 ## collection of references to the concoctions
+@export_subgroup("Action Buttons")
+@export var action_button_1 : ActionButtonSprite
+@export var action_button_2 : ActionButtonSprite
+@export var action_button_3 : ActionButtonSprite
+@export var action_button_4 : ActionButtonSprite
 @export_subgroup("Concoctions")
 ##Do in this order: Up, Right, Down, Left [Restorative, Arcane, Energizing, Blood]
 @export var salve_panels : Array[SalvePanel]
@@ -95,6 +100,13 @@ func _ready():
 		for panel in salve_panels:
 			if panel:
 				panel.initialize(root.inventory, input, root.concoction_use)
+	
+	#Configure spell equipment
+	if root.equipped_spells:
+		var buttons = [action_button_1, action_button_2, action_button_3]
+		for i in range(buttons.size()):
+			if buttons[i]:
+				buttons[i].set_equipped_spells(root.equipped_spells, i + 1)
 	
 	#Configure zoom call connections
 	if player_cam:
