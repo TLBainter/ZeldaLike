@@ -1,0 +1,49 @@
+[gd_resource type="Resource" script_class="ItemFunctionConsumable" format=3 uid="uid://b6dybn13bofhn"]
+
+[ext_resource type="Script" uid="uid://dd8asc28rmm0h" path="res://Scripts/Resources/Resource Scripts/resource_itemFunction_Effect_Immediate.gd" id="1_jdn0v"]
+[ext_resource type="Script" uid="uid://de8d77a6k33gy" path="res://Scripts/Resources/Resource Scripts/resource_itemFunction_Effect_Ongoing.gd" id="2_paoem"]
+[ext_resource type="Script" uid="uid://xt1isysytx6k" path="res://Scripts/Resources/Resource Scripts/resource_itemFunction_Consumable.gd" id="3_xp7d8"]
+
+[sub_resource type="Resource" id="Resource_sv6pf"]
+script = ExtResource("1_jdn0v")
+amount = 8
+metadata/_custom_type_script = "uid://dd8asc28rmm0h"
+
+[sub_resource type="Resource" id="Resource_jdn0v"]
+script = ExtResource("1_jdn0v")
+amount = 3
+target = 2
+metadata/_custom_type_script = "uid://dd8asc28rmm0h"
+
+[sub_resource type="Resource" id="Resource_paoem"]
+script = ExtResource("1_jdn0v")
+amount = 4
+target = 1
+metadata/_custom_type_script = "uid://dd8asc28rmm0h"
+
+[sub_resource type="Resource" id="Resource_xp7d8"]
+script = ExtResource("2_paoem")
+amount = 1
+interval = 6.0
+metadata/_custom_type_script = "uid://de8d77a6k33gy"
+
+[sub_resource type="Resource" id="Resource_w5eyj"]
+script = ExtResource("2_paoem")
+amount = 1
+target = 1
+interval = 6.0
+metadata/_custom_type_script = "uid://de8d77a6k33gy"
+
+[sub_resource type="Resource" id="Resource_6cnrx"]
+script = ExtResource("2_paoem")
+amount = 1
+target = 2
+interval = 8.0
+metadata/_custom_type_script = "uid://de8d77a6k33gy"
+
+[resource]
+script = ExtResource("3_xp7d8")
+immediate_effects = Array[ExtResource("1_jdn0v")]([SubResource("Resource_sv6pf"), SubResource("Resource_jdn0v"), SubResource("Resource_paoem")])
+ongoing_effects = Array[ExtResource("2_paoem")]([SubResource("Resource_xp7d8"), SubResource("Resource_w5eyj"), SubResource("Resource_6cnrx")])
+ongoing_duration = 24.0
+metadata/_custom_type_script = "uid://xt1isysytx6k"

@@ -35,6 +35,10 @@ signal check_viewport_size
 @export var energy_display : EnergyDisplay
 ## a reference to the magic display for the player.
 @export var magic_display : MagicDisplay
+## collection of references to the concoctions
+@export_subgroup("Concoctions")
+##Do in this order: Up, Right, Down, Left [Restorative, Arcane, Energizing, Blood]
+@export var salve_panels : Array[SalvePanel]
 
 @export_group("Child Controls")
 ##Controls the speed at which entities within Player UX fade out when the player is beneath them.
@@ -85,6 +89,12 @@ func _ready():
 
 	if currency_comp and currency_display:
 		currency_display.initialize(currency_comp)
+	
+	#Configure the concoctions
+	if root.inventory and input:
+		for panel in salve_panels:
+			if panel:
+				panel.initialize(root.inventory, input, root.concoction_use)
 	
 	#Configure zoom call connections
 	if player_cam:

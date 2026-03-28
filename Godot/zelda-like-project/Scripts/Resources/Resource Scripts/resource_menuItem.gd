@@ -41,3 +41,6 @@ extends Resource
 @export_subgroup("Count")
 ##Whether the sprite should show its text quantity.
 @export var display_quantity : bool = false
+@export_subgroup("Function")
+##The initial function of the item.
+@export var item_function : ItemFunction

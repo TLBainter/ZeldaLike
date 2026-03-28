@@ -2,12 +2,23 @@
 class_name PlayerInputComponent
 extends InputComponent
 
+#region CONSTANTS
+const DPAD_BUTTONS : Array[String] = ["dPadUp", "dPadRight", "dPadDown", "dPadLeft"]
+#endregion CONSTANTS
+
 #region SIGNALS
+#region Button Signals
+##Signal for when one of the four action buttons is pressed (actionButton 1 - 4)
+signal actionButtonPressed(button : String)
+##Signal for when one of the four DPad Directions is pressed (Up, Right, Down, or Left)
+signal dPadPressed(index : int)
+#endregion Button Signals
 #region Cam Signals
 ##Signal when the cam up input is given
 signal onCamMove(cam_move_input : Vector2, cam_move_strength : float)
-signal actionButtonPressed(button : String)
-#endregion
+
+
+#endregion Cam Signals
 #endregion SIGNALS
 
 #region VARIABLES
@@ -56,11 +67,18 @@ func _unhandled_input(event : InputEvent):
 		if get_tree().paused:
 			return #NOTE: Pause Menu handles its own close input
 		_open_pause_menu()
+	#BUTTON HANDLING#
+	if not get_tree().paused:
 	#ACTION BUTTON HANDLING#
-	for action in ACTION_BUTTONS:
-		if event.is_action_pressed(action):
-			_action_button_press(action)
-			break
+		for action in ACTION_BUTTONS:
+			if event.is_action_pressed(action):
+				_action_button_press(action)
+				break
+	#DPAD HANDLING
+		for i in range(DPAD_BUTTONS.size()):
+				if event.is_action_pressed(DPAD_BUTTONS[i]):
+					dPadPressed.emit(i + 1)
+					break
 
 #region Pause Menu
 

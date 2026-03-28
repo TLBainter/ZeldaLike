@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="ItemFunctionConsumable" format=3 uid="uid://c2v3xpeqcjv3s"]
+
+[ext_resource type="Script" uid="uid://dd8asc28rmm0h" path="res://Scripts/Resources/Resource Scripts/resource_itemFunction_Effect_Immediate.gd" id="1_2tt5f"]
+[ext_resource type="Script" uid="uid://de8d77a6k33gy" path="res://Scripts/Resources/Resource Scripts/resource_itemFunction_Effect_Ongoing.gd" id="2_5m6nj"]
+[ext_resource type="Script" uid="uid://xt1isysytx6k" path="res://Scripts/Resources/Resource Scripts/resource_itemFunction_Consumable.gd" id="3_4x23r"]
+
+[sub_resource type="Resource" id="Resource_sv6pf"]
+script = ExtResource("1_2tt5f")
+amount = 8
+target = 1
+metadata/_custom_type_script = "uid://dd8asc28rmm0h"
+
+[resource]
+script = ExtResource("3_4x23r")
+immediate_effects = Array[ExtResource("1_2tt5f")]([SubResource("Resource_sv6pf")])
+metadata/_custom_type_script = "uid://xt1isysytx6k"

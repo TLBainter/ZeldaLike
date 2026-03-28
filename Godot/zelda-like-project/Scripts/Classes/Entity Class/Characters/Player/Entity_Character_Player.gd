@@ -19,7 +19,10 @@ extends Character
 ##reference to the player's camera
 @export var player_cam : PlayerCam
 ##reference to the player's Inventory Component.
+@export_group("Items")
 @export var inventory : InventoryComponentPlayer
+##A reference to the player's Concoction Item Use Component.
+@export var concoction_use : ConcoctionItemUse
 @export_category("Player Flags")
 ##Whether or not the player can currently roll
 var can_roll : bool = true

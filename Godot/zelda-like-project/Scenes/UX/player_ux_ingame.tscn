@@ -9,14 +9,14 @@
 [ext_resource type="Script" uid="uid://ds30kl7uff5mo" path="res://Scripts/UX/ux_playerHearts.gd" id="5_ovlxb"]
 [ext_resource type="Script" uid="uid://clldbretb10wu" path="res://Scripts/UX/ux_playerUX_Label_Context.gd" id="5_xjdbq"]
 [ext_resource type="Script" uid="uid://dugks6lyfxa4s" path="res://Scripts/Classes/Audio Class/Audio_Component_UI.gd" id="7_ffuv4"]
-[ext_resource type="Texture2D" uid="uid://dregxh3whq5ae" path="res://Sprites/Item Sprites/Concoctions/concoction_menuMini_restorativeSalve.tres" id="7_joafc"]
+[ext_resource type="PackedScene" uid="uid://gwg5oylu13b4" path="res://Scenes/UX/player_ux_ingame_salvePanel.tscn" id="7_ov3gu"]
+[ext_resource type="Resource" uid="uid://dd4r0q5rfvm4d" path="res://Scripts/Resources/Resource Files/Resources_MenuItems/resource_menuItem_arcaneSalve.tres" id="8_2bw2c"]
 [ext_resource type="AudioStream" uid="uid://beb3rdr8gqvde" path="res://Sound/SFX/Player/Player UX SFX/Status/healthLow.wav" id="8_l8e16"]
-[ext_resource type="Texture2D" uid="uid://cm24ookdkh53l" path="res://Sprites/Item Sprites/Concoctions/concoction_menuMini_arcaneSalve.tres" id="8_ov3gu"]
-[ext_resource type="Texture2D" uid="uid://cnkfweyafaxhw" path="res://Sprites/Item Sprites/Concoctions/concoction_menuMini_bloodSalve.tres" id="9_2bw2c"]
+[ext_resource type="Resource" uid="uid://bm0stmr3hatbd" path="res://Scripts/Resources/Resource Files/Resources_MenuItems/resource_menuItem_energizingSalve.tres" id="9_crfdi"]
 [ext_resource type="Texture2D" uid="uid://c1eocxag7jj8h" path="res://Sprites/UX/Backgrounds/dark ui blank.png" id="9_jwj3h"]
 [ext_resource type="Script" uid="uid://cyj54quh4uo0w" path="res://Scripts/UX/ux_dialogueController.gd" id="9_prcqu"]
-[ext_resource type="Texture2D" uid="uid://0f6trikogopy" path="res://Sprites/Item Sprites/Concoctions/concoction_menuMini_energizingSalve.tres" id="10_crfdi"]
 [ext_resource type="Texture2D" uid="uid://dse3fpdx1g32f" path="res://icon.svg" id="10_ktjiq"]
+[ext_resource type="Resource" uid="uid://c3nedqqe2nl6y" path="res://Scripts/Resources/Resource Files/Resources_MenuItems/resource_menuItem_bloodSalve.tres" id="10_ui11g"]
 [ext_resource type="Texture2D" uid="uid://dpqcjyf48nd5j" path="res://Sprites/UX/Backgrounds/dark ui large-long plate.png" id="10_urrej"]
 [ext_resource type="Texture2D" uid="uid://8k5l76ow05w3" path="res://Sprites/UX/Backgrounds/dark ui large plate.png" id="11_ktjiq"]
 [ext_resource type="Theme" uid="uid://bc52rxei0qqcb" path="res://Text and Style/Text/character_Name_Theme.tres" id="12_ktjiq"]
@@ -226,67 +226,6 @@ _data = {
 atlas = ExtResource("1_oxfwa")
 region = Rect2(224, 0, 16, 16)
 
-[sub_resource type="Animation" id="Animation_joafc"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:self_modulate")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Color(1, 1, 1, 1)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath(".:scale")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(1, 1)]
-}
-
-[sub_resource type="Animation" id="Animation_ui11g"]
-resource_name = "salveUse"
-length = 0.5
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:self_modulate")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.33333334, 0.5),
-"transitions": PackedFloat32Array(1, 1.404796, 1),
-"update": 0,
-"values": [Color(1, 1, 1, 1), Color(0.5941925, 0.4611606, 0.39982793, 1), Color(1, 1, 1, 1)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath(".:scale")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.16666667, 0.33333334, 0.5),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
-"update": 0,
-"values": [Vector2(1, 1), Vector2(1.25, 1.25), Vector2(0.9, 0.9), Vector2(1, 1)]
-}
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_37lcq"]
-_data = {
-&"RESET": SubResource("Animation_joafc"),
-&"salveUse": SubResource("Animation_ui11g")
-}
-
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_prcqu"]
 bg_color = Color(0.42352942, 0.6627451, 0.5058824, 0.0627451)
 
@@ -294,7 +233,7 @@ bg_color = Color(0.42352942, 0.6627451, 0.5058824, 0.0627451)
 base_font = ExtResource("3_4d04n")
 spacing_glyph = 2
 
-[node name="PlayerUX" type="Control" unique_id=895243336 node_paths=PackedStringArray("currency_display", "heartsContainer", "ui_audio", "context_label", "dialogue_controller", "energy_display", "magic_display")]
+[node name="PlayerUX" type="Control" unique_id=895243336 node_paths=PackedStringArray("currency_display", "heartsContainer", "ui_audio", "context_label", "dialogue_controller", "energy_display", "magic_display", "salve_panels")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -309,6 +248,7 @@ context_label = NodePath("PlayerInGameCanvas/PlayerUI_ActionButtons/ActionButton
 dialogue_controller = NodePath("PlayerInGameCanvas/PlayerUI_Dialogue/PlayerUI_Dialogue_Panel")
 energy_display = NodePath("PlayerInGameCanvas/PlayerUI_Energy")
 magic_display = NodePath("PlayerInGameCanvas/PlayerUI_Magic")
+salve_panels = [NodePath("PlayerInGameCanvas/PlayerUI_ConsumableButtons/salvePanel[restorative]"), NodePath("PlayerInGameCanvas/PlayerUI_ConsumableButtons/salvePanel[arcane]"), NodePath("PlayerInGameCanvas/PlayerUI_ConsumableButtons/salvePanel[energizing]"), NodePath("PlayerInGameCanvas/PlayerUI_ConsumableButtons/salvePanel[blood]")]
 debug_me = true
 debug_name = "Player UX"
 
@@ -522,108 +462,32 @@ size_flags_stretch_ratio = 0.0
 texture = SubResource("AtlasTexture_ovlxb")
 stretch_mode = 4
 
-[node name="restorativeSalvePanel" type="Panel" parent="PlayerInGameCanvas/PlayerUI_ConsumableButtons" unique_id=1054709669]
+[node name="salvePanel[restorative]" parent="PlayerInGameCanvas/PlayerUI_ConsumableButtons" unique_id=823115578 instance=ExtResource("7_ov3gu")]
 layout_mode = 2
-size_flags_vertical = 0
 
-[node name="restorativeSalveRect" type="TextureRect" parent="PlayerInGameCanvas/PlayerUI_ConsumableButtons/restorativeSalvePanel" unique_id=762649668]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -21.43
-offset_top = -20.0
-offset_right = 18.57
-offset_bottom = 20.0
-grow_horizontal = 2
-grow_vertical = 2
-rotation = 0.7853982
-pivot_offset_ratio = Vector2(0.5, 0.5)
-texture = ExtResource("7_joafc")
-stretch_mode = 5
-
-[node name="salveAnimPlayer" type="AnimationPlayer" parent="PlayerInGameCanvas/PlayerUI_ConsumableButtons/restorativeSalvePanel/restorativeSalveRect" unique_id=1452374676]
-libraries/ = SubResource("AnimationLibrary_37lcq")
-
-[node name="arcaneSalvePanel" type="Panel" parent="PlayerInGameCanvas/PlayerUI_ConsumableButtons" unique_id=256358060]
+[node name="salvePanel[arcane]" parent="PlayerInGameCanvas/PlayerUI_ConsumableButtons" unique_id=888094582 instance=ExtResource("7_ov3gu")]
 layout_mode = 2
 size_flags_horizontal = 8
-size_flags_vertical = 4
+size_flags_vertical = 1
+salve_type = 1
+item_resource = ExtResource("8_2bw2c")
+debug_name = "ArcaneSalve"
 
-[node name="arcaneSalveRect" type="TextureRect" parent="PlayerInGameCanvas/PlayerUI_ConsumableButtons/arcaneSalvePanel" unique_id=1818962633]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -14.34
-offset_right = 20.0
-offset_bottom = 25.66
-grow_horizontal = 2
-grow_vertical = 2
-rotation = -0.7853982
-pivot_offset_ratio = Vector2(0.5, 0.5)
-texture = ExtResource("8_ov3gu")
-stretch_mode = 5
+[node name="salvePanel[energizing]" parent="PlayerInGameCanvas/PlayerUI_ConsumableButtons" unique_id=1300040908 instance=ExtResource("7_ov3gu")]
+layout_mode = 2
+size_flags_vertical = 8
+salve_type = 2
+item_resource = ExtResource("9_crfdi")
+debug_name = "EnergizingSalve"
 
-[node name="salveAnimPlayer" type="AnimationPlayer" parent="PlayerInGameCanvas/PlayerUI_ConsumableButtons/arcaneSalvePanel/arcaneSalveRect" unique_id=666973875]
-libraries/ = SubResource("AnimationLibrary_37lcq")
-
-[node name="bloodSalvePanel" type="Panel" parent="PlayerInGameCanvas/PlayerUI_ConsumableButtons" unique_id=2015200319]
+[node name="salvePanel[blood]" parent="PlayerInGameCanvas/PlayerUI_ConsumableButtons" unique_id=1464483856 instance=ExtResource("7_ov3gu")]
 layout_mode = 2
 size_flags_horizontal = 0
-size_flags_vertical = 4
-
-[node name="bloodSalveRect" type="TextureRect" parent="PlayerInGameCanvas/PlayerUI_ConsumableButtons/bloodSalvePanel" unique_id=2038733813]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -19.85
-offset_top = -25.61
-offset_right = 20.15
-offset_bottom = 14.389999
-grow_horizontal = 2
-grow_vertical = 2
-rotation = -0.7853982
-pivot_offset_ratio = Vector2(0.5, 0.5)
-texture = ExtResource("9_2bw2c")
-stretch_mode = 5
-
-[node name="salveAnimPlayer" type="AnimationPlayer" parent="PlayerInGameCanvas/PlayerUI_ConsumableButtons/bloodSalvePanel/bloodSalveRect" unique_id=1055810390]
-libraries/ = SubResource("AnimationLibrary_37lcq")
-
-[node name="energizingSalvePanel" type="Panel" parent="PlayerInGameCanvas/PlayerUI_ConsumableButtons" unique_id=2065792957]
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 8
-
-[node name="energizingSalveRect" type="TextureRect" parent="PlayerInGameCanvas/PlayerUI_ConsumableButtons/energizingSalvePanel" unique_id=759127339]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -18.88
-offset_top = -17.37
-offset_right = 21.12
-offset_bottom = 22.63
-grow_horizontal = 2
-grow_vertical = 2
-rotation = 0.7853982
-pivot_offset_ratio = Vector2(0.5, 0.5)
-texture = ExtResource("10_crfdi")
-stretch_mode = 5
-
-[node name="salveAnimPlayer" type="AnimationPlayer" parent="PlayerInGameCanvas/PlayerUI_ConsumableButtons/energizingSalvePanel/energizingSalveRect" unique_id=1529424990]
-libraries/ = SubResource("AnimationLibrary_37lcq")
+size_flags_vertical = 1
+salve_type = 3
+item_resource = ExtResource("10_ui11g")
+label_alignment = 0
+debug_name = "BloodSalve"
 
 [node name="PlayerUI_Hearts" type="MarginContainer" parent="PlayerInGameCanvas" unique_id=1077872179 node_paths=PackedStringArray("root")]
 offset_right = 39.0
