@@ -31,6 +31,8 @@ var _repeat_started : bool = false
 var _inventory : InventoryComponent = null
 ##The navigation move sounds from the pause menu interface.
 var nav_move_sounds : SoundLibrary
+##A reference to the pause menu.
+var pause_menu : PauseMenu = null
 
 #endregion VARIABLES
 
@@ -44,7 +46,7 @@ func _ready():
 ##Call this when the menu opens to set the starting hover state.
 func activate() -> void:
 	if default_hoverable:
-		_navigate_to(default_hoverable)
+		_navigate_to(default_hoverable, false)
 	_held_direction = ""
 	_held_time = 0.0
 	_repeat_started = false
@@ -125,7 +127,10 @@ func _process(delta : float) -> void:
 		for i in range(1, 4):
 			var action = "actionButton" + str(i)
 			if Input.is_action_just_pressed(action):
-				_current.try_assign_to_slot(i)
+				if pause_menu:
+					pause_menu.handle_spell_assignment(_current as MenuHoverableSpell, i)
+				else:
+					_current.try_assign_to_slot(i)
 
 #region NAVIGATION
 
@@ -138,12 +143,12 @@ func _try_navigate(direction : String) -> void:
 		_navigate_to(target)
 
 ##Moves the cursor from the current hoverable to the target.
-func _navigate_to(target : MenuHoverable) -> void:
+func _navigate_to(target : MenuHoverable, play_sound : bool = true) -> void:
 	if _current:
 		_current.unhover()
 	_current = target
 	_current.hover()
-	if nav_move_sounds and not nav_move_sounds.sl.is_empty():
+	if play_sound and nav_move_sounds and not nav_move_sounds.sl.is_empty():
 		if audioManager:
 			audioManager.play(nav_move_sounds.sl.pick_random(), "UI")
 	if debug_me:

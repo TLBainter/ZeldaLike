@@ -1,0 +1,129 @@
+[gd_scene format=3 uid="uid://b2o75upopd7yw"]
+
+[ext_resource type="Script" uid="uid://b46ts82h6itnm" path="res://Scripts/UX/ux_button_action.gd" id="2_q5sb3"]
+[ext_resource type="Texture2D" uid="uid://coj45ljky5bay" path="res://Sprites/UX/InGameUX/ActionButtons/UX_Button_ActionButton1_B.tres" id="2_v8pmw"]
+[ext_resource type="Texture2D" uid="uid://dsyilaykfy1av" path="res://Sprites/Item Sprites/Spells/spell_menuMini_grapple.tres" id="3_o6og0"]
+[ext_resource type="Texture2D" uid="uid://b7pjvpt53p2bl" path="res://Sprites/UX/InGameUX/ActionButtons/UX_Button_ActionButton2_A.tres" id="3_u2quy"]
+[ext_resource type="Texture2D" uid="uid://8xjmn2c0ttaa" path="res://Sprites/UX/InGameUX/ActionButtons/UX_Button_ActionButton3_X.tres" id="4_513uh"]
+
+[sub_resource type="Animation" id="Animation_v8pmw"]
+resource_name = "assign_motion"
+
+[sub_resource type="Animation" id="Animation_q5sb3"]
+resource_name = "unassign_motion"
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_o6og0"]
+_data = {
+&"assign_motion": SubResource("Animation_v8pmw"),
+&"unassign_motion": SubResource("Animation_q5sb3")
+}
+
+[sub_resource type="Animation" id="Animation_u2quy"]
+resource_name = "assign_flash"
+
+[sub_resource type="Animation" id="Animation_513uh"]
+resource_name = "unassign_flash"
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_vcj84"]
+_data = {
+&"assign_flash": SubResource("Animation_u2quy"),
+&"unassign_flash": SubResource("Animation_513uh")
+}
+
+[sub_resource type="Animation" id="Animation_o6og0"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ActionButtonSprite:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_vcj84"]
+resource_name = "actionButton_press"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ActionButtonSprite:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.05, 0.1, 0.2),
+"transitions": PackedFloat32Array(1, 6.0224824, 0.435277, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(0.9, 0.5), Vector2(1.1, 1.1), Vector2(1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_c33dl"]
+_data = {
+&"RESET": SubResource("Animation_o6og0"),
+&"actionButton_press": SubResource("Animation_vcj84")
+}
+
+[node name="ActionButton" type="Panel" unique_id=1150167679 node_paths=PackedStringArray("button_rect", "anim_player", "flash_anim", "motion_anim", "spell_texture_rect")]
+self_modulate = Color(1, 1, 1, 0)
+custom_minimum_size = Vector2(16, 16)
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -8.0
+offset_top = -16.0
+offset_right = 8.0
+grow_horizontal = 2
+grow_vertical = 0
+pivot_offset_ratio = Vector2(0.5, 0.5)
+size_flags_horizontal = 4
+size_flags_vertical = 8
+size_flags_stretch_ratio = 0.0
+script = ExtResource("2_q5sb3")
+button_rect = NodePath("ActionButtonSprite")
+anim_player = NodePath("ButtonPressAnimator")
+flash_anim = NodePath("FlashAnimator")
+motion_anim = NodePath("MotionAnimator")
+button_1_texture = ExtResource("2_v8pmw")
+button_2_texture = ExtResource("3_u2quy")
+button_3_texture = ExtResource("4_513uh")
+action_name = "actionButton1"
+spell_texture_rect = NodePath("ActionButton1_Spell")
+
+[node name="ActionButtonSprite" type="TextureRect" parent="." unique_id=642926156]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_v8pmw")
+stretch_mode = 5
+
+[node name="ActionButton1_Spell" type="TextureRect" parent="." unique_id=1345686142]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 1
+offset_left = 7.0
+offset_top = 10.0
+offset_right = 23.0
+offset_bottom = 26.0
+pivot_offset_ratio = Vector2(0.5, 0)
+size_flags_horizontal = 4
+size_flags_vertical = 8
+size_flags_stretch_ratio = 0.0
+texture = ExtResource("3_o6og0")
+stretch_mode = 5
+
+[node name="MotionAnimator" type="AnimationPlayer" parent="." unique_id=416183068]
+libraries/ = SubResource("AnimationLibrary_o6og0")
+
+[node name="FlashAnimator" type="AnimationPlayer" parent="." unique_id=1689264987]
+libraries/ = SubResource("AnimationLibrary_vcj84")
+
+[node name="ButtonPressAnimator" type="AnimationPlayer" parent="." unique_id=1994452510]
+libraries/ = SubResource("AnimationLibrary_c33dl")

@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="SoundLibrary" format=3 uid="uid://6sqxm7wdjxul"]
+
+[ext_resource type="Script" uid="uid://vdqimlmcg4ql" path="res://Scripts/Resources/Resource Scripts/resource_Sound_Library.gd" id="1_0koiy"]
+[ext_resource type="AudioStream" uid="uid://dohn1q0lrqidn" path="res://Sound/SFX/UX/Spell/Change/sfx_spell-change_1.wav" id="2_atmuq"]
+[ext_resource type="AudioStream" uid="uid://bgmljydwiwad5" path="res://Sound/SFX/UX/Spell/Change/sfx_spell-change_2.wav" id="3_dhrw3"]
+[ext_resource type="AudioStream" uid="uid://q2b7n78gloqy" path="res://Sound/SFX/UX/Spell/Change/sfx_spell-change_3.wav" id="4_13aqs"]
+[ext_resource type="AudioStream" uid="uid://ctvxmsaan3xek" path="res://Sound/SFX/UX/Spell/Change/sfx_spell-change_4.wav" id="5_c64nj"]
+[ext_resource type="AudioStream" uid="uid://cpb5spp06me4e" path="res://Sound/SFX/UX/Spell/Change/sfx_spell-change_5.wav" id="6_p51nh"]
+
+[resource]
+script = ExtResource("1_0koiy")
+sl = Array[AudioStream]([ExtResource("2_atmuq"), ExtResource("3_dhrw3"), ExtResource("4_13aqs"), ExtResource("5_c64nj"), ExtResource("6_p51nh")])
+metadata/_custom_type_script = "uid://vdqimlmcg4ql"

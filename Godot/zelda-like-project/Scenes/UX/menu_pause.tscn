@@ -4,6 +4,8 @@
 [ext_resource type="Script" uid="uid://cah81d6pgiabp" path="res://Scripts/UX/ux_pauseMenu.gd" id="1_s3wyq"]
 [ext_resource type="Resource" uid="uid://bsjdi5o8y6gk1" path="res://Scripts/Resources/Resource Files/Resources_Sound Libraries/UX Libraries/ux_nav-move_sounds.tres" id="2_0o2fh"]
 [ext_resource type="PackedScene" uid="uid://k2xjf6ebp7x8" path="res://Scenes/UX/menu_pause_navigable-element.tscn" id="3_05ck7"]
+[ext_resource type="Resource" uid="uid://cce1rrcspyjrc" path="res://Scripts/Resources/Resource Files/Resources_Sound Libraries/UX Libraries/ux_spell-assign_sounds.tres" id="3_8hmri"]
+[ext_resource type="Resource" uid="uid://6sqxm7wdjxul" path="res://Scripts/Resources/Resource Files/Resources_Sound Libraries/UX Libraries/ux_spell-change_sounds.tres" id="4_rajg3"]
 [ext_resource type="Texture2D" uid="uid://cmjjjpb3gqdqv" path="res://Sprites/UX/Pause Menu Elements/ux_menu_info-box.png" id="4_u5gy4"]
 [ext_resource type="Texture2D" uid="uid://csbyknolw1ify" path="res://Sprites/UX/Pause Menu Elements/ux_menu_slot_square-small.png" id="5_0o2fh"]
 [ext_resource type="Texture2D" uid="uid://cm8v5p88vwlr8" path="res://Sprites/UX/Pause Menu Elements/Cursor Images/ux_cursor-xtra-small-square.png" id="5_05ck7"]
@@ -52,6 +54,8 @@ canvas = NodePath("PauseMenuCanvas")
 menu_container = NodePath("PauseMenuCanvas/InventoryMenuMarginCont")
 menu_controller = NodePath("MenuInput")
 nav_move_sounds = ExtResource("2_0o2fh")
+inventory_confirm_sounds = ExtResource("3_8hmri")
+inventory_change_sounds = ExtResource("4_rajg3")
 debug_me = true
 debug_name = "[b]Pause Menu[/b]"
 

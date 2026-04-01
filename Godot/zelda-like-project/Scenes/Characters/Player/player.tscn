@@ -1532,7 +1532,6 @@ debug_name = "Player Animator"
 [node name="PlayerUX" parent="." unique_id=895243336 node_paths=PackedStringArray("root", "input") instance=ExtResource("9_8gg06")]
 root = NodePath("..")
 input = NodePath("../Component Manager/PlayerInput")
-debug_me = false
 
 [node name="StateCoordinator" type="Node" parent="." unique_id=2022870187 node_paths=PackedStringArray("root", "movement_layer", "action_layer", "no_control_layer")]
 script = ExtResource("17_xcbxy")
