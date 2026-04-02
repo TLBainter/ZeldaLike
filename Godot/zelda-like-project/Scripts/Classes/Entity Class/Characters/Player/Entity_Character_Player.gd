@@ -18,8 +18,14 @@ extends Character
 @export var player_ux : PlayerUX
 ##reference to the player's camera
 @export var player_cam : PlayerCam
+@export_group("Spells")
+##A reference to the player's spell management component, which tracks equipped spells.
+@export var equipped_spells : EquippedSpellsComponent
+@export_group("Items")
 ##reference to the player's Inventory Component.
 @export var inventory : InventoryComponentPlayer
+##A reference to the player's Concoction Item Use Component.
+@export var concoction_use : ConcoctionItemUse
 @export_category("Player Flags")
 ##Whether or not the player can currently roll
 var can_roll : bool = true

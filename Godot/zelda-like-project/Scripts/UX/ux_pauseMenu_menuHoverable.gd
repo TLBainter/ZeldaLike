@@ -74,6 +74,19 @@ extends Panel
 ##A reference to the animation player for the cursor.
 @export var cursor_anim = Node
 
+@export_category("Spell Assignment")
+@export_group("Button Sprites")
+##The texture to display when this spell is assigned to Action Button 1.
+@export var button_1_sprite : Texture2D
+##The texture to display when this spell is assigned to Action Button 2.
+@export var button_2_sprite : Texture2D
+##The texture to display when this spell is assigned to Action Button 3.
+@export var button_3_sprite : Texture2D
+
+@export_group("Components")
+##The TextureRect that shows which button this spell is assigned to.
+@export var assignment_rect : TextureRect
+
 @export_category("Debug")
 @export var debug_me : bool = false
 @export var debug_me_verbose : bool = false

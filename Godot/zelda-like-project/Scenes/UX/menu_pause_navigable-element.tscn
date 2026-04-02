@@ -4,7 +4,10 @@
 [ext_resource type="Texture2D" uid="uid://354uv6aeyi2n" path="res://Sprites/UX/Pause Menu Elements/Cursor Images/ux_cursor-small-square.png" id="3_tpnf1"]
 [ext_resource type="Texture2D" uid="uid://cj7ih0phnja5h" path="res://Sprites/Item Sprites/Ingredients/ingredient_menuOutline_bloodClot.tres" id="4_tpnf1"]
 [ext_resource type="Texture2D" uid="uid://dyf62j83ix406" path="res://Sprites/UX/Pause Menu Elements/ux_menu_slot_square-xtra-small.png" id="4_xdy3j"]
+[ext_resource type="Texture2D" uid="uid://b7pjvpt53p2bl" path="res://Sprites/UX/InGameUX/ActionButtons/UX_Button_ActionButton2_A.tres" id="5_pr1q6"]
 [ext_resource type="FontFile" uid="uid://hmspkjbm2loq" path="res://Sprites/UX/Fonts/GothicPixelNumerics.ttf" id="6_jfkd1"]
+[ext_resource type="Texture2D" uid="uid://coj45ljky5bay" path="res://Sprites/UX/InGameUX/ActionButtons/UX_Button_ActionButton1_B.tres" id="6_nqh24"]
+[ext_resource type="Texture2D" uid="uid://8xjmn2c0ttaa" path="res://Sprites/UX/InGameUX/ActionButtons/UX_Button_ActionButton3_X.tres" id="6_vhand"]
 
 [sub_resource type="Animation" id="Animation_jfkd1"]
 resource_name = "CursorActive"
@@ -85,7 +88,7 @@ _data = {
 base_font = ExtResource("6_jfkd1")
 spacing_glyph = 1
 
-[node name="MenuPanel" type="Panel" unique_id=370079235 node_paths=PackedStringArray("item_rect", "flash_player", "quantity_label", "panel_rect", "cursor_rect", "cursor_anim")]
+[node name="MenuPanel" type="Panel" unique_id=370079235 node_paths=PackedStringArray("item_rect", "flash_player", "quantity_label", "panel_rect", "cursor_rect", "cursor_anim", "assignment_rect")]
 self_modulate = Color(1, 1, 1, 0)
 size_flags_horizontal = 0
 size_flags_vertical = 0
@@ -99,6 +102,10 @@ content_anchors_preset = 0
 cursor_texture = ExtResource("3_tpnf1")
 cursor_rect = NodePath("PanelBCKG/PanelCursor")
 cursor_anim = NodePath("PanelBCKG/PanelCursor/CursorActiveAnimator")
+button_1_sprite = ExtResource("6_nqh24")
+button_2_sprite = ExtResource("5_pr1q6")
+button_3_sprite = ExtResource("6_vhand")
+assignment_rect = NodePath("PanelBCKG/AssignedButton")
 
 [node name="PanelBCKG" type="TextureRect" parent="." unique_id=1291658304]
 layout_mode = 1
@@ -164,3 +171,21 @@ theme_override_fonts/font = SubResource("FontVariation_nqh24")
 theme_override_font_sizes/font_size = 24
 text = "00"
 horizontal_alignment = 2
+
+[node name="AssignedButton" type="TextureRect" parent="PanelBCKG" unique_id=737680216]
+visible = false
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -16.0
+offset_top = -17.0
+offset_bottom = -1.0
+grow_horizontal = 0
+grow_vertical = 0
+pivot_offset_ratio = Vector2(1, 1)
+texture = ExtResource("6_nqh24")
+stretch_mode = 5

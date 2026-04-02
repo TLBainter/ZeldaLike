@@ -1,0 +1,173 @@
+[gd_scene format=3 uid="uid://gwg5oylu13b4"]
+
+[ext_resource type="Script" uid="uid://c7ysh1h6cklpn" path="res://Scripts/UX/ux_playerUX_Salves.gd" id="1_7td0k"]
+[ext_resource type="Resource" uid="uid://cn3x277pcc2wa" path="res://Scripts/Resources/Resource Files/Resources_MenuItems/resource_menuItem_restorativeSalve.tres" id="2_e4ici"]
+[ext_resource type="Texture2D" uid="uid://dregxh3whq5ae" path="res://Sprites/Item Sprites/Concoctions/concoction_menuMini_restorativeSalve.tres" id="3_qcfbl"]
+[ext_resource type="FontFile" uid="uid://hmspkjbm2loq" path="res://Sprites/UX/Fonts/GothicPixelNumerics.ttf" id="4_m0adh"]
+
+[sub_resource type="Animation" id="Animation_joafc"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:self_modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-8, -8)]
+}
+
+[sub_resource type="Animation" id="Animation_7td0k"]
+resource_name = "salveCantUse"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.056417268, 0.099999994, 0.16666667, 0.2126497, 0.26666668, 0.31024942, 0.37691608, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(-8, -8), Vector2(-9.5, -9.29), Vector2(-3.094, -12.005), Vector2(-9.5, -9.29), Vector2(-3.094, -12.005), Vector2(-9.5, -9.29), Vector2(-3.094, -12.005), Vector2(-9.5, -9.29), Vector2(-8, -8)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.15641727, 0.2, 0.23333333, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1.1, 1.1), Vector2(0.79, 0.79), Vector2(1.1, 1.1), Vector2(1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:self_modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.08354095, 0.16382706, 0.25, 0.3178896, 0.4090252, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(0.00039445335, 0.00039445335, 0.00039445335, 1), Color(1, 1, 1, 1), Color(0.00039445335, 0.00039445335, 0.00039445335, 1), Color(1, 1, 1, 1), Color(0.00039445335, 0.00039445335, 0.00039445335, 1), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_ui11g"]
+resource_name = "salveUse"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:self_modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.33333334, 0.5),
+"transitions": PackedFloat32Array(1, 1.404796, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(0.22528076, 0.20733571, 0.2100178, 1), Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.16666667, 0.33333334, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1.25, 1.25), Vector2(0.9, 0.9), Vector2(1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_37lcq"]
+_data = {
+&"RESET": SubResource("Animation_joafc"),
+&"salveCantUse": SubResource("Animation_7td0k"),
+&"salveUse": SubResource("Animation_ui11g")
+}
+
+[sub_resource type="FontVariation" id="FontVariation_crfdi"]
+base_font = ExtResource("4_m0adh")
+
+[node name="salvePanel" type="Panel" unique_id=823115578 node_paths=PackedStringArray("salve_rect", "salve_anim_player", "quantity_label")]
+size_flags_vertical = 0
+script = ExtResource("1_7td0k")
+item_resource = ExtResource("2_e4ici")
+salve_rect = NodePath("salveRect")
+salve_anim_player = NodePath("salveRect/salveAnimPlayer")
+quantity_label = NodePath("salveQuantityLabel")
+debug_me = true
+debug_name = "RestorativeSalve"
+
+[node name="salveRect" type="TextureRect" parent="." unique_id=1313331110]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -8.0
+offset_top = -8.0
+offset_right = 8.0
+offset_bottom = 8.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset_ratio = Vector2(0.5, 0.5)
+texture = ExtResource("3_qcfbl")
+stretch_mode = 3
+
+[node name="salveAnimPlayer" type="AnimationPlayer" parent="salveRect" unique_id=449023774]
+libraries/ = SubResource("AnimationLibrary_37lcq")
+
+[node name="salveQuantityLabel" type="Label" parent="." unique_id=1272073672]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -12.0
+offset_top = -12.0
+offset_right = 12.0
+offset_bottom = 12.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset_ratio = Vector2(0.5, 0.5)
+theme_override_constants/outline_size = 2
+theme_override_fonts/font = SubResource("FontVariation_crfdi")
+theme_override_font_sizes/font_size = 12
+text = "0"
+horizontal_alignment = 2

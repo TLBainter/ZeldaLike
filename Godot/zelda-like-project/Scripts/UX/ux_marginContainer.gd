@@ -100,4 +100,27 @@ func _update_margins():
 			add_theme_constant_override("margin_bottom", -16)
 		return true
 #endregion MARGINS
+
+#region PUBLIC FADE
+##Fades this container's contents out to the minimum alpha.
+func fade_out(fade_target : float) -> void:
+	target_alpha = fade_target
+	set_process(true)
+
+##Fades this container's contents back to full alpha.
+func fade_in(fade_target : float) -> void:
+	target_alpha = fade_target
+	set_process(true)
+
+##Immediately hides with no fade.
+func hide_instant() -> void:
+	target_alpha = 0.0
+	modulate.a = 0.0
+
+##Immediately shows with no fade.
+func show_instant() -> void:
+	target_alpha = 1.0
+	modulate.a = 1.0
+#endregion PUBLIC FADE
+
 #endregion FUNCTIONS

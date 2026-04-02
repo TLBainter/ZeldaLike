@@ -124,7 +124,7 @@ func _on_shard_collected(total_shards : int) -> void:
 func update_position() -> void:
 	if _player_body and energy_display:
 		var screen_pos = _get_player_screen_pos()
-		var corner_dir = energy_display.CORNER_OFFSETS[energy_display._current_corner]
+		var corner_dir = energy_display.CORNER_OFFSETS[0]
 		var bolt_count = energy_display.gui_container.get_child_count() if energy_display.gui_container else 1
 		var total_height = bolt_count * 16.0 + max(0, bolt_count - 1) * energy_display.stack_spacing
 		var energy_offset_calc = Vector2.ZERO

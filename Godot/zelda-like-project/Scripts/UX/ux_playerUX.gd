@@ -35,6 +35,18 @@ signal check_viewport_size
 @export var energy_display : EnergyDisplay
 ## a reference to the magic display for the player.
 @export var magic_display : MagicDisplay
+## collection of references to the concoctions
+@export_subgroup("Action Buttons")
+@export var action_buttons_margin : InGameMargin
+@export var action_button_1 : ActionButtonSprite
+@export var action_button_2 : ActionButtonSprite
+@export var action_button_3 : ActionButtonSprite
+@export var action_button_4 : ActionButtonSprite
+@export_subgroup("Concoctions")
+##D-Pad Container Reference
+@export var consumable_buttons : InGameMargin
+##Do in this order: Up, Right, Down, Left [Restorative, Arcane, Energizing, Blood]
+@export var salve_panels : Array[SalvePanel]
 
 @export_group("Child Controls")
 ##Controls the speed at which entities within Player UX fade out when the player is beneath them.
@@ -85,6 +97,34 @@ func _ready():
 
 	if currency_comp and currency_display:
 		currency_display.initialize(currency_comp)
+	
+	#Configure the concoctions
+	if root.inventory and input:
+		for panel in salve_panels:
+			if panel:
+				panel.initialize(root.inventory, input, root.concoction_use)
+	
+	#Configure spell equipment
+	print("PlayerUX SPELL WIRE: equipped_spells=", root.equipped_spells)
+	print("PlayerUX SPELL WIRE: btn1=", action_button_1, " btn2=", action_button_2, " btn3=", action_button_3)
+	if debug_me:
+		print("PlayerUX: root.equipped_spells = ", root.equipped_spells)
+		print("PlayerUX: action_button_1 = ", action_button_1)
+		print("PlayerUX: action_button_2 = ", action_button_2)
+		print("PlayerUX: action_button_3 = ", action_button_3)
+	if root.equipped_spells:
+		var buttons = [action_button_1, action_button_2, action_button_3]
+		for i in range(buttons.size()):
+			if buttons[i]:
+				if debug_me:
+					print("PlayerUX: Calling set_equipped_spells on button ", i + 1, " (", buttons[i].action_name, ")")
+				buttons[i].set_equipped_spells(root.equipped_spells, i + 1)
+			else:
+				if debug_me:
+					print("PlayerUX: button ", i + 1, " is null!")
+	else:
+		if debug_me:
+			print("PlayerUX: root.equipped_spells is null! Skipping spell wiring.")
 	
 	#Configure zoom call connections
 	if player_cam:
