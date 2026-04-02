@@ -5,7 +5,6 @@
 [ext_resource type="Texture2D" uid="uid://pblx7yfuvxfa" path="res://Sprites/UX/InGameUX/icons_Controller.png" id="1_oxfwa"]
 [ext_resource type="FontFile" uid="uid://cp6wfns5q5k5i" path="res://Sprites/UX/Fonts/minishcap__v10.ttf" id="3_4d04n"]
 [ext_resource type="PackedScene" uid="uid://b2o75upopd7yw" path="res://Scenes/UX/player_ux_actionButtons.tscn" id="3_crfdi"]
-[ext_resource type="Texture2D" uid="uid://cj2nrvcohmc8j" path="res://Sprites/UX/InGameUX/ActionButtons/UX_Button_ActionButton4_Y.tres" id="4_2bw2c"]
 [ext_resource type="PackedScene" uid="uid://dwprjilrl8d0p" path="res://Scenes/UX/player_ux_hearts.tscn" id="5_55krk"]
 [ext_resource type="Script" uid="uid://ds30kl7uff5mo" path="res://Scripts/UX/ux_playerHearts.gd" id="5_ovlxb"]
 [ext_resource type="Script" uid="uid://clldbretb10wu" path="res://Scripts/UX/ux_playerUX_Label_Context.gd" id="5_xjdbq"]
@@ -211,7 +210,6 @@ offset_top = 0.0
 offset_bottom = 16.000002
 grow_vertical = 1
 root = NodePath("../../../..")
-button_4_texture = ExtResource("4_2bw2c")
 action_name = "actionButton4"
 debug_me = true
 debug_name = "Button3"

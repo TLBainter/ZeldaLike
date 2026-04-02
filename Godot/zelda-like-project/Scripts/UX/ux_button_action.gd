@@ -82,7 +82,7 @@ func _on_action_button_pressed(btn : String):
 func _play_press_anim():
 	if anim_player:
 		##Names the animation to play; it is imperative that this match the animation in the ActionButtonAnimator!
-		var anim_to_play : String = "actionButton_press"
+		var anim_to_play : String = action_name + "_press"
 		if anim_player.has_animation(anim_to_play):
 			anim_player.stop()
 			anim_player.play(anim_to_play)
@@ -149,6 +149,17 @@ func play_assign_anim() -> void:
 	if motion_anim and motion_anim.has_animation("assign_motion"):
 		motion_anim.stop()
 		motion_anim.play("assign_motion")
+	if flash_anim and flash_anim.has_animation("assign_flash") and _current_spell:
+		var anim = flash_anim.get_animation("assign_flash")
+		var flash_color : Color = _current_spell.flash_color if _current_spell.flash_color else Color.WHITE
+		for track_idx in range(anim.get_track_count()):
+			var path = anim.track_get_path(track_idx)
+			if ":self_modulate" in str(path):
+				if anim.track_get_key_count(track_idx) > 1:
+					anim.track_set_key_value(track_idx, 1, flash_color)
+				if anim.track_get_key_count(track_idx) > 3:
+					anim.track_set_key_value(track_idx, 3, flash_color)
+				break
 	if flash_anim and flash_anim.has_animation("assign_flash"):
 		flash_anim.stop()
 		flash_anim.play("assign_flash")
@@ -158,6 +169,15 @@ func play_unassign_anim() -> void:
 	if motion_anim and motion_anim.has_animation("unassign_motion"):
 		motion_anim.stop()
 		motion_anim.play("unassign_motion")
+	if flash_anim and flash_anim.has_animation("unassign_flash") and _current_spell:
+		var anim = flash_anim.get_animation("unassign_flash")
+		var flash_color : Color = _current_spell.flash_color if _current_spell.flash_color else Color.WHITE
+		for track_idx in range(anim.get_track_count()):
+			var path = anim.track_get_path(track_idx)
+			if ":self_modulate" in str(path):
+				if anim.track_get_key_count(track_idx) > 1:
+					anim.track_set_key_value(track_idx, 1, flash_color)
+				break
 	if flash_anim and flash_anim.has_animation("unassign_flash"):
 		flash_anim.stop()
 		flash_anim.play("unassign_flash")
