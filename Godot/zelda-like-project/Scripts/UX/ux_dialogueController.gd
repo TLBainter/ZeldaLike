@@ -173,6 +173,7 @@ func _end_dialogue():
 	if _active_speak_component:
 		_active_speak_component.dialogue_finished()
 	if root and root.root:
+		root.root.freeze_input(false)
 		dialogue_closed.emit()
 	#emit the dialogue clsoed signal for use by other entities
 

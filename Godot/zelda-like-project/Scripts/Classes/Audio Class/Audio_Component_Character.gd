@@ -40,6 +40,9 @@ extends AudioControl
 @export var stone_walk_sounds : SoundLibrary
 ##sounds to play when walking on wood
 @export var wood_walk_sounds : SoundLibrary
+@export_group("Attack")
+##sounds to play when performing an attack swing
+@export var attack_sounds : SoundLibrary
 
 #endregion sound libraries
 #endregion VARIABLES
@@ -144,6 +147,16 @@ func _play_death_sound():
 	#Play the sound with the appropriate bus
 	#If local audio is available, it will play it there.
 	#Otherwise, it will only play the sound globally with the audio manager.
+	if local_audio != null:
+		_play_local_sound(clip, default_bus)
+	else:
+		play_sound(clip, default_bus)
+
+##Plays a random attack swing sound.
+func play_attack_sound():
+	if attack_sounds == null:
+		return
+	var clip = attack_sounds.sl.pick_random()
 	if local_audio != null:
 		_play_local_sound(clip, default_bus)
 	else:
