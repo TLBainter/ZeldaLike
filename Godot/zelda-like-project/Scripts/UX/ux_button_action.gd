@@ -82,7 +82,7 @@ func _on_action_button_pressed(btn : String):
 func _play_press_anim():
 	if anim_player:
 		##Names the animation to play; it is imperative that this match the animation in the ActionButtonAnimator!
-		var anim_to_play : String = action_name + "_press"
+		var anim_to_play : String = "actionButton_press"
 		if anim_player.has_animation(anim_to_play):
 			anim_player.stop()
 			anim_player.play(anim_to_play)
@@ -119,8 +119,6 @@ func _on_spell_equip_changed(slot : int, spell_resource : MenuItemResource) -> v
 	if slot != _my_slot:
 		return
 	_current_spell = spell_resource
-	if debug_me:
-		print("ACTION BTN ", action_name, ": _on_spell_equip_changed. slot=", slot, " spell=", spell_resource, " mini_icon=", spell_resource.mini_icon if spell_resource else "null")
 	_update_spell_display()
 
 func _update_spell_display() -> void:
@@ -128,7 +126,6 @@ func _update_spell_display() -> void:
 		print("ACTION BTN ", action_name, ": _update_spell_display called.")
 		print("  spell_texture_rect=", spell_texture_rect)
 		print("  _current_spell=", _current_spell)
-		print("  mini_icon=", _current_spell.mini_icon if _current_spell else "null")
 		if spell_texture_rect:
 			print("  BEFORE visible=", spell_texture_rect.visible, " texture=", spell_texture_rect.texture)
 	if not spell_texture_rect:

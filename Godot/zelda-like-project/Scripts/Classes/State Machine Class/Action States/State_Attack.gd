@@ -47,6 +47,10 @@ func enter() -> void:
 				print(debug_name, ": Not enough energy to attack.")
 			_exit_to_no_action()
 			return
+	#Play attack sound.
+	var character_for_audio = get_character()
+	if character_for_audio and character_for_audio.audio and character_for_audio.audio is CharacterAudioControl:
+		character_for_audio.audio.play_attack_sound()
 	coordinator.context_locked = true
 	if character.anim and character.anim is CharacterAnimator:
 		character.anim.can_update_facing = false
@@ -204,12 +208,5 @@ func _try_damage_entity(entity) -> void:
 		entity.take_damage(1)
 		if debug_me:
 			print(debug_name, ": Damaged ", entity, " for 1.")
-	elif "health" in entity and entity.health:
-		entity.health.hurt(1)
-		if debug_me:
-			print(debug_name, ": Damaged ", entity, " health for 1.")
-
-func get_context_key() -> String:
-	return "attack"
 
 #endregion FUNCTIONS

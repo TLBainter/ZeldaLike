@@ -20,6 +20,7 @@
 [ext_resource type="Script" uid="uid://cxf5usdrhj7q6" path="res://Scripts/Classes/Entity Class/Component Class/Player Components/Component_Magic.gd" id="13_me3gr"]
 [ext_resource type="AudioStream" uid="uid://bvbgekwim8ido" path="res://Sound/SFX/UX/Cam/cam_whoosh.wav" id="13_rtkie"]
 [ext_resource type="AudioStream" uid="uid://dgwmirctw8luo" path="res://Sound/SFX/UX/Cam/cam_whoosh_reverse.wav" id="14_c5nky"]
+[ext_resource type="Resource" uid="uid://d03e5ku3v518x" path="res://Scripts/Resources/Resource Files/Resources_Sound Libraries/Player Sound Libraries/player_sword_sound_library.tres" id="14_uvgfe"]
 [ext_resource type="Script" uid="uid://c45owr741t36k" path="res://Scripts/Classes/Entity Class/Component Class/Player Components/Component_Inventory_Player.gd" id="16_gs6v2"]
 [ext_resource type="Script" uid="uid://1h1iqx2yk781" path="res://Scripts/Classes/State Machine Class/StateCoordinator.gd" id="17_xcbxy"]
 [ext_resource type="Script" uid="uid://nfws2da5iy01" path="res://Scripts/Classes/Entity Class/Component Class/Player Components/Component_ItemUse_Concoction.gd" id="17_ywskp"]
@@ -1470,6 +1471,7 @@ root = NodePath("../..")
 damage_sounds = ExtResource("8_plevq")
 heavy_damage_sounds = ExtResource("9_p06rw")
 heal_sounds = ExtResource("10_aencf")
+attack_sounds = ExtResource("14_uvgfe")
 debug_me = true
 debug_name = "Audio Component"
 metadata/_custom_type_script = "uid://clnpwpvwchpab"

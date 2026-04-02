@@ -81,11 +81,21 @@ func _on_action_button_pressed(btn):
 #region INTERACTIVITY CONTROL
 ##Prevent the character from moving at all
 func freeze_input(should_freeze : bool):
-	input.set_physics_process(not should_freeze)
+	input.set_process(not should_freeze)
 	if should_freeze:
 		body.velocity = Vector2.ZERO
-		if anim:
+		if anim and anim is CharacterAnimator:
+			anim.can_update_facing = false
+			anim.play_directional_anim(anim.idle_prefix)
+		elif anim:
 			anim.stop()
+		if state_machine:
+			state_machine.freeze_all()
+	else:
+		if anim and anim is CharacterAnimator:
+			anim.can_update_facing = true
+		if state_machine:
+			state_machine.unfreeze_all()
 	can_move = (not should_freeze)
 		
 #endregion INTERACTIVITY CONTROL
