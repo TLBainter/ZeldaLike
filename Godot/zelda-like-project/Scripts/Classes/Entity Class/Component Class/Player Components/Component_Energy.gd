@@ -55,11 +55,18 @@ var is_exhausted_state : bool = false
 #region FUNCTIONS
 
 func _ready():
+	#Walk up the tree to find the entity with a stats component.
 	var entity = get_parent()
+	while entity and not ("stats" in entity):
+		entity = entity.get_parent()
 	if entity and "stats" in entity and entity.stats and entity.stats.resource:
 		max_energy = entity.stats.resource.max_energy
+		if debug_me:
+			print(debug_name, ": Read max_energy=", max_energy, " from StatsResource on ", entity.name)
 	else:
 		max_energy = max_bolts * 4
+		if debug_me:
+			print(debug_name, ": No StatsResource found. Defaulting max_energy=", max_energy)
 	max_bolts = int(max_energy / 4.0)
 	cur_energy = max_energy
 	#Create and manager timers for energy recovery

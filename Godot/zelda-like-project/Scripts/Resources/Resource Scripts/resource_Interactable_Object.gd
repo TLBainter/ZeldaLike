@@ -28,8 +28,6 @@ extends Resource
 @export var throw_arc_height : float = 8.0
 
 @export_category("Object Properties")
-@export_group("Weight")
-@export_enum("Light:10", "Medium:30", "Heavy:60") var weight : int = 10
 @export_group("Durability")
 @export var durability : int = 1
 @export_group("Material")

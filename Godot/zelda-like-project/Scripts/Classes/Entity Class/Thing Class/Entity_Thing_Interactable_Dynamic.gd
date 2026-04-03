@@ -120,7 +120,7 @@ func release(drop_position : Vector2, restore_collision : bool = true):
 		body.z_index = 0
 	if restore_collision:
 		if root and root.sprite:
-			root.sprite.drop_position = Vector2.ZERO
+			root.sprite.position = Vector2.ZERO
 		enable_collision()
 		if root and root.shadow:
 			root.shadow.visible = true

@@ -21,7 +21,9 @@ extends Resource
 @export_category("Item Drops")
 ##The pool of possible drops.[br]
 ##Key: [b]PickupResource[/b] — the item that can drop.[br]
-##Value: [b]int[/b] — rarity modifier (Less Likely: -1, Average: 0, More Likely: 1).
+##Value: [b]int[/b] — drop weight. Higher = more likely relative to other entries.[br]
+##Example: an entry with weight 35 is 7x more likely than one with weight 5.[br]
+##Set [b]drop_chance[/b] below 100 to add a chance of dropping nothing at all.
 @export var drop_pool : Dictionary[PickupResource, int]
 ##How many times to roll for an item (only used for Random drop type).
 @export var drop_count : int = 1
@@ -110,13 +112,11 @@ func _weighted_random_pick(eligible : Array[PickupResource]) -> PickupResource:
 			return eligible[i]
 	return eligible.back() if not eligible.is_empty() else null
 
-##Calculates the weight for a pickup based on its base rarity and this table's modifier.[br]
-##Base weights by rarity: Common=100, Uncommon=60, Rare=30, VeryRare=15, Epic=5, Legendary=1.
+##Returns the drop weight for a pickup.[br]
+##The pool value is used directly as the weight.[br]
+##A value of 0 or less falls back to 1 to remain eligible.
 func _calculate_weight(pickup : PickupResource) -> float:
-	var base_rarity : int = pickup.rarity if pickup else 0
-	var modifier : int = drop_pool.get(pickup, 0)
-	var effective_rarity : int = clampi(base_rarity - modifier, 0, 5)
-	var weight_table : Array[float] = [100.0, 60.0, 30.0, 15.0, 5.0, 1.0]
-	return weight_table[effective_rarity]
+	var pool_value : int = drop_pool.get(pickup, 1)
+	return float(max(pool_value, 1))
 
 #endregion FUNCTIONS

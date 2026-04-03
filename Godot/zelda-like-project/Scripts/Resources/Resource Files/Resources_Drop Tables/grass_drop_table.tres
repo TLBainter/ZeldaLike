@@ -10,8 +10,8 @@
 script = ExtResource("2_7p0f2")
 drop_chance = 25
 drop_pool = Dictionary[ExtResource("1_1w344"), int]({
-ExtResource("2_od8bw"): 2,
-ExtResource("3_k35b0"): 0,
-ExtResource("4_x1p2d"): 3
+ExtResource("2_od8bw"): 15,
+ExtResource("3_k35b0"): 5,
+ExtResource("4_x1p2d"): 35
 })
 metadata/_custom_type_script = "uid://ck1p1jsh1h2qo"

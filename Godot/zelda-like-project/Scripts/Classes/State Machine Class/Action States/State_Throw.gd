@@ -95,8 +95,8 @@ func _on_projectile_landed(broke : bool):
 ##Light (10): full distance. Medium (30): ~66%. Heavy (60): ~33%.
 func _calculate_throw_distance(held, base_distance : float = 80.0) -> float:
 	var weight : int = 10
-	if held.object_data:
-		weight = held.object_data.weight
+	if held.stats and held.stats.resource:
+		weight = held.stats.resource.weight
 	var weight_factor : float = clampf(1.0 - (float(weight) / 80.0), 0.25, 1.0)
 	return base_distance * weight_factor
 
