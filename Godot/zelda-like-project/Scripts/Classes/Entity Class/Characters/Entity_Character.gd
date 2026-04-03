@@ -13,9 +13,8 @@ extends EntityClass
 #endregion
 #region EXPORT VARIABLES
 @export_group("Misc Character Variables")
-##the move speed of the character
-#TODO: Test and confirm these move speeds.
-@export_enum("Slow:30", "Normal:50", "Fast:75") var move_speed : int = int("Normal:50")
+## Current move speed. Set at runtime by movement states from StatsComponent.
+var move_speed : float = 50.0
 #endregion
 #region INTERNAL VARIABLES
 ##the character's subtype; this is defined by its next subclass.

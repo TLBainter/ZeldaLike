@@ -18,9 +18,8 @@ signal energyChanged(cur_energy : int, max_energy : int, change_amount : int)
 
 @export_category("Energy Settings")
 @export_group("Bolt Configuration")
-##The maximum number of energy bolts the character has.[br]
-##Each bolt holds 4 energy, so max_energy = max_bolts * 4.
-@export var max_bolts : int = 1
+## Derived from stats resource (max_energy / 4). Set at runtime.
+var max_bolts : int = 1
 
 @export_group("Recovery")
 ##How long after the last energy use before recovery begins (in seconds).
@@ -56,7 +55,12 @@ var is_exhausted_state : bool = false
 #region FUNCTIONS
 
 func _ready():
-	max_energy = max_bolts * 4
+	var entity = get_parent()
+	if entity and "stats" in entity and entity.stats and entity.stats.resource:
+		max_energy = entity.stats.resource.max_energy
+	else:
+		max_energy = max_bolts * 4
+	max_bolts = int(max_energy / 4.0)
 	cur_energy = max_energy
 	#Create and manager timers for energy recovery
 	_recovery_delay_timer = Timer.new()
