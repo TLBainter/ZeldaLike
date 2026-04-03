@@ -23,9 +23,8 @@ signal shardCollected(total_shards : int)
 
 @export_category("Magic Settings")
 @export_group("Shard Configuration")
-##The total number of magic shards the character starts with.[br]
-##6 shards = 1 complete medallion. Max magic = total shards.
-@export var starting_shards : int = 6
+## Starting shards. Read from stats resource at runtime. Defaults to 6.
+var starting_shards : int = 6
 
 @export_group("Recovery")
 ##How long after the last magic use before recovery begins (in seconds).
@@ -60,7 +59,11 @@ var _recovery_tick_timer : Timer
 #region FUNCTIONS
 
 func _ready():
-	total_shards = starting_shards
+	var entity = get_parent()
+	if entity and "stats" in entity and entity.stats and entity.stats.resource:
+		total_shards = entity.stats.resource.max_magic
+	else:
+		total_shards = starting_shards
 	max_magic = total_shards
 	cur_magic = max_magic
 	#Create recovery timers.

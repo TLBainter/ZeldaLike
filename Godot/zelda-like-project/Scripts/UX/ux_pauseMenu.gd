@@ -54,8 +54,16 @@ var _original_canvas_layer : int = 0
 var heart_fade_target : float = 1.0
 ##Reference to the Consumable Margin's current alpha value.
 var consumable_fade_target : float = 1.0
-##Reference to the Action Button Margin's current alpha value.
+## Reference to the Action Buttons Margin's current alpha value.
 var action_button_fade_target : float = 1.0
+## Whether energy display was force-visible before pause.
+var _energy_was_force_visible : bool = false
+## The target alpha of the energy display before pause.
+var _energy_pre_pause_alpha : float = 0.0
+## Whether magic display was force-visible before pause.
+var _magic_was_force_visible : bool = false
+## The target alpha of the magic display before pause.
+var _magic_pre_pause_alpha : float = 0.0
 ##Internal reference to the action buttons.
 var _action_buttons : Array = []
 
@@ -256,11 +264,30 @@ func _show_pause_ux() -> void:
 		consumable_buttons.visible = false
 		if debug_me:
 			print("PAUSE UX: Consumables hidden via visible=false")
+	# Fade action buttons IN to full alpha during pause.
 	var action_buttons_margin = ux.action_buttons_margin
 	if action_buttons_margin and action_buttons_margin is InGameMargin:
 		action_buttons_margin.process_mode = Node.PROCESS_MODE_WHEN_PAUSED
 		action_button_fade_target = action_buttons_margin.modulate.a
 		action_buttons_margin.fade_in(1.0)
+	# Instantly hide energy display.
+	if ux.energy_display:
+		ux.energy_display.process_mode = Node.PROCESS_MODE_WHEN_PAUSED
+		_energy_was_force_visible = ux.energy_display._force_visible
+		_energy_pre_pause_alpha = ux.energy_display._target_alpha
+		ux.energy_display._force_visible = false
+		ux.energy_display._visibility_timer.stop()
+		ux.energy_display._target_alpha = 0.0
+		ux.energy_display.modulate.a = 0.0
+	# Instantly hide magic display.
+	if ux.magic_display:
+		ux.magic_display.process_mode = Node.PROCESS_MODE_WHEN_PAUSED
+		_magic_was_force_visible = ux.magic_display._force_visible
+		_magic_pre_pause_alpha = ux.magic_display._target_alpha
+		ux.magic_display._force_visible = false
+		ux.magic_display._visibility_timer.stop()
+		ux.magic_display._target_alpha = 0.0
+		ux.magic_display.modulate.a = 0.0
 	#Raise PlayerUX canvas above the menu.
 	_player_ux_canvas = _find_ux_canvas_layer(ux)
 	if _player_ux_canvas:
@@ -281,13 +308,28 @@ func _restore_ux() -> void:
 	var consumable_buttons = ux.consumable_buttons
 	if ux.consumable_buttons and consumable_buttons is InGameMargin:
 		consumable_buttons.process_mode = Node.PROCESS_MODE_INHERIT
-		consumable_buttons.fade_in(consumable_fade_target)
+		consumable_buttons.modulate.a = 1.0
 	elif ux.consumable_buttons:
 		ux.consumable_buttons.visible = true
+	# Restore action buttons to their pre-pause alpha.
 	var action_buttons_margin = ux.action_buttons_margin
 	if action_buttons_margin and action_buttons_margin is InGameMargin:
 		action_buttons_margin.process_mode = Node.PROCESS_MODE_INHERIT
 		action_buttons_margin.fade_out(action_button_fade_target)
+	# Restore energy display.
+	if ux.energy_display:
+		ux.energy_display.process_mode = Node.PROCESS_MODE_INHERIT
+		ux.energy_display._force_visible = _energy_was_force_visible
+		ux.energy_display._target_alpha = _energy_pre_pause_alpha
+		if _energy_pre_pause_alpha > 0.0:
+			ux.energy_display.set_process(true)
+	# Restore magic display.
+	if ux.magic_display:
+		ux.magic_display.process_mode = Node.PROCESS_MODE_INHERIT
+		ux.magic_display._force_visible = _magic_was_force_visible
+		ux.magic_display._target_alpha = _magic_pre_pause_alpha
+		if _magic_pre_pause_alpha > 0.0:
+			ux.magic_display.set_process(true)
 	#Restore canvas layer.
 	if _player_ux_canvas:
 		_player_ux_canvas.layer = _original_canvas_layer

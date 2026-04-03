@@ -18,10 +18,10 @@ signal healthChanged(cur_hp : int, max_hp : int, chng_amt : int)
 
 #region VARIBALES
 #TODO: Ensure that this does not override scene-set current health.
-##The maximum health of the character.
-@export var max_health : int = 1
+## Max health. Set at runtime from StatsComponent. Defaults to 4 if no stats resource.
+var max_health : int = 4
 ##The current hit points of the entity.
-@onready var cur_health : int = max_health:
+var cur_health : int = 4:
 	#Ensure health can't go below 0 or above max_health
 	set(value):
 		#Get the new value of the entity's Hit Points
@@ -36,6 +36,14 @@ signal healthChanged(cur_hp : int, max_hp : int, chng_amt : int)
 #endregion VARIBALES
 
 #region FUNCTIONS
+
+func _ready():
+	var entity = get_parent()
+	if entity and "stats" in entity and entity.stats and entity.stats.resource:
+		max_health = entity.stats.resource.max_health
+	else:
+		max_health = 4
+	cur_health = max_health
 
 #region HEAL
 func healed(healing : int):

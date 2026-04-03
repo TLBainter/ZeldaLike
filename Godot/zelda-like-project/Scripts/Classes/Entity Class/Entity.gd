@@ -22,6 +22,8 @@ extends Node2D
 @export var collider : CollisionShape2D
 ##the entity's audio controller
 @export var audio : AudioControl
+##the stats component for this entity, which provides data to many other components
+@export var stats : StatsComponent
 @export_group("Entity Components : Functionality")
 ##Health handler; expects type [color=green]HealthComponent[/color]
 @export var health : HealthComponent
@@ -33,9 +35,6 @@ extends Node2D
 @export_group("Misc Entity Variables")
 ##controls the y-sort of this entity.
 @export var y_sort : bool = true
-##the weight of the entity; allows it to hold down certain switches and resist being knocked back.
-#TODO: Test these weight values and adjust as needed
-@export_enum("Light:10", "Average:30", "Heavy:60", "Immovable:100") var weight : int = int("Average:30")
 #endregion
 #region INTERNAL VARIABLES
 ##whether the entity can take damage; false by default

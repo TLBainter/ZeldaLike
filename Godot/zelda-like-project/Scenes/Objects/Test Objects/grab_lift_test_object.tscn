@@ -4,6 +4,8 @@
 [ext_resource type="Resource" uid="uid://cjbf6urjarnj0" path="res://Scripts/Resources/Resource Files/Resources_Interactable Objects/normal_clay_pot.tres" id="2_rvm42"]
 [ext_resource type="Texture2D" uid="uid://csaqjksdow7tj" path="res://Sprites/Object Sprites/Breakables/object_sprite_pot-brown_small.png" id="3_iy02v"]
 [ext_resource type="Script" uid="uid://dtctgg8bg5iee" path="res://Scripts/Classes/Interaction Class/Interact.gd" id="4_b0au3"]
+[ext_resource type="Script" uid="uid://ccyvuto8p13ak" path="res://Scripts/Classes/Entity Class/Component Class/Component_Stats.gd" id="5_iy02v"]
+[ext_resource type="Script" uid="uid://dw1v2olrhdbdx" path="res://Scripts/Resources/Resource Scripts/resource_stats.gd" id="6_b0au3"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_53jui"]
 radius = 4.0
@@ -49,7 +51,18 @@ _data = {
 &"break": SubResource("Animation_su1sj")
 }
 
-[node name="Grab-Lift Test Object" type="Node2D" unique_id=1295838823 node_paths=PackedStringArray("body", "interact", "root", "sprite", "anim", "shadow", "collider")]
+[sub_resource type="Resource" id="Resource_vpw78"]
+script = ExtResource("6_b0au3")
+max_health = 1
+attack_speed = 0.0
+dodge_speed = 0.0
+walk_speed = 0.0
+run_speed = 0.0
+max_energy = 0
+max_magic = 0
+metadata/_custom_type_script = "uid://dw1v2olrhdbdx"
+
+[node name="Grab-Lift Test Object" type="Node2D" unique_id=1295838823 node_paths=PackedStringArray("body", "interact", "root", "sprite", "anim", "shadow", "collider", "stats")]
 y_sort_enabled = true
 script = ExtResource("1_6o540")
 object_data = ExtResource("2_rvm42")
@@ -60,6 +73,7 @@ sprite = NodePath("ObjectBody/ObjectSprite")
 anim = NodePath("AnimationPlayer")
 shadow = NodePath("ObjectBody/ObjectSprite/ObjectShadow")
 collider = NodePath("ObjectBody/ObjectCollider")
+stats = NodePath("StatsComponent")
 
 [node name="ObjectBody" type="CharacterBody2D" parent="." unique_id=1628527175]
 z_as_relative = false
@@ -97,3 +111,8 @@ debug_color = Color(0.92156863, 0.24705882, 0.34901962, 0.09411765)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=271304471]
 libraries/ = SubResource("AnimationLibrary_ut0kp")
+
+[node name="StatsComponent" type="Node" parent="." unique_id=975307262]
+script = ExtResource("5_iy02v")
+resource = SubResource("Resource_vpw78")
+metadata/_custom_type_script = "uid://ccyvuto8p13ak"

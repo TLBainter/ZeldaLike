@@ -4,7 +4,7 @@ extends Node
 
 #region VARIABLES
 #region DEBUG VARIABLES
-@export_group("Debug")
+@export_category("Debug")
 ##whether or not you want this entity to be debugged
 @export var debug_me : bool = false
 ##whether or not you want this entity to print excess debug information.

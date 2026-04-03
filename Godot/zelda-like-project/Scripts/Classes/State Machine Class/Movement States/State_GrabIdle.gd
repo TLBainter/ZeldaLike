@@ -41,8 +41,10 @@ func enter():
 	var delay : float = 0.15
 	#TODO: Make this delay pull the _snap_delay_value from the push/pull state, so it is consistent with their delays.
 	#Push/Pull have different modifiers.
-	if grabbed and grabbed.object_data:
-		delay = 0.05 + (float(grabbed.object_data.weight) * 0.01)
+	var obj_weight : int = 30
+	if grabbed and grabbed.stats and grabbed.stats.resource:
+		obj_weight = grabbed.stats.resource.weight
+	delay = 0.05 + (float(obj_weight) * 0.01)
 	get_tree().create_timer(delay).timeout.connect(_on_cooldown_finished)
 
 func exit():

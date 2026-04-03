@@ -23,6 +23,9 @@ extends State
 
 func enter():
 	super()
+	#Set walk speed from stats.
+	if root and "stats" in root and root.stats and root.stats.resource:
+		root.move_speed = root.stats.resource.walk_speed
 	if root.input and not root.input.onMove.is_connected(_on_move):
 		root.input.onMove.connect(_on_move)
 	if not state_machine.is_active:

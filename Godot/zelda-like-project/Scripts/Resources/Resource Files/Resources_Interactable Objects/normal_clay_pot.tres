@@ -12,7 +12,6 @@ throwable = true
 pullable = true
 pushable = true
 throw_arc_height = 18.0
-weight = 30
 material = ExtResource("1_5rlq1")
 drop_table = ExtResource("1_y6uy5")
 metadata/_custom_type_script = "uid://bu2x2mmnn71f3"

@@ -5,8 +5,8 @@ extends HealthComponent
 
 #region VARIABLES
 
-##The maximum number of hearts the player has.
-@export var max_hearts : int = 3
+## Derived from stats resource (max_health / 4). Set at runtime.
+var max_hearts : int = 3
 
 #endregion VARIABLES
 
@@ -25,13 +25,18 @@ func _ready():
 	#endregion DEBUG HEALTH NOTIF
 	
 	#region Set Max HP
-	#defines the player's max health.
-	#since there are 4 hits in a single heart, the player's max health is equal to 4 * their maximum hearts!
-	max_health = max_hearts * 4
+	#Read max_health from the stats resource if available.
+	var entity = get_parent()
+	if entity and "stats" in entity and entity.stats and entity.stats.resource:
+		max_health = entity.stats.resource.max_health
+	else:
+		max_health = max_hearts * 4
+	#Derive heart count from max_health (4 HP per heart).
+	max_hearts = int(max_health / 4.0)
 	if debug_me:
-		print("Player Max Health defined as ", max_health, " with ", max_hearts, " hearts.")
-	if cur_health != max_health:
-		cur_health = max_health
+		print("Player Max Health defined as ", max_health, 
+			" with ", max_hearts, " hearts.")
+	cur_health = max_health
 	if debug_me:
 		print("Player Current Health is now ", cur_health, ".")
 	#endregion Set Max HP

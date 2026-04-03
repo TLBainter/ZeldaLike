@@ -131,8 +131,8 @@ func _perform_snap() -> void:
 		_start_snap_timer(grabbed)
 		return
 	var weight : int = 30
-	if grabbed.object_data:
-		weight = grabbed.object_data.weight
+	if grabbed.stats and grabbed.stats.resource:
+		weight = grabbed.stats.resource.weight
 	_snap_speed = 120.0 - (float(weight) * 0.8)
 	_is_snapping = true
 	_player_snap_target = character.body.global_position + (pull_dir * SNAP_DISTANCE)
@@ -211,8 +211,8 @@ func _on_snap_timer() -> void:
 ##Light (10): ~0.25s, Medium (30): ~0.65s, Heavy (60): ~1.25s
 func _get_snap_delay(grabbed) -> float:
 	var weight : int = 30
-	if grabbed.object_data:
-		weight = grabbed.object_data.weight
+	if grabbed.stats and grabbed.stats.resource:
+		weight = grabbed.stats.resource.weight
 	return 0.05 + (float(weight) * 0.02)
 
 ##Converts a facing string to a Vector2 direction.

@@ -12,13 +12,14 @@
 
 [resource]
 script = ExtResource("2_bo3au")
+drop_chance = 45
 drop_pool = Dictionary[ExtResource("1_78hyb"), int]({
-ExtResource("2_20265"): 0,
-ExtResource("3_cfvb6"): 0,
-ExtResource("4_l2de1"): 0,
-ExtResource("5_i0ut5"): 0,
-ExtResource("6_jmjkb"): 0,
-ExtResource("7_tbcuy"): 0,
-ExtResource("8_60avi"): 0
+ExtResource("2_20265"): 35,
+ExtResource("3_cfvb6"): 3,
+ExtResource("4_l2de1"): 2,
+ExtResource("5_i0ut5"): 2,
+ExtResource("6_jmjkb"): 5,
+ExtResource("7_tbcuy"): 5,
+ExtResource("8_60avi"): 3
 })
 metadata/_custom_type_script = "uid://ck1p1jsh1h2qo"
