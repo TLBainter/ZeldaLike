@@ -20,6 +20,3 @@ if (Test-Path $logFile) {
 } else {
     Write-Host "`nNo log file generated." -ForegroundColor Red
 }
-
-Write-Host "Press any key to close..." -ForegroundColor Gray
-$null = $Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")

@@ -48,6 +48,8 @@ var type : String
 @export_group("Debug")
 ##whether or not you want this entity to be debugged
 @export var debug_me : bool = false
+##enables verbose debug output for this entity (requires debug_me to be useful)
+@export var debug_me_verbose : bool = false
 ##the name you want the editor to display when referencing this entity
 @export var debug_name : String = ("Entity/" + type)
 #endregion

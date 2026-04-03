@@ -63,7 +63,6 @@ func enter() -> void:
 			print("LIFT: Original object body pos: ", interactable.body.global_position)
 			print("LIFT: Player body pos: ", character.body.global_position)
 			print("LIFT: Difference (obj - player): ", interactable.body.global_position - character.body.global_position)
-###===END CHANGE #1===###
 	#Disable collision on the held object.
 	interactable.hold(hold_offset, character)
 	if debug_me:

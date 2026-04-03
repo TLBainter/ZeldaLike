@@ -1,3 +1,4 @@
+//Task for launching an auto-copy debug window when the debug game window is launched.
 {
     "version": "2.0.0",
     "tasks": [
@@ -8,7 +9,7 @@
             "args": [
                 "powershell",
                 "-ArgumentList",
-                "'-ExecutionPolicy Bypass -Command & { . ''\"${workspaceFolder}\\debug_launch.ps1\"'' ''\"${workspaceFolder}\"''; Read-Host ''Press Enter to close'' }'"
+                "'-ExecutionPolicy Bypass -Command . ''\"${workspaceFolder}\\debug_launch.ps1\"'' ''\"${workspaceFolder}\"'''"
             ],
             "problemMatcher": [],
             "group": "test"

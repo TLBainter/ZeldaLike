@@ -14,4 +14,6 @@ ExtResource("2_od8bw"): 15,
 ExtResource("3_k35b0"): 5,
 ExtResource("4_x1p2d"): 35
 })
+debug_me = true
+debug_me_verbose = true
 metadata/_custom_type_script = "uid://ck1p1jsh1h2qo"

@@ -2,15 +2,13 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "GDScript: Launch Project",
-            "type": "godot",
+            "name": "Godot: Debug with Clipboard",
+            "type": "node",
             "request": "launch",
-            "project": "${workspaceFolder}",
-            "debug_collisions": false,
-            "debug_paths": false,
-            "debug_navigation": false,
-            "additional_options": "--always-on-top",
-            "preLaunchTask": "Godot: Debug with Clipboard"
+            "preLaunchTask": "Godot: Debug with Clipboard",
+            "program": "${workspaceFolder}/.vscode/noop.js",
+            "console": "internalConsole",
+            "runtimeExecutable": "U:\\nodeJS\\node.exe"
         }
     ]
 }

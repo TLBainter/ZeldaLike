@@ -22,4 +22,6 @@ ExtResource("6_jmjkb"): 5,
 ExtResource("7_tbcuy"): 5,
 ExtResource("8_60avi"): 3
 })
+debug_me = true
+debug_me_verbose = true
 metadata/_custom_type_script = "uid://ck1p1jsh1h2qo"

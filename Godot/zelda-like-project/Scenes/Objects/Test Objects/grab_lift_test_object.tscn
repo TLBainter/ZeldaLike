@@ -74,6 +74,8 @@ anim = NodePath("AnimationPlayer")
 shadow = NodePath("ObjectBody/ObjectSprite/ObjectShadow")
 collider = NodePath("ObjectBody/ObjectCollider")
 stats = NodePath("StatsComponent")
+debug_me = true
+debug_name = "pot"
 
 [node name="ObjectBody" type="CharacterBody2D" parent="." unique_id=1628527175]
 z_as_relative = false

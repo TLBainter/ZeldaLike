@@ -1411,6 +1411,7 @@ stats = NodePath("Component Manager/StatsComponent")
 health = NodePath("Component Manager/HealthComponent")
 move = NodePath("Component Manager/MoveComponent")
 debug_me = true
+debug_me_verbose = true
 debug_name = "Player Character"
 
 [node name="PlayerBody" type="CharacterBody2D" parent="." unique_id=1872381837]
