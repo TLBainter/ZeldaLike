@@ -1,4 +1,4 @@
-##[b][color=red]StateLift[/color][/b] is the Action layer state for lifting a DynamicInteractable.[br]
+##[b][color=red]StateLift[/color][/b] is the Action layer state for lifting a DynamicThing.[br]
 ##Freezes movement, plays the lift animation, and waits for animation_finished to transition to HoldingAction.[br]
 ##The object is visually moved to the hold offset above the player during the animation.[br]
 ##[br]
@@ -29,12 +29,12 @@ func enter() -> void:
 		if no_action_state:
 			state_machine.change_state(no_action_state)
 		return
-	#Get the DynamicInteractable via the Interact node.
-	var interact_node = character.body.current_interactable
-	var interactable = interact_node.root if (interact_node and "root" in interact_node) else null
-	if not interactable or not interactable is DynamicInteractable:
+	#Get the DynamicThing via the InteractableComponent.
+	var component: InteractableComponent = character.body.current_interactable
+	var interactable = component.owner_entity if component else null
+	if not interactable or not interactable is DynamicThing:
 		if debug_me:
-			printerr(debug_name, ": No valid DynamicInteractable to lift.")
+			printerr(debug_name, ": No valid DynamicThing to lift.")
 		if no_action_state:
 			state_machine.change_state(no_action_state)
 		return

@@ -82,6 +82,21 @@ func get_character():
 		return root
 	return null
 
+##Returns the context key for the interactable currently in the character's interact area.[br]
+##Shared helper used by Idling, Move, and any state needing interactable context resolution.
+func _get_interactable_context_key(character) -> String:
+	if not character or not character.body.current_interactable:
+		return ""
+	var interact_node = character.body.current_interactable
+	var interactable_owner = interact_node.root if "root" in interact_node else null
+	if interactable_owner and "object_data" in interactable_owner and interactable_owner.object_data:
+		var data = interactable_owner.object_data
+		if data.pushable or data.pullable:
+			return "grab"
+		elif data.liftable:
+			return "pickup"
+	return interact_node.context_key
+
 ##Returns the context key this state wants shown on the context label.[br]
 ##Override in various states to provide state-specific contexts.[br]
 ##Returns empty string by default (blank label, no text shown).

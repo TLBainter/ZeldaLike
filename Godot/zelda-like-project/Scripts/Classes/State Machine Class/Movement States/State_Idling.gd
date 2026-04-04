@@ -62,14 +62,14 @@ func get_context_key() -> String:
 		return "drop"
 	var character = get_character()
 	if character and character.body.current_interactable:
-		var interact_node = character.body.current_interactable
-		var interactable_owner = interact_node.root if "root" in interact_node else null
-		if interactable_owner and interactable_owner is DynamicInteractable and interactable_owner.object_data:
+		var component: InteractableComponent = character.body.current_interactable
+		var interactable_owner = component.owner_entity if component else null
+		if interactable_owner and interactable_owner is DynamicThing and interactable_owner.object_data:
 			if interactable_owner.object_data.liftable:
 				return "pickup"
 			elif interactable_owner.object_data.pushable or interactable_owner.object_data.pullable:
 				return "grab"
-		return interact_node.context_key
+		return component.context_key
 	return ""
 
 #endregion FUNCTIONS

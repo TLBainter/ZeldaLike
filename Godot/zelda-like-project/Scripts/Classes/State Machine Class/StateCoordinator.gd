@@ -31,14 +31,18 @@ signal context_changed(context_key : String)
 @export var debug_name : String = "StateCoordinator"
 #============#
 #Internal Variables
-##The DynamicInteractable currently being grabbed by the relevant entity.
+##The DynamicThing currently being grabbed by the relevant entity.
 ##Set by StateGrab, read by GrabIdle/Pushing/Pulling States. Null when not grabbing.
-var grabbed_object : DynamicInteractable = null
-##The DynamicInteractable currently being held by the relevant entity.
+var grabbed_object : DynamicThing = null
+##The DynamicThing currently being held by the relevant entity.
 ##Set by StateLift, read by HoldingAction/Throw/Drop States. Null when not holding.
-var held_object : DynamicInteractable = null
+var held_object : DynamicThing = null
 ##Whether or not context can currently be updated by a given state.
 var context_locked : bool = false
+##Registry of all State nodes under this coordinator, keyed by script.[br]
+##Populated automatically on _ready() by [b]_discover_states()[/b].[br]
+##States use [b]get_state()[/b] to look up transitions without manual export wiring.
+var _states : Dictionary = {}
 #endregion VARIABLES
 
 #region FUNCTIONS
@@ -59,6 +63,7 @@ func _ready():
 		return
 	#endregion component debugger prints
 	#INITIALIZE
+	_discover_states()
 	movement_layer.init_refs(root, self)
 	action_layer.init_refs(root, self)
 	no_control_layer.init_refs(root, self)
@@ -161,5 +166,46 @@ func request_context_refresh():
 func attack_hit() -> void:
 	if action_layer and action_layer.current_state is StateAttack:
 		action_layer.current_state.execute_hit()
+
+	#region state registry
+##Walks all three layers and registers every State child by its script.[br]
+##Called once on _ready(). States call [b]get_state()[/b] to look up transitions by class.
+func _discover_states() -> void:
+	_states.clear()
+	for layer in [movement_layer, action_layer, no_control_layer]:
+		if not layer:
+			continue
+		for child in layer.get_children():
+			if child is State:
+				_states[child.get_script()] = child
+	if debug_me:
+		print(debug_name, " discovered ", _states.size(), " states.")
+
+##Returns the State node for the given class, or null if not present on this entity.[br]
+##Usage: [b]coordinator.get_state(StateIdling)[/b]
+func get_state(state_class) -> State:
+	return _states.get(state_class)
+	#endregion state registry
+
+	#region shared entity helpers
+##Returns true if the root character is in an exhausted state.[br]
+##Returns false if the entity has no energy component.
+func is_exhausted() -> bool:
+	var character = root as Character
+	return character != null and character.energy != null and character.energy.is_exhausted_state
+
+##Attempts to consume energy from the root character.[br]
+##Returns true on success. Returns true (no restriction) if the entity has no energy component.
+func consume_energy(cost : int) -> bool:
+	var character = root as Character
+	if character and character.energy:
+		return character.energy.consume(cost)
+	return true
+
+##Returns true if the entity's body velocity exceeds the given threshold (pixels/sec).[br]
+##Use instead of raw Input polling so the check works for both player and AI entities.
+func is_moving(threshold : float = 10.0) -> bool:
+	return root.body != null and root.body.velocity.length() > threshold
+	#endregion shared entity helpers
 
 #endregion FUNCTIONS

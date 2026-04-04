@@ -1,9 +1,9 @@
 [gd_scene format=3 uid="uid://ckisejbbaxpl"]
 
-[ext_resource type="Script" uid="uid://8f6k1ofc2o6v" path="res://Scripts/Classes/Entity Class/Thing Class/Entity_Thing_Interactable_Dynamic.gd" id="1_6o540"]
+[ext_resource type="Script" uid="uid://dgfi5h24882w" path="res://Scripts/Classes/Entity Class/Thing Class/Entity_Thing_Dynamic.gd" id="1_6o540"]
 [ext_resource type="Resource" uid="uid://cjbf6urjarnj0" path="res://Scripts/Resources/Resource Files/Resources_Interactable Objects/normal_clay_pot.tres" id="2_rvm42"]
 [ext_resource type="Texture2D" uid="uid://csaqjksdow7tj" path="res://Sprites/Object Sprites/Breakables/object_sprite_pot-brown_small.png" id="3_iy02v"]
-[ext_resource type="Script" uid="uid://dtctgg8bg5iee" path="res://Scripts/Classes/Interaction Class/Interact.gd" id="4_b0au3"]
+[ext_resource type="Script" uid="uid://bo53xn53xy0t6" path="res://Scripts/Classes/Interaction Class/InteractableComponent.gd" id="4_ic01"]
 [ext_resource type="Script" uid="uid://ccyvuto8p13ak" path="res://Scripts/Classes/Entity Class/Component Class/Component_Stats.gd" id="5_iy02v"]
 [ext_resource type="Script" uid="uid://dw1v2olrhdbdx" path="res://Scripts/Resources/Resource Scripts/resource_stats.gd" id="6_b0au3"]
 
@@ -62,18 +62,18 @@ max_energy = 0
 max_magic = 0
 metadata/_custom_type_script = "uid://dw1v2olrhdbdx"
 
-[node name="Grab-Lift Test Object" type="Node2D" unique_id=1295838823 node_paths=PackedStringArray("body", "interact", "root", "sprite", "anim", "shadow", "collider", "stats")]
+[node name="Grab-Lift Test Object" type="Node2D" unique_id=1295838823 node_paths=PackedStringArray("body", "root", "sprite", "anim", "shadow", "collider", "stats", "interactable")]
 y_sort_enabled = true
 script = ExtResource("1_6o540")
 object_data = ExtResource("2_rvm42")
 body = NodePath("ObjectBody")
-interact = NodePath("ObjectBody/InteractArea")
 root = NodePath(".")
 sprite = NodePath("ObjectBody/ObjectSprite")
 anim = NodePath("AnimationPlayer")
 shadow = NodePath("ObjectBody/ObjectSprite/ObjectShadow")
 collider = NodePath("ObjectBody/ObjectCollider")
 stats = NodePath("StatsComponent")
+interactable = NodePath("ObjectBody/InteractableComponent")
 debug_me = true
 debug_name = "pot"
 
@@ -99,15 +99,16 @@ frame = 4
 position = Vector2(0, 1)
 shape = SubResource("CapsuleShape2D_53jui")
 
-[node name="InteractArea" type="Area2D" parent="ObjectBody" unique_id=945322988 node_paths=PackedStringArray("root")]
-script = ExtResource("4_b0au3")
+[node name="InteractableComponent" type="Node2D" parent="ObjectBody" unique_id=845632198]
+script = ExtResource("4_ic01")
+interact_type = 10
 context_key = "grab"
-debug_me = true
-debug_name = "Pot Interactable"
-root = NodePath("../..")
+area_offset = Vector2(0, -1)
 
-[node name="InteractCollider" type="CollisionShape2D" parent="ObjectBody/InteractArea" unique_id=369944977]
+[node name="InteractArea" type="Area2D" parent="ObjectBody/InteractableComponent" unique_id=623847512]
 position = Vector2(0, -1)
+
+[node name="InteractCollider" type="CollisionShape2D" parent="ObjectBody/InteractableComponent/InteractArea" unique_id=912847361]
 shape = SubResource("CircleShape2D_su1sj")
 debug_color = Color(0.92156863, 0.24705882, 0.34901962, 0.09411765)
 

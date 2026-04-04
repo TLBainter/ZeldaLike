@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://bq7dm4xkc3np"]
+
+[ext_resource type="Script" uid="uid://cr8en5ylf4mo" path="res://Scripts/Classes/Interaction Class/InteractableComponent.gd" id="1_ic01"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ic01"]
+radius = 8.0
+
+[node name="InteractableComponent" type="Node2D"]
+script = ExtResource("1_ic01")
+
+[node name="InteractArea" type="Area2D" parent="."]
+
+[node name="InteractCollider" type="CollisionShape2D" parent="InteractArea"]
+shape = SubResource("CircleShape2D_ic01")

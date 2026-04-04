@@ -13,9 +13,9 @@ extends State
 
 #===========#
 
-##A reference to the Interact node currently being interacted with.[br]
+##A reference to the InteractableComponent currently being interacted with.[br]
 ##Used to connect/disconnect the interaction_finished signal.
-var _active_interactable : Interact
+var _active_interactable : InteractableComponent
 
 #endregion VARIABLES
 

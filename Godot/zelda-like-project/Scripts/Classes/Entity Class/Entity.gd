@@ -29,6 +29,8 @@ extends Node2D
 @export var health : HealthComponent
 ##Movement handler; excepts type [color=green]MovementComponent[/color]
 @export var move : MoveComponent
+##Optional interaction zone component; add an [b]InteractableComponent[/b] scene to make this entity interactable.
+@export var interactable : InteractableComponent
 
 #endregion
 #region EXPORT VARIABLES

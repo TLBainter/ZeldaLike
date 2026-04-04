@@ -36,9 +36,9 @@ func process_input(event : InputEvent) -> State:
 		var character = get_character()
 		if not character or not character.body.current_interactable:
 			return null
-		var interactable = character.body.current_interactable
-		var interactable_owner = interactable.root if "root" in interactable else null
-		if interactable_owner and interactable_owner is DynamicInteractable and interactable_owner.object_data:
+		var interactable: InteractableComponent = character.body.current_interactable
+		var interactable_owner = interactable.owner_entity if interactable else null
+		if interactable_owner and interactable_owner is DynamicThing and interactable_owner.object_data:
 			#Don't allow this transition if character is exhausted
 			if character.energy and character.energy.is_exhausted_state:
 				return null

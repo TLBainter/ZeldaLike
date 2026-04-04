@@ -1,9 +1,9 @@
-##[b][color=red]ProjectileComponent[/color][/b] handles the movement of a thrown DynamicInteractable.[br]
+##[b][color=red]ProjectileComponent[/color][/b] handles the movement of a thrown DynamicThing.[br]
 ##Simulates a visual arc (sprite offset goes up then down) while the body moves along the ground.[br]
 ##On collision with a wall or object, or when reaching max distance: lands.[br]
 ##If the object is breakable, it breaks on impact. Otherwise it stops in place.[br]
 ##[br]
-##Attach this as a child of the DynamicInteractable, or add it dynamically when throwing.
+##Attach this as a child of the DynamicThing, or add it dynamically when throwing.
 class_name ProjectileComponent
 extends Component
 
@@ -17,8 +17,8 @@ signal projectile_landed(broke : bool)
 
 #region VARIABLES
 
-##The DynamicInteractable being thrown.
-var _object : DynamicInteractable
+##The DynamicThing being thrown.
+var _object : DynamicThing
 ##The CharacterBody2D of the thrown object.
 var _body : CharacterBody2D
 ##The sprite node of the thrown object (for visual arc offset).
@@ -46,12 +46,12 @@ func _ready():
 	set_physics_process(false)
 
 ##Launches the projectile.[br]
-##[b]object[/b]: The DynamicInteractable being thrown.[br]
+##[b]object[/b]: The DynamicThing being thrown.[br]
 ##[b]direction[/b]: Normalized direction of travel.[br]
 ##[b]max_distance[/b]: How far the object travels in pixels.[br]
 ##[b]speed[/b]: Travel speed in pixels per second.[br]
 ##[b]arc_height[/b]: Peak height of the visual arc.
-func launch(object : DynamicInteractable, direction : Vector2, max_distance : float, speed : float = 150.0, arc_height : float = 8.0) -> void:
+func launch(object : DynamicThing, direction : Vector2, max_distance : float, speed : float = 150.0, arc_height : float = 8.0) -> void:
 	_object = object
 	_body = object.body
 	_direction = direction.normalized()

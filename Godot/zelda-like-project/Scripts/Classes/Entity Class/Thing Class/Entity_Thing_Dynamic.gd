@@ -1,22 +1,23 @@
-##A [b][color=red]DynamicInteractable[/color][/b] is an interactable that can be interacted with,[br]
-##in multiple ways, including breaking, damaging, lifting, throwing, etc.
-class_name DynamicInteractable
-extends Interactable
+##[b][color=red]DynamicThing[/color][/b] is a [b]Thing[/b] that uses a [b]CharacterBody2D[/b] and can be physically manipulated:[br]
+##lifted, thrown, pushed, pulled, and broken.[br]
+##Assign an [b]InteractableObject[/b] resource to configure capabilities.[br]
+##Add an [b]InteractableComponent[/b] child to make it interactable by the player.
+class_name DynamicThing
+extends Thing
 
 #region SIGNALS
 
 signal snap_move_completed
 
-#endregion SIGNALS
+#endregion
 
 #region VARIABLES
 
-@export_group("Dynamic Interactable Settings")
-##The resource defining this object's capabilities, sounds, weight, and drop table.[br]
-##Assign a [b]InteractableObject[/b] resource to configure this interactable.
+@export_group("Dynamic Thing Settings")
+##Resource defining this object's capabilities, sounds, weight, and drop table.
 @export var object_data : InteractableObject
-@export_group("Dynamic Interactable Components")
-##The physical body of this interactable. Expects a CharacterBody2D with attached sprites, colliders, etc.
+@export_group("Dynamic Thing Components")
+##The physical body. Expects a CharacterBody2D with attached sprites and colliders.
 @export var body : CharacterBody2D
 
 #=======INTERNAL VARIABLES=======#
@@ -32,13 +33,13 @@ var _snap_speed : float = 80.0
 var _last_damage_source_pos : Vector2 = Vector2.ZERO
 var _damaged_by_attack : bool = false
 
-#endregion VARIABLES
+#endregion
 
 #region FUNCTIONS
 
 func _ready():
 	super._ready()
-	category = "Dynamic"
+	subtype = "Dynamic"
 
 func _physics_process(delta : float):
 	if _is_held and _hold_character and body:
@@ -58,9 +59,7 @@ func _physics_process(delta : float):
 		set_physics_process(false)
 
 ##Attempts to move this object [b]distance[/b] pixels in the given [b]direction[/b] instantly.[br]
-##Default distance is 8 pixels (half a 'grid' tile).[br]
-##Uses move_and_collide to respect collisions.[br]
-##Returns [b]true[/b] if the move completed without collision or [b]false[/b] if the move failed.
+##Returns [b]true[/b] if the move completed without collision, [b]false[/b] if blocked.
 func snap_move(direction : Vector2, distance : float = 8.0) -> bool:
 	if not body:
 		if debug_me:
@@ -76,7 +75,6 @@ func snap_move(direction : Vector2, distance : float = 8.0) -> bool:
 
 ##Smoothly moves this object to a position [b]distance[/b] pixels in the given [b]direction[/b].[br]
 ##Emits [b]snap_move_completed[/b] when finished.[br]
-##[b]speed[/b]: Movement speed in pixels per second.[br]
 ##Returns [b]true[/b] if the move started, [b]false[/b] if blocked by collision.
 func smooth_snap_move(direction : Vector2, distance : float = 8.0, speed : float = 80.0, skip_test : bool = false) -> bool:
 	if not body:
@@ -92,25 +90,25 @@ func smooth_snap_move(direction : Vector2, distance : float = 8.0, speed : float
 	return true
 
 ##Picks up this object: disables collision and begins following the hold position.[br]
-##[b]offset[/b]: The offset above the character's body.[br]
+##[b]offset[/b]: Offset above the character's body.[br]
 ##[b]character[/b]: The Character holding this object.
 func hold(offset : Vector2, character):
 	_hold_character = character
 	_hold_offset = offset
 	_is_held = true
-	if root and root.shadow:
-		root.shadow.visible = false
+	if shadow:
+		shadow.visible = false
 	disable_collision()
 	if body and character.body:
 		body.global_position = character.body.global_position + Vector2(0, 1)
-	if root and root.sprite:
-		root.sprite.position = offset
+	if sprite:
+		sprite.position = offset
 	set_physics_process(true)
 	if debug_me:
 		print(debug_name, " is now being held by ", character, ".")
 
-##Releases this object from being held and places it at the given position.[br]
-##[b]restore_collision[/b]: Whether to re-enable collision on release. False for throws (projectile handles it).
+##Releases this object and places it at the given position.[br]
+##[b]restore_collision[/b]: Whether to re-enable collision on release.
 func release(drop_position : Vector2, restore_collision : bool = true):
 	_is_held = false
 	_hold_character = null
@@ -119,35 +117,33 @@ func release(drop_position : Vector2, restore_collision : bool = true):
 		body.global_position = drop_position
 		body.z_index = 0
 	if restore_collision:
-		if root and root.sprite:
-			root.sprite.position = Vector2.ZERO
+		if sprite:
+			sprite.position = Vector2.ZERO
 		enable_collision()
-		if root and root.shadow:
-			root.shadow.visible = true
+		if shadow:
+			shadow.visible = true
 
-##Disable all CollisionShape2D nodes on the body and stop Interact monitoring.
+##Disable all CollisionShape2D nodes on the body and stop interaction monitoring.
 func disable_collision():
 	if body:
 		for child in body.get_children():
 			if child is CollisionShape2D:
 				child.disabled = true
-	if interact:
-		interact.set_deferred("monitoring", false)
-		interact.set_deferred("monitorable", false)
+	if interactable:
+		interactable.set_active(false)
 
-##Enable all CollisionShape2D nodes on the body and resume Interact monitoring.
+##Enable all CollisionShape2D nodes on the body and resume interaction monitoring.
 func enable_collision():
 	if body:
 		for child in body.get_children():
 			if child is CollisionShape2D:
 				child.disabled = false
-	if interact:
-		interact.set_deferred("monitoring", true)
-		interact.set_deferred("monitorable", true)
+	if interactable:
+		interactable.set_active(true)
 
 #region BREAK
-##Breaks this object. Plays break animation, sound, drops loot, and queues free.[br]
-##Called by ProjectileComponent on impact if breakable.
+
+##Breaks this object. Plays break animation, sound, drops loot, and queues free.
 func break_me():
 	if debug_me:
 		print(debug_name, " is breaking!")
@@ -181,7 +177,6 @@ func _spawn_drops(player = null):
 		var world_item = _create_world_item()
 		world_item.pickup_data = pickup
 		get_tree().current_scene.add_child(world_item)
-		#Scatter items in different directions.
 		var scatter_dir : Vector2
 		if base_scatter_dir != Vector2.ZERO:
 			var spread_angle = randf_range(-0.6, 0.6)
@@ -194,8 +189,6 @@ func _spawn_drops(player = null):
 		var item_spawn_pos = spawn_pos + spawn_offset + Vector2(0, -8)
 		var impulse = 60.0 if _damaged_by_attack else 0.0
 		world_item.spawn(item_spawn_pos, spawn_pos.y + spawn_offset.y, scatter_dir, impulse)
-		if debug_me:
-			print(debug_name, ": Spawned drop '", pickup.item.item_name if pickup.item else "unknown", "' at ", item_spawn_pos)
 	_damaged_by_attack = false
 	_last_damage_source_pos = Vector2.ZERO
 
@@ -211,7 +204,6 @@ func _find_clear_direction(space_state : PhysicsDirectSpaceState2D, origin : Vec
 		var result = space_state.intersect_ray(query)
 		if result.is_empty():
 			return test_dir
-	#All directions blocked — use original.
 	return preferred_dir
 
 func _create_world_item() -> WorldItem:
@@ -241,6 +233,7 @@ func _on_break_anim_finished(_anim_name : String):
 #endregion BREAK
 
 #region DAMAGE
+
 ##Takes damage from an external source (attack, projectile, etc).[br]
 ##Reduces durability. When durability reaches 0, breaks the object.
 func take_damage(amount : int) -> void:
@@ -252,22 +245,19 @@ func take_damage(amount : int) -> void:
 	var player = _find_player()
 	if player and player.body:
 		_last_damage_source_pos = player.body.global_position
-	if debug_me:
-		print(debug_name, ": take_damage(", amount, ") — durability before: ", object_data.durability)
 	object_data.durability -= amount
 	if debug_me:
 		print(debug_name, ": Took ", amount, " damage. Durability: ", object_data.durability)
-	#Play impact sound.
 	if object_data.material and object_data.material.impact_sounds:
 		if not object_data.material.impact_sounds.sl.is_empty():
 			var clip = object_data.material.impact_sounds.sl.pick_random()
 			if audioManager:
 				audioManager.play(clip, "Environment")
-	#Break if durability depleted.
 	if object_data.durability <= 0:
 		if debug_me:
 			print(debug_name, ": Durability depleted! Breaking.")
 		break_me()
+
 #endregion DAMAGE
 
 #endregion FUNCTIONS

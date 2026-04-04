@@ -1,4 +1,4 @@
-##[b][color=red]StateGrab[/color][/b] is the Action layer state for when the character is grabbing a [b]DynamicInteractable[/b].[br]
+##[b][color=red]StateGrab[/color][/b] is the Action layer state for when the character is grabbing a [b]DynamicThing[/b].[br]
 ##While in this state, the character holds onto the object. The movement layer switches to [i]GrabIdle[/i],[br]
 ##handling transitions to [i]Pushing[/i] or [i]Pulling[/i] based on availability and input.[br]
 ##Releasing actionButton4/Context Button while in [b]GrabIdle[/b] releases the grab.[br]
@@ -32,13 +32,13 @@ func enter():
 			state_machine.change_state(no_action_state)
 		return
 	#Store the values for the interactable being interacted with to trigger entering this state.
-	var interact_node = character.body.current_interactable
-	var interactable = interact_node.root if "root" in interact_node else null
-	if interactable and interactable is DynamicInteractable:
+	var component: InteractableComponent = character.body.current_interactable
+	var interactable = component.owner_entity if component else null
+	if interactable and interactable is DynamicThing:
 		coordinator.grabbed_object = interactable
 	else:
 		if debug_me:
-			printerr(debug_name, " found no valid DynamicInteractable to grab!")
+			printerr(debug_name, " found no valid DynamicThing to grab!")
 		if no_action_state:
 			state_machine.change_state(no_action_state)
 		return

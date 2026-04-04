@@ -1246,9 +1246,6 @@ sources/1 = SubResource("TileSetAtlasSource_yx5wt")
 sources/2 = SubResource("TileSetAtlasSource_mskji")
 sources/3 = SubResource("TileSetAtlasSource_3oc0o")
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_ycnog"]
-radius = 21.0
-
 [node name="Main" type="Node2D" unique_id=917202910]
 z_as_relative = false
 y_sort_enabled = true
@@ -1287,9 +1284,6 @@ speaker = NodePath("../SpeakComponent")
 debug_me = true
 root = NodePath("..")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Dialogue Test NPC/NPC Interact Area" unique_id=1554193010]
-shape = SubResource("CircleShape2D_ycnog")
-
 [node name="SpeakComponent" type="Node" parent="Dialogue Test NPC" unique_id=473864977]
 script = ExtResource("9_g8bl4")
 dialogue_sequences = Array[ExtResource("10_oswxe")]([ExtResource("11_6qfvj")])
@@ -1302,27 +1296,22 @@ debug_name = "jar 0"
 
 [node name="Grab-Lift Test Object4" parent="." unique_id=1086858883 instance=ExtResource("12_6qfvj")]
 position = Vector2(-459, 88)
-debug_me = true
 debug_name = "jar 3"
 
 [node name="Grab-Lift Test Object5" parent="." unique_id=299796667 instance=ExtResource("12_6qfvj")]
 position = Vector2(-517, 81)
-debug_me = true
 debug_name = "jar 1"
 
 [node name="Grab-Lift Test Object6" parent="." unique_id=769473091 instance=ExtResource("12_6qfvj")]
 position = Vector2(-424, 73)
-debug_me = true
 debug_name = "jar5"
 
 [node name="Grab-Lift Test Object2" parent="." unique_id=413450925 instance=ExtResource("12_6qfvj")]
 position = Vector2(-509, 47)
-debug_me = true
 debug_name = "jar 6"
 
 [node name="Grab-Lift Test Object3" parent="." unique_id=622300057 instance=ExtResource("12_6qfvj")]
 position = Vector2(-467, 51)
-debug_me = true
 debug_name = "jar 7"
 
 [node name="GrassInstance" parent="." unique_id=802736167 instance=ExtResource("13_53jui")]
