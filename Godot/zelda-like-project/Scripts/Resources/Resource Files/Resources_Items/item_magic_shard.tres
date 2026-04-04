@@ -7,11 +7,9 @@
 
 [resource]
 script = ExtResource("2_bp3of")
-item_name = "Magic Shard"
-item_description = "Recover 4 Magic!"
 item_strip = ExtResource("1_qdvjr")
 shadow_strip = ExtResource("3_8g5gx")
 recover_magic = 4
 use_sounds = ExtResource("4_bp3of")
-first_get_dialogue_ref = 9
+first_get_dialogue_ref = "pickupMagicShard"
 metadata/_custom_type_script = "uid://dps4pg1os47me"

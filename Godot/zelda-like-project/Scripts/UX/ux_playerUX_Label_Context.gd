@@ -17,20 +17,15 @@ extends PlayerUXLabel
 ##If it does not have a match, the context label will be set to the context value (capitalized)
 var context_map : Dictionary = {
 	"default" : "",
-	"container" : "Open",
-	"dodge" : "Roll",
-	"door" : "Open",
-	"drop" : "Drop",
-	"grab" : "Grab",
-	"lift" : "Lift",
-	"locked" : "Unlock",
-	"npc" : "Speak",
-	"pickup" : "Lift",
-	"roll" : "Roll",
-	"secret" : "?",
-	"shop" : "Shop",
-	"throw" : "Throw",
-	"usable" : "Use"
+	"drop"    : "Drop",
+	"grab"    : "Grab",
+	"lift"    : "Lift",
+	"open"    : "Open",
+	"roll"    : "Roll",
+	"shop"    : "Shop",
+	"speak"   : "Speak",
+	"throw"   : "Throw",
+	"use"     : "Use",
 }
 @export_group("Transition Settings")
 ##Text to be loaded into the context label

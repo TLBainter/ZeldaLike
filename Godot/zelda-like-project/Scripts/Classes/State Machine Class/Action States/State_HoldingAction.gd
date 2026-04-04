@@ -41,15 +41,25 @@ func enter():
 	var character = get_character()
 	if character and character.anim and character.anim is CharacterAnimator:
 		character.anim.can_update_facing = true
-	if root.input and not root.input.onMove.is_connected(_on_move):
-		root.input.onMove.connect(_on_move)
+	if root.input and not root.input.on_move.is_connected(_on_move):
+		root.input.on_move.connect(_on_move)
 	if debug_me:
 		print(debug_name, ": Now holding object. Movement unfrozen.")
 
 func exit():
-	if root.input and root.input.onMove.is_connected(_on_move):
-		root.input.onMove.disconnect(_on_move)
+	if root.input and root.input.on_move.is_connected(_on_move):
+		root.input.on_move.disconnect(_on_move)
 	coordinator.unlock_context()
+	super()
+
+func pause():
+	if root.input and root.input.on_move.is_connected(_on_move):
+		root.input.on_move.disconnect(_on_move)
+	super()
+
+func resume():
+	if root.input and not root.input.on_move.is_connected(_on_move):
+		root.input.on_move.connect(_on_move)
 	super()
 
 func _on_move(_move_input : Vector2, move_strength : float):
@@ -61,9 +71,9 @@ func _on_move(_move_input : Vector2, move_strength : float):
 func process_input(event : InputEvent) -> State:
 	if event.is_action_pressed("actionButton4"):
 		if _is_running and throw_state:
-			return throw_state
+			return coordinator.try_transition(state_machine, throw_state, "actionButton4+pressed+running")
 		elif drop_state:
-			return drop_state
+			return coordinator.try_transition(state_machine, drop_state, "actionButton4+pressed+not_running")
 	return null
 
 func get_context_key() -> String:

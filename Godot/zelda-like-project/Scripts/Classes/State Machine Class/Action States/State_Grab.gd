@@ -26,10 +26,9 @@ func enter():
 	super()
 	var character = get_character()
 	if not character:
-		if debug_me:
-			printerr(debug_name, " failed to get a character reference!")
+		push_error(debug_name + ": failed to get a character reference in enter()")
 		if no_action_state:
-			state_machine.change_state(no_action_state)
+			state_machine.change_state(coordinator.try_transition(state_machine, no_action_state, "enter+no_character"))
 		return
 	#Store the values for the interactable being interacted with to trigger entering this state.
 	var component: InteractableComponent = character.body.current_interactable
@@ -37,10 +36,9 @@ func enter():
 	if interactable and interactable is DynamicThing:
 		coordinator.grabbed_object = interactable
 	else:
-		if debug_me:
-			printerr(debug_name, " found no valid DynamicThing to grab!")
+		push_error(debug_name + ": found no valid DynamicThing to grab in enter()")
 		if no_action_state:
-			state_machine.change_state(no_action_state)
+			state_machine.change_state(coordinator.try_transition(state_machine, no_action_state, "enter+no_DynamicThing"))
 		return
 	#Lock the facing direction so the character doesn't rotate while grabbing.
 	if character.anim and character.anim is CharacterAnimator:
@@ -60,7 +58,7 @@ func process_input(event : InputEvent) -> State:
 		#Check if the movement layer is in GrabIdle
 		var movement_state = coordinator.movement_layer.current_state
 		if movement_state == grab_idle_state:
-			return no_action_state
+			return coordinator.try_transition(state_machine, no_action_state, "actionButton4+released+at_GrabIdle")
 		#If you are mid push/pull, consume input but do not release.
 		input_consumed = true
 	return null

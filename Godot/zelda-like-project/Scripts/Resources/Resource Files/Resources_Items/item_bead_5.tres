@@ -7,11 +7,9 @@
 
 [resource]
 script = ExtResource("2_iw7ft")
-item_name = "Blue Bead"
-item_description = "It's worth 5 notes!"
 item_strip = ExtResource("1_4xevu")
 shadow_strip = ExtResource("3_b0p1h")
 grant_notes = 5
 use_sounds = ExtResource("4_iw7ft")
-first_get_dialogue_ref = 11
+first_get_dialogue_ref = "pickupBeadBlue"
 metadata/_custom_type_script = "uid://dps4pg1os47me"

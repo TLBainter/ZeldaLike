@@ -26,7 +26,7 @@ func _ready():
 	
 	#region Set Max HP
 	#Read max_health from the stats resource if available.
-	var entity = get_parent()
+	var entity = _find_entity_parent()
 	if entity and "stats" in entity and entity.stats and entity.stats.resource:
 		max_health = entity.stats.resource.max_health
 	else:

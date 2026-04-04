@@ -28,8 +28,8 @@ func enter():
 	super()
 	root.body.velocity = Vector2.ZERO
 	#Connect signal for directional input
-	if root.input and not root.input.onMove.is_connected(_on_move):
-		root.input.onMove.connect(_on_move)
+	if root.input and not root.input.on_move.is_connected(_on_move):
+		root.input.on_move.connect(_on_move)
 	#Grab
 	coordinator.update_context("grab")
 	#Release Grab if button is no longer pressed.
@@ -49,22 +49,22 @@ func enter():
 
 func exit():
 	#Disconnect Signals
-	if root.input and root.input.onMove.is_connected(_on_move):
-		root.input.onMove.disconnect(_on_move)
+	if root.input and root.input.on_move.is_connected(_on_move):
+		root.input.on_move.disconnect(_on_move)
 	#Call super
 	super()
 
 func pause():
 	#disconnect input move to _on_move
-	if root.input and root.input.onMove.is_connected(_on_move):
-		root.input.onMove.disconnect(_on_move)
+	if root.input and root.input.on_move.is_connected(_on_move):
+		root.input.on_move.disconnect(_on_move)
 	#call super
 	super()
 
 func resume():
 	#connect input move to _on_move
-	if root.input and not root.input.onMove.is_connected(_on_move):
-		root.input.onMove.connect(_on_move)
+	if root.input and not root.input.on_move.is_connected(_on_move):
+		root.input.on_move.connect(_on_move)
 	#call super
 	super()
 
@@ -90,10 +90,10 @@ func _on_move(move_input : Vector2, move_strength : float):
 		return
 	#PUSHING (input is equal to facing)
 	if dot > 0.5 and grabbed.object_data.pushable and pushing_state:
-		state_machine.change_state(pushing_state)
+		state_machine.change_state(coordinator.try_transition(state_machine, pushing_state, "on_move+dot>0.5+pushable"))
 	#PULLING (input is opposite facing)
 	if dot < -0.5 and grabbed.object_data.pullable and pulling_state:
-		state_machine.change_state(pulling_state)
+		state_machine.change_state(coordinator.try_transition(state_machine, pulling_state, "on_move+dot<-0.5+pullable"))
 	pass
 
 func _get_facing_vector(facing : String) -> Vector2:

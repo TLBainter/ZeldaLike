@@ -45,7 +45,7 @@ func _process(_delta):
 	var move_strength : float = move_input.length()
 	if move_input != null:
 		#emit the move signal if it has a value, providing the Vector2 and float values.
-		onMove.emit(move_input, move_strength)
+		on_move.emit(move_input, move_strength)
 		if debug_me:
 			print(debug_name, "	has emitted its move_input value with a value of ", move_input, "\n	and a move_strength value of ", move_strength)
 	#endregion

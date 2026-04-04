@@ -44,9 +44,14 @@ extends Panel
 		_apply_spell_position()
 
 @export_category("Debug")
-##Whether or not you want this entity to print to the debugger
-@export var debug_me : bool = false
-@export var debug_name : String = "Button"
+@export var debug : DebugSettings = DebugSettings.new()
+var debug_me : bool:
+	get: return debug.debug_me if debug else false
+var debug_me_verbose : bool:
+	get: return debug.debug_me_verbose if debug else false
+var debug_name : String:
+	get: return debug.debug_name if debug else ""
+	set(v): if debug: debug.debug_name = v
 
 #====INTERNAL====#
 #SPELL TRACKING VARIABLES#

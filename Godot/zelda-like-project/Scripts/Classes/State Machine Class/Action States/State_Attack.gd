@@ -39,6 +39,7 @@ func enter() -> void:
 	_attack_facing = ""
 	var character = get_character()
 	if not character:
+		push_error(debug_name + ": missing character reference in enter()")
 		_exit_to_no_action()
 		return
 	if character.energy and energy_cost > 0:
@@ -81,6 +82,7 @@ func _process(_delta : float) -> void:
 		return
 	var character = get_character()
 	if not character or not character.anim:
+		push_error(debug_name + ": missing character/anim reference in _process()")
 		_exit_to_no_action()
 		return
 	#If our animation is no longer playing, exit.
@@ -107,7 +109,7 @@ func resume() -> void:
 
 func _exit_to_no_action() -> void:
 	if no_action_state:
-		state_machine.change_state(no_action_state)
+		state_machine.change_state(coordinator.try_transition(state_machine, no_action_state, "attack_animation_finished"))
 
 func _rotate_attack_area(character) -> void:
 	if not attack_area or not character.anim:

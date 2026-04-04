@@ -59,7 +59,7 @@ var _recovery_tick_timer : Timer
 #region FUNCTIONS
 
 func _ready():
-	var entity = get_parent()
+	var entity = _find_entity_parent()
 	if entity and "stats" in entity and entity.stats and entity.stats.resource:
 		total_shards = entity.stats.resource.max_magic
 	else:

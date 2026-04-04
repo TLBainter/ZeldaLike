@@ -33,8 +33,14 @@ extends Resource
 @export var drop_count : int = 1
 
 @export_category("Debug")
-@export var debug_me : bool = false
-@export var debug_me_verbose : bool = false
+@export var debug : DebugSettings = DebugSettings.new()
+var debug_me : bool:
+	get: return debug.debug_me if debug else false
+var debug_me_verbose : bool:
+	get: return debug.debug_me_verbose if debug else false
+var debug_name : String:
+	get: return debug.debug_name if debug else ""
+	set(v): if debug: debug.debug_name = v
 
 #endregion VARIABLES
 
@@ -74,7 +80,7 @@ func resolve(player = null) -> Array[PickupResource]:
 		"Guaranteed":
 			for pickup in eligible_pickups:
 				if debug_me_verbose:
-					var item_name = pickup.item.item_name if pickup.item else "Unknown"
+					var item_name = pickup.item.first_get_dialogue_ref if pickup.item else "Unknown"
 					print("DropTable: Guaranteed drop: ", item_name, " (100%)")
 				results.append(pickup)
 		"Random":
@@ -119,28 +125,28 @@ func _is_item_needed(pickup : PickupResource, player) -> bool:
 	if item.recover_health > 0:
 		if player.health and player.health.cur_health >= player.health.max_health:
 			if debug_me:
-				print("DropTable: Skipping ", item.item_name, " — health is full (", player.health.cur_health, "/", player.health.max_health, ")")
+				print("DropTable: Skipping ", item.first_get_dialogue_ref, " — health is full (", player.health.cur_health, "/", player.health.max_health, ")")
 			return false
 	#Energy: skip if player is at full energy.
 	if item.recover_energy > 0:
 		if player.energy and player.energy.cur_energy >= (player.energy.max_energy - 1):
 			if debug_me:
-				print("DropTable: Skipping ", item.item_name, " — energy too high (", player.energy.cur_energy, "/", player.energy.max_energy, ")")
+				print("DropTable: Skipping ", item.first_get_dialogue_ref, " — energy too high (", player.energy.cur_energy, "/", player.energy.max_energy, ")")
 			return false
 	#Magic: skip if player is at full magic.
 	if item.recover_magic > 0:
 		if player.magic and player.magic.cur_magic >= player.magic.max_magic:
 			if debug_me:
-				print("DropTable: Skipping ", item.item_name, " — magic is full (", player.magic.cur_magic, "/", player.magic.max_magic, ")")
+				print("DropTable: Skipping ", item.first_get_dialogue_ref, " — magic is full (", player.magic.cur_magic, "/", player.magic.max_magic, ")")
 			return false
 	#Notes: skip if player has max notes.
 	if item.grant_notes > 0:
 		if player.currency and player.currency.is_full():
 			if debug_me:
-				print("DropTable: Skipping ", item.item_name, " — notes are full (", player.currency.cur_notes, "/", player.currency.max_notes, ")")
+				print("DropTable: Skipping ", item.first_get_dialogue_ref, " — notes are full (", player.currency.cur_notes, "/", player.currency.max_notes, ")")
 			return false
 	if debug_me:
-		print("DropTable: ", item.item_name, " is eligible to drop.")
+		print("DropTable: ", item.first_get_dialogue_ref, " is eligible to drop.")
 
 	return true
 
@@ -159,7 +165,7 @@ func _weighted_random_pick(eligible : Array[PickupResource], pity : int = 0) -> 
 		print("DropTable: Rolling from pool (", eligible.size(), " eligible):")
 		for i in range(eligible.size()):
 			var pct = (weights[i] / total_weight) * 100.0
-			var item_name = eligible[i].item.item_name if eligible[i].item else "Unknown"
+			var item_name = eligible[i].item.first_get_dialogue_ref if eligible[i].item else "Unknown"
 			print("  ", item_name, ": ", "%.1f" % pct, "%")
 	var roll : float = randf() * total_weight
 	var cumulative : float = 0.0
@@ -167,10 +173,10 @@ func _weighted_random_pick(eligible : Array[PickupResource], pity : int = 0) -> 
 		cumulative += weights[i]
 		if roll <= cumulative:
 			if debug_me:
-				print("DropTable: >> Selected: ", eligible[i].item.item_name if eligible[i].item else "Unknown")
+				print("DropTable: >> Selected: ", eligible[i].item.first_get_dialogue_ref if eligible[i].item else "Unknown")
 			return eligible[i]
 	if debug_me:
-		print("DropTable: >> Selected (fallback): ", eligible.back().item.item_name if eligible.back().item else "Unknown")
+		print("DropTable: >> Selected (fallback): ", eligible.back().item.first_get_dialogue_ref if eligible.back().item else "Unknown")
 	return eligible.back() if not eligible.is_empty() else null
 
 ##Returns the effective drop weight for a pickup.[br]

@@ -26,8 +26,8 @@ func enter():
 	#Set walk speed from stats.
 	if root and "stats" in root and root.stats and root.stats.resource:
 		root.move_speed = root.stats.resource.walk_speed
-	if root.input and not root.input.onMove.is_connected(_on_move):
-		root.input.onMove.connect(_on_move)
+	if root.input and not root.input.on_move.is_connected(_on_move):
+		root.input.on_move.connect(_on_move)
 	if not state_machine.is_active:
 		return
 	coordinator.update_context(get_context_key())
@@ -41,30 +41,30 @@ func enter():
 			character.anim.walk_prefix = "Walk"
 	
 func exit():
-	if root.input and root.input.onMove.is_connected(_on_move):
-		root.input.onMove.disconnect(_on_move)
+	if root.input and root.input.on_move.is_connected(_on_move):
+		root.input.on_move.disconnect(_on_move)
 	super()
 
 func pause():
-	if root.input and root.input.onMove.is_connected(_on_move):
-		root.input.onMove.disconnect(_on_move)
+	if root.input and root.input.on_move.is_connected(_on_move):
+		root.input.on_move.disconnect(_on_move)
 	root.body.velocity = Vector2.ZERO
 	super()
 
 func resume():
-	if root.input and not root.input.onMove.is_connected(_on_move):
-		root.input.onMove.connect(_on_move)
+	if root.input and not root.input.on_move.is_connected(_on_move):
+		root.input.on_move.connect(_on_move)
 
 func _on_move(_move_input : Vector2, move_strength : float):
 	if move_strength < 0.15 and idle_state:
-		state_machine.change_state(idle_state)
+		state_machine.change_state(coordinator.try_transition(state_machine, idle_state, "on_move+strength<0.15"))
 	elif move_strength > 0.49 and run_state:
 		var character = get_character()
 		if coordinator.context_locked:
 			return
 		if character and character.energy and character.energy.is_exhausted_state:
 			return
-		state_machine.change_state(run_state)
+		state_machine.change_state(coordinator.try_transition(state_machine, run_state, "on_move+strength>0.49"))
 
 func get_context_key() -> String:
 	if coordinator.held_object:
@@ -75,12 +75,11 @@ func get_context_key() -> String:
 		var interactable_owner = component.owner_entity if component else null
 		if interactable_owner and interactable_owner is DynamicThing and interactable_owner.object_data:
 			var data = interactable_owner.object_data
-			#While moving, grabbable objects show "grab" (even if also liftable)
-			if data.pushable or data.pullable:
+			var priority = coordinator.resolve_interaction_priority(data, true)
+			if priority == "grab":
 				return "grab"
-			#Liftable-only while moving still shows "pickup"
-			elif data.liftable:
-				return "pickup"
+			elif priority == "lift":
+				return "lift"
 		return component.context_key
 	return ""
 #endregion FUNCTIONS

@@ -302,7 +302,7 @@ func _cmd_set_health(amount : int) -> void:
 	amount = clampi(amount, 0, _health.max_health)
 	var change = amount - _health.cur_health
 	_health.cur_health = amount
-	_health.healthChanged.emit(_health.cur_health, _health.max_health, change)
+	_health.health_changed.emit(_health.cur_health, _health.max_health, change)
 	_print_output("[color=green]Health set to " + str(amount) + " / " + str(_health.max_health) + ".[/color]")
 
 func _cmd_set_item(item_id : String, quantity : int) -> void:

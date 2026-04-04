@@ -9,8 +9,8 @@ extends Component
 @export_subgroup("Values")
 #endregion
 #region Internal Variables
-## The parent entity; expects a character
-@onready var root : Character = $"../.."
+## The parent entity; resolved by walking up the scene tree to find the owning Character.
+@onready var root : Character = _find_entity_parent() as Character
 ##The entity from which this move component receives its move signals; expects an InputComponent
 @onready var input : InputComponent = root.input
 ##a reference to the CharacterBody2D node of a character
@@ -32,7 +32,7 @@ func _ready():
 	else:
 		root.move_speed = 50.0
 	#connect signals
-	input.onMove.connect(move)
+	input.on_move.connect(move)
 
 func move(move_input, move_strength):
 	move_dir = move_input

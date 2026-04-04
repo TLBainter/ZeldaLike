@@ -77,8 +77,14 @@ const ANIM_FRAME_COUNT : int = 4
 @export var bounce_decay : float = 0.5
 
 @export_category("Debug")
-@export var debug_me : bool = false
-@export var debug_name : String = "WorldItem"
+@export var debug : DebugSettings = DebugSettings.new()
+var debug_me : bool:
+	get: return debug.debug_me if debug else false
+var debug_me_verbose : bool:
+	get: return debug.debug_me_verbose if debug else false
+var debug_name : String:
+	get: return debug.debug_name if debug else ""
+	set(v): if debug: debug.debug_name = v
 
 #=======INTERNAL VARIABLES=======#
 
@@ -227,6 +233,9 @@ func spawn(spawn_pos : Vector2, ground_y : float = -1.0, scatter_direction : Vec
 				_horizontal_velocity = _scatter_dir.x * bounce_speed * 0.4
 	if impulse_speed > 0.0 and scatter_direction != Vector2.ZERO:
 		_impulse_velocity = scatter_direction.normalized() * impulse_speed
+	#Float items drift gently; impulse fights the descent and the X override makes it useless anyway.
+	if pickup_data and pickup_data.gravity_type == "Float":
+		_impulse_velocity = Vector2.ZERO
 	set_physics_process(true)
 	if debug_me:
 		print(debug_name, ": Spawned at ", spawn_pos, " target_y=", _target_y, " gravity=", pickup_data.gravity_type if pickup_data else "none")
@@ -257,7 +266,6 @@ func _physics_process(delta : float) -> void:
 func _process_float(delta : float) -> void:
 	_float_time += delta * float_sway_speed * TAU
 	global_position.x = _float_start_x + sin(_float_time) * float_sway_amount
-	_float_start_x += _scatter_dir.x * 10.0 * delta
 	global_position.y = move_toward(global_position.y, _target_y, float_fall_speed * delta)
 	if global_position.y >= _target_y:
 		_finish_spawn()
@@ -396,10 +404,10 @@ func _pickup(player_body : PlayerBody) -> void:
 		if audioManager:
 			audioManager.play(clip, "UI")
 	var should_show_dialogue : bool = false
-	if item.always_show_dialogue and item.first_get_dialogue_ref >= 0:
+	if item.always_show_dialogue and item.first_get_dialogue_ref != "":
 		should_show_dialogue = true
-	elif item.first_get_dialogue_ref >= 0:
-		var item_id = item.item_name
+	elif item.first_get_dialogue_ref != "":
+		var item_id = item.first_get_dialogue_ref
 		if not _has_been_collected(item_id):
 			_mark_collected(item_id)
 			should_show_dialogue = true
@@ -407,7 +415,7 @@ func _pickup(player_body : PlayerBody) -> void:
 		_show_first_get_dialogue(item, player)
 	item_picked_up.emit(pickup_data)
 	if debug_me:
-		print(debug_name, ": Picked up ", item.item_name)
+		print(debug_name, ": Picked up ", item.first_get_dialogue_ref)
 	queue_free()
 
 ##Applies the item's effects to the player.
@@ -431,13 +439,13 @@ func _apply_effects(item : ItemResource, player) -> void:
 
 ##Shows the first-get dialogue for this item.
 func _show_first_get_dialogue(item : ItemResource, player) -> void:
-	if item.first_get_dialogue_ref >= 0 and player.player_ux and player.player_ux.dialogue_controller:
+	if item.first_get_dialogue_ref != "" and player.player_ux and player.player_ux.dialogue_controller:
 		var data = dialogueDB.get_dialogue_data(item.first_get_dialogue_ref)
 		if not data.is_empty():
 			player.freeze_input(true)
 			player.player_ux.dialogue_controller.start_dialogue(data, player.input)
 	if debug_me:
-		print(debug_name, ": Showing first-get dialogue for ", item.item_name)
+		print(debug_name, ": Showing first-get dialogue for ", item.first_get_dialogue_ref)
 
 #endregion PICKUP
 

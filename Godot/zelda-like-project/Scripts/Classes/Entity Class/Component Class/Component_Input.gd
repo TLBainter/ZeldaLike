@@ -9,5 +9,5 @@ extends Component
 ##Signal when the move input is given.[br]
 ##[b]move_input[/b]: The direction of the movement (left, right, up, or down).
 ##[b]move_strength[/b]: The pressure/strength of the movement (a float value between 0 and 1).
-signal onMove(move_input : Vector2, move_strength : float)
+signal on_move(move_input : Vector2, move_strength : float)
 #endregion

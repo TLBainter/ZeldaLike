@@ -10,12 +10,6 @@ extends Resource
 
 #region VARIABLES
 
-@export_category("Item Identity")
-##The display name of this item.
-@export var item_name : String = "Item"
-##A brief description of what this item does.
-@export var item_description : String = ""
-
 @export_category("Item Sprites")
 @export_group("Item Texture")
 ##The full atlas texture strip for this item (5 frames, 80x16).[br]
@@ -44,8 +38,8 @@ extends Resource
 
 @export_category("Item Dialogue")
 ##The dialogue reference ID for the first-time-get message.[br]
-##Uses the existing dialogue CSV system. Set to -1 for no dialogue.
-@export var first_get_dialogue_ref : int = -1
+##Uses the existing dialogue CSV system. Leave empty for no dialogue.
+@export var first_get_dialogue_ref : String = ""
 ##Whether to always show the dialogue on pickup, not just the first time.
 @export var always_show_dialogue : bool = false
 

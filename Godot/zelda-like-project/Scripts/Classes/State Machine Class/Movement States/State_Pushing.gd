@@ -43,8 +43,8 @@ func enter():
 	_is_snapping = false
 	root.body.velocity = Vector2.ZERO
 	###===SIGNAL CONNECTION===###
-	if root.input and not root.input.onMove.is_connected(_on_move):
-		root.input.onMove.connect(_on_move)
+	if root.input and not root.input.on_move.is_connected(_on_move):
+		root.input.on_move.connect(_on_move)
 	###===END SIGNAL CONNECTION===###
 	#Perform the first snap immediately on enter.
 	_perform_snap()
@@ -56,8 +56,8 @@ func exit():
 	_snap_timer_active = false
 	root.body.velocity = Vector2.ZERO
 	###===SIGNAL DISCONNECTION===###
-	if root.input and root.input.onMove.is_connected(_on_move):
-		root.input.onMove.disconnect(_on_move)
+	if root.input and root.input.on_move.is_connected(_on_move):
+		root.input.on_move.disconnect(_on_move)
 	###===END SIGNAL DISCONNECTION===###
 	super()
 
@@ -66,14 +66,14 @@ func pause() -> void:
 	_snap_timer_active = false
 	_is_snapping = false
 	set_physics_process(false)
-	if root.input and root.input.onMove.is_connected(_on_move):
-		root.input.onMove.disconnect(_on_move)
+	if root.input and root.input.on_move.is_connected(_on_move):
+		root.input.on_move.disconnect(_on_move)
 	root.body.velocity = Vector2.ZERO
 	super()
 
 func resume() -> void:
-	if root.input and not root.input.onMove.is_connected(_on_move):
-		root.input.onMove.connect(_on_move)
+	if root.input and not root.input.on_move.is_connected(_on_move):
+		root.input.on_move.connect(_on_move)
 	super()
 
 ##Tracks directional input. Returns to GrabIdle if input stops.[br]
@@ -82,7 +82,7 @@ func _on_move(move_input : Vector2, move_strength : float) -> void:
 	if move_strength < 0.15:
 		_input_held = false
 		if not _is_snapping and grab_idle_state:
-			state_machine.change_state(grab_idle_state)
+			state_machine.change_state(coordinator.try_transition(state_machine, grab_idle_state, "on_move+strength<0.15"))
 		return
 	var character = get_character()
 	if not character or not character.anim:
@@ -98,15 +98,15 @@ func _on_move(move_input : Vector2, move_strength : float) -> void:
 		if not _is_snapping:
 			var grabbed = coordinator.grabbed_object
 			if grabbed and grabbed.object_data and grabbed.object_data.pullable and pulling_state:
-				state_machine.change_state(pulling_state)
+				state_machine.change_state(coordinator.try_transition(state_machine, pulling_state, "on_move+dot<-0.5+pullable"))
 			else:
 				if grab_idle_state:
-					state_machine.change_state(grab_idle_state)
+					state_machine.change_state(coordinator.try_transition(state_machine, grab_idle_state, "on_move+dot<-0.5+not_pullable"))
 	#Perpendicular input — ignore, treat as stopped.
 	else:
 		_input_held = false
 		if not _is_snapping and grab_idle_state:
-			state_machine.change_state(grab_idle_state)
+			state_machine.change_state(coordinator.try_transition(state_machine, grab_idle_state, "on_move+perpendicular"))
 
 ##Attempts to smoothly snap the object and player 8px in the facing direction.
 func _perform_snap() -> void:
@@ -174,7 +174,7 @@ func _on_snap_completed() -> void:
 	if not Input.is_action_pressed("actionButton4"):
 		_input_held = false
 		if grab_idle_state:
-			state_machine.change_state(grab_idle_state)
+			state_machine.change_state(coordinator.try_transition(state_machine, grab_idle_state, "snap_completed+button_released"))
 		return
 	var grabbed = coordinator.grabbed_object
 	if grabbed:
@@ -194,7 +194,7 @@ func _on_snap_timer() -> void:
 	if not Input.is_action_pressed("actionButton4"):
 		_input_held = false
 		if grab_idle_state:
-			state_machine.change_state(grab_idle_state)
+			state_machine.change_state(coordinator.try_transition(state_machine, grab_idle_state, "snap_timer+button_released"))
 		return
 	if _input_held:
 		_perform_snap()

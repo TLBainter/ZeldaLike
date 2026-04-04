@@ -50,7 +50,7 @@ extends AudioControl
 #region FUNCTIONS
 func _ready():
 	if health:
-		health.healthChanged.connect(_on_health_changed)
+		health.health_changed.connect(_on_health_changed)
 
 #region local sound
 ##Plays a sound locally

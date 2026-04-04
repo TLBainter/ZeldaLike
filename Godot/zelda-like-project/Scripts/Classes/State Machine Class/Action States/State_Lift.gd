@@ -26,17 +26,17 @@ func enter() -> void:
 	super()
 	var character = get_character()
 	if not character:
+		push_error(debug_name + ": missing character reference in enter()")
 		if no_action_state:
-			state_machine.change_state(no_action_state)
+			state_machine.change_state(coordinator.try_transition(state_machine, no_action_state, "enter+no_character"))
 		return
 	#Get the DynamicThing via the InteractableComponent.
 	var component: InteractableComponent = character.body.current_interactable
 	var interactable = component.owner_entity if component else null
 	if not interactable or not interactable is DynamicThing:
-		if debug_me:
-			printerr(debug_name, ": No valid DynamicThing to lift.")
+		push_error(debug_name + ": no valid DynamicThing to lift in enter()")
 		if no_action_state:
-			state_machine.change_state(no_action_state)
+			state_machine.change_state(coordinator.try_transition(state_machine, no_action_state, "enter+no_DynamicThing"))
 		return
 	#Store the held object on the coordinator.
 	coordinator.held_object = interactable
@@ -86,6 +86,6 @@ func _on_lift_finished(anim_name : String) -> void:
 				character.anim.animation_finished.connect(_on_lift_finished, CONNECT_ONE_SHOT)
 		return
 	if holding_action_state:
-		state_machine.change_state(holding_action_state)
+		state_machine.change_state(coordinator.try_transition(state_machine, holding_action_state, "lift_animation_finished"))
 
 #endregion FUNCTIONS

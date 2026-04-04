@@ -6,8 +6,9 @@
 [ext_resource type="Texture2D" uid="uid://cmq4jua1rti0e" path="res://TileMaps/Cave/cave_ [bridgeHorizontal].png" id="3_dbhsk"]
 [ext_resource type="Texture2D" uid="uid://nrhdy7n5g0w" path="res://TileMaps/Cave/cave_ [bridgeVertical].png" id="4_u5x20"]
 [ext_resource type="PackedScene" uid="uid://domh3e18e0ubj" path="res://Scenes/Characters/Player/player.tscn" id="5_ycnog"]
+[ext_resource type="Script" uid="uid://c0gguh8o4ftae" path="res://Scripts/Resources/Resource Scripts/resource_debug_settings.gd" id="7_nrk3t"]
 [ext_resource type="Script" uid="uid://4sa74tygcvyy" path="res://Scripts/Classes/Entity Class/Characters/NPC/Entity_Character_NPC_StandardNPC.gd" id="7_ycnog"]
-[ext_resource type="Script" uid="uid://dmc56q7was83l" path="res://Scripts/Classes/Interaction Class/Dialogue Class/Interact_Dialogue.gd" id="8_3oc0o"]
+[ext_resource type="Script" uid="uid://bfyasklt76fpw" path="res://Scripts/Classes/Interaction Class/Dialogue Class/InteractableComponent_Dialogue.gd" id="8_3oc0o"]
 [ext_resource type="Script" uid="uid://c54o2iwjc4ysm" path="res://Scripts/Classes/Interaction Class/Dialogue Class/Dialogue_Speak_Component.gd" id="9_g8bl4"]
 [ext_resource type="Script" uid="uid://bistbs770jaqo" path="res://Scripts/Resources/Resource Scripts/resource_Dialogue.gd" id="10_oswxe"]
 [ext_resource type="Resource" uid="uid://cjeaecyfwjv0w" path="res://Scripts/Resources/Resource Files/Resources_Dialogues/test_dialogue_seq.tres" id="11_6qfvj"]
@@ -1246,6 +1247,22 @@ sources/1 = SubResource("TileSetAtlasSource_yx5wt")
 sources/2 = SubResource("TileSetAtlasSource_mskji")
 sources/3 = SubResource("TileSetAtlasSource_3oc0o")
 
+[sub_resource type="Resource" id="Resource_3ubh8"]
+script = ExtResource("7_nrk3t")
+debug_me = true
+debug_me_verbose = true
+debug_name = "Player"
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_nrk3t"]
+radius = 8.0
+
+[sub_resource type="Resource" id="Resource_su1sj"]
+script = ExtResource("7_nrk3t")
+debug_me = true
+debug_me_verbose = true
+debug_name = "Thrown Pot 1"
+metadata/_custom_type_script = "uid://c0gguh8o4ftae"
+
 [node name="Main" type="Node2D" unique_id=917202910]
 z_as_relative = false
 y_sort_enabled = true
@@ -1270,6 +1287,7 @@ tile_set = SubResource("TileSet_y5uh3")
 
 [node name="Player" parent="." unique_id=209100190 instance=ExtResource("5_ycnog")]
 position = Vector2(-413, 12)
+debug = SubResource("Resource_3ubh8")
 
 [node name="Dialogue Test NPC" type="Node2D" parent="." unique_id=1073728327]
 z_index = 1
@@ -1277,120 +1295,97 @@ position = Vector2(-393, -39)
 script = ExtResource("7_ycnog")
 metadata/_custom_type_script = "uid://tahhhchxgem6"
 
-[node name="NPC Interact Area" type="Area2D" parent="Dialogue Test NPC" unique_id=698386632 node_paths=PackedStringArray("parent", "speaker", "root")]
+[node name="NPC Interact Area" type="Node2D" parent="Dialogue Test NPC" unique_id=698386632 node_paths=PackedStringArray("speaker")]
 script = ExtResource("8_3oc0o")
-parent = NodePath("..")
 speaker = NodePath("../SpeakComponent")
-debug_me = true
-root = NodePath("..")
+interact_type = 3
+context_key = "speak"
+
+[node name="InteractArea" type="Area2D" parent="Dialogue Test NPC/NPC Interact Area" unique_id=2033206705]
+
+[node name="InteractCollider" type="CollisionShape2D" parent="Dialogue Test NPC/NPC Interact Area/InteractArea" unique_id=642646874]
+shape = SubResource("CircleShape2D_nrk3t")
 
 [node name="SpeakComponent" type="Node" parent="Dialogue Test NPC" unique_id=473864977]
 script = ExtResource("9_g8bl4")
 dialogue_sequences = Array[ExtResource("10_oswxe")]([ExtResource("11_6qfvj")])
-debug_me = true
 metadata/_custom_type_script = "uid://c54o2iwjc4ysm"
 
 [node name="Grab-Lift Test Object" parent="." unique_id=1295838823 instance=ExtResource("12_6qfvj")]
 position = Vector2(-390, 53)
-debug_name = "jar 0"
+debug = SubResource("Resource_su1sj")
 
 [node name="Grab-Lift Test Object4" parent="." unique_id=1086858883 instance=ExtResource("12_6qfvj")]
 position = Vector2(-459, 88)
-debug_name = "jar 3"
 
 [node name="Grab-Lift Test Object5" parent="." unique_id=299796667 instance=ExtResource("12_6qfvj")]
 position = Vector2(-517, 81)
-debug_name = "jar 1"
 
 [node name="Grab-Lift Test Object6" parent="." unique_id=769473091 instance=ExtResource("12_6qfvj")]
 position = Vector2(-424, 73)
-debug_name = "jar5"
 
 [node name="Grab-Lift Test Object2" parent="." unique_id=413450925 instance=ExtResource("12_6qfvj")]
 position = Vector2(-509, 47)
-debug_name = "jar 6"
 
 [node name="Grab-Lift Test Object3" parent="." unique_id=622300057 instance=ExtResource("12_6qfvj")]
 position = Vector2(-467, 51)
-debug_name = "jar 7"
 
 [node name="GrassInstance" parent="." unique_id=802736167 instance=ExtResource("13_53jui")]
 position = Vector2(-505, 16)
-debug_name = "grass"
 
 [node name="GrassInstance2" parent="." unique_id=843990254 instance=ExtResource("13_53jui")]
 position = Vector2(-454, 16)
-debug_name = "grass"
 
 [node name="GrassInstance3" parent="." unique_id=1077849806 instance=ExtResource("13_53jui")]
 position = Vector2(-471, 16)
-debug_name = "grass"
 
 [node name="GrassInstance4" parent="." unique_id=1093299637 instance=ExtResource("13_53jui")]
 position = Vector2(-522, 16)
-debug_name = "grass"
 
 [node name="GrassInstance5" parent="." unique_id=1814816652 instance=ExtResource("13_53jui")]
 position = Vector2(-488, 16)
-debug_name = "grass"
 
 [node name="GrassInstance6" parent="." unique_id=1788624700 instance=ExtResource("13_53jui")]
 position = Vector2(-505, 8)
-debug_name = "grass"
 
 [node name="GrassInstance7" parent="." unique_id=1544137339 instance=ExtResource("13_53jui")]
 position = Vector2(-454, 8)
-debug_name = "grass"
 
 [node name="GrassInstance8" parent="." unique_id=1984332583 instance=ExtResource("13_53jui")]
 position = Vector2(-471, 8)
-debug_name = "grass"
 
 [node name="GrassInstance9" parent="." unique_id=1118058048 instance=ExtResource("13_53jui")]
 position = Vector2(-522, 8)
-debug_name = "grass"
 
 [node name="GrassInstance10" parent="." unique_id=1009224608 instance=ExtResource("13_53jui")]
 position = Vector2(-488, 8)
-debug_name = "grass"
 
 [node name="GrassInstance11" parent="." unique_id=465486640 instance=ExtResource("13_53jui")]
 position = Vector2(-505, -1)
-debug_name = "grass"
 
 [node name="GrassInstance12" parent="." unique_id=1897666050 instance=ExtResource("13_53jui")]
 position = Vector2(-454, -1)
-debug_name = "grass"
 
 [node name="GrassInstance13" parent="." unique_id=2057438511 instance=ExtResource("13_53jui")]
 position = Vector2(-471, -1)
-debug_name = "grass"
 
 [node name="GrassInstance14" parent="." unique_id=1178095462 instance=ExtResource("13_53jui")]
 position = Vector2(-522, -1)
-debug_name = "grass"
 
 [node name="GrassInstance15" parent="." unique_id=699750257 instance=ExtResource("13_53jui")]
 position = Vector2(-488, -1)
-debug_name = "grass"
 
 [node name="GrassInstance16" parent="." unique_id=445085151 instance=ExtResource("13_53jui")]
 position = Vector2(-505, -9)
-debug_name = "grass"
 
 [node name="GrassInstance17" parent="." unique_id=1666073671 instance=ExtResource("13_53jui")]
 position = Vector2(-454, -9)
-debug_name = "grass"
 
 [node name="GrassInstance18" parent="." unique_id=320015672 instance=ExtResource("13_53jui")]
 position = Vector2(-471, -9)
-debug_name = "grass"
 
 [node name="GrassInstance19" parent="." unique_id=1660374881 instance=ExtResource("13_53jui")]
 position = Vector2(-522, -9)
-debug_name = "grass"
 
 [node name="GrassInstance20" parent="." unique_id=2108052278 instance=ExtResource("13_53jui")]
 position = Vector2(-488, -9)
-debug_me = true
-debug_name = "grass"

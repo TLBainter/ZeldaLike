@@ -24,12 +24,14 @@ var coordinator
 var state_machine
 #=====================#
 @export_group("Debug")
-##Whether or not you want this state to print debug output.
-@export var debug_me : bool = false
-##Whether you want verbose debug content for this state.
-@export var debug_me_verbose : bool = true
-##The name that will be used for the debug output of this state.
-@export var debug_name : String = "State"
+@export var debug : DebugSettings = DebugSettings.new()
+var debug_me : bool:
+	get: return debug.debug_me if debug else false
+var debug_me_verbose : bool:
+	get: return debug.debug_me_verbose if debug else false
+var debug_name : String:
+	get: return debug.debug_name if debug else ""
+	set(v): if debug: debug.debug_name = v
 
 #=====================#
 ##Whether or not process_input's variable provided was used by the given state.
@@ -40,7 +42,7 @@ var input_consumed : bool = false
 
 func _ready():
 	#Set the debug name if it is not set.
-	if debug_name == "State":
+	if debug_name == "":
 		debug_name = name
 
 ##Function that is called when this state is first entered.[br]
@@ -53,13 +55,19 @@ func enter():
 		print_rich(root.debug_name, " ", debug_name, " State [color=#57FF84]entered[/color].")
 
 ##Called when this state's layer is frozen while this state is active.[br]
-##Override to disconnect signals that should not fire while frozen.
+##Override to disconnect signals that should not fire while frozen.[br]
+##[br]
+##[b]Contract:[/b] If this state connects any signals in [method enter], it MUST disconnect them
+##here and reconnect them in [method resume]. Do not rely on [method exit] alone — the state
+##machine may freeze without exiting the active state.
 func pause():
 	if debug_me:
 		print_rich(debug_name, " [color=#E5FF3D]paused[/color].")
 
 ##Called when this state's layer is unfrozen while this state is active.[br]
-##Override to reconnect signals that should fire while active.
+##Override to reconnect signals disconnected in [method pause].[br]
+##[br]
+##[b]Contract:[/b] Mirror every connection made in [method enter] and disconnected in [method pause].
 func resume():
 	if debug_me:
 		print_rich(debug_name, " [color=#29FFBF]resumed[/color].")
@@ -94,7 +102,7 @@ func _get_interactable_context_key(character) -> String:
 		if data.pushable or data.pullable:
 			return "grab"
 		elif data.liftable:
-			return "pickup"
+			return "lift"
 	return interact_node.context_key
 
 ##Returns the context key this state wants shown on the context label.[br]
@@ -102,5 +110,26 @@ func _get_interactable_context_key(character) -> String:
 ##Returns empty string by default (blank label, no text shown).
 func get_context_key() -> String:
 	return ""
+
+##Converts a facing string ("up","down","left","right") to a Vector2 direction.
+func facing_to_vector(face_str: String) -> Vector2:
+	match face_str:
+		"up":    return Vector2.UP
+		"down":  return Vector2.DOWN
+		"left":  return Vector2.LEFT
+		"right": return Vector2.RIGHT
+	return Vector2.DOWN
+
+##Locks the character's facing direction by disabling can_update_facing.
+func lock_facing() -> void:
+	var character = get_character()
+	if character and character.anim and character.anim is CharacterAnimator:
+		character.anim.can_update_facing = false
+
+##Restores the character's facing direction updates.
+func unlock_facing() -> void:
+	var character = get_character()
+	if character and character.anim and character.anim is CharacterAnimator:
+		character.anim.can_update_facing = true
 
 #endregion FUNCTIONS

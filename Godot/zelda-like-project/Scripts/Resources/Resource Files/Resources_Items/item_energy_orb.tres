@@ -7,11 +7,9 @@
 
 [resource]
 script = ExtResource("1_mhti5")
-item_name = "Energy Orb"
-item_description = "Recover 4 Energy!"
 item_strip = ExtResource("1_fqfye")
 shadow_strip = ExtResource("3_0jdkm")
 recover_energy = 4
 use_sounds = ExtResource("4_0jdkm")
-first_get_dialogue_ref = 8
+first_get_dialogue_ref = "pickupEnergyOrb"
 metadata/_custom_type_script = "uid://dps4pg1os47me"

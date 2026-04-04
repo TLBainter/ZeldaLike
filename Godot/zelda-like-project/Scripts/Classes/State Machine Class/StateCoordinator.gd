@@ -23,12 +23,17 @@ signal context_changed(context_key : String)
 @export var no_control_layer : Node
 #==========#
 @export_category("Debug")
-##Whether or not you want htis coordinator to print output into the debugger.
-@export var debug_me : bool = false
-##Whether you want more robust debugging outputs. This can fill up the output quickly, but is more informative.
-@export var debug_me_verbose : bool = false
-##The name used to identify this coordinator in the debug output.
-@export var debug_name : String = "StateCoordinator"
+@export var debug : DebugSettings = DebugSettings.new()
+var debug_me : bool:
+	get: return debug.debug_me if debug else false
+var debug_me_verbose : bool:
+	get: return debug.debug_me_verbose if debug else false
+var debug_name : String:
+	get: return debug.debug_name if debug else ""
+	set(v): if debug: debug.debug_name = v
+##When true, every state transition is logged to Output with the triggering reason.[br]
+##Format: [SM] FromState → ToState | reason
+@export var debug_transitions : bool = false
 #============#
 #Internal Variables
 ##The DynamicThing currently being grabbed by the relevant entity.
@@ -187,6 +192,17 @@ func get_state(state_class) -> State:
 	return _states.get(state_class)
 	#endregion state registry
 
+##Returns [param to_state] unchanged, logging the transition when [b]debug_transitions[/b] is true.[br]
+##States should return the result of this call instead of returning a state directly:[br]
+##[code]return coordinator.try_transition(state_machine, idle_state, "attackLight+pressed")[/code]
+func try_transition(layer: Node, to_state: State, reason: String = "") -> State:
+	if not to_state:
+		return null
+	if debug_transitions:
+		var from_name: String = layer.current_state.debug_name if layer.current_state else "none"
+		print("[SM] ", from_name, " → ", to_state.debug_name, " | ", reason)
+	return to_state
+
 	#region shared entity helpers
 ##Returns true if the root character is in an exhausted state.[br]
 ##Returns false if the entity has no energy component.
@@ -206,6 +222,19 @@ func consume_energy(cost : int) -> bool:
 ##Use instead of raw Input polling so the check works for both player and AI entities.
 func is_moving(threshold : float = 10.0) -> bool:
 	return root.body != null and root.body.velocity.length() > threshold
+
+##Resolves whether to "grab", "lift", or "interact" with a DynamicThing based on its ObjectData.[br]
+##Priority rule: if the object is pushable/pullable and the character is moving (or it is not liftable), grab wins.[br]
+##If the character is idle and the object is also liftable, lift wins.[br]
+##Returns one of: [code]"grab"[/code], [code]"lift"[/code], [code]"interact"[/code].
+func resolve_interaction_priority(data, is_moving_flag : bool) -> String:
+	if data.pushable or data.pullable:
+		if is_moving_flag or not data.liftable:
+			return "grab"
+		return "lift"
+	elif data.liftable:
+		return "lift"
+	return "interact"
 	#endregion shared entity helpers
 
 #endregion FUNCTIONS

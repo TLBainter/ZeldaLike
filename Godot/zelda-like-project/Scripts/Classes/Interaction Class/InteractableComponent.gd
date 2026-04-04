@@ -149,19 +149,20 @@ func _apply_offset() -> void:
 
 #region HELPERS
 
+const INTERACT_CONTEXT_KEYS := {
+	InteractType.GRAB:         "grab",
+	InteractType.LIFT:         "lift",
+	InteractType.DIALOGUE:     "speak",
+	InteractType.PICKUP:       "lift",
+	InteractType.DOOR:         "open",
+	InteractType.CONTAINER:    "open",
+	InteractType.SHOP:         "shop",
+	InteractType.USABLE:       "use",
+	InteractType.GRAB_OR_LIFT: "grab",
+}
+
 func _sync_context_key() -> void:
-	match interact_type:
-		InteractType.GRAB:      context_key = "grab"
-		InteractType.LIFT:      context_key = "pickup"
-		InteractType.DIALOGUE:  context_key = "npc"
-		InteractType.PICKUP:    context_key = "pickup"
-		InteractType.DOOR:      context_key = "door"
-		InteractType.CONTAINER: context_key = "container"
-		InteractType.SHOP:        context_key = "shop"
-		InteractType.USABLE:      context_key = "usable"
-		InteractType.SECRET:      context_key = "secret"
-		InteractType.GRAB_OR_LIFT: context_key = "grab"
-		_:                        context_key = "default"
+	context_key = INTERACT_CONTEXT_KEYS.get(interact_type, "default")
 
 func _find_entity_parent() -> EntityClass:
 	var p := get_parent()

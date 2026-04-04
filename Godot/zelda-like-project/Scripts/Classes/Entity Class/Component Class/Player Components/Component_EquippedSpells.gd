@@ -33,7 +33,7 @@ func assign_spell(slot : int, spell_resource : MenuItemResource) -> bool:
 	_slots[slot] = spell_resource
 	spell_equip_changed.emit(slot, spell_resource)
 	if debug_me:
-		var spell_name = spell_resource.name if spell_resource else "null"
+		var spell_name = spell_resource.text_ref_id if spell_resource else "null"
 		print(debug_name, ": Slot ", slot, " assigned to ", spell_name)
 	return true
 

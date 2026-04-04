@@ -7,7 +7,7 @@ extends Resource
 
 @export_category("Dialogue Sequence Data")
 ## Corresponding Dialogue Ref from the CSV
-@export var dialogue_refs : Array[int]
+@export var dialogue_refs : Array[String]
 ## How you want this array to be treated. Sequence will play the dialogue in order, Random will select a random ref from the list each time.
 @export_enum("Sequential", "Random") var sequence_type : String = "Sequential"
 
@@ -33,10 +33,10 @@ var _current_index : int = 0
 #region FUNCTIONS
 
 ##Used to determine what the next dialogue ref should be once this ref is exhausted.
-func get_next_ref_id() -> int:
+func get_next_ref_id() -> String:
 	if dialogue_refs.is_empty():
-		return -1
-	var ref_id = -1
+		return ""
+	var ref_id = ""
 	#Handler for the 'random' sequence type
 	if sequence_type == "Random":
 		ref_id = dialogue_refs.pick_random()

@@ -29,7 +29,7 @@ func process_input(event : InputEvent) -> State:
 	#region Light Attack
 	if event.is_action_pressed("attackLight"):
 		if attack_state:
-			return attack_state
+			return coordinator.try_transition(state_machine, attack_state, "attackLight+pressed")
 	#endregion Light Attack
 	#region Context Button
 	if event.is_action_pressed("actionButton4") and interact_state:
@@ -51,16 +51,13 @@ func process_input(event : InputEvent) -> State:
 			# grab the object if it can be grabbed, lift if it can be lifted.
 			#note some objects are grabbable and liftable.
 			#In such cases, the player will only grab if they are moving while pressing the action button; otherwise, they'll lift it.
-			if (data.pushable or data.pullable):
-				if is_moving or not data.liftable:
-					if grab_state:
-						return grab_state
-				elif data.liftable and lift_state:
-					return lift_state
-			elif data.liftable and lift_state:
-				return lift_state
+			var priority = coordinator.resolve_interaction_priority(data, is_moving)
+			if priority == "grab" and grab_state:
+				return coordinator.try_transition(state_machine, grab_state, "actionButton4+DynamicThing+grab")
+			elif priority == "lift" and lift_state:
+				return coordinator.try_transition(state_machine, lift_state, "actionButton4+DynamicThing+lift")
 		elif interact_state:
-			return interact_state
+			return coordinator.try_transition(state_machine, interact_state, "actionButton4+not_DynamicThing")
 	#endregion Context Button
 	return null
 

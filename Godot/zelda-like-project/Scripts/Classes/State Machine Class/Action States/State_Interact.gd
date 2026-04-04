@@ -28,10 +28,13 @@ func enter():
 	coordinator.update_context("")
 	#Get character value
 	var character = get_character()
+	if not character:
+		push_error(debug_name + ": missing character reference in enter()")
+		if no_action_state:
+			state_machine.change_state(coordinator.try_transition(state_machine, no_action_state, "enter+no_character"))
+		return
 	if character and debug_me:
 		print(debug_name, ": Has pulled a character with a value of ", character)
-	elif not character and debug_me:
-		printerr(debug_name, " could not get a character!")
 	if character and character.body.current_interactable:
 		_active_interactable = character.body.current_interactable
 		#Set the facing direction for the character.
@@ -51,7 +54,7 @@ func enter():
 		if debug_me:
 			print(debug_name, ": No interactable found, returning to NoAction.")
 		if no_action_state:
-			state_machine.change_state(no_action_state)
+			state_machine.change_state(coordinator.try_transition(state_machine, no_action_state, "enter+no_interactable"))
 
 func exit():
 	var character = get_character()
@@ -65,5 +68,5 @@ func exit():
 			
 func _on_interaction_finished():
 	if no_action_state:
-		state_machine.change_state(no_action_state)
+		state_machine.change_state(coordinator.try_transition(state_machine, no_action_state, "interaction_finished"))
 #endregion FUNCTIONS

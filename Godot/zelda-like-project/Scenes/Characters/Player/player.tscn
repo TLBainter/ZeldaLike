@@ -20,6 +20,7 @@
 [ext_resource type="AudioStream" uid="uid://bvbgekwim8ido" path="res://Sound/SFX/UX/Cam/cam_whoosh.wav" id="13_rtkie"]
 [ext_resource type="AudioStream" uid="uid://dgwmirctw8luo" path="res://Sound/SFX/UX/Cam/cam_whoosh_reverse.wav" id="14_c5nky"]
 [ext_resource type="Resource" uid="uid://d03e5ku3v518x" path="res://Scripts/Resources/Resource Files/Resources_Sound Libraries/Player Sound Libraries/player_sword_sound_library.tres" id="14_uvgfe"]
+[ext_resource type="Script" uid="uid://c0gguh8o4ftae" path="res://Scripts/Resources/Resource Scripts/resource_debug_settings.gd" id="15_8uivy"]
 [ext_resource type="Script" uid="uid://c45owr741t36k" path="res://Scripts/Classes/Entity Class/Component Class/Player Components/Component_Inventory_Player.gd" id="16_gs6v2"]
 [ext_resource type="Script" uid="uid://1h1iqx2yk781" path="res://Scripts/Classes/State Machine Class/StateCoordinator.gd" id="17_xcbxy"]
 [ext_resource type="Script" uid="uid://nfws2da5iy01" path="res://Scripts/Classes/Entity Class/Component Class/Player Components/Component_ItemUse_Concoction.gd" id="17_ywskp"]
@@ -48,6 +49,21 @@ radius = 6.0
 height = 14.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_2iqoh"]
+
+[sub_resource type="Resource" id="Resource_8uivy"]
+script = ExtResource("15_8uivy")
+debug_me = true
+debug_name = "Player Health"
+
+[sub_resource type="Resource" id="Resource_68bc3"]
+script = ExtResource("15_8uivy")
+debug_me = true
+debug_name = "Player Energy"
+
+[sub_resource type="Resource" id="Resource_mf3wh"]
+script = ExtResource("15_8uivy")
+debug_me = true
+debug_name = "Player Magic"
 
 [sub_resource type="Resource" id="Resource_yfcdn"]
 script = ExtResource("20_8uivy")
@@ -1410,16 +1426,11 @@ audio = NodePath("Component Manager/AudioComponent")
 stats = NodePath("Component Manager/StatsComponent")
 health = NodePath("Component Manager/HealthComponent")
 move = NodePath("Component Manager/MoveComponent")
-debug_me = true
-debug_me_verbose = true
-debug_name = "Player Character"
 
 [node name="PlayerBody" type="CharacterBody2D" parent="." unique_id=1872381837]
 z_as_relative = false
 collision_mask = 3
 script = ExtResource("2_aencf")
-debug_me = true
-debug_name = "Player Body"
 
 [node name="playerSprite" type="Sprite2D" parent="PlayerBody" unique_id=584966771]
 z_as_relative = false
@@ -1449,7 +1460,6 @@ debug_color = Color(0.9755257, 0, 0.422273, 0.41960785)
 [node name="PlayerInput" type="Node" parent="Component Manager" unique_id=129810198]
 script = ExtResource("2_qqvsf")
 pause_menu_scene = ExtResource("5_1ujki")
-debug_name = "Player Input Component"
 metadata/_custom_type_script = "uid://dnjxdytfvi2k6"
 
 [node name="CurrencyComponent" type="Node" parent="Component Manager" unique_id=2088649308]
@@ -1458,13 +1468,11 @@ metadata/_custom_type_script = "uid://djapfq7f0epj"
 
 [node name="HealthComponent" type="Node" parent="Component Manager" unique_id=490128525]
 script = ExtResource("5_8gg06")
-debug_me = true
-debug_name = "Player Health Component"
+debug = SubResource("Resource_8uivy")
 metadata/_custom_type_script = "uid://dk2j50tltutbk"
 
 [node name="MoveComponent" type="Node" parent="Component Manager" unique_id=141917243]
 script = ExtResource("6_fu1fx")
-debug_name = "Player Move Component"
 metadata/_custom_type_script = "uid://bnvc2tsxle17g"
 
 [node name="AudioComponent" type="Node" parent="Component Manager" unique_id=2045913602 node_paths=PackedStringArray("health", "root")]
@@ -1475,8 +1483,6 @@ damage_sounds = ExtResource("8_plevq")
 heavy_damage_sounds = ExtResource("9_p06rw")
 heal_sounds = ExtResource("10_aencf")
 attack_sounds = ExtResource("14_uvgfe")
-debug_me = true
-debug_name = "Audio Component"
 metadata/_custom_type_script = "uid://clnpwpvwchpab"
 
 [node name="EnergyComponent" type="Node" parent="Component Manager" unique_id=1763959563]
@@ -1484,20 +1490,16 @@ script = ExtResource("12_4yec0")
 recovery_delay = 2.5
 recovery_interval = 1.0
 roll_cost = 1
-debug_me = true
-debug_name = "Energy Component"
+debug = SubResource("Resource_68bc3")
 metadata/_custom_type_script = "uid://dxhfu83eexfow"
 
 [node name="MagicComponent" type="Node" parent="Component Manager" unique_id=1710425035]
 script = ExtResource("13_me3gr")
-debug_me = true
-debug_name = "Magic Component"
+debug = SubResource("Resource_mf3wh")
 metadata/_custom_type_script = "uid://cxf5usdrhj7q6"
 
 [node name="InventoryComponent" type="Node" parent="Component Manager" unique_id=1637080888]
 script = ExtResource("16_gs6v2")
-debug_me = true
-debug_name = "Player Inventory"
 metadata/_custom_type_script = "uid://c45owr741t36k"
 
 [node name="ConcoctionItemUse" type="Node" parent="Component Manager" unique_id=1252409892 node_paths=PackedStringArray("inventory", "health_comp", "energy_comp", "magic_comp")]
@@ -1506,9 +1508,6 @@ inventory = NodePath("../InventoryComponent")
 health_comp = NodePath("../HealthComponent")
 energy_comp = NodePath("../EnergyComponent")
 magic_comp = NodePath("../MagicComponent")
-debug_me = true
-debug_me_verbose = true
-debug_name = "ConcoctionItemUse Component"
 metadata/_custom_type_script = "uid://nfws2da5iy01"
 
 [node name="EquippedSpellsComponent" type="Node" parent="Component Manager" unique_id=1269797781]
@@ -1528,14 +1527,10 @@ init_zoom = Vector2(3, 3)
 max_pan_distance = Vector2(80, 60)
 cam_whoosh = ExtResource("13_rtkie")
 cam_whoosh_reverse = ExtResource("14_c5nky")
-debug_me = true
-debug_me_verbose = true
-debug_name = "Player Cam"
 
 [node name="PlayerAnimator" type="AnimationPlayer" parent="." unique_id=1778712659]
 libraries/ = SubResource("AnimationLibrary_1mdwi")
 script = ExtResource("3_dxcao")
-debug_name = "Player Animator"
 
 [node name="PlayerUX" parent="." unique_id=895243336 node_paths=PackedStringArray("root", "input") instance=ExtResource("9_8gg06")]
 root = NodePath("..")
@@ -1547,35 +1542,28 @@ root = NodePath("..")
 movement_layer = NodePath("Movement Layer")
 action_layer = NodePath("Action Layer")
 no_control_layer = NodePath("No Control Layer")
-debug_me = true
-debug_me_verbose = true
 metadata/_custom_type_script = "uid://1h1iqx2yk781"
 
 [node name="Movement Layer" type="Node" parent="StateCoordinator" unique_id=1108137752 node_paths=PackedStringArray("starting_state")]
 script = ExtResource("18_a7o8c")
 starting_state = NodePath("StateIdling")
-debug_me = true
-debug_name = "Movement"
 metadata/_custom_type_script = "uid://cv00auxwsog0v"
 
 [node name="StateIdling" type="Node" parent="StateCoordinator/Movement Layer" unique_id=532054090 node_paths=PackedStringArray("move_state")]
 script = ExtResource("19_23420")
 move_state = NodePath("../StateMove")
-debug_me = true
 metadata/_custom_type_script = "uid://46pctm4i5qsj"
 
 [node name="StateMove" type="Node" parent="StateCoordinator/Movement Layer" unique_id=730167415 node_paths=PackedStringArray("idle_state", "run_state")]
 script = ExtResource("20_p6wb4")
 idle_state = NodePath("../StateIdling")
 run_state = NodePath("../StateRun")
-debug_me = true
 metadata/_custom_type_script = "uid://c01o50a0tyt5f"
 
 [node name="StateRun" type="Node" parent="StateCoordinator/Movement Layer" unique_id=2088020969 node_paths=PackedStringArray("idle_state", "move_state")]
 script = ExtResource("21_y3fvr")
 idle_state = NodePath("../StateIdling")
 move_state = NodePath("../StateMove")
-debug_me = true
 metadata/_custom_type_script = "uid://0cxa44lve11l"
 
 [node name="StateGrabIdle" type="Node" parent="StateCoordinator/Movement Layer" unique_id=812800763 node_paths=PackedStringArray("pushing_state", "pulling_state", "no_action_state")]
@@ -1600,8 +1588,6 @@ metadata/_custom_type_script = "uid://i7ojxhqxdh1w"
 [node name="Action Layer" type="Node" parent="StateCoordinator" unique_id=2064601243 node_paths=PackedStringArray("starting_state")]
 script = ExtResource("18_a7o8c")
 starting_state = NodePath("StateNoAction")
-debug_me = true
-debug_name = "Action"
 metadata/_custom_type_script = "uid://cv00auxwsog0v"
 
 [node name="StateNoAction" type="Node" parent="StateCoordinator/Action Layer" unique_id=101410199 node_paths=PackedStringArray("attack_state", "interact_state", "grab_state", "lift_state")]
@@ -1610,14 +1596,11 @@ attack_state = NodePath("../StateAttack")
 interact_state = NodePath("../StateInteract")
 grab_state = NodePath("../StateGrab")
 lift_state = NodePath("../StateLift")
-debug_me = true
 metadata/_custom_type_script = "uid://dgxcbaxmlfxj1"
 
 [node name="StateInteract" type="Node" parent="StateCoordinator/Action Layer" unique_id=773485714 node_paths=PackedStringArray("no_action_state")]
 script = ExtResource("23_p6wb4")
 no_action_state = NodePath("../StateNoAction")
-debug_me = true
-debug_name = "Interact State"
 metadata/_custom_type_script = "uid://db438pwfdwnsg"
 
 [node name="StateGrab" type="Node" parent="StateCoordinator/Action Layer" unique_id=1499882657 node_paths=PackedStringArray("no_action_state", "grab_idle_state", "idle_state")]
@@ -1631,15 +1614,12 @@ metadata/_custom_type_script = "uid://cpr404b3can5m"
 script = ExtResource("28_cflke")
 holding_action_state = NodePath("../StateHoldingAction")
 no_action_state = NodePath("../StateNoAction")
-debug_me = true
-debug_name = "Lift State"
 metadata/_custom_type_script = "uid://bvgarrfwthp7x"
 
 [node name="StateDrop" type="Node" parent="StateCoordinator/Action Layer" unique_id=663427068 node_paths=PackedStringArray("no_action_state")]
 script = ExtResource("29_4yec0")
 no_action_state = NodePath("../StateNoAction")
 drop_distance = 4.0
-debug_me = true
 metadata/_custom_type_script = "uid://efny0654vj8a"
 
 [node name="StateHoldingAction" type="Node" parent="StateCoordinator/Action Layer" unique_id=1241853523 node_paths=PackedStringArray("throw_state", "drop_state", "no_action_state", "run_state")]
@@ -1653,25 +1633,19 @@ metadata/_custom_type_script = "uid://u7tc08rpnemp"
 [node name="StateThrow" type="Node" parent="StateCoordinator/Action Layer" unique_id=782550121 node_paths=PackedStringArray("no_action_state")]
 script = ExtResource("31_2iqoh")
 no_action_state = NodePath("../StateNoAction")
-debug_me = true
-debug_name = "ThrowState"
 metadata/_custom_type_script = "uid://cv26r6a3savpe"
 
 [node name="StateAttack" type="Node" parent="StateCoordinator/Action Layer" unique_id=2085364015 node_paths=PackedStringArray("no_action_state", "attack_area")]
 script = ExtResource("35_gii1i")
 no_action_state = NodePath("../StateNoAction")
 attack_area = NodePath("../../../PlayerBody/AttackArea")
-debug_me = true
 metadata/_custom_type_script = "uid://bdbkkcliin28w"
 
 [node name="No Control Layer" type="Node" parent="StateCoordinator" unique_id=762655186 node_paths=PackedStringArray("starting_state")]
 script = ExtResource("18_a7o8c")
 starting_state = NodePath("StateInitialized")
-debug_me = true
-debug_name = "No Control"
 metadata/_custom_type_script = "uid://cv00auxwsog0v"
 
 [node name="StateInitialized" type="Node" parent="StateCoordinator/No Control Layer" unique_id=2054958520]
 script = ExtResource("23_23420")
-debug_me = true
 metadata/_custom_type_script = "uid://d2f4ms7sfau7o"

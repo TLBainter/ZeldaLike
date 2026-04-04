@@ -36,8 +36,14 @@ extends Panel
 @export var flash_speed : float = 4.0
 
 @export_category("Debug")
-@export var debug_me : bool = false
-@export var debug_name : String = "EnergyBolt"
+@export var debug : DebugSettings = DebugSettings.new()
+var debug_me : bool:
+	get: return debug.debug_me if debug else false
+var debug_me_verbose : bool:
+	get: return debug.debug_me_verbose if debug else false
+var debug_name : String:
+	get: return debug.debug_name if debug else ""
+	set(v): if debug: debug.debug_name = v
 
 #=======INTERNAL VARIABLES=======#
 

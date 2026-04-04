@@ -65,7 +65,7 @@ func _ready() -> void:
 	set_cam_limits()
 	#TODO: Use the input signal to call the camera movement.
 	#BUG: This does not currently work; using physics process temporarily.
-	#input.onMove.connect(update_cam_pos)
+	#input.on_move.connect(update_cam_pos)
 
 #TODO: instead of _physics_process, need to make it so the camera only moves when it needs to.
 #This will limit resource drain. Calling this every frame is dicey.
