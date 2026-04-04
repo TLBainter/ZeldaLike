@@ -15,6 +15,10 @@ extends EntityClass
 @export_group("Misc Character Variables")
 ## Current move speed. Set at runtime by movement states from StatsComponent.
 var move_speed : float = 50.0
+## True while the character is executing a dash or backstep (blocks MoveComponent velocity writes).
+var is_dashing : bool = false
+## True while the character is invulnerable and cannot receive damage.
+var is_invulnerable : bool = false
 #endregion
 #region INTERNAL VARIABLES
 ##the character's subtype; this is defined by its next subclass.

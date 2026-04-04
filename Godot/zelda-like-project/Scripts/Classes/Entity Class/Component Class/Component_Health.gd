@@ -55,6 +55,11 @@ func healed(healing : int):
 
 #region DAMAGE
 func damaged(damage : int):
+	var entity = _find_entity_parent()
+	if entity and "is_invulnerable" in entity and entity.is_invulnerable:
+		if debug_me:
+			print(debug_name, ": damage blocked — entity is invulnerable.")
+		return
 	self.cur_health -= damage
 	if debug_me:
 		print(debug_name, " took ", damage, " damage.")

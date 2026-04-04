@@ -1,6 +1,5 @@
 [gd_resource type="Resource" script_class="MenuItemResource" format=3 uid="uid://co7nrr10clj5s"]
 
-[ext_resource type="FontFile" uid="uid://bsube4x6p1pws" path="res://Sprites/UX/Fonts/GothicPixelSerif.ttf" id="1_jpqyi"]
 [ext_resource type="Texture2D" uid="uid://ciyd55s4l28pv" path="res://Sprites/Item Sprites/Ingredients/ingredient_menu_meteorite.tres" id="2_jpqyi"]
 [ext_resource type="Texture2D" uid="uid://dxmym5x1qaoyq" path="res://Sprites/Item Sprites/Ingredients/ingredient_menuMini_meteorite.tres" id="3_bjtgd"]
 [ext_resource type="Texture2D" uid="uid://musicfa80f7x" path="res://Sprites/Item Sprites/Ingredients/ingredient_menuOutline_meteorite.tres" id="4_rvc6w"]

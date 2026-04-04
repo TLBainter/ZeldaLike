@@ -73,6 +73,14 @@ enum InteractType {
 @export_group("References")
 ##The owning [b]EntityClass[/b]. Auto-resolved at runtime by walking up the tree if left null.
 @export var owner_entity: EntityClass
+
+@export_group("Debug")
+@export var debug : DebugSettings = DebugSettings.new()
+var debug_me : bool:
+	get: return debug.debug_me if debug else false
+var debug_name : String:
+	get: return debug.debug_name if debug else String(name)
+	set(v): if debug: debug.debug_name = v
 #endregion
 
 #region INTERNALS
@@ -101,6 +109,15 @@ func interact(_user = null) -> void:
 ##Used by [b]DynamicInteractable[/b] during hold and release.
 func set_active(active: bool) -> void:
 	if _area:
+		if not active and _area.monitoring:
+			var overlapping := _area.get_overlapping_bodies()
+			if debug_me:
+				print(debug_name, ": set_active(false) — evicting ", overlapping.size(), " overlapping bodies")
+			for body in overlapping:
+				_on_body_exited(body)
+		elif not active:
+			if debug_me:
+				print(debug_name, ": set_active(false) — monitoring already off, skipping eviction")
 		_area.set_deferred("monitoring", active)
 		_area.set_deferred("monitorable", active)
 
@@ -110,6 +127,8 @@ func _on_body_entered(body: CharacterBody2D) -> void:
 	if body is PlayerBody:
 		if "current_interactable" in body:
 			body.current_interactable = self
+		if debug_me:
+			print(debug_name, ": body_entered — current_interactable set, requesting context refresh")
 		if body.root and body.root.state_machine:
 			body.root.state_machine.request_context_refresh()
 
@@ -117,6 +136,8 @@ func _on_body_exited(body: CharacterBody2D) -> void:
 	if body is PlayerBody:
 		if "current_interactable" in body and body.current_interactable == self:
 			body.current_interactable = null
+		if debug_me:
+			print(debug_name, ": body_exited — current_interactable cleared, requesting context refresh")
 		if body.root and body.root.state_machine:
 			body.root.state_machine.request_context_refresh()
 

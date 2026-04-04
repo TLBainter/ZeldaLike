@@ -27,8 +27,8 @@ extends Character
 ##A reference to the player's Concoction Item Use Component.
 @export var concoction_use : ConcoctionItemUse
 @export_category("Player Flags")
-##Whether or not the player can currently roll
-var can_roll : bool = true
+##Whether or not the player can currently dash
+var can_dash : bool = true
 ##Whether or not the player can currently move
 var can_move : bool = true
 ##The display name for the player

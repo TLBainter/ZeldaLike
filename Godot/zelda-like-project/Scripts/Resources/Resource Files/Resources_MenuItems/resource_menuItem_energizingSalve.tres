@@ -1,6 +1,5 @@
 [gd_resource type="Resource" script_class="MenuItemResource" format=3 uid="uid://bm0stmr3hatbd"]
 
-[ext_resource type="FontFile" uid="uid://bsube4x6p1pws" path="res://Sprites/UX/Fonts/GothicPixelSerif.ttf" id="1_tswdg"]
 [ext_resource type="Texture2D" uid="uid://b8gejc5yftm2m" path="res://Sprites/Item Sprites/Concoctions/concoction_menu_energizingSalve.tres" id="2_tswdg"]
 [ext_resource type="Resource" uid="uid://c2v3xpeqcjv3s" path="res://Scripts/Resources/Resource Files/Resource_ItemFunctions/resource_itemFunction_energizingSalve.tres" id="2_vn0ok"]
 [ext_resource type="Texture2D" uid="uid://0f6trikogopy" path="res://Sprites/Item Sprites/Concoctions/concoction_menuMini_energizingSalve.tres" id="3_vn0ok"]

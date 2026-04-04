@@ -156,6 +156,8 @@ func break_me():
 		if not anim.animation_finished.is_connected(_on_break_anim_finished):
 			anim.animation_finished.connect(_on_break_anim_finished, CONNECT_ONE_SHOT)
 	else:
+		if interactable:
+			interactable.set_active(false)
 		_spawn_drops(_find_player())
 		queue_free()
 
@@ -193,6 +195,8 @@ func _spawn_drops(player = null):
 	_last_damage_source_pos = Vector2.ZERO
 
 func _on_break_anim_finished(_anim_name : String):
+	if interactable:
+		interactable.set_active(false)
 	_spawn_drops(_find_player())
 	queue_free()
 

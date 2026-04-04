@@ -51,7 +51,7 @@ func _ready():
 func enter():
 	if animation_name != "" and root.anim:
 		root.anim.play(animation_name)
-	if debug_me:
+	if debug_me_verbose:
 		print_rich(root.debug_name, " ", debug_name, " State [color=#57FF84]entered[/color].")
 
 ##Called when this state's layer is frozen while this state is active.[br]
@@ -75,7 +75,7 @@ func resume():
 ##Called when this state is replaced by another.[br]
 ##Override to add logic for cleaning up this state.
 func exit():
-	if debug_me:
+	if debug_me_verbose:
 		print_rich(root.debug_name, " ", debug_name, " State [color=#FF2B48]exited[/color].")
 
 ##Called on unhandled input events. Return a [b]State[/b] to transition to or [b]null[/b] to remain.[br]

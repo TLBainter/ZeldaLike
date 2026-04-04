@@ -14,8 +14,10 @@ extends State
 ##The state to enter when moving at a faster pace due to joystick input increase.
 @export var run_state : State
 
-##The state to enter when rolling due to action button press.
-@export var roll_state : State
+##The state to enter when dashing due to action button press.
+@export var dash_state : State
+##The state to enter when the player backtsteps (actionButton4, no interactable, not exhausted).
+@export var backstep_state : State
 
 #endregion VARIABLES
 
@@ -66,6 +68,19 @@ func _on_move(_move_input : Vector2, move_strength : float):
 			return
 		state_machine.change_state(coordinator.try_transition(state_machine, run_state, "on_move+strength>0.49"))
 
+##Trigger backstep when actionButton4 is pressed with no interactable and not exhausted.
+func process_input(event : InputEvent) -> State:
+	if event.is_action_pressed("actionButton4") and backstep_state:
+		if coordinator.held_object:
+			return null
+		var character = get_character()
+		if character and character.body.current_interactable:
+			return null  # Let the action layer handle the interaction.
+		if coordinator.is_exhausted():
+			return null
+		return coordinator.try_transition(state_machine, backstep_state, "actionButton4+walk+no_interactable")
+	return null
+
 func get_context_key() -> String:
 	if coordinator.held_object:
 		return "drop"
@@ -81,5 +96,5 @@ func get_context_key() -> String:
 			elif priority == "lift":
 				return "lift"
 		return component.context_key
-	return ""
+	return "backstep"
 #endregion FUNCTIONS

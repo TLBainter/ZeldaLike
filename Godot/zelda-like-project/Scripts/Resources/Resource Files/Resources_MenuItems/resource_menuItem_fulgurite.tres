@@ -1,6 +1,5 @@
 [gd_resource type="Resource" script_class="MenuItemResource" format=3 uid="uid://bc6f4hpymrj01"]
 
-[ext_resource type="FontFile" uid="uid://bsube4x6p1pws" path="res://Sprites/UX/Fonts/GothicPixelSerif.ttf" id="1_4b0et"]
 [ext_resource type="Texture2D" uid="uid://de2nufcpexl7s" path="res://Sprites/Item Sprites/Ingredients/ingredient_menu_fulgurite.tres" id="2_4b0et"]
 [ext_resource type="Texture2D" uid="uid://dkbic053a3f7c" path="res://Sprites/Item Sprites/Ingredients/ingredient_menuMini_fulgurite.tres" id="3_ywewp"]
 [ext_resource type="Texture2D" uid="uid://deg58clhq5uk7" path="res://Sprites/Item Sprites/Ingredients/ingredient_menuOutline_fulgurite.tres" id="4_22dab"]

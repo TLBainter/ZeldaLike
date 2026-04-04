@@ -1,5 +1,5 @@
 ##[b][color=red]StateRun[/color][/b] is a movement state for moving at high speeds.[br]
-##While running, you can activate the roll context action.[br]
+##While running, you can activate the dash context action.[br]
 ##There are things you can't do while running, though, like grabbing things or speaking.
 ##[br]
 ##[b]LAYER[/b]: Movement
@@ -14,8 +14,8 @@ extends State
 ##The state to enter when moving at a slower pace due to decreased joystick input strength.
 @export var move_state : State
 
-##The state to enter when rolling due to action button press.
-@export var roll_state : State
+##The state to enter when dashing due to action button press.
+@export var dash_state : State
 
 #endregion VARIABLES
 
@@ -47,17 +47,13 @@ func _on_move(_move_input : Vector2, move_strength : float):
 func get_context_key() -> String:
 	if coordinator.held_object:
 		return "throw"
-	return "roll"
+	return "dash"
 
 func process_input(event : InputEvent) -> State:
-	#TODO: Add roll input action and conenct to roll_State once Roll is implemented.
-	if event.is_action_pressed("actionButton4") and roll_state:
+	if event.is_action_pressed("actionButton4") and dash_state:
 		if coordinator.held_object:
 			return null
-		if roll_state:
-			return coordinator.try_transition(state_machine, roll_state, "actionButton4+running+no_held")
-		#INFO: This is for debugging purposes while roll state is still not created.
-		input_consumed = true
+		return coordinator.try_transition(state_machine, dash_state, "actionButton4+running+no_held")
 	return null
 
 #endregion FUNCTIONS

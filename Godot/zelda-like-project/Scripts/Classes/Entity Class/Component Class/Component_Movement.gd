@@ -37,6 +37,9 @@ func _ready():
 func move(move_input, move_strength):
 	move_dir = move_input
 	move_str = move_strength
+	# Yield to State_Dash / State_Backstep when they own physics.
+	if root.is_dashing:
+		return
 	#Configures the state machine to prevent moving while the movement layer is frozen.
 	if root.state_machine and root.state_machine.movement_layer \
 	and not root.state_machine.movement_layer.is_active:

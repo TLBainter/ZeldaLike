@@ -30,8 +30,8 @@ var max_bolts : int = 1
 @export var recovery_interval : float = 0.5
 
 @export_group("Costs")
-##How much energy a roll consumes.
-@export var roll_cost : int = 4
+##How much energy a dash consumes.
+@export var dash_cost : int = 1
 
 ##The maximum energy value, calculated from max_bolts.
 var max_energy : int = 4

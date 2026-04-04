@@ -11,6 +11,8 @@ extends State
 @export_group("Transitions")
 ##The state to enter when movement input is detected.
 @export var move_state : State
+##The state to enter when the player backtsteps (actionButton4, no interactable, not exhausted).
+@export var backstep_state : State
 
 #endregion VARIABLES
 
@@ -20,9 +22,9 @@ func enter():
 	super()
 	coordinator.update_context(get_context_key())
 	root.body.velocity = Vector2.ZERO
+	if root.input and not root.input.on_move.is_connected(_on_move):
+		root.input.on_move.connect(_on_move)
 	if not state_machine.is_active:
-		if root.input and not root.input.on_move.is_connected(_on_move):
-			root.input.on_move.connect(_on_move)
 		return
 	var character = get_character()
 	if character and character.anim and character.anim is CharacterAnimator:
@@ -56,6 +58,19 @@ func _on_move(_move_input : Vector2, move_strength : float):
 	if move_strength > 0.15 and move_state:
 		state_machine.change_state(coordinator.try_transition(state_machine, move_state, "on_move+strength>0.15"))
 
+##Trigger backstep when actionButton4 is pressed with no interactable and not exhausted.
+func process_input(event : InputEvent) -> State:
+	if event.is_action_pressed("actionButton4") and backstep_state:
+		if coordinator.held_object:
+			return null
+		var character = get_character()
+		if character and character.body.current_interactable:
+			return null  # Let the action layer handle the interaction.
+		if coordinator.is_exhausted():
+			return null
+		return coordinator.try_transition(state_machine, backstep_state, "actionButton4+idle+no_interactable")
+	return null
+
 ##Fetch the context key from the interactable nearby.
 func get_context_key() -> String:
 	if coordinator.held_object:
@@ -67,10 +82,10 @@ func get_context_key() -> String:
 		if interactable_owner and interactable_owner is DynamicThing and interactable_owner.object_data:
 			var priority = coordinator.resolve_interaction_priority(interactable_owner.object_data, false)
 			if priority == "lift":
-				return "pickup"
+				return "lift"
 			elif priority == "grab":
 				return "grab"
 		return component.context_key
-	return ""
+	return "backstep"
 
 #endregion FUNCTIONS

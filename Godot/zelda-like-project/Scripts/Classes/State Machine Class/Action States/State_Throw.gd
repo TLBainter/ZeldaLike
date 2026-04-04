@@ -37,6 +37,8 @@ func enter():
 			return
 	#Freeze movement during the throw.
 	coordinator.freeze_movement()
+	#Clear context label immediately — the held object is gone.
+	coordinator.update_context("")
 	#Calculate throw direction from facing.
 	var facing_dir : Vector2 = facing_to_vector(character.anim.facing) if character.anim else Vector2.DOWN
 	#Detach the object from the player's hold position.
@@ -79,6 +81,8 @@ func exit():
 	if character and character.anim and character.anim is CharacterAnimator:
 		character.anim.can_update_facing = true
 	coordinator.unfreeze_movement()
+	if debug_me:
+		print(debug_name, ": exit — movement unfrozen, StateNoAction will refresh context")
 	#Clean up projectile reference.
 	_projectile = null
 	super()

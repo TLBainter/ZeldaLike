@@ -22,6 +22,9 @@ extends State
 
 func enter():
 	super()
+	if debug_me:
+		print(debug_name, ": entered — requesting context refresh")
+	coordinator.request_context_refresh()
 
 ##Listens for action button presses to transition to action states.
 func process_input(event : InputEvent) -> State:

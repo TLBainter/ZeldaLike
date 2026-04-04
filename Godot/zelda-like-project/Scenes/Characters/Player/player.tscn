@@ -43,6 +43,8 @@
 [ext_resource type="Script" uid="uid://u7tc08rpnemp" path="res://Scripts/Classes/State Machine Class/Action States/State_HoldingAction.gd" id="30_me3gr"]
 [ext_resource type="Script" uid="uid://cv26r6a3savpe" path="res://Scripts/Classes/State Machine Class/Action States/State_Throw.gd" id="31_2iqoh"]
 [ext_resource type="Script" uid="uid://bdbkkcliin28w" path="res://Scripts/Classes/State Machine Class/Action States/State_Attack.gd" id="35_gii1i"]
+[ext_resource type="Script" uid="uid://b8s1pr51wb3co" path="res://Scripts/Classes/State Machine Class/Movement States/State_Dash.gd" id="36_dash1"]
+[ext_resource type="Script" uid="uid://c1f4rh1e3dflv" path="res://Scripts/Classes/State Machine Class/Movement States/State_Backstep.gd" id="37_bkst1"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_dxcao"]
 radius = 6.0
@@ -1404,6 +1406,108 @@ _data = {
 &"WalkUpRight": SubResource("Animation_pr2lv")
 }
 
+[sub_resource type="Resource" id="Resource_2qsty"]
+script = ExtResource("15_8uivy")
+debug_me = true
+debug_name = "Idle State"
+metadata/_custom_type_script = "uid://c0gguh8o4ftae"
+
+[sub_resource type="Resource" id="Resource_h8opa"]
+script = ExtResource("15_8uivy")
+debug_me = true
+debug_name = "Move State"
+metadata/_custom_type_script = "uid://c0gguh8o4ftae"
+
+[sub_resource type="Resource" id="Resource_c3p1j"]
+script = ExtResource("15_8uivy")
+debug_me = true
+debug_name = "State Run"
+metadata/_custom_type_script = "uid://c0gguh8o4ftae"
+
+[sub_resource type="Resource" id="Resource_n0rfk"]
+script = ExtResource("15_8uivy")
+debug_me = true
+debug_name = "Dash State"
+metadata/_custom_type_script = "uid://c0gguh8o4ftae"
+
+[sub_resource type="Resource" id="Resource_xmo1i"]
+script = ExtResource("15_8uivy")
+debug_me = true
+debug_name = "Backstep State"
+metadata/_custom_type_script = "uid://c0gguh8o4ftae"
+
+[sub_resource type="Resource" id="Resource_gnhsk"]
+script = ExtResource("15_8uivy")
+debug_me = true
+debug_name = "State Grab Idle"
+metadata/_custom_type_script = "uid://c0gguh8o4ftae"
+
+[sub_resource type="Resource" id="Resource_v1h8f"]
+script = ExtResource("15_8uivy")
+debug_me = true
+debug_name = "State Pushing"
+metadata/_custom_type_script = "uid://c0gguh8o4ftae"
+
+[sub_resource type="Resource" id="Resource_f47x5"]
+script = ExtResource("15_8uivy")
+debug_me = true
+debug_name = "State Pulling"
+metadata/_custom_type_script = "uid://c0gguh8o4ftae"
+
+[sub_resource type="Resource" id="Resource_ht3jl"]
+script = ExtResource("15_8uivy")
+debug_me = true
+debug_name = "No Action State"
+metadata/_custom_type_script = "uid://c0gguh8o4ftae"
+
+[sub_resource type="Resource" id="Resource_856el"]
+script = ExtResource("15_8uivy")
+debug_me = true
+debug_name = "Interact State"
+metadata/_custom_type_script = "uid://c0gguh8o4ftae"
+
+[sub_resource type="Resource" id="Resource_oql2n"]
+script = ExtResource("15_8uivy")
+debug_me = true
+debug_name = "Grab State"
+metadata/_custom_type_script = "uid://c0gguh8o4ftae"
+
+[sub_resource type="Resource" id="Resource_j3cns"]
+script = ExtResource("15_8uivy")
+debug_me = true
+debug_name = "Lift State"
+metadata/_custom_type_script = "uid://c0gguh8o4ftae"
+
+[sub_resource type="Resource" id="Resource_fu5o4"]
+script = ExtResource("15_8uivy")
+debug_me = true
+debug_name = "Drop State"
+metadata/_custom_type_script = "uid://c0gguh8o4ftae"
+
+[sub_resource type="Resource" id="Resource_sofil"]
+script = ExtResource("15_8uivy")
+debug_me = true
+debug_name = "State Hold"
+metadata/_custom_type_script = "uid://c0gguh8o4ftae"
+
+[sub_resource type="Resource" id="Resource_ybcsq"]
+script = ExtResource("15_8uivy")
+debug_me = true
+debug_name = "State Throw"
+metadata/_custom_type_script = "uid://c0gguh8o4ftae"
+
+[sub_resource type="Resource" id="Resource_n6yol"]
+script = ExtResource("15_8uivy")
+debug_me = true
+debug_name = "Attack State"
+metadata/_custom_type_script = "uid://c0gguh8o4ftae"
+
+[sub_resource type="Resource" id="Resource_8xw4w"]
+script = ExtResource("15_8uivy")
+debug_me = true
+debug_name = "Initialized State"
+metadata/_custom_type_script = "uid://c0gguh8o4ftae"
+
 [node name="Player" type="Node2D" unique_id=209100190 node_paths=PackedStringArray("currency", "magic", "energy", "input", "player_ux", "player_cam", "equipped_spells", "inventory", "concoction_use", "body", "root", "sprite", "anim", "state_machine", "collider", "audio", "stats", "health", "move")]
 y_sort_enabled = true
 script = ExtResource("1_27cb7")
@@ -1489,7 +1593,6 @@ metadata/_custom_type_script = "uid://clnpwpvwchpab"
 script = ExtResource("12_4yec0")
 recovery_delay = 2.5
 recovery_interval = 1.0
-roll_cost = 1
 debug = SubResource("Resource_68bc3")
 metadata/_custom_type_script = "uid://dxhfu83eexfow"
 
@@ -1549,40 +1652,59 @@ script = ExtResource("18_a7o8c")
 starting_state = NodePath("StateIdling")
 metadata/_custom_type_script = "uid://cv00auxwsog0v"
 
-[node name="StateIdling" type="Node" parent="StateCoordinator/Movement Layer" unique_id=532054090 node_paths=PackedStringArray("move_state")]
+[node name="StateIdling" type="Node" parent="StateCoordinator/Movement Layer" unique_id=532054090 node_paths=PackedStringArray("move_state", "backstep_state")]
 script = ExtResource("19_23420")
 move_state = NodePath("../StateMove")
+backstep_state = NodePath("../StateBackstep")
+debug = SubResource("Resource_2qsty")
 metadata/_custom_type_script = "uid://46pctm4i5qsj"
 
-[node name="StateMove" type="Node" parent="StateCoordinator/Movement Layer" unique_id=730167415 node_paths=PackedStringArray("idle_state", "run_state")]
+[node name="StateMove" type="Node" parent="StateCoordinator/Movement Layer" unique_id=730167415 node_paths=PackedStringArray("idle_state", "run_state", "backstep_state")]
 script = ExtResource("20_p6wb4")
 idle_state = NodePath("../StateIdling")
 run_state = NodePath("../StateRun")
+backstep_state = NodePath("../StateBackstep")
+debug = SubResource("Resource_h8opa")
 metadata/_custom_type_script = "uid://c01o50a0tyt5f"
 
-[node name="StateRun" type="Node" parent="StateCoordinator/Movement Layer" unique_id=2088020969 node_paths=PackedStringArray("idle_state", "move_state")]
+[node name="StateRun" type="Node" parent="StateCoordinator/Movement Layer" unique_id=2088020969 node_paths=PackedStringArray("idle_state", "move_state", "dash_state")]
 script = ExtResource("21_y3fvr")
 idle_state = NodePath("../StateIdling")
 move_state = NodePath("../StateMove")
+dash_state = NodePath("../StateDash")
+debug = SubResource("Resource_c3p1j")
 metadata/_custom_type_script = "uid://0cxa44lve11l"
+
+[node name="StateDash" type="Node" parent="StateCoordinator/Movement Layer" unique_id=111222333 node_paths=PackedStringArray("idle_state")]
+script = ExtResource("36_dash1")
+idle_state = NodePath("../StateIdling")
+debug = SubResource("Resource_n0rfk")
+
+[node name="StateBackstep" type="Node" parent="StateCoordinator/Movement Layer" unique_id=444555666 node_paths=PackedStringArray("idle_state")]
+script = ExtResource("37_bkst1")
+idle_state = NodePath("../StateIdling")
+debug = SubResource("Resource_xmo1i")
 
 [node name="StateGrabIdle" type="Node" parent="StateCoordinator/Movement Layer" unique_id=812800763 node_paths=PackedStringArray("pushing_state", "pulling_state", "no_action_state")]
 script = ExtResource("22_61squ")
 pushing_state = NodePath("../StatePushing")
 pulling_state = NodePath("../StatePulling")
 no_action_state = NodePath("../../Action Layer/StateNoAction")
+debug = SubResource("Resource_gnhsk")
 metadata/_custom_type_script = "uid://c5so5u33wettp"
 
 [node name="StatePushing" type="Node" parent="StateCoordinator/Movement Layer" unique_id=490847512 node_paths=PackedStringArray("grab_idle_state", "pulling_state")]
 script = ExtResource("23_nafmd")
 grab_idle_state = NodePath("../StateGrabIdle")
 pulling_state = NodePath("../StatePulling")
+debug = SubResource("Resource_v1h8f")
 metadata/_custom_type_script = "uid://hs7fu6i8ibwq"
 
 [node name="StatePulling" type="Node" parent="StateCoordinator/Movement Layer" unique_id=654605077 node_paths=PackedStringArray("grab_idle_state", "pushing_state")]
 script = ExtResource("24_46w32")
 grab_idle_state = NodePath("../StateGrabIdle")
 pushing_state = NodePath("../StatePushing")
+debug = SubResource("Resource_f47x5")
 metadata/_custom_type_script = "uid://i7ojxhqxdh1w"
 
 [node name="Action Layer" type="Node" parent="StateCoordinator" unique_id=2064601243 node_paths=PackedStringArray("starting_state")]
@@ -1596,11 +1718,13 @@ attack_state = NodePath("../StateAttack")
 interact_state = NodePath("../StateInteract")
 grab_state = NodePath("../StateGrab")
 lift_state = NodePath("../StateLift")
+debug = SubResource("Resource_ht3jl")
 metadata/_custom_type_script = "uid://dgxcbaxmlfxj1"
 
 [node name="StateInteract" type="Node" parent="StateCoordinator/Action Layer" unique_id=773485714 node_paths=PackedStringArray("no_action_state")]
 script = ExtResource("23_p6wb4")
 no_action_state = NodePath("../StateNoAction")
+debug = SubResource("Resource_856el")
 metadata/_custom_type_script = "uid://db438pwfdwnsg"
 
 [node name="StateGrab" type="Node" parent="StateCoordinator/Action Layer" unique_id=1499882657 node_paths=PackedStringArray("no_action_state", "grab_idle_state", "idle_state")]
@@ -1608,18 +1732,21 @@ script = ExtResource("27_eiaiy")
 no_action_state = NodePath("../StateNoAction")
 grab_idle_state = NodePath("../../Movement Layer/StateGrabIdle")
 idle_state = NodePath("../../Movement Layer/StateIdling")
+debug = SubResource("Resource_oql2n")
 metadata/_custom_type_script = "uid://cpr404b3can5m"
 
 [node name="StateLift" type="Node" parent="StateCoordinator/Action Layer" unique_id=1348647301 node_paths=PackedStringArray("holding_action_state", "no_action_state")]
 script = ExtResource("28_cflke")
 holding_action_state = NodePath("../StateHoldingAction")
 no_action_state = NodePath("../StateNoAction")
+debug = SubResource("Resource_j3cns")
 metadata/_custom_type_script = "uid://bvgarrfwthp7x"
 
 [node name="StateDrop" type="Node" parent="StateCoordinator/Action Layer" unique_id=663427068 node_paths=PackedStringArray("no_action_state")]
 script = ExtResource("29_4yec0")
 no_action_state = NodePath("../StateNoAction")
 drop_distance = 4.0
+debug = SubResource("Resource_fu5o4")
 metadata/_custom_type_script = "uid://efny0654vj8a"
 
 [node name="StateHoldingAction" type="Node" parent="StateCoordinator/Action Layer" unique_id=1241853523 node_paths=PackedStringArray("throw_state", "drop_state", "no_action_state", "run_state")]
@@ -1628,17 +1755,20 @@ throw_state = NodePath("../StateThrow")
 drop_state = NodePath("../StateDrop")
 no_action_state = NodePath("../StateNoAction")
 run_state = NodePath("../../Movement Layer/StateRun")
+debug = SubResource("Resource_sofil")
 metadata/_custom_type_script = "uid://u7tc08rpnemp"
 
 [node name="StateThrow" type="Node" parent="StateCoordinator/Action Layer" unique_id=782550121 node_paths=PackedStringArray("no_action_state")]
 script = ExtResource("31_2iqoh")
 no_action_state = NodePath("../StateNoAction")
+debug = SubResource("Resource_ybcsq")
 metadata/_custom_type_script = "uid://cv26r6a3savpe"
 
 [node name="StateAttack" type="Node" parent="StateCoordinator/Action Layer" unique_id=2085364015 node_paths=PackedStringArray("no_action_state", "attack_area")]
 script = ExtResource("35_gii1i")
 no_action_state = NodePath("../StateNoAction")
 attack_area = NodePath("../../../PlayerBody/AttackArea")
+debug = SubResource("Resource_n6yol")
 metadata/_custom_type_script = "uid://bdbkkcliin28w"
 
 [node name="No Control Layer" type="Node" parent="StateCoordinator" unique_id=762655186 node_paths=PackedStringArray("starting_state")]
@@ -1648,4 +1778,5 @@ metadata/_custom_type_script = "uid://cv00auxwsog0v"
 
 [node name="StateInitialized" type="Node" parent="StateCoordinator/No Control Layer" unique_id=2054958520]
 script = ExtResource("23_23420")
+debug = SubResource("Resource_8xw4w")
 metadata/_custom_type_script = "uid://d2f4ms7sfau7o"

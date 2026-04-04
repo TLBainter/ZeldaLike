@@ -64,6 +64,7 @@ func exit():
 		_active_interactable.interaction_finished.disconnect(_on_interaction_finished)
 	_active_interactable = null
 	coordinator.unfreeze_movement()
+	coordinator.request_context_refresh()
 	super()
 			
 func _on_interaction_finished():
