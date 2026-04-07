@@ -3,10 +3,11 @@ class_name CamClass
 extends Camera2D
 
 @export_group("Debug")
-##Whether you want to debug the PlayerCam
-@export var debug_me : bool = false
-##Whether you want the debug output to be verbose.[br]
-##[b]NOTE[/b]: Debug Me Verbose requires Debug Me to also be enabled!
-@export var debug_me_verbose : bool = false
-##How you want this entity to appear in the debug output.
-@export var debug_name : String = "Cam"
+@export var debug : DebugSettings = DebugSettings.new()
+var debug_me : bool:
+	get: return debug.debug_me if debug else false
+var debug_me_verbose : bool:
+	get: return debug.debug_me_verbose if debug else false
+var debug_name : String:
+	get: return debug.debug_name if debug else ""
+	set(v): if debug: debug.debug_name = v

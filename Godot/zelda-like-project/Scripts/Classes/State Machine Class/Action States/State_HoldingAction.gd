@@ -8,17 +8,10 @@ extends State
 
 #region VARIABLES
 
-@export_group("In-Layer Transitions")
-##The state to enter when throwing the held object (player is running).
-@export var throw_state : Node ## : State
-##The state to enter when dropping the held object (player is idle or walking).
-@export var drop_state : Node ## : State
-##Fallback if something goes wrong.
-@export var no_action_state : Node ## : State
-
-@export_group("Movement State References")
-##Reference to the Run state on the Movement layer, used to check if player is running.
-@export var run_state : Node ## : State (Movement layer)
+var throw_state : State
+var drop_state : State
+var no_action_state : State
+var run_state : State
 
 @export_group("Hold Settings")
 ##The offset above the player's body where the object is held.
@@ -32,6 +25,12 @@ var _is_running : bool = false
 
 #region FUNCTIONS
 
+func init_state_refs() -> void:
+	throw_state = coordinator.get_state(StateThrow)
+	drop_state = coordinator.get_state(StateDrop)
+	no_action_state = coordinator.get_state(StateNoAction)
+	run_state = coordinator.get_state(StateRun)
+
 func enter():
 	super()
 	_is_running = false
@@ -41,15 +40,25 @@ func enter():
 	var character = get_character()
 	if character and character.anim and character.anim is CharacterAnimator:
 		character.anim.can_update_facing = true
-	if root.input and not root.input.onMove.is_connected(_on_move):
-		root.input.onMove.connect(_on_move)
+	if root.input and not root.input.on_move.is_connected(_on_move):
+		root.input.on_move.connect(_on_move)
 	if debug_me:
 		print(debug_name, ": Now holding object. Movement unfrozen.")
 
 func exit():
-	if root.input and root.input.onMove.is_connected(_on_move):
-		root.input.onMove.disconnect(_on_move)
+	if root.input and root.input.on_move.is_connected(_on_move):
+		root.input.on_move.disconnect(_on_move)
 	coordinator.unlock_context()
+	super()
+
+func pause():
+	if root.input and root.input.on_move.is_connected(_on_move):
+		root.input.on_move.disconnect(_on_move)
+	super()
+
+func resume():
+	if root.input and not root.input.on_move.is_connected(_on_move):
+		root.input.on_move.connect(_on_move)
 	super()
 
 func _on_move(_move_input : Vector2, move_strength : float):
@@ -61,9 +70,9 @@ func _on_move(_move_input : Vector2, move_strength : float):
 func process_input(event : InputEvent) -> State:
 	if event.is_action_pressed("actionButton4"):
 		if _is_running and throw_state:
-			return throw_state
+			return coordinator.try_transition(state_machine, throw_state, "actionButton4+pressed+running")
 		elif drop_state:
-			return drop_state
+			return coordinator.try_transition(state_machine, drop_state, "actionButton4+pressed+not_running")
 	return null
 
 func get_context_key() -> String:

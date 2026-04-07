@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://chwxt8q2s1dsj"
+path="res://.godot/imported/bat-exit-scream_04.wav-6d4ae73149d77e4568946e938cee3723.sample"
+
+[deps]
+
+source_file="res://Sound/SFX/Player/Player Action SFX/Player Dash SFX/Dash-Bat-Enter-Exit/bat-exit-scream_04.wav"
+dest_files=["res://.godot/imported/bat-exit-scream_04.wav-6d4ae73149d77e4568946e938cee3723.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

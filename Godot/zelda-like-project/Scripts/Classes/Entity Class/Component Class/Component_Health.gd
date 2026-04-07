@@ -1,4 +1,4 @@
-##[b][color=red]HealthComponent[/color][/b] addresses the current and maximum health of a member of the Entity Class,[br]
+﻿##[b][color=red]HealthComponent[/color][/b] addresses the current and maximum health of a member of the Entity Class,[br]
 ##as well as the damage and healing.
 class_name HealthComponent
 extends Component
@@ -11,7 +11,7 @@ extends Component
 ##[b]max_hp[/b]: The maximum possible hit point value of the entity.[br]
 ##[b]chng_amt[/b]: The value by which the hit points were changed.[br]
 ##Note that this signal is emitted by the variable itself any time it is changed; no need to call it elsewhere!
-signal healthChanged(cur_hp : int, max_hp : int, chng_amt : int)
+signal health_changed(cur_hp : int, max_hp : int, chng_amt : int)
 #TODO: Make it so that the change amount also tells you whether the change was positive or negative.
 
 #endregion SIGNALS
@@ -31,14 +31,14 @@ var cur_health : int = 4:
 		#Change health
 		cur_health = new_health
 		if chng_amt != 0:
-			healthChanged.emit(cur_health, max_health, chng_amt)
+			health_changed.emit(cur_health, max_health, chng_amt)
 	
 #endregion VARIBALES
 
 #region FUNCTIONS
 
 func _ready():
-	var entity = get_parent()
+	var entity = _find_entity_parent()
 	if entity and "stats" in entity and entity.stats and entity.stats.resource:
 		max_health = entity.stats.resource.max_health
 	else:
@@ -54,7 +54,12 @@ func healed(healing : int):
 #endregion HEAL
 
 #region DAMAGE
-func damaged(damage : int):
+func damaged(damage : int, _source_position : Vector2 = Vector2.ZERO):
+	var entity = _find_entity_parent()
+	if entity and "is_invulnerable" in entity and entity.is_invulnerable:
+		if debug_me:
+			print(debug_name, ": damage blocked ; entity is invulnerable.")
+		return
 	self.cur_health -= damage
 	if debug_me:
 		print(debug_name, " took ", damage, " damage.")

@@ -7,7 +7,7 @@ extends Body
 @onready var player_ux : PlayerUX = root.player_ux
 @onready var context_label : ContextLabel = player_ux.context_label
 @onready var input : PlayerInputComponent = root.input
-var current_interactable : Interact = null
+var current_interactable : InteractableComponent = null
 #endregion VARIABLES
 
 #region FUNCTIONS

@@ -1,5 +1,7 @@
-##[b][color=red]Dialogue[/color][/b] handles all dialogue a character has at their disposal,[br]
-##moving through the dialogue as directed. Numerous dialogue controls are available.
+﻿##[b][color=red]DEPRECATED[/color][/b] -- Use [b]InteractableComponent_Dialogue[/b] instead.[br]
+##This class is broken at runtime: [code]Interact[/code] assigns [code]self[/code] (an Area2D) to[br]
+##[code]Body_Player.current_interactable[/code], which is typed [code]InteractableComponent[/code].[br]
+##Will be removed once all scenes have been migrated.
 class_name Dialogue
 extends Interact
 

@@ -1,6 +1,5 @@
 [gd_resource type="Resource" script_class="MenuItemResource" format=3 uid="uid://xf81fpfb13e0"]
 
-[ext_resource type="FontFile" uid="uid://bsube4x6p1pws" path="res://Sprites/UX/Fonts/GothicPixelSerif.ttf" id="1_fvcxr"]
 [ext_resource type="Texture2D" uid="uid://dpmnhhglw4h85" path="res://Sprites/Item Sprites/Spells/spell_menu_grapple.tres" id="2_fvcxr"]
 [ext_resource type="Texture2D" uid="uid://dsyilaykfy1av" path="res://Sprites/Item Sprites/Spells/spell_menuMini_grapple.tres" id="3_adhb6"]
 [ext_resource type="Texture2D" uid="uid://b34jl8ug7rpri" path="res://Sprites/Item Sprites/Spells/spell_menuOutline_grapple.tres" id="4_dy8xj"]
@@ -12,9 +11,7 @@ item_id = "spell_grapple"
 outline = ExtResource("4_dy8xj")
 main = ExtResource("2_fvcxr")
 mini_icon = ExtResource("3_adhb6")
-name = "Grapple Spell"
-description = "A spell allowing its caster to grab things at a distance."
-effect = "HOLD the action button, aim with the LEFT STICK, then release the action button to cast."
+text_ref_id = "spellGrapple"
 flash_color = Color(0.69803923, 0.95686275, 0.94509804, 1)
 h_frames = 8
 metadata/_custom_type_script = "uid://cs0x7737rheme"

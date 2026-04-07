@@ -23,25 +23,44 @@ signal context_changed(context_key : String)
 @export var no_control_layer : Node
 #==========#
 @export_category("Debug")
-##Whether or not you want htis coordinator to print output into the debugger.
-@export var debug_me : bool = false
-##Whether you want more robust debugging outputs. This can fill up the output quickly, but is more informative.
-@export var debug_me_verbose : bool = false
-##The name used to identify this coordinator in the debug output.
-@export var debug_name : String = "StateCoordinator"
+@export var debug : DebugSettings = DebugSettings.new()
+var debug_me : bool:
+	get: return debug.debug_me if debug else false
+var debug_me_verbose : bool:
+	get: return debug.debug_me_verbose if debug else false
+var debug_name : String:
+	get: return debug.debug_name if debug else ""
+	set(v): if debug: debug.debug_name = v
+##When true, every state transition is logged to Output with the triggering reason.[br]
+##Format: [SM] FromState → ToState | reason
+@export var debug_transitions : bool = false
 #============#
 #Internal Variables
-##The DynamicInteractable currently being grabbed by the relevant entity.
+##Shared cooldown duration (seconds) after any dodge (dash or backstep).
+const DODGE_COOLDOWN : float = 0.25
+##Remaining cooldown time before the next dodge is allowed. Ticked down in _process.
+var _dodge_cooldown_timer : float = 0.0
+##The DynamicThing currently being grabbed by the relevant entity.
 ##Set by StateGrab, read by GrabIdle/Pushing/Pulling States. Null when not grabbing.
-var grabbed_object : DynamicInteractable = null
-##The DynamicInteractable currently being held by the relevant entity.
+var grabbed_object : DynamicThing = null
+##The DynamicThing currently being held by the relevant entity.
 ##Set by StateLift, read by HoldingAction/Throw/Drop States. Null when not holding.
-var held_object : DynamicInteractable = null
+var held_object : DynamicThing = null
 ##Whether or not context can currently be updated by a given state.
 var context_locked : bool = false
+##Registry of all State nodes under this coordinator, keyed by script.[br]
+##Populated automatically on _ready() by [b]_discover_states()[/b].[br]
+##States use [b]get_state()[/b] to look up transitions without manual export wiring.
+var _states : Dictionary = {}
 #endregion VARIABLES
 
 #region FUNCTIONS
+
+func _process(delta: float) -> void:
+	_dodge_cooldown_timer -= delta
+	if _dodge_cooldown_timer <= 0.0:
+		_dodge_cooldown_timer = 0.0
+		set_process(false)
 
 func _ready():
 	#region component debugger prints
@@ -59,9 +78,13 @@ func _ready():
 		return
 	#endregion component debugger prints
 	#INITIALIZE
+	_discover_states()
 	movement_layer.init_refs(root, self)
 	action_layer.init_refs(root, self)
 	no_control_layer.init_refs(root, self)
+	for state in _states.values():
+		state.init_state_refs()
+	set_process(false)
 	if debug_me:
 		print(debug_name, " initialized with root: ", root.debug_name)
 
@@ -161,5 +184,79 @@ func request_context_refresh():
 func attack_hit() -> void:
 	if action_layer and action_layer.current_state is StateAttack:
 		action_layer.current_state.execute_hit()
+
+	#region state registry
+##Walks all three layers and registers every State child by its script.[br]
+##Called once on _ready(). States call [b]get_state()[/b] to look up transitions by class.
+func _discover_states() -> void:
+	_states.clear()
+	for layer in [movement_layer, action_layer, no_control_layer]:
+		if not layer:
+			continue
+		for child in layer.get_children():
+			if child is State:
+				_states[child.get_script()] = child
+	if debug_me:
+		print(debug_name, " discovered ", _states.size(), " states.")
+
+##Returns the State node for the given class, or null if not present on this entity.[br]
+##Usage: [b]coordinator.get_state(StateIdling)[/b]
+func get_state(state_class) -> State:
+	return _states.get(state_class)
+	#endregion state registry
+
+##Returns [param to_state] unchanged, logging the transition when [b]debug_transitions[/b] is true.[br]
+##States should return the result of this call instead of returning a state directly:[br]
+##[code]return coordinator.try_transition(state_machine, idle_state, "attackLight+pressed")[/code]
+func try_transition(layer: Node, to_state: State, reason: String = "") -> State:
+	if not to_state:
+		return null
+	if debug_transitions:
+		var from_name: String = layer.current_state.debug_name if layer.current_state else "none"
+		print("[SM] ", from_name, " → ", to_state.debug_name, " | ", reason)
+	return to_state
+
+	#region shared entity helpers
+##Returns true if the root character is in an exhausted state.[br]
+##Returns false if the entity has no energy component.
+func is_exhausted() -> bool:
+	var character = root as Character
+	return character != null and character.energy != null and character.energy.is_exhausted_state
+
+##Attempts to consume energy from the root character.[br]
+##Returns true on success. Returns true (no restriction) if the entity has no energy component.
+func consume_energy(cost : int) -> bool:
+	var character = root as Character
+	if character and character.energy:
+		return character.energy.consume(cost)
+	return true
+
+##Returns true if the dodge cooldown is still active (dash or backstep used recently).
+func is_on_dodge_cooldown() -> bool:
+	return _dodge_cooldown_timer > 0.0
+
+##Starts the shared dodge cooldown. Called by StateDash and StateBackstep on successful exit.
+func start_dodge_cooldown() -> void:
+	set_process(true)
+	_dodge_cooldown_timer = DODGE_COOLDOWN
+
+##Returns true if the entity's body velocity exceeds the given threshold (pixels/sec).[br]
+##Use instead of raw Input polling so the check works for both player and AI entities.
+func is_moving(threshold : float = 10.0) -> bool:
+	return root.body != null and root.body.velocity.length() > threshold
+
+##Resolves whether to "grab", "lift", or "interact" with a DynamicThing based on its ObjectData.[br]
+##Priority rule: if the object is pushable/pullable and the character is moving (or it is not liftable), grab wins.[br]
+##If the character is idle and the object is also liftable, lift wins.[br]
+##Returns one of: [code]"grab"[/code], [code]"lift"[/code], [code]"interact"[/code].
+func resolve_interaction_priority(data, is_moving_flag : bool) -> String:
+	if data.pushable or data.pullable:
+		if is_moving_flag or not data.liftable:
+			return "grab"
+		return "lift"
+	elif data.liftable:
+		return "lift"
+	return "interact"
+	#endregion shared entity helpers
 
 #endregion FUNCTIONS

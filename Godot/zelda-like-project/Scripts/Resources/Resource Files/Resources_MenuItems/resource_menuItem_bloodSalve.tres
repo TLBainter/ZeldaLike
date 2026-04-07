@@ -1,6 +1,5 @@
 [gd_resource type="Resource" script_class="MenuItemResource" format=3 uid="uid://c3nedqqe2nl6y"]
 
-[ext_resource type="FontFile" uid="uid://bsube4x6p1pws" path="res://Sprites/UX/Fonts/GothicPixelSerif.ttf" id="1_lxwh0"]
 [ext_resource type="Resource" uid="uid://cm8matne5xeb2" path="res://Scripts/Resources/Resource Files/Resource_ItemFunctions/resource_itemFunction_bloodSalve.tres" id="2_jjm8o"]
 [ext_resource type="Texture2D" uid="uid://ccbbxsdd2lg2j" path="res://Sprites/Item Sprites/Concoctions/concoction_menu_bloodSalve.tres" id="2_lxwh0"]
 [ext_resource type="Texture2D" uid="uid://cnkfweyafaxhw" path="res://Sprites/Item Sprites/Concoctions/concoction_menuMini_bloodSalve.tres" id="3_jjm8o"]
@@ -13,9 +12,7 @@ item_id = "blood_salve"
 outline = ExtResource("4_7n21r")
 main = ExtResource("2_lxwh0")
 mini_icon = ExtResource("3_jjm8o")
-name = "Blood Salve"
-description = "A concoction that instantly heals some wounds."
-effect = "Used to recover 3 Hearts."
+text_ref_id = "concoctBlood"
 flash_color = Color(0.9372549, 0.73333335, 0.73333335, 1)
 display_quantity = true
 item_function = ExtResource("2_jjm8o")

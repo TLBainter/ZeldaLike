@@ -54,9 +54,14 @@ signal check_viewport_size
 ##The minimum alpha value for the UI, even when fading.
 @export var ux_min_alpha : float = 0.1
 @export_group("PlayerUX Debug")
-@export var debug_me : bool = false
-@export var debug_me_verbose : bool = false
-@export var debug_name : String = "Player UI"
+@export var debug : DebugSettings = DebugSettings.new()
+var debug_me : bool:
+	get: return debug.debug_me if debug else false
+var debug_me_verbose : bool:
+	get: return debug.debug_me_verbose if debug else false
+var debug_name : String:
+	get: return debug.debug_name if debug else ""
+	set(v): if debug: debug.debug_name = v
 #endregion VARIABLES
 
 #region FUNCTIONS
@@ -77,7 +82,7 @@ func _ready():
 	var hp_component : PlayerHealthComponent = root.health
 	heartsContainer.set_max_hearts(hp_component.max_hearts)
 	heartsContainer.update_hearts(hp_component.cur_health)
-	hp_component.healthChanged.connect(_on_health_changed)
+	hp_component.health_changed.connect(_on_health_changed)
 	#Calls the margin update on player UX launch.
 	check_viewport_size.emit()
 	

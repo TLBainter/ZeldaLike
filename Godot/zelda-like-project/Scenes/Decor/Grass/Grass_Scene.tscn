@@ -1,9 +1,9 @@
 [gd_scene format=3 uid="uid://c5x6kbg4wbbhf"]
 
-[ext_resource type="Script" uid="uid://dsfwcy8i431yq" path="res://Scripts/Classes/Entity Class/Thing Class/Entity_Thing_Interactable_Dynamic_Decor.gd" id="1_2jcs7"]
+[ext_resource type="Script" uid="uid://dmmcfbnrvhriy" path="res://Scripts/Classes/Entity Class/Thing Class/Entity_Thing_Static.gd" id="1_2jcs7"]
 [ext_resource type="Texture2D" uid="uid://c4ltjc5konle8" path="res://Sprites/Decor Sprites/Foliage/Grass/grass_green_1.tres" id="1_gojou"]
 [ext_resource type="Resource" uid="uid://bxp2ac0445yxu" path="res://Scripts/Resources/Resource Files/Resources_Decor/Resources_Foliage/resource_foliage_decor_grass_green_1.tres" id="2_x2w03"]
-[ext_resource type="Script" uid="uid://dtctgg8bg5iee" path="res://Scripts/Classes/Interaction Class/Interact.gd" id="3_x2w03"]
+[ext_resource type="Script" uid="uid://bo53xn53xy0t6" path="res://Scripts/Classes/Interaction Class/InteractableComponent.gd" id="3_ic01"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6fic6"]
 size = Vector2(12, 3)
@@ -11,16 +11,16 @@ size = Vector2(12, 3)
 [sub_resource type="CircleShape2D" id="CircleShape2D_6w6n3"]
 radius = 8.0
 
-[node name="GrassInstance" type="Node2D" unique_id=802736167 node_paths=PackedStringArray("decor_sprite", "body", "interact", "root", "sprite", "collider")]
+[node name="GrassInstance" type="Node2D" unique_id=802736167 node_paths=PackedStringArray("decor_sprite", "body", "root", "sprite", "collider", "interactable")]
 y_sort_enabled = true
 script = ExtResource("1_2jcs7")
 decor_data = ExtResource("2_x2w03")
 decor_sprite = NodePath("GrassBody/GrassSprite")
 body = NodePath("GrassBody")
-interact = NodePath("GrassBody/InteractArea")
 root = NodePath(".")
 sprite = NodePath("GrassBody/GrassSprite")
 collider = NodePath("GrassBody/GrassCollider")
+interactable = NodePath("InteractableComponent")
 
 [node name="GrassBody" type="StaticBody2D" parent="." unique_id=1349900917]
 collision_layer = 4
@@ -34,11 +34,12 @@ position = Vector2(0, 2.5)
 shape = SubResource("RectangleShape2D_6fic6")
 debug_color = Color(0.81, 0.74952, 0.29160002, 0.7921569)
 
-[node name="InteractArea" type="Area2D" parent="GrassBody" unique_id=295243959]
-top_level = true
+[node name="InteractableComponent" type="Node2D" parent="." unique_id=724819305]
 position = Vector2(0, -1)
-collision_layer = 4
-script = ExtResource("3_x2w03")
+script = ExtResource("3_ic01")
 
-[node name="InteractCollider" type="CollisionShape2D" parent="GrassBody/InteractArea" unique_id=146988846]
+[node name="InteractArea" type="Area2D" parent="InteractableComponent" unique_id=295243959]
+collision_layer = 4
+
+[node name="InteractCollider" type="CollisionShape2D" parent="InteractableComponent/InteractArea" unique_id=146988846]
 shape = SubResource("CircleShape2D_6w6n3")

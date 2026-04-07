@@ -27,8 +27,8 @@ extends Character
 ##A reference to the player's Concoction Item Use Component.
 @export var concoction_use : ConcoctionItemUse
 @export_category("Player Flags")
-##Whether or not the player can currently roll
-var can_roll : bool = true
+##Whether or not the player can currently dash
+var can_dash : bool = true
 ##Whether or not the player can currently move
 var can_move : bool = true
 ##The display name for the player
@@ -40,6 +40,10 @@ var display_name : String = "Count"
 #region INTERNAL VARIABLES
 ##the NPC's category (whether it is a shopkeeper, standard, or story NPC).
 var category : String
+##Tracks consecutive drop table misses for the pity system. Increments each time
+##a non-empty drop table yields nothing; resets to 0 when any item drops.
+##Capped at 25. Items with base weight >= 25 are unaffected by pity.
+var drop_pity : int = 0
 #endregion
 
 #region FUNCTIONS

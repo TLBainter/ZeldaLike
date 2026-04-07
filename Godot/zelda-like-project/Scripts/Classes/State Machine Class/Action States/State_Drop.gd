@@ -7,9 +7,7 @@ extends State
 
 #region VARIABLES
 
-@export_group("In-Layer Transitions")
-##The state to return to after dropping.
-@export var no_action_state : Node ## : State
+var no_action_state : State
 
 @export_group("Drop Settings")
 ##Offset from the player's body position where the object is placed on drop.[br]
@@ -20,15 +18,17 @@ extends State
 
 #region FUNCTIONS
 
+func init_state_refs() -> void:
+	no_action_state = coordinator.get_state(StateNoAction)
+
 func enter() -> void:
 	super()
 	var character = get_character()
 	var held = coordinator.held_object
 	if not character or not held:
-		if debug_me:
-			printerr(debug_name, ": Nothing to drop!")
+		push_error(debug_name + ": missing character or held object in enter()")
 		if no_action_state:
-			state_machine.change_state(no_action_state)
+			state_machine.change_state(coordinator.try_transition(state_machine, no_action_state, "enter+no_character_or_held"))
 		return
 	#Calculate drop position in the facing direction.
 	var drop_pos : Vector2 = character.body.global_position
@@ -69,7 +69,7 @@ func enter() -> void:
 		print(debug_name, ": Dropped object at ", drop_pos)
 	#Transition to NoAction.
 	if no_action_state:
-		state_machine.change_state(no_action_state)
+		state_machine.change_state(coordinator.try_transition(state_machine, no_action_state, "drop_complete"))
 
 ##Converts a facing string to a Vector2 direction.
 func _get_facing_vector(facing : String) -> Vector2:

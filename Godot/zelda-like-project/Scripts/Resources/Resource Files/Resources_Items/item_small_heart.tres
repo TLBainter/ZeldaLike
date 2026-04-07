@@ -6,10 +6,8 @@
 
 [resource]
 script = ExtResource("1_7444b")
-item_name = "Small Heart"
-item_description = "Recover 1 heart!"
 item_strip = ExtResource("1_w76v1")
 shadow_strip = ExtResource("3_14424")
 recover_health = 4
-first_get_dialogue_ref = 7
+first_get_dialogue_ref = "pickupSmallHeart"
 metadata/_custom_type_script = "uid://dps4pg1os47me"

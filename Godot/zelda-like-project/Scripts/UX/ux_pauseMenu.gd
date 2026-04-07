@@ -1,4 +1,4 @@
-##[b][color=red]PauseMenu[/color][/b] controls the pause menu overlay.[br]
+﻿##[b][color=red]PauseMenu[/color][/b] controls the pause menu overlay.[br]
 ##Instantiated when the player pauses. Fades in a dark overlay, displays the menu,[br]
 ##and handles unpause input. Runs while the game is paused.[br]
 class_name PauseMenu
@@ -31,8 +31,14 @@ extends Node
 @export var inventory_change_sounds : SoundLibrary
 
 @export_category("Debug")
-@export var debug_me : bool = false
-@export var debug_name : String = "PauseMenu"
+@export var debug : DebugSettings = DebugSettings.new()
+var debug_me : bool:
+	get: return debug.debug_me if debug else false
+var debug_me_verbose : bool:
+	get: return debug.debug_me_verbose if debug else false
+var debug_name : String:
+	get: return debug.debug_name if debug else ""
+	set(v): if debug: debug.debug_name = v
 
 #=======INTERNAL VARIABLES=======#
 
@@ -347,14 +353,14 @@ func handle_spell_assignment(spell_panel : MenuHoverableSpell, slot : int) -> vo
 	if not spell_panel.player_has_item:
 		return
 	var current_slot = equipped.get_slot_for_spell(item_res.item_id)
-	#Already assigned to this button — do nothing.################
+	#Already assigned to this button -- do nothing.################
 	if current_slot == slot:
 		return
 	var existing_in_target = equipped.get_spell(slot)
 	var target_button : ActionButtonSprite = _action_buttons[slot] if slot < _action_buttons.size() else null
 	var source_button : ActionButtonSprite = _action_buttons[current_slot] if current_slot > 0 and current_slot < _action_buttons.size() else null
 	if current_slot == -1:
-		#Not assigned anywhere — simple assign.
+		#Not assigned anywhere -- simple assign.
 		equipped.assign_spell(slot, item_res)
 		_play_sound(inventory_confirm_sounds)
 		if target_button:
@@ -374,7 +380,7 @@ func handle_spell_assignment(spell_panel : MenuHoverableSpell, slot : int) -> vo
 			target_button._update_spell_display()
 			target_button.play_assign_anim()
 	else:
-		#Both occupied — swap.
+		#Both occupied -- swap.
 		_play_sound(inventory_change_sounds)
 		if source_button:
 			source_button.play_unassign_anim()

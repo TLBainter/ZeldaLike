@@ -4,7 +4,7 @@
 
 [resource]
 script = ExtResource("1_s2ae6")
-dialogue_refs = Array[int]([1, 2, 3, 7])
+dialogue_refs = Array[String](["test1", "test2", "test3", "pickupSmallHeart"])
 on_finish = "Switch"
 target_switch_index = 7
 metadata/_custom_type_script = "uid://bistbs770jaqo"

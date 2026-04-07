@@ -1,6 +1,5 @@
 [gd_resource type="Resource" script_class="MenuItemResource" format=3 uid="uid://co7nrr10clj5s"]
 
-[ext_resource type="FontFile" uid="uid://bsube4x6p1pws" path="res://Sprites/UX/Fonts/GothicPixelSerif.ttf" id="1_jpqyi"]
 [ext_resource type="Texture2D" uid="uid://ciyd55s4l28pv" path="res://Sprites/Item Sprites/Ingredients/ingredient_menu_meteorite.tres" id="2_jpqyi"]
 [ext_resource type="Texture2D" uid="uid://dxmym5x1qaoyq" path="res://Sprites/Item Sprites/Ingredients/ingredient_menuMini_meteorite.tres" id="3_bjtgd"]
 [ext_resource type="Texture2D" uid="uid://musicfa80f7x" path="res://Sprites/Item Sprites/Ingredients/ingredient_menuOutline_meteorite.tres" id="4_rvc6w"]
@@ -12,9 +11,7 @@ item_id = "meteorite"
 outline = ExtResource("4_rvc6w")
 main = ExtResource("2_jpqyi")
 mini_icon = ExtResource("3_bjtgd")
-name = "Meteorite"
-description = "A chunk of astral ore."
-effect = "Crushed for use as an alchemical ingredient for powerful recovery items."
+text_ref_id = "ingMeteorite"
 flash_color = Color(0.41923678, 0.8275207, 0.8272811, 1)
 display_quantity = true
 metadata/_custom_type_script = "uid://cs0x7737rheme"

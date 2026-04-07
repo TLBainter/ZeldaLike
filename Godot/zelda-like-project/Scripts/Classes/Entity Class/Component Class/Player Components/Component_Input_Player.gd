@@ -1,4 +1,4 @@
-##[b][color=red]PlayerInputComponent[/color][/b] handles all input from the player character, sending signals based on input.
+﻿##[b][color=red]PlayerInputComponent[/color][/b] handles all input from the player character, sending signals based on input.
 class_name PlayerInputComponent
 extends InputComponent
 
@@ -43,11 +43,9 @@ func _process(_delta):
 		move_input = Vector2.ZERO
 	##determines the strength of the move input
 	var move_strength : float = move_input.length()
-	if move_input != null:
-		#emit the move signal if it has a value, providing the Vector2 and float values.
-		onMove.emit(move_input, move_strength)
-		if debug_me:
-			print(debug_name, "	has emitted its move_input value with a value of ", move_input, "\n	and a move_strength value of ", move_strength)
+	on_move.emit(move_input, move_strength)
+	if debug_me:
+		print(debug_name, "	has emitted its move_input value with a value of ", move_input, "\n	and a move_strength value of ", move_strength)
 	#endregion
 	#region Cam Input
 	##handler for camera move input reception
@@ -89,7 +87,7 @@ func _open_pause_menu():
 		#Reuse existing instance.
 		_pause_menu_instance.open()
 	else:
-		#First time — instantiate and keep reference.
+		#First time -- instantiate and keep reference.
 		_pause_menu_instance = pause_menu_scene.instantiate()
 		get_tree().root.add_child(_pause_menu_instance)
 

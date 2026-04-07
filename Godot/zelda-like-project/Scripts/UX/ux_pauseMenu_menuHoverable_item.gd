@@ -190,21 +190,16 @@ func _populate_info_box() -> void:
 	if not player_has_item:
 		_clear_info_box()
 		return
+	var data = dialogueDB.get_dialogue_data(item_resource.text_ref_id)
+	var lines = data.get("lines", [])
+	var name_text   = lines[0] if lines.size() > 0 else ""
+	var desc_text   = lines[1] if lines.size() > 1 else ""
+	var effect_text = lines[2] if lines.size() > 2 else ""
 	var text = ""
-	text += "[color=red][font_size=28]" + item_resource.name + "[/font_size][/color]\n"
-	if item_resource.description_font:
-		var font_path = item_resource.description_font.resource_path
-		text += "[font=" + font_path + "]"
-	text += "[color=gray][font_size=16]" + item_resource.description + "[/font_size][/color]"
-	if item_resource.description_font:
-		text += "[/font]"
+	text += "[color=red][font_size=28]" + name_text + "[/font_size][/color]\n"
+	text += "[color=gray][font_size=16]" + desc_text + "[/font_size][/color]"
 	text += "\n"
-	if item_resource.effect_font:
-		var font_path = item_resource.effect_font.resource_path
-		text += "[font=" + font_path + "]"
-	text += "[color=white][font_size=16]" + item_resource.effect + "[/font_size][/color]"
-	if item_resource.effect_font:
-		text += "[/font]"
+	text += "[color=white][font_size=16]" + effect_text + "[/font_size][/color]"
 	info_box.bbcode_enabled = true
 	info_box.text = text
 

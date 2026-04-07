@@ -1,13 +1,33 @@
 Ref ID,Character ID,English Line 1,English Line 2,English Line 3,English Line 4,English Line 5,English Line 6
 ,Test Dialogue,,,,,,
-1,default,This is line 1,This is line 2,This is line 3,This is line 4,This is line 5,"This is line 6, the final line"
-2,default,This is line 1.1,This is line 1.2,This is line 1.3,This is line 1.4,This is line 1.5,"This is line 1.6, the final line"
-3,default,"Hello there, traveler!",What are you doing here?,There's not much 'round these parts.,cept my ma...,But she's always busy with her very good friend Barbara...,Maybe I can help ya!
+test1,default,This is line 1,This is line 2,This is line 3,This is line 4,This is line 5,"This is line 6, the final line"
+test2,default,This is line 1.1,This is line 1.2,This is line 1.3,This is line 1.4,This is line 1.5,"This is line 1.6, the final line"
+test3,default,"Hello there, traveler!",What are you doing here?,There's not much 'round these parts.,cept my ma...,But she's always busy with her very good friend Barbara...,Maybe I can help ya!
 ,Items,,,,,,
-7,item,You got a small heart!,This recovers 4 HP when picked up.,,,,
-8,item,You got an energy orb!,This recovers 4 Energy when picked up.,,,,
-9,item,You got a magic shard!,This recovers 4 magic when picked up.,,,,
-10,item,You got a white bead!,It's worth 1 note. Eh...,,,,
-11,item,You got a blue bead!,It's worth 5 notes. Pretty good.,,,,
-12,item,You got a purple bead!,It's worth 10 notes. Nice!,,,,
-13,item,You got an orange bead!,It's worth 25 notes! Wow!,,,,
+pickupSmallHeart,item,You got a small heart!,This recovers 4 HP when picked up.,,,,
+pickupEnergyOrb,item,You got an energy orb!,This recovers 4 Energy when picked up.,,,,
+pickupMagicShard,item,You got a magic shard!,This recovers 4 magic when picked up.,,,,
+pickupBeadWhite,item,You got a white bead!,It's worth 1 note. Eh...,,,,
+pickupBeadBlue,item,You got a blue bead!,It's worth 5 notes. Pretty good.,,,,
+pickupBeadPurple,item,You got a purple bead!,It's worth 10 notes. Nice!,,,,
+pickupBeadOrange,item,You got an orange bead!,It's worth 25 notes! Wow!,,,,
+ingHeart,item,Heart,The extracted and preserved heart of a powerful being. It still beats...,Used as an alchemical ingredient for powerful recovery salves.,,,
+ingBloodClot,item,Blood Clot,A semi-solid mass of blood cells.,Used as an alchemical ingredient for healing salves.,,,
+ingKidney,item,Kidney,A harvested and maintained organ with attached adrenal glands.,Used as an alchemical ingredient in energy-bolstering concoctions.,,,
+ingFulgurite,item,Fulgurite,A silica-rich mineral once melted and fused instantaneously by lightning.,Used as an alchemical ingredient in energy-boosting salves.,,,
+ingMeteorite,item,Meteorite,A chunk of astral ore.,Crushed for use as an alchemical ingredient for powerful recovery items.,,,
+ingRedGarnet,item,Red Garnet,A blood-red mineral used by some witches in self-improvement rituals.,Used as an alchemical ingredient for healing salves.,,,
+ingRitualSteel,item,Ritual Steel,The remains of an ancient dagger once used in a dark ritual.,Melted down for use as an alchemical ingredient in arcane concoctions.,,,
+ingStardust,item,Stardust,"A pouch of crushed, glistening astral ore.",Used as an alchemical ingredient for arcane concoctions.,,,
+concoctBlood,item,Blood Concoction,A concoction that instantly heals some wounds.,Used to recover 3 Hearts.,,,
+concoctArcane,item,Arcane Concoction,A magical salve that restores one's ability to cast spells.,Used to restore 1 medallion.,,,
+concoctEnergizing,item,Energizing Concoction,An electrifying concoction that boosts one's adrenalin.,Used to recover 4 points of energy.,,,
+concoctRestorative,item,Restorative Concoction,An incredibly invigorating alchemical concoction.,"Instantly recover some health, energy, and magic. Then recover more over time.",,,
+mobilityBatForm,item,Bat Form,A unique form vampires can briefly take to avoid danger.,Used to evade attacks or cross short gaps.,,,
+mobilityWavewalkBoots,item,Wavewalk Boots,Powerful boots that do not break the surface tension of water.,Used to walk across water like solid ground.,,,
+mobilityAlbedoHood,item,Albedo Hood,A sun-resistant hood worn over one's head.,Used to pass through areas of bright sunlight unharmed.,,,
+spellGrapple,item,Grapple Spell,A spell allowing its caster to grab things at a distance.,"HOLD the action button, aim with the LEFT STICK, then release the action button to cast.",,,
+spellHammer,item,Hammer Spell,"Conjure a massive, slow-moving hammer to destroy obstacles and enemies alike.",Face the direction where you wish to conjure the hammer and press the action button.,,,
+spellHaste,item,Haste Spell,A spell that speeds up the caster's movement and attacks temporarily.,HOLD the action button to maintain time slowing effect. Consumes magic over time.,,,
+spellIgnite,item,Ignite Spell,A spell that conjures a momentary flame in front of the caster.,Face the direction where you wish to conjure a flame and press the action button.,,,
+spellSummon,item,Summon Spell,A spell that conjures a zombie or skeleton to aid the caster.,Face the direction where you wish to summon the undead and press the action button.,,,

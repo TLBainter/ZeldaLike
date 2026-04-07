@@ -1,4 +1,4 @@
-##[b][color=red]SpellSlotManager[/color][/b] tracks spell assignments to action buttons.[br]
+﻿##[b][color=red]SpellSlotManager[/color][/b] tracks spell assignments to action buttons.[br]
 ##Each slot (1, 2, 3) can hold one MenuItemResource representing a spell.[br]
 class_name EquippedSpellsComponent
 extends Component
@@ -28,12 +28,12 @@ func assign_spell(slot : int, spell_resource : MenuItemResource) -> bool:
 	if slot < 1 or slot > 3:
 		return false
 	if _slots.get(slot) == spell_resource:
-		#Already assigned here — do nothing.
+		#Already assigned here -- do nothing.
 		return false
 	_slots[slot] = spell_resource
 	spell_equip_changed.emit(slot, spell_resource)
 	if debug_me:
-		var spell_name = spell_resource.name if spell_resource else "null"
+		var spell_name = spell_resource.text_ref_id if spell_resource else "null"
 		print(debug_name, ": Slot ", slot, " assigned to ", spell_name)
 	return true
 

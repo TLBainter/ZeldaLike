@@ -1,4 +1,4 @@
-##[b][color=red]SpeakComponent[/color][/b] is the component used to set an entity's speech.[br]
+﻿##[b][color=red]SpeakComponent[/color][/b] is the component used to set an entity's speech.[br]
 ##This determines what they say, what dialogues they have access to, how those dialogues switch, etc.
 class_name SpeakComponent
 extends Component
@@ -24,7 +24,7 @@ func start_interaction() -> Dictionary:
 	var current_sequence = dialogue_sequences[_active_sequence_index]
 	var ref_id = current_sequence.get_next_ref_id()
 	if debug_me:
-		print("SpeakComponent requesting ref_id: ", ref_id, " — exists in DB: ", dialogueDB._dialogue_library.has(ref_id))
+		print("SpeakComponent requesting ref_id: ", ref_id, " ; exists in DB: ", dialogueDB._dialogue_library.has(ref_id))
 	var dialogue_data = dialogueDB.get_dialogue_data(ref_id)
 	#Set the source component for the dialogue controller.
 	if dialogue_data.is_empty():

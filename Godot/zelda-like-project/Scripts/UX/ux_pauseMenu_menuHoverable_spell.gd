@@ -1,4 +1,4 @@
-##[b][color=red]MenuHoverableSpell[/color][/b] extends [b]MenuHoverableItem[/b] for spell inventory panels.[br]
+﻿##[b][color=red]MenuHoverableSpell[/color][/b] extends [b]MenuHoverableItem[/b] for spell inventory panels.[br]
 ##Instead of quantity, displays the assigned action button's sprite.[br]
 ##While hovered, pressing action buttons 1-3 assigns/swaps spells.[br]
 @tool
@@ -63,28 +63,28 @@ func try_assign_to_slot(slot : int) -> bool:
 	if not player_has_item:
 		return false
 	var current_slot = _equipped_spells.get_slot_for_spell(item_resource.item_id)
-	#Already assigned to this button — do nothing.
+	#Already assigned to this button -- do nothing.
 	if current_slot == slot:
 		if debug_me:
 			print(debug_name, ": Already assigned to button ", slot)
 		return false
 	var existing_in_target = _equipped_spells.get_spell(slot)
 	if current_slot == -1:
-		#Not assigned anywhere — assign to pressed button.
+		#Not assigned anywhere -- assign to pressed button.
 		_equipped_spells.assign_spell(slot, item_resource)
 		if debug_me:
 			print(debug_name, ": Assigned to button ", slot)
 		return true
 	else:
 		if existing_in_target == null:
-			#Assigned elsewhere, target is empty — move.
+			#Assigned elsewhere, target is empty -- move.
 			_equipped_spells.unassign_spell(current_slot)
 			_equipped_spells.assign_spell(slot, item_resource)
 			if debug_me:
 				print(debug_name, ": Moved from button ", current_slot, " to button ", slot)
 			return true
 		else:
-			#Both slots occupied — swap.
+			#Both slots occupied -- swap.
 			_equipped_spells.swap_spells(current_slot, slot)
 			if debug_me:
 				print(debug_name, ": Swapped button ", current_slot, " with button ", slot)
@@ -106,7 +106,7 @@ func _on_unhover() -> void:
 
 #region QUANTITY OVERRIDE
 
-##Spells don't show quantity — hide the label entirely.
+##Spells don't show quantity -- hide the label entirely.
 func _update_quantity() -> void:
 	if quantity_label:
 		quantity_label.visible = false

@@ -1,6 +1,5 @@
 [gd_resource type="Resource" script_class="MenuItemResource" format=3 uid="uid://cti2lvnl6fp2q"]
 
-[ext_resource type="FontFile" uid="uid://bsube4x6p1pws" path="res://Sprites/UX/Fonts/GothicPixelSerif.ttf" id="1_3qqqc"]
 [ext_resource type="Texture2D" uid="uid://bqtiok3mtf25k" path="res://Sprites/Item Sprites/Spells/spell_menu_ignite.tres" id="2_3qqqc"]
 [ext_resource type="Texture2D" uid="uid://btmg7catdvdvm" path="res://Sprites/Item Sprites/Spells/spell_menuMini_ignite.tres" id="3_62dcd"]
 [ext_resource type="Texture2D" uid="uid://dj11v233xerpn" path="res://Sprites/Item Sprites/Spells/spell_menuOutline_ignite.tres" id="4_7vhr7"]
@@ -12,9 +11,7 @@ item_id = "spell_ignite"
 outline = ExtResource("4_7vhr7")
 main = ExtResource("2_3qqqc")
 mini_icon = ExtResource("3_62dcd")
-name = "Ignite Spell"
-description = "A spell that conjures a momentary flame in front of the caster."
-effect = "Face the direction where you wish to conjure a flame and press the action button."
+text_ref_id = "spellIgnite"
 flash_color = Color(0.9098039, 0.6627451, 0.6745098, 1)
 h_frames = 8
 metadata/_custom_type_script = "uid://cs0x7737rheme"

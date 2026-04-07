@@ -16,17 +16,9 @@ extends Resource
 ##The smaller, 16px version of the image
 @export var mini_icon : AtlasTexture
 @export_group("Text")
-##The name of the entity.
-@export var name : String = str(outline)
-##The description of the entity.
-@export var description : String = "Please provide a description."
-##The effect of the entity.
-@export var effect : String = "Please provide the entity's effect."
-@export_subgroup("Fonts")
-##Font to use for description text.
-@export var description_font : Font = preload("res://Sprites/UX/Fonts/GothicPixelSerif.ttf")
-##Font used for the effect text.
-@export var effect_font : Font = preload("res://Sprites/UX/Fonts/GothicPixelSerif.ttf")
+##The Ref ID in the Dialogue CSV for this item's text.[br]
+##Line 1 = name, Line 2 = description, Line 3 = effect.
+@export var text_ref_id : String = ""
 @export_group("Config")
 @export_subgroup("Sprite Flashing")
 ##Whether or not the sprite should flash while hovered.

@@ -1,6 +1,5 @@
 [gd_resource type="Resource" script_class="MenuItemResource" format=3 uid="uid://cuiamqd82qicm"]
 
-[ext_resource type="FontFile" uid="uid://bsube4x6p1pws" path="res://Sprites/UX/Fonts/GothicPixelSerif.ttf" id="1_0ubv2"]
 [ext_resource type="Texture2D" uid="uid://bb0s5u5ynlbns" path="res://Sprites/Item Sprites/Ingredients/ingredient_menu_kidney.tres" id="2_0ubv2"]
 [ext_resource type="Texture2D" uid="uid://djwm031p3o4e5" path="res://Sprites/Item Sprites/Ingredients/ingredient_menuMini_kidney.tres" id="3_a1d7i"]
 [ext_resource type="Texture2D" uid="uid://b5ibowjkc2skm" path="res://Sprites/Item Sprites/Ingredients/ingredient_menuOutline_kidney.tres" id="4_75u6u"]
@@ -12,9 +11,7 @@ item_id = "kidney"
 outline = ExtResource("4_75u6u")
 main = ExtResource("2_0ubv2")
 mini_icon = ExtResource("3_a1d7i")
-name = "Kidney"
-description = "A harvested and maintained organ with attached adrenal glands."
-effect = "Used as an alchemical ingredient in energy-bolstering concoctions."
+text_ref_id = "ingKidney"
 flash_color = Color(1, 0.6361667, 0.63, 1)
 display_quantity = true
 metadata/_custom_type_script = "uid://cs0x7737rheme"

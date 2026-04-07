@@ -1,5 +1,8 @@
-##[b][color=red]Interact[/color][/b] is the handler for all interactions; lifting pots, talking to NPCs, etc.[br]
-##Extends an Area2D associated with an entity.
+﻿##[b][color=red]DEPRECATED[/color][/b] -- Use [b]InteractableComponent[/b] instead.[br]
+##This class's body_entered handler causes a runtime type error:[br]
+##[code]Body_Player.current_interactable[/code] is typed [code]InteractableComponent[/code],[br]
+##but this class assigns [code]self[/code] (an Area2D) to it.[br]
+##Will be removed once all scenes have been migrated.
 class_name Interact
 extends Area2D
 
@@ -17,8 +20,14 @@ signal interaction_finished
 ##Tell the context label I am this kind of entity
 @export_enum("default", "container", "dodge", "door", "grab", "locked", "npc", "pickup", "secret", "shop", "throw", "usable") var context_key : String = "default"
 @export_category("Debug")
-@export var debug_me : bool = false
-@export var debug_name : String = "Interactable"
+@export var debug : DebugSettings = DebugSettings.new()
+var debug_me : bool:
+	get: return debug.debug_me if debug else false
+var debug_me_verbose : bool:
+	get: return debug.debug_me_verbose if debug else false
+var debug_name : String:
+	get: return debug.debug_name if debug else ""
+	set(v): if debug: debug.debug_name = v
 @export_category("Interaction Components")
 @export var root : EntityClass
 #endregion VARIABLES

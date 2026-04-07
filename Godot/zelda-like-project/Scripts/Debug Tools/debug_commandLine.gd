@@ -1,11 +1,11 @@
-##[b][color=red]DebugConsole[/color][/b] is a simple in-game text prompt for debug commands.[br]
+﻿##[b][color=red]DebugConsole[/color][/b] is a simple in-game text prompt for debug commands.[br]
 ##Press TAB to open/close. Type commands and press Enter to execute.[br]
 ##[br]
 ##[b]Commands:[/b][br]
-##[code]/give item_id quantity[/code] — Adds items to player inventory. Quantity defaults to 1.[br]
-##[code]/remove item_id quantity[/code] — Removes items from player inventory. Quantity defaults to 1.[br]
-##[code]/list[/code] — Prints all current inventory contents.[br]
-##[code]/items[/code] — Prints all valid ItemID constants.[br]
+##[code]/give item_id quantity[/code] -- Adds items to player inventory. Quantity defaults to 1.[br]
+##[code]/remove item_id quantity[/code] -- Removes items from player inventory. Quantity defaults to 1.[br]
+##[code]/list[/code] -- Prints all current inventory contents.[br]
+##[code]/items[/code] -- Prints all valid ItemID constants.[br]
 class_name DebugCommandLine
 extends CanvasLayer
 
@@ -149,7 +149,7 @@ func _cmd_give_all(parts : Array) -> void:
 			var valid = ", ".join(ItemID.CATEGORIES.keys())
 			_print_output("[color=red]Unknown category: '" + category + "'. Valid: " + valid + "[/color]")
 	else:
-		#No category — give everything.
+		#No category -- give everything.
 		_give_all_items(quantity)
 
 func _give_all_items(quantity : int = 1) -> void:
@@ -302,7 +302,7 @@ func _cmd_set_health(amount : int) -> void:
 	amount = clampi(amount, 0, _health.max_health)
 	var change = amount - _health.cur_health
 	_health.cur_health = amount
-	_health.healthChanged.emit(_health.cur_health, _health.max_health, change)
+	_health.health_changed.emit(_health.cur_health, _health.max_health, change)
 	_print_output("[color=green]Health set to " + str(amount) + " / " + str(_health.max_health) + ".[/color]")
 
 func _cmd_set_item(item_id : String, quantity : int) -> void:
@@ -340,18 +340,18 @@ func _cmd_set_all(parts : Array) -> void:
 
 func _cmd_help() -> void:
 	var text = "[color=white]Available commands:[/color]\n"
-	text += "  [color=gray]/give <item_id> [quantity][/color] — Add items\n"
-	text += "  [color=gray]/give all [category] [quantity][/color] — Add all items\n"
-	text += "  [color=gray]/remove <item_id> [quantity][/color] — Remove items\n"
-	text += "  [color=gray]/remove all [category][/color] — Remove all items\n"
-	text += "  [color=gray]/set wallet pocket|wallet|big[/color] — Set wallet size\n"
-	text += "  [color=gray]/set currency <amount>[/color] — Set currency\n"
-	text += "  [color=gray]/set health <amount>[/color] — Set health\n"
-	text += "  [color=gray]/set <item_id> <quantity>[/color] — Set item quantity\n"
-	text += "  [color=gray]/set all <category> <quantity>[/color] — Set all in category\n"
-	text += "  [color=gray]/list[/color] — Show inventory\n"
-	text += "  [color=gray]/items[/color] — Show valid item IDs\n"
-	text += "  [color=gray]/help[/color] — Show this message\n"
+	text += "  [color=gray]/give <item_id> [quantity][/color] ; Add items\n"
+	text += "  [color=gray]/give all [category] [quantity][/color] ; Add all items\n"
+	text += "  [color=gray]/remove <item_id> [quantity][/color] ; Remove items\n"
+	text += "  [color=gray]/remove all [category][/color] ; Remove all items\n"
+	text += "  [color=gray]/set wallet pocket|wallet|big[/color] ; Set wallet size\n"
+	text += "  [color=gray]/set currency <amount>[/color] ; Set currency\n"
+	text += "  [color=gray]/set health <amount>[/color] ; Set health\n"
+	text += "  [color=gray]/set <item_id> <quantity>[/color] ; Set item quantity\n"
+	text += "  [color=gray]/set all <category> <quantity>[/color] ; Set all in category\n"
+	text += "  [color=gray]/list[/color] ; Show inventory\n"
+	text += "  [color=gray]/items[/color] ; Show valid item IDs\n"
+	text += "  [color=gray]/help[/color] ; Show this message\n"
 	_print_output(text)
 
 #endregion HELP

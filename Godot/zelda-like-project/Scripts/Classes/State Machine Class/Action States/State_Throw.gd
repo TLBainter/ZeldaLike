@@ -1,4 +1,4 @@
-##[b][color=red]StateThrow[/color][/b] is the Action layer state for throwing a held object.[br]
+﻿##[b][color=red]StateThrow[/color][/b] is the Action layer state for throwing a held object.[br]
 ##Launches the object as a projectile in the facing direction. Distance is affected by weight.[br]
 ##Waits for the projectile to land, then transitions to NoAction.[br]
 ##[br]
@@ -8,9 +8,7 @@ extends State
 
 #region VARIABLES
 
-@export_group("In-Layer Transitions")
-##The state to return to after the throw completes.
-@export var no_action_state : Node ## : State
+var no_action_state : State
 
 ##Reference to the active projectile component (created dynamically).
 var _projectile : ProjectileComponent
@@ -19,27 +17,31 @@ var _projectile : ProjectileComponent
 
 #region FUNCTIONS
 
+func init_state_refs() -> void:
+	no_action_state = coordinator.get_state(StateNoAction)
+
 func enter():
 	super()
 	var character = get_character()
 	var held = coordinator.held_object
 	if not character or not held:
-		if debug_me:
-			printerr(debug_name, ": Nothing to throw!")
+		push_error(debug_name + ": missing character or held object in enter()")
 		if no_action_state:
-			state_machine.change_state(no_action_state)
+			state_machine.change_state(coordinator.try_transition(state_machine, no_action_state, "enter+no_character_or_held"))
 		return
 	if character.energy:
 		if not character.energy.consume(1):
 			if debug_me:
 				print(debug_name, ": Not enough energy to throw, dropping instead.")
 			if no_action_state:
-				state_machine.change_state(no_action_state)
+				state_machine.change_state(coordinator.try_transition(state_machine, no_action_state, "enter+insufficient_energy"))
 			return
 	#Freeze movement during the throw.
 	coordinator.freeze_movement()
+	#Clear context label immediately -- the held object is gone.
+	coordinator.update_context("")
 	#Calculate throw direction from facing.
-	var facing_dir : Vector2 = _get_facing_vector(character.anim.facing) if character.anim else Vector2.DOWN
+	var facing_dir : Vector2 = facing_to_vector(character.anim.facing) if character.anim else Vector2.DOWN
 	#Detach the object from the player's hold position.
 	held.release(held.body.global_position + (facing_dir * 8.0), false) 
 	#Play throw animation.
@@ -60,6 +62,10 @@ func enter():
 	if not _projectile.projectile_landed.is_connected(_on_projectile_landed):
 		_projectile.projectile_landed.connect(_on_projectile_landed, CONNECT_ONE_SHOT)
 	###===END SIGNAL CONNECTION===###
+	#Seed drop scatter so breaks use throw direction (away from player) instead of circular default.
+	if held is DynamicThing:
+		held._damaged_by_attack = true
+		held._last_damage_source_pos = character.body.global_position
 	var data = held.object_data
 	var base_distance : float = data.throw_distance if data else 80.0
 	var throw_speed : float = data.throw_speed if data else 150.0
@@ -76,6 +82,8 @@ func exit():
 	if character and character.anim and character.anim is CharacterAnimator:
 		character.anim.can_update_facing = true
 	coordinator.unfreeze_movement()
+	if debug_me:
+		print(debug_name, ": exit ; movement unfrozen, StateNoAction will refresh context")
 	#Clean up projectile reference.
 	_projectile = null
 	super()
@@ -89,7 +97,7 @@ func _on_projectile_landed(broke : bool):
 		_projectile.queue_free()
 		_projectile = null
 	if no_action_state:
-		state_machine.change_state(no_action_state)
+		state_machine.change_state(coordinator.try_transition(state_machine, no_action_state, "projectile_landed"))
 
 ##Calculates throw distance based on object weight.[br]
 ##Light (10): full distance. Medium (30): ~66%. Heavy (60): ~33%.
@@ -99,14 +107,5 @@ func _calculate_throw_distance(held, base_distance : float = 80.0) -> float:
 		weight = held.stats.resource.weight
 	var weight_factor : float = clampf(1.0 - (float(weight) / 80.0), 0.25, 1.0)
 	return base_distance * weight_factor
-
-##Converts a facing string to a Vector2 direction.
-func _get_facing_vector(facing : String) -> Vector2:
-	match facing:
-		"up": return Vector2.UP
-		"down": return Vector2.DOWN
-		"left": return Vector2.LEFT
-		"right": return Vector2.RIGHT
-	return Vector2.DOWN
 
 #endregion FUNCTIONS

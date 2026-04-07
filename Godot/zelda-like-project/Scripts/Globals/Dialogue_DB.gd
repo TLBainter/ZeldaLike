@@ -10,7 +10,7 @@ const CHARACTER_PATH : String = "res://Scripts/Resources/Resource Files/Resource
 #region DATA STORAGE
 
 ##Stores dialogue
-##Format: { Ref_ID (int) : { "char_id" : String, "lines" : Array[String] } }
+##Format: { Ref_ID (String) : { "char_id" : String, "lines" : Array[String] } }
 var _dialogue_library : Dictionary = {}
 ##Stores character mappings between the character resources and the character ID column
 ##Format: {"character_name" : preload("res://Scripts/Resources/Resource Files/Resources_Characters/character_name.tres") }
@@ -58,7 +58,7 @@ func _parse_csv():
 		if csv_row.size() < 2:
 			continue
 		#Get ref id from first column
-		var ref_id = int(csv_row[0])
+		var ref_id = csv_row[0]
 		#Get char id from second column
 		var char_id = csv_row[1]
 		#Get lines from columns 3-8
@@ -74,7 +74,7 @@ func _parse_csv():
 			"lines" : lines
 		}
 		
-func get_dialogue_data(ref_id : int) -> Dictionary:
+func get_dialogue_data(ref_id : String) -> Dictionary:
 	if _dialogue_library.has(ref_id):
 		var entry = _dialogue_library[ref_id]
 		#Set up the character resource for the dialogue.

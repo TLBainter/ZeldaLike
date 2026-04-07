@@ -30,8 +30,8 @@ var max_bolts : int = 1
 @export var recovery_interval : float = 0.5
 
 @export_group("Costs")
-##How much energy a roll consumes.
-@export var roll_cost : int = 4
+##How much energy a dash consumes.
+@export var dash_cost : int = 1
 
 ##The maximum energy value, calculated from max_bolts.
 var max_energy : int = 4
@@ -55,10 +55,7 @@ var is_exhausted_state : bool = false
 #region FUNCTIONS
 
 func _ready():
-	#Walk up the tree to find the entity with a stats component.
-	var entity = get_parent()
-	while entity and not ("stats" in entity):
-		entity = entity.get_parent()
+	var entity = _find_entity_parent()
 	if entity and "stats" in entity and entity.stats and entity.stats.resource:
 		max_energy = entity.stats.resource.max_energy
 		if debug_me:

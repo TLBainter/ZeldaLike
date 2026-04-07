@@ -1,5 +1,5 @@
-##[b][color=red]MagicComponent[/color][/b] handles the magic values for a character.[br]
-##Magic is tracked in shards — every 6 shards forms a complete medallion.[br]
+﻿##[b][color=red]MagicComponent[/color][/b] handles the magic values for a character.[br]
+##Magic is tracked in shards -- every 6 shards forms a complete medallion.[br]
 ##Max magic equals total shards collected. Each medallion holds up to 6 magic.[br]
 ##Recovers over time with a configurable delay and tick rate.
 class_name MagicComponent
@@ -59,7 +59,7 @@ var _recovery_tick_timer : Timer
 #region FUNCTIONS
 
 func _ready():
-	var entity = get_parent()
+	var entity = _find_entity_parent()
 	if entity and "stats" in entity and entity.stats and entity.stats.resource:
 		total_shards = entity.stats.resource.max_magic
 	else:

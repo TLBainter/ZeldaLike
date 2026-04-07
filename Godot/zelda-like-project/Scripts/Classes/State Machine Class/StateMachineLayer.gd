@@ -24,10 +24,14 @@ var coordinator : StateCoordinator
 #=================#
 
 @export_group("Debug")
-##Whether or not you want this layer to print debug outputs.
-@export var debug_me : bool = false
-##The name used to identify this layer in the debug output.
-@export_enum("Action", "Movement", "No Control") var debug_name : String = "SMLayer"
+@export var debug : DebugSettings = DebugSettings.new()
+var debug_me : bool:
+	get: return debug.debug_me if debug else false
+var debug_me_verbose : bool:
+	get: return debug.debug_me_verbose if debug else false
+var debug_name : String:
+	get: return debug.debug_name if debug else ""
+	set(v): if debug: debug.debug_name = v
 
 #==================#
 

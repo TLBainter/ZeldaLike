@@ -29,6 +29,8 @@ extends Node2D
 @export var health : HealthComponent
 ##Movement handler; excepts type [color=green]MovementComponent[/color]
 @export var move : MoveComponent
+##Optional interaction zone component; add an [b]InteractableComponent[/b] scene to make this entity interactable.
+@export var interactable : InteractableComponent
 
 #endregion
 #region EXPORT VARIABLES
@@ -46,10 +48,14 @@ var type : String
 #endregion
 #region DEBUG VARIABLES
 @export_group("Debug")
-##whether or not you want this entity to be debugged
-@export var debug_me : bool = false
-##the name you want the editor to display when referencing this entity
-@export var debug_name : String = ("Entity/" + type)
+@export var debug : DebugSettings = DebugSettings.new()
+var debug_me : bool:
+	get: return debug.debug_me if debug else false
+var debug_me_verbose : bool:
+	get: return debug.debug_me_verbose if debug else false
+var debug_name : String:
+	get: return debug.debug_name if debug else ""
+	set(v): if debug: debug.debug_name = v
 #endregion
 #endregion
 

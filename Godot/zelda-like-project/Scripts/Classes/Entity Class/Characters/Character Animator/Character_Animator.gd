@@ -10,10 +10,14 @@ extends AnimationPlayer
 ##Whether or not this character has diagonal movement; enabling this without diagonal animations will cause the cahracter to break.
 @export var has_diagonal_movement : bool = false
 @export_group("Debug")
-##Whether or not you wish to debug this entity
-@export var debug_me : bool = false
-##The name you will use in the debugger for this component
-@export var debug_name : String = ""
+@export var debug : DebugSettings = DebugSettings.new()
+var debug_me : bool:
+	get: return debug.debug_me if debug else false
+var debug_me_verbose : bool:
+	get: return debug.debug_me_verbose if debug else false
+var debug_name : String:
+	get: return debug.debug_name if debug else ""
+	set(v): if debug: debug.debug_name = v
 #endregion Export Variables
 #region Internal Variables
 ## The parent entity; expects a character
@@ -36,7 +40,7 @@ var is_moving : bool = false
 
 #region FUNCTIONS
 func _ready():
-	input.onMove.connect(face)
+	input.on_move.connect(face)
 
 ##Sets the facing direction of the relevant character's sprite.[br]
 ##Has functionality for diagonal animations if required for the entity.
@@ -126,3 +130,4 @@ func force_face(face_dir : Vector2):
 	play_directional_anim("Idle")
 	if debug_me:
 		print(debug_name, " forced to face ", facing)
+

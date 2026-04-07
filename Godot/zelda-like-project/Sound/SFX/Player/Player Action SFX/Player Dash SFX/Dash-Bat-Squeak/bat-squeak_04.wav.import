@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://ey8fy7c2c7t6"
+path="res://.godot/imported/bat-squeak_04.wav-8ca55282f632c5715993b9e774a3c0fc.sample"
+
+[deps]
+
+source_file="res://Sound/SFX/Player/Player Action SFX/Player Dash SFX/Dash-Bat-Squeak/bat-squeak_04.wav"
+dest_files=["res://.godot/imported/bat-squeak_04.wav-8ca55282f632c5715993b9e774a3c0fc.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2
