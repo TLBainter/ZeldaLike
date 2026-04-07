@@ -9,18 +9,18 @@ extends State
 
 #region VARIABLES
 
-@export_group("In-Layer Transitions")
-##The state to return to when the grab is released.
-@export var no_action_state : State
-@export_group("Cross-Layer Transitions")
-##The GrabIdle state on the [b]Movement layer[/b] to switch to when grabbing.
-@export var grab_idle_state : State
-##The idling state on the [b]Movement layer[/b] to return to when releasing.
-@export var idle_state : State
+var no_action_state : State
+var grab_idle_state : State
+var idle_state : State
 
 #endregion VARIABLEs
 
 #region FUNCTIONS
+
+func init_state_refs() -> void:
+	no_action_state = coordinator.get_state(StateNoAction)
+	grab_idle_state = coordinator.get_state(StateGrabIdle)
+	idle_state = coordinator.get_state(StateIdling)
 
 func enter():
 	super()

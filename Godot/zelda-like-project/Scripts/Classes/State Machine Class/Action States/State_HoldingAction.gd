@@ -8,17 +8,10 @@ extends State
 
 #region VARIABLES
 
-@export_group("In-Layer Transitions")
-##The state to enter when throwing the held object (player is running).
-@export var throw_state : Node ## : State
-##The state to enter when dropping the held object (player is idle or walking).
-@export var drop_state : Node ## : State
-##Fallback if something goes wrong.
-@export var no_action_state : Node ## : State
-
-@export_group("Movement State References")
-##Reference to the Run state on the Movement layer, used to check if player is running.
-@export var run_state : Node ## : State (Movement layer)
+var throw_state : State
+var drop_state : State
+var no_action_state : State
+var run_state : State
 
 @export_group("Hold Settings")
 ##The offset above the player's body where the object is held.
@@ -31,6 +24,12 @@ var _is_running : bool = false
 #endregion VARIABLES
 
 #region FUNCTIONS
+
+func init_state_refs() -> void:
+	throw_state = coordinator.get_state(StateThrow)
+	drop_state = coordinator.get_state(StateDrop)
+	no_action_state = coordinator.get_state(StateNoAction)
+	run_state = coordinator.get_state(StateRun)
 
 func enter():
 	super()

@@ -1,4 +1,4 @@
-##[b][color=red]ContextLabel[/color][/b] controls the text that appears over Action Button 4 (Context Button).[br]
+﻿##[b][color=red]ContextLabel[/color][/b] controls the text that appears over Action Button 4 (Context Button).[br]
 ##Use this to display things like 'Roll' or 'Speak' in set contexts.
 class_name ContextLabel
 extends PlayerUXLabel
@@ -70,17 +70,17 @@ func update_label(new_text : String):
 	var effective_text := _pending_text if (anim_player and anim_player.is_playing()) else text
 	if effective_text == new_text:
 		if debug_me:
-			print(debug_name, ": update_label('", new_text, "') — no change from effective '", effective_text, "', skipping")
+			print(debug_name, ": update_label('", new_text, "') ; no change from effective '", effective_text, "', skipping")
 		return
 	if debug_me:
-		print(debug_name, ": update_label('", new_text, "') — was '", text, "' (pending '", _pending_text, "')", (" [flip animation]" if anim_player else ""))
+		print(debug_name, ": update_label('", new_text, "') ; was '", text, "' (pending '", _pending_text, "')", (" [flip animation]" if anim_player else ""))
 	_pending_text = new_text
 	if new_text.is_empty() and (not anim_player or not anim_player.is_playing()):
-		# No animation in flight — clear immediately without animating.
+		# No animation in flight -- clear immediately without animating.
 		text = ""
 		return
 	if anim_player:
-		# If a flip is already running, just update _pending_text — swap_text() will use it.
+		# If a flip is already running, just update _pending_text -- swap_text() will use it.
 		# If we're in the post-swap reveal phase, _on_animation_finished will start a new
 		# flip once the current animation completes, preventing the label from being
 		# cut away before it becomes visible.
@@ -91,7 +91,7 @@ func update_label(new_text : String):
 
 func swap_text():
 	if debug_me:
-		print(debug_name, ": swap_text() — displaying '", _pending_text, "'")
+		print(debug_name, ": swap_text() ; displaying '", _pending_text, "'")
 	text = _pending_text
 	#pivot_offset = size / 2.0
 
@@ -101,7 +101,7 @@ func swap_text():
 func _on_animation_finished(_anim_name : StringName):
 	if text != _pending_text:
 		if debug_me:
-			print(debug_name, ": _on_animation_finished — queuing flip '", text, "' → '", _pending_text, "'")
+			print(debug_name, ": _on_animation_finished ; queuing flip '", text, "' → '", _pending_text, "'")
 		anim_player.play("flip")
 
 func reset():

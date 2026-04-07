@@ -1,4 +1,4 @@
-##[b][color=red]StateNoAction[/color][/b] is the default Action Layer state.[br]
+﻿##[b][color=red]StateNoAction[/color][/b] is the default Action Layer state.[br]
 ##The character is not performing any actions in this state.[br]
 ##Transitions to action states are triggered by input or events.[br]
 ##[br]
@@ -7,23 +7,24 @@ class_name StateNoAction
 extends State
 
 #region VARIABLES
-@export_group("Transitions")
-##The state to enter when the character initiates an attack.
-@export var attack_state : State
-##The state to enter when the character initiates an interactions.
-@export var interact_state : State
-##The state to enter when the character is grabbing something (like a push/pull object).
-@export var grab_state : State
-##The state to enter when the character lifts something (like a pot or crate).
-@export var lift_state : State
+var attack_state : State
+var interact_state : State
+var grab_state : State
+var lift_state : State
 #endregion VARIABLES
 
 #region FUNCTIONS
 
+func init_state_refs() -> void:
+	attack_state = coordinator.get_state(StateAttack)
+	interact_state = coordinator.get_state(StateInteract)
+	grab_state = coordinator.get_state(StateGrab)
+	lift_state = coordinator.get_state(StateLift)
+
 func enter():
 	super()
 	if debug_me:
-		print(debug_name, ": entered — requesting context refresh")
+		print(debug_name, ": entered ; requesting context refresh")
 	coordinator.request_context_refresh()
 
 ##Listens for action button presses to transition to action states.
@@ -59,7 +60,7 @@ func process_input(event : InputEvent) -> State:
 				return coordinator.try_transition(state_machine, grab_state, "actionButton4+DynamicThing+grab")
 			elif priority == "lift" and lift_state:
 				return coordinator.try_transition(state_machine, lift_state, "actionButton4+DynamicThing+lift")
-		elif interact_state:
+		elif interact_state and interactable.interact_type != InteractableComponent.InteractType.NONE:
 			return coordinator.try_transition(state_machine, interact_state, "actionButton4+not_DynamicThing")
 	#endregion Context Button
 	return null

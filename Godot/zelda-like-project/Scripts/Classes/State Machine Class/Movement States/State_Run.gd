@@ -8,18 +8,18 @@ extends State
 
 #region VARIABLES
 
-##The state to enter when no longer moving.
-@export var idle_state : State
-
-##The state to enter when moving at a slower pace due to decreased joystick input strength.
-@export var move_state : State
-
-##The state to enter when dashing due to action button press.
-@export var dash_state : State
+var idle_state : State
+var move_state : State
+var dash_state : State
 
 #endregion VARIABLES
 
 #region FUNCTIONS
+
+func init_state_refs() -> void:
+	idle_state = coordinator.get_state(StateIdling)
+	move_state = coordinator.get_state(StateMove)
+	dash_state = coordinator.get_state(StateDash)
 
 func enter():
 	super()
@@ -50,10 +50,12 @@ func get_context_key() -> String:
 	return "dash"
 
 func process_input(event : InputEvent) -> State:
-	if event.is_action_pressed("actionButton4") and dash_state:
+	if (event.is_action_pressed("actionButton4") or event.is_action_pressed("dash")) and dash_state:
 		if coordinator.held_object:
 			return null
-		return coordinator.try_transition(state_machine, dash_state, "actionButton4+running+no_held")
+		if coordinator.is_on_dodge_cooldown():
+			return null
+		return coordinator.try_transition(state_machine, dash_state, "dash+running+no_held")
 	return null
 
 #endregion FUNCTIONS

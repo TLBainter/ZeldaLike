@@ -1,4 +1,4 @@
-##[b][color=red]DEPRECATED[/color][/b] — Use [b]InteractableComponent[/b] instead.[br]
+﻿##[b][color=red]DEPRECATED[/color][/b] -- Use [b]InteractableComponent[/b] instead.[br]
 ##This class's body_entered handler causes a runtime type error:[br]
 ##[code]Body_Player.current_interactable[/code] is typed [code]InteractableComponent[/code],[br]
 ##but this class assigns [code]self[/code] (an Area2D) to it.[br]

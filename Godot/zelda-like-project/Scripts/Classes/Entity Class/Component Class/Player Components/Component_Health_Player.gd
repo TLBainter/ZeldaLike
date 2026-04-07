@@ -8,6 +8,9 @@ extends HealthComponent
 ## Derived from stats resource (max_health / 4). Set at runtime.
 var max_hearts : int = 3
 
+var _pending_hits : Array = []   # Array of {damage: int, position: Vector2}
+var _hit_buffered : bool = false
+
 #endregion VARIABLES
 
 #region FUNCTIONS
@@ -52,6 +55,29 @@ func _debug_health(event):
 	elif debug_me and event.is_action_pressed("healPlayer"):
 		print(debug_name, " is being healed by an input event!")
 		healed(1)
-	
+
+func damaged(damage : int, source_position : Vector2 = Vector2.ZERO) -> void:
+	_pending_hits.append({ "damage": damage, "position": source_position })
+	if not _hit_buffered:
+		_hit_buffered = true
+		_apply_best_hit.call_deferred()
+
+func _apply_best_hit() -> void:
+	_hit_buffered = false
+	if _pending_hits.is_empty():
+		return
+	var entity = _find_entity_parent()
+	if entity and "is_invulnerable" in entity and entity.is_invulnerable:
+		_pending_hits.clear()
+		return
+	var player_pos : Vector2 = entity.global_position if entity else Vector2.ZERO
+	_pending_hits.sort_custom(func(a, b) -> bool:
+		if a["damage"] != b["damage"]:
+			return a["damage"] > b["damage"]
+		return a["position"].distance_squared_to(player_pos) < b["position"].distance_squared_to(player_pos)
+	)
+	var best : Dictionary = _pending_hits[0]
+	_pending_hits.clear()
+	cur_health -= int(best["damage"])
 
 #endregion FUNCTIONS

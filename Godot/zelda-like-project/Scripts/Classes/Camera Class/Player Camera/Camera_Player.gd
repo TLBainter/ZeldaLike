@@ -1,4 +1,4 @@
-##[b][color=red]PlayerCam[/color][/b] is the camera class responsible for the player; it handles room transitions, zoom, etc.[br]
+﻿##[b][color=red]PlayerCam[/color][/b] is the camera class responsible for the player; it handles room transitions, zoom, etc.[br]
 ##If you want to have cutscenes that, for example, transfer to other spots on the map, use a different camera class.
 class_name PlayerCam
 extends CamClass
@@ -46,7 +46,7 @@ var _was_zooming : bool = false
 var _current_whoosh_player : AudioStreamPlayer
 ##internal value that determines whether the cam_whoosh audio file should be played
 var _was_cam_moved : bool = false
-#TODO: Make the ground variable an array, someday—or something to that effect. Could be a dictionary?[br]
+#TODO: Make the ground variable an array, someday--or something to that effect. Could be a dictionary?[br]
 #This will be necessary if I am going to have more than one ground tilemap layer in a single scene!
 @export_subgroup("Detection")
 ##The ground layer of the level.
@@ -67,9 +67,17 @@ func _ready() -> void:
 	#BUG: This does not currently work; using physics process temporarily.
 	#input.on_move.connect(update_cam_pos)
 
-#TODO: instead of _physics_process, need to make it so the camera only moves when it needs to.
-#This will limit resource drain. Calling this every frame is dicey.
 func _physics_process(delta: float) -> void:
+	var player_pos : Vector2 = player.global_position if player else global_position
+	var at_target_x : bool = abs(player_pos.x - global_position.x) <= horizontal_dead_zone
+	var at_target_y : bool = abs(player_pos.y - global_position.y) <= vertical_dead_zone
+	var no_pan_input : bool = Input.get_vector("camLeft", "camRight", "camUp", "camDown").length() < 0.1
+	var not_zooming : bool = not Input.is_action_pressed("camZoom")
+	var player_still : bool = not player or player.velocity.length() < 1.0
+	var offset_settled : bool = offset.distance_to(_target_offset) < 0.5
+	var zoom_settled : bool = zoom.distance_to(_target_zoom) < 0.001
+	if at_target_x and at_target_y and no_pan_input and not_zooming and player_still and offset_settled and zoom_settled:
+		return
 	update_cam_pos(delta)
 	_handle_pan_zoom(delta)
 

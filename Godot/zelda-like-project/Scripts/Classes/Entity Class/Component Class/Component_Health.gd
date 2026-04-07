@@ -1,4 +1,4 @@
-##[b][color=red]HealthComponent[/color][/b] addresses the current and maximum health of a member of the Entity Class,[br]
+﻿##[b][color=red]HealthComponent[/color][/b] addresses the current and maximum health of a member of the Entity Class,[br]
 ##as well as the damage and healing.
 class_name HealthComponent
 extends Component
@@ -54,11 +54,11 @@ func healed(healing : int):
 #endregion HEAL
 
 #region DAMAGE
-func damaged(damage : int):
+func damaged(damage : int, _source_position : Vector2 = Vector2.ZERO):
 	var entity = _find_entity_parent()
 	if entity and "is_invulnerable" in entity and entity.is_invulnerable:
 		if debug_me:
-			print(debug_name, ": damage blocked — entity is invulnerable.")
+			print(debug_name, ": damage blocked ; entity is invulnerable.")
 		return
 	self.cur_health -= damage
 	if debug_me:

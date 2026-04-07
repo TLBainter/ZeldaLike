@@ -7,9 +7,7 @@ extends State
 
 #region VARIABLES
 
-@export_group("In-Layer Transitions")
-##The state to return to after dropping.
-@export var no_action_state : Node ## : State
+var no_action_state : State
 
 @export_group("Drop Settings")
 ##Offset from the player's body position where the object is placed on drop.[br]
@@ -19,6 +17,9 @@ extends State
 #endregion VARIABLES
 
 #region FUNCTIONS
+
+func init_state_refs() -> void:
+	no_action_state = coordinator.get_state(StateNoAction)
 
 func enter() -> void:
 	super()

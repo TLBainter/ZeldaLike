@@ -1,4 +1,4 @@
-##[b][color=red]State[/color][/b] is the overarching handler of all substates for a character.[br]
+﻿##[b][color=red]State[/color][/b] is the overarching handler of all substates for a character.[br]
 ##It is the base class from which all substates in the state machine system are derived.[br]
 ##States are child nodes of a [b]StateMachineLayer[/b] and control behavior for one layer (Movement, Action, No Control).[br]
 ##Return a [b]State[/b] from a process function to trigger a transition; return [b][color=pink]null[/color][/b] to stay in the current state.
@@ -45,6 +45,12 @@ func _ready():
 	if debug_name == "":
 		debug_name = name
 
+##Called after all state layers are initialized and coordinator is set.[br]
+##Override to assign transition state references using coordinator.get_state().[br]
+##Do NOT call super() -- base implementation is intentionally empty.
+func init_state_refs() -> void:
+	pass
+
 ##Function that is called when this state is first entered.[br]
 ##Override to add enter logic to a state beyond animation switching.[br]
 ##Call [b]super()[/b] to keep the default animation changing behavior.
@@ -58,7 +64,7 @@ func enter():
 ##Override to disconnect signals that should not fire while frozen.[br]
 ##[br]
 ##[b]Contract:[/b] If this state connects any signals in [method enter], it MUST disconnect them
-##here and reconnect them in [method resume]. Do not rely on [method exit] alone — the state
+##here and reconnect them in [method resume]. Do not rely on [method exit] alone -- the state
 ##machine may freeze without exiting the active state.
 func pause():
 	if debug_me:

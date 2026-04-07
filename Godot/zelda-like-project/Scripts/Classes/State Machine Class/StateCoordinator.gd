@@ -36,6 +36,10 @@ var debug_name : String:
 @export var debug_transitions : bool = false
 #============#
 #Internal Variables
+##Shared cooldown duration (seconds) after any dodge (dash or backstep).
+const DODGE_COOLDOWN : float = 0.25
+##Remaining cooldown time before the next dodge is allowed. Ticked down in _process.
+var _dodge_cooldown_timer : float = 0.0
 ##The DynamicThing currently being grabbed by the relevant entity.
 ##Set by StateGrab, read by GrabIdle/Pushing/Pulling States. Null when not grabbing.
 var grabbed_object : DynamicThing = null
@@ -51,6 +55,12 @@ var _states : Dictionary = {}
 #endregion VARIABLES
 
 #region FUNCTIONS
+
+func _process(delta: float) -> void:
+	_dodge_cooldown_timer -= delta
+	if _dodge_cooldown_timer <= 0.0:
+		_dodge_cooldown_timer = 0.0
+		set_process(false)
 
 func _ready():
 	#region component debugger prints
@@ -72,6 +82,9 @@ func _ready():
 	movement_layer.init_refs(root, self)
 	action_layer.init_refs(root, self)
 	no_control_layer.init_refs(root, self)
+	for state in _states.values():
+		state.init_state_refs()
+	set_process(false)
 	if debug_me:
 		print(debug_name, " initialized with root: ", root.debug_name)
 
@@ -217,6 +230,15 @@ func consume_energy(cost : int) -> bool:
 	if character and character.energy:
 		return character.energy.consume(cost)
 	return true
+
+##Returns true if the dodge cooldown is still active (dash or backstep used recently).
+func is_on_dodge_cooldown() -> bool:
+	return _dodge_cooldown_timer > 0.0
+
+##Starts the shared dodge cooldown. Called by StateDash and StateBackstep on successful exit.
+func start_dodge_cooldown() -> void:
+	set_process(true)
+	_dodge_cooldown_timer = DODGE_COOLDOWN
 
 ##Returns true if the entity's body velocity exceeds the given threshold (pixels/sec).[br]
 ##Use instead of raw Input polling so the check works for both player and AI entities.

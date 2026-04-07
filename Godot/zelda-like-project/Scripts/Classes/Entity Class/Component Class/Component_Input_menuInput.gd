@@ -1,4 +1,4 @@
-##[b][color=red]MenuController[/color][/b] handles navigation input for a menu full of [b]MenuHoverable[/b] panels.[br]
+﻿##[b][color=red]MenuController[/color][/b] handles navigation input for a menu full of [b]MenuHoverable[/b] panels.[br]
 ##Routes D-pad/stick input to move between hoverables.
 class_name MenuController
 extends Node
@@ -106,13 +106,13 @@ func _process(delta : float) -> void:
 	var direction = _get_input_direction()
 	if direction != "":
 		if direction != _held_direction:
-			#New direction pressed — navigate immediately.
+			#New direction pressed -- navigate immediately.
 			_held_direction = direction
 			_held_time = 0.0
 			_repeat_started = false
 			_try_navigate(direction)
 		else:
-			#Same direction held — handle repeat.
+			#Same direction held -- handle repeat.
 			_held_time += delta
 			if not _repeat_started:
 				if _held_time >= input_repeat_delay:
@@ -124,7 +124,7 @@ func _process(delta : float) -> void:
 					_held_time = 0.0
 					_try_navigate(direction)
 	else:
-		#No direction held — reset.
+		#No direction held -- reset.
 		_held_direction = ""
 		_held_time = 0.0
 		_repeat_started = false

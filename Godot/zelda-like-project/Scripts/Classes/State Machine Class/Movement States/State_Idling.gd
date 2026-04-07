@@ -8,15 +8,17 @@ extends State
 
 #region VARIABLES
 
-@export_group("Transitions")
-##The state to enter when movement input is detected.
-@export var move_state : State
-##The state to enter when the player backtsteps (actionButton4, no interactable, not exhausted).
-@export var backstep_state : State
+var move_state : State
+var backstep_state : State
 
 #endregion VARIABLES
 
 #region FUNCTIONS
+
+func init_state_refs() -> void:
+	move_state = coordinator.get_state(StateMove)
+	backstep_state = coordinator.get_state(StateBackstep)
+
 	#region enter/exit
 func enter():
 	super()
@@ -59,6 +61,7 @@ func _on_move(_move_input : Vector2, move_strength : float):
 		state_machine.change_state(coordinator.try_transition(state_machine, move_state, "on_move+strength>0.15"))
 
 ##Trigger backstep when actionButton4 is pressed with no interactable and not exhausted.
+##The dedicated dash input always triggers backstep regardless of interactable.
 func process_input(event : InputEvent) -> State:
 	if event.is_action_pressed("actionButton4") and backstep_state:
 		if coordinator.held_object:
@@ -66,9 +69,15 @@ func process_input(event : InputEvent) -> State:
 		var character = get_character()
 		if character and character.body.current_interactable:
 			return null  # Let the action layer handle the interaction.
-		if coordinator.is_exhausted():
+		if coordinator.is_exhausted() or coordinator.is_on_dodge_cooldown():
 			return null
 		return coordinator.try_transition(state_machine, backstep_state, "actionButton4+idle+no_interactable")
+	if event.is_action_pressed("dash") and backstep_state:
+		if coordinator.held_object:
+			return null
+		if coordinator.is_exhausted() or coordinator.is_on_dodge_cooldown():
+			return null
+		return coordinator.try_transition(state_machine, backstep_state, "dash+idle")
 	return null
 
 ##Fetch the context key from the interactable nearby.

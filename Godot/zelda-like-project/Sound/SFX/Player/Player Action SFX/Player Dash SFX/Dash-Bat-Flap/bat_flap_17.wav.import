@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://jnpt26t6plhf"
+path="res://.godot/imported/bat_flap_17.wav-fcd04b46a3fc601e0b23164173dae9b3.sample"
+
+[deps]
+
+source_file="res://Sound/SFX/Player/Player Action SFX/Player Dash SFX/Dash-Bat-Flap/bat_flap_17.wav"
+dest_files=["res://.godot/imported/bat_flap_17.wav-fcd04b46a3fc601e0b23164173dae9b3.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

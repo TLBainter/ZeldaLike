@@ -8,20 +8,20 @@ extends State
 
 #region VARIABLES
 
-@export_group("Internal Transitions")
-##The state to enter when pushing the object (input matches facing direction).
-@export var pushing_state : State
-##The state to enter when pulling the object (input opposes facing direction).
-@export var pulling_state : State
-@export_group("Cross-Layer Transitions")
-##The no action state on the action layer
-@export var no_action_state : State
+var pushing_state : State
+var pulling_state : State
+var no_action_state : State
 #====#
 var _snap_cooldown : bool = false
 
 #endregion VARIABLES
 
 #region FUNCTION
+
+func init_state_refs() -> void:
+	pushing_state = coordinator.get_state(StatePushing)
+	pulling_state = coordinator.get_state(StatePulling)
+	no_action_state = coordinator.get_state(StateNoAction)
 
 func enter():
 	#Call super

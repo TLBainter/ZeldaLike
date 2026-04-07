@@ -90,7 +90,7 @@ func _physics_process(delta : float):
 	#Attempt to move the body.
 	var collision = _body.move_and_collide(_direction * move_amount)
 	if collision:
-		#Hit something — land here.
+		#Hit something -- land here.
 		_distance_traveled = _max_distance
 		_land(true)
 		return

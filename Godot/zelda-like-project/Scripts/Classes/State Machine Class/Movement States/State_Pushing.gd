@@ -1,4 +1,4 @@
-##[b][color=red]StatePushing[/color][/b] is the [b]Movement layer[/b] state for pushing a grabbed object.[br]
+﻿##[b][color=red]StatePushing[/color][/b] is the [b]Movement layer[/b] state for pushing a grabbed object.[br]
 ##Smoothly moves both the player and object 8px in the facing direction.[br]
 ##Holding directional input causes continuous snaps with a weight-based delay between them.[br]
 ##Returns to GrabIdle when input stops. Transitions to Pulling if input reverses (and object is pullable).[br]
@@ -15,11 +15,8 @@ const SNAP_DISTANCE : float = 8.0
 
 #region VARIABLES
 
-@export_group("Transitions")
-##The state to return to when directional input stops.
-@export var grab_idle_state : Node ## : State
-##The state to enter when input reverses (pull direction).
-@export var pulling_state : Node ## : State
+var grab_idle_state : State
+var pulling_state : State
 
 ##Whether input is currently being held along the push axis.
 var _input_held : bool = false
@@ -35,6 +32,10 @@ var _snap_speed : float = 80.0
 #endregion VARIABLES
 
 #region FUNCTIONS
+
+func init_state_refs() -> void:
+	grab_idle_state = coordinator.get_state(StateGrabIdle)
+	pulling_state = coordinator.get_state(StatePulling)
 
 func enter():
 	super()
@@ -89,10 +90,10 @@ func _on_move(move_input : Vector2, move_strength : float) -> void:
 		return
 	var facing_dir : Vector2 = _get_facing_vector(character.anim.facing)
 	var dot : float = move_input.normalized().dot(facing_dir)
-	#Input still in push direction — keep holding.
+	#Input still in push direction -- keep holding.
 	if dot > 0.5:
 		_input_held = true
-	#Input reversed — check if we can pull.
+	#Input reversed -- check if we can pull.
 	elif dot < -0.5:
 		_input_held = false
 		if not _is_snapping:
@@ -102,7 +103,7 @@ func _on_move(move_input : Vector2, move_strength : float) -> void:
 			else:
 				if grab_idle_state:
 					state_machine.change_state(coordinator.try_transition(state_machine, grab_idle_state, "on_move+dot<-0.5+not_pullable"))
-	#Perpendicular input — ignore, treat as stopped.
+	#Perpendicular input -- ignore, treat as stopped.
 	else:
 		_input_held = false
 		if not _is_snapping and grab_idle_state:

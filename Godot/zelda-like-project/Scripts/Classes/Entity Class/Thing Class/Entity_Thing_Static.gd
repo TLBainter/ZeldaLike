@@ -1,4 +1,4 @@
-##[b][color=red]StaticThing[/color][/b] is a [b]Thing[/b] that does not move.[br]
+﻿##[b][color=red]StaticThing[/color][/b] is a [b]Thing[/b] that does not move.[br]
 ##[br]
 ##Behavior is data-driven:[br]
 ##- Assign a [b]DecorObject[/b] resource to enable persistent breakable decor (grass, bushes, pots-on-tables).[br]
@@ -104,7 +104,7 @@ func take_damage(_amount : int) -> void:
 	_break()
 
 ##Breaks this decor: switches sprite, plays sound, spawns particles and drops.[br]
-##The object [b]persists[/b] — it switches to the destroyed frame rather than being freed.
+##The object [b]persists[/b] -- it switches to the destroyed frame rather than being freed.
 func _break() -> void:
 	if _is_broken:
 		return

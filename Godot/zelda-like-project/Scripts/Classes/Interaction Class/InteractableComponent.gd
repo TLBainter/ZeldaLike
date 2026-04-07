@@ -1,4 +1,4 @@
-##[b][color=red]InteractableComponent[/color][/b] is a pluggable interaction zone that can be added to any [b]EntityClass[/b] entity.[br]
+﻿##[b][color=red]InteractableComponent[/color][/b] is a pluggable interaction zone that can be added to any [b]EntityClass[/b] entity.[br]
 ##Place as a child of the entity's [b]body[/b] node ([b]CharacterBody2D[/b]) for objects that move,[br]
 ##or directly under the entity root for static entities.[br]
 ##[br]
@@ -34,7 +34,7 @@ enum InteractType {
 #region EXPORTS
 @export_group("Interact Settings")
 ##The type of interaction this component provides.[br]
-##Automatically sets [b]context_key[/b] — override below if needed.
+##Automatically sets [b]context_key[/b] -- override below if needed.
 @export var interact_type: InteractType = InteractType.NONE:
 	set(v):
 		interact_type = v
@@ -112,12 +112,12 @@ func set_active(active: bool) -> void:
 		if not active and _area.monitoring:
 			var overlapping := _area.get_overlapping_bodies()
 			if debug_me:
-				print(debug_name, ": set_active(false) — evicting ", overlapping.size(), " overlapping bodies")
+				print(debug_name, ": set_active(false) ; evicting ", overlapping.size(), " overlapping bodies")
 			for body in overlapping:
 				_on_body_exited(body)
 		elif not active:
 			if debug_me:
-				print(debug_name, ": set_active(false) — monitoring already off, skipping eviction")
+				print(debug_name, ": set_active(false) ; monitoring already off, skipping eviction")
 		_area.set_deferred("monitoring", active)
 		_area.set_deferred("monitorable", active)
 
@@ -128,7 +128,7 @@ func _on_body_entered(body: CharacterBody2D) -> void:
 		if "current_interactable" in body:
 			body.current_interactable = self
 		if debug_me:
-			print(debug_name, ": body_entered — current_interactable set, requesting context refresh")
+			print(debug_name, ": body_entered ; current_interactable set, requesting context refresh")
 		if body.root and body.root.state_machine:
 			body.root.state_machine.request_context_refresh()
 
@@ -137,7 +137,7 @@ func _on_body_exited(body: CharacterBody2D) -> void:
 		if "current_interactable" in body and body.current_interactable == self:
 			body.current_interactable = null
 		if debug_me:
-			print(debug_name, ": body_exited — current_interactable cleared, requesting context refresh")
+			print(debug_name, ": body_exited ; current_interactable cleared, requesting context refresh")
 		if body.root and body.root.state_machine:
 			body.root.state_machine.request_context_refresh()
 

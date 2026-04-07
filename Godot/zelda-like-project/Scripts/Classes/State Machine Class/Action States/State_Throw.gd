@@ -1,4 +1,4 @@
-##[b][color=red]StateThrow[/color][/b] is the Action layer state for throwing a held object.[br]
+﻿##[b][color=red]StateThrow[/color][/b] is the Action layer state for throwing a held object.[br]
 ##Launches the object as a projectile in the facing direction. Distance is affected by weight.[br]
 ##Waits for the projectile to land, then transitions to NoAction.[br]
 ##[br]
@@ -8,9 +8,7 @@ extends State
 
 #region VARIABLES
 
-@export_group("In-Layer Transitions")
-##The state to return to after the throw completes.
-@export var no_action_state : Node ## : State
+var no_action_state : State
 
 ##Reference to the active projectile component (created dynamically).
 var _projectile : ProjectileComponent
@@ -18,6 +16,9 @@ var _projectile : ProjectileComponent
 #endregion VARIABLES
 
 #region FUNCTIONS
+
+func init_state_refs() -> void:
+	no_action_state = coordinator.get_state(StateNoAction)
 
 func enter():
 	super()
@@ -37,7 +38,7 @@ func enter():
 			return
 	#Freeze movement during the throw.
 	coordinator.freeze_movement()
-	#Clear context label immediately — the held object is gone.
+	#Clear context label immediately -- the held object is gone.
 	coordinator.update_context("")
 	#Calculate throw direction from facing.
 	var facing_dir : Vector2 = facing_to_vector(character.anim.facing) if character.anim else Vector2.DOWN
@@ -82,7 +83,7 @@ func exit():
 		character.anim.can_update_facing = true
 	coordinator.unfreeze_movement()
 	if debug_me:
-		print(debug_name, ": exit — movement unfrozen, StateNoAction will refresh context")
+		print(debug_name, ": exit ; movement unfrozen, StateNoAction will refresh context")
 	#Clean up projectile reference.
 	_projectile = null
 	super()

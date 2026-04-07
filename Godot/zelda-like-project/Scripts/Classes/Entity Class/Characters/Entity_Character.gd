@@ -8,6 +8,8 @@ extends EntityClass
 @export_group("Character Components")
 ##the character's body
 @export var body : CharacterBody2D
+##the area used for feet-based collision detection (e.g. trap damage targeting)
+@export var foot_area : Area2D
 ##the navigation agent for the character
 @export var nav_agent : NavigationAgent2D
 #endregion

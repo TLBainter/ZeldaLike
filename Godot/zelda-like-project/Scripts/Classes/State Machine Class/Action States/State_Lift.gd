@@ -1,4 +1,4 @@
-##[b][color=red]StateLift[/color][/b] is the Action layer state for lifting a DynamicThing.[br]
+﻿##[b][color=red]StateLift[/color][/b] is the Action layer state for lifting a DynamicThing.[br]
 ##Freezes movement, plays the lift animation, and waits for animation_finished to transition to HoldingAction.[br]
 ##The object is visually moved to the hold offset above the player during the animation.[br]
 ##[br]
@@ -8,11 +8,8 @@ extends State
 
 #region VARIABLES
 
-@export_group("In-Layer Transitions")
-##The state to enter once the lift animation finishes.
-@export var holding_action_state : Node ## : State
-##The state to return to if the lift fails.
-@export var no_action_state : Node ## : State
+var holding_action_state : State
+var no_action_state : State
 
 @export_group("Lift Settings")
 ##The vertical offset above the player's body where the held object sits.
@@ -21,6 +18,10 @@ extends State
 #endregion VARIABLES
 
 #region FUNCTIONS
+
+func init_state_refs() -> void:
+	holding_action_state = coordinator.get_state(StateHoldingAction)
+	no_action_state = coordinator.get_state(StateNoAction)
 
 func enter() -> void:
 	super()
@@ -79,7 +80,7 @@ func exit() -> void:
 ##Called when the lift animation finishes. Transitions to HoldingAction.
 func _on_lift_finished(anim_name : String) -> void:
 	if not "Lift" in anim_name:
-		#Wrong animation finished — reconnect and wait for the real one.
+		#Wrong animation finished -- reconnect and wait for the real one.
 		var character = get_character()
 		if character and character.anim:
 			if not character.anim.animation_finished.is_connected(_on_lift_finished):

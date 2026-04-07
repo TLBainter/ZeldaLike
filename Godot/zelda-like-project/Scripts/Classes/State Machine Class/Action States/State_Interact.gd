@@ -7,9 +7,7 @@ extends State
 
 #region VARIABLES
 
-@export_group("Transitions")
-##The state to return to when the interaction ends.
-@export var no_action_state : State
+var no_action_state : State
 
 #===========#
 
@@ -20,6 +18,9 @@ var _active_interactable : InteractableComponent
 #endregion VARIABLES
 
 #region FUNCTIONS
+
+func init_state_refs() -> void:
+	no_action_state = coordinator.get_state(StateNoAction)
 
 func enter():
 	super()
