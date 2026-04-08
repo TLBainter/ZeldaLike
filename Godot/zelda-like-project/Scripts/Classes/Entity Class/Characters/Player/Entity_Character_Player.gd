@@ -35,7 +35,6 @@ var can_move : bool = true
 var display_name : String = "Count"
 #endregion
 #region MISC EXPORT VARIABLES
-#
 #endregion
 #region INTERNAL VARIABLES
 ##the NPC's category (whether it is a shopkeeper, standard, or story NPC).
@@ -50,12 +49,11 @@ var drop_pity : int = 0
 #region READY FUNCTION
 func _ready():
 	super._ready()
-	#establish variables
 	subtype = "Player"
 	add_to_group("player")
 	if textResolver:
 		textResolver.register_category("player", _resolve_text)
-	input.actionButtonPressed.connect(_on_action_button_pressed)
+	input.action_button_pressed.connect(_on_action_button_pressed)
 
 func _resolve_text(key : String):
 	match key:
@@ -67,16 +65,16 @@ func _resolve_text(key : String):
 func _on_action_button_pressed(btn):
 	match btn:
 		"actionButton4":
-			print("button4")
+			pass
 		#TODO: Add action button 3 logic
 		"actionButton3":
-			print("button3")
+			pass
 		#TODO: Add action button 2 logic
 		"actionButton2":
-			print("button2")
+			pass
 		#TODO: Add action button 1 logic
 		"actionButton1":
-			print("button1")
+			pass
 
 #region ACTION BUTTON 4
 

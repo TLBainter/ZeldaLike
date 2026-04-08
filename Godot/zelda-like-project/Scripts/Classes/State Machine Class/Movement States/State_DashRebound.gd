@@ -9,8 +9,6 @@ extends State
 
 #region VARIABLES
 
-var idle_state: State
-
 var _rebound_dir: Vector2 = Vector2.ZERO
 var _rebound_dist: float = 0.0
 var _traveled: float = 0.0
@@ -23,9 +21,6 @@ var _dodge_speed: float = 100.0
 func _ready() -> void:
 	set_physics_process(false)
 	super()
-
-func init_state_refs() -> void:
-	idle_state = coordinator.get_state(StateIdling)
 
 ##Called by StateDash before transitioning here. Provides rebound parameters.
 func setup(direction: Vector2, distance: float, speed: float) -> void:
@@ -62,8 +57,9 @@ func _physics_process(delta: float) -> void:
 			var reason := "dist_reached" if _traveled >= _rebound_dist else "collision"
 			print_rich("[color=#FF8C00][", debug_name, "][/color] exit ; reason=", reason,
 				"  traveled=", snappedf(_traveled, 0.01), "  target=", snappedf(_rebound_dist, 0.01))
-		if idle_state:
-			state_machine.change_state(coordinator.try_transition(state_machine, idle_state, "rebound+complete"))
+		var _next : State = coordinator.get_transition("idle")
+		if _next:
+			state_machine.change_state(coordinator.try_transition(state_machine, _next, "rebound+complete"))
 		return
 
 func exit() -> void:

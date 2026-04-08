@@ -8,9 +8,6 @@ extends State
 
 #region VARIABLES
 
-var pushing_state : State
-var pulling_state : State
-var no_action_state : State
 #====#
 var _snap_cooldown : bool = false
 
@@ -18,23 +15,18 @@ var _snap_cooldown : bool = false
 
 #region FUNCTION
 
-func init_state_refs() -> void:
-	pushing_state = coordinator.get_state(StatePushing)
-	pulling_state = coordinator.get_state(StatePulling)
-	no_action_state = coordinator.get_state(StateNoAction)
-
 func enter():
 	#Call super
 	super()
 	root.body.velocity = Vector2.ZERO
 	#Connect signal for directional input
-	if root.input and not root.input.on_move.is_connected(_on_move):
-		root.input.on_move.connect(_on_move)
+	if root.input: _safe_connect(root.input.on_move, _on_move)
 	#Grab
 	coordinator.update_context("grab")
 	#Release Grab if button is no longer pressed.
-	if not Input.is_action_pressed("actionButton4") and no_action_state:
-		coordinator.request_action_change(no_action_state)
+	var _no_action : State = coordinator.get_transition("no_action")
+	if root.input and not root.input.is_action_button_held("actionButton4") and _no_action:
+		coordinator.request_action_change(_no_action)
 		return
 	_snap_cooldown = true
 	var grabbed = coordinator.grabbed_object
@@ -49,22 +41,19 @@ func enter():
 
 func exit():
 	#Disconnect Signals
-	if root.input and root.input.on_move.is_connected(_on_move):
-		root.input.on_move.disconnect(_on_move)
+	if root.input: _safe_disconnect(root.input.on_move, _on_move)
 	#Call super
 	super()
 
 func pause():
 	#disconnect input move to _on_move
-	if root.input and root.input.on_move.is_connected(_on_move):
-		root.input.on_move.disconnect(_on_move)
+	if root.input: _safe_disconnect(root.input.on_move, _on_move)
 	#call super
 	super()
 
 func resume():
 	#connect input move to _on_move
-	if root.input and not root.input.on_move.is_connected(_on_move):
-		root.input.on_move.connect(_on_move)
+	if root.input: _safe_connect(root.input.on_move, _on_move)
 	#call super
 	super()
 
@@ -80,30 +69,26 @@ func _on_move(move_input : Vector2, move_strength : float):
 	if not character or not character.anim:
 		return
 	#set facing direction
-	var facing_dir : Vector2 = _get_facing_vector(character.anim.facing)
-	if facing_dir == Vector2.ZERO:
+	var facing_str : String = character.anim.facing
+	if facing_str not in ["up", "down", "left", "right"]:
 		return
+	var facing_dir : Vector2 = facing_to_vector(facing_str)
 	#project input and facing axis to determine push/pull
 	var dot : float = move_input.normalized().dot(facing_dir)
 	var grabbed = coordinator.grabbed_object
 	if not grabbed or not grabbed.object_data:
 		return
 	#PUSHING (input is equal to facing)
-	if dot > 0.5 and grabbed.object_data.pushable and pushing_state:
-		state_machine.change_state(coordinator.try_transition(state_machine, pushing_state, "on_move+dot>0.5+pushable"))
+	if dot > 0.5 and grabbed.object_data.pushable:
+		var _push : State = coordinator.get_transition("pushing")
+		if _push:
+			state_machine.change_state(coordinator.try_transition(state_machine, _push, "on_move+dot>0.5+pushable"))
 	#PULLING (input is opposite facing)
-	if dot < -0.5 and grabbed.object_data.pullable and pulling_state:
-		state_machine.change_state(coordinator.try_transition(state_machine, pulling_state, "on_move+dot<-0.5+pullable"))
+	if dot < -0.5 and grabbed.object_data.pullable:
+		var _pull : State = coordinator.get_transition("pulling")
+		if _pull:
+			state_machine.change_state(coordinator.try_transition(state_machine, _pull, "on_move+dot<-0.5+pullable"))
 	pass
-
-func _get_facing_vector(facing : String) -> Vector2:
-	#match facing
-	match facing:
-		"up": return Vector2.UP
-		"down": return Vector2.DOWN
-		"left": return Vector2.LEFT
-		"right": return Vector2.RIGHT
-	return Vector2.ZERO
 
 func _on_cooldown_finished():
 	_snap_cooldown = false

@@ -73,55 +73,41 @@ func start_dialogue(data : Dictionary, input_comp : PlayerInputComponent = null)
 	if data.is_empty():
 		return
 	
-	#Get dialogue data
 	_current_lines = data["lines"]
 	_current_character_res = data["character"]
 	_active_speak_component = data.get("source_component")
 	_current_line_index = 0
-	
-	#Set the character
 	if _current_character_res:
 		char_name.text = _current_character_res.display_name
 		char_icon.texture = _current_character_res.icon
-	
 	if input_comp:
 		_connected_input = input_comp
-		if not _connected_input.actionButtonPressed.is_connected(_on_input_received):
-			_connected_input.actionButtonPressed.connect(_on_input_received)
-	
-	#Open UI
+		if not _connected_input.action_button_pressed.is_connected(_on_input_received):
+			_connected_input.action_button_pressed.connect(_on_input_received)
 	initialize(true)
 	_show_next_line()
 
 func _show_next_line():
-	#Don't show a line if you have already reached the last one
 	if _current_line_index >= _current_lines.size():
 		_end_dialogue()
 		return
-	#Set the line text
 	var line_text = _current_lines[_current_line_index]
 	if textResolver:
 		line_text = textResolver.resolve(line_text)
 	dialogue_label.text = line_text
-	
-	#Reset PROCESS Variables
 	_visible_chars = 0.0
 	_total_chars = line_text.length()
 	_last_played_char_index = -1
 	dialogue_label.visible_characters = 0
-	
-	#Begin typing
 	_is_typing = true
 	set_process(true)
 
 ##Advance to the next line. Can be used to interrupt typing first.
 func advance():
 	if _is_typing:
-		#End typing if you receive the Advance signal
 		_finish_typing()
 		#TODO: Add a 'skip' sound here.
 	else:
-		#move to the next line of dialogue
 		_current_line_index += 1
 		if _current_line_index >= _current_lines.size():
 			_end_dialogue()
@@ -132,7 +118,6 @@ func _play_voice_blip():
 	if not _current_character_res or _current_character_res.voice.is_empty():
 		return
 	
-	#Play the voice sound in the audio component
 	if root and root.ui_audio:
 		var blip = _current_character_res.voice.pick_random()
 		var pitch = randf_range(1.0 - voice_range, 1.0 + voice_range)
@@ -142,14 +127,9 @@ func _process(delta : float):
 	if not _is_typing:
 		set_process(false)
 		return
-	#Rate of character addition to the line
 	_visible_chars += text_speed * delta
-	
-	#Add character to label
 	var current_int_chars = int(_visible_chars)
 	dialogue_label.visible_characters = current_int_chars
-	
-	#Play the voice blip and set the new character as being the last one added
 	if current_int_chars > _last_played_char_index:
 		_play_voice_blip()
 		_last_played_char_index = current_int_chars
@@ -164,8 +144,8 @@ func _finish_typing():
 
 ##Finish the dialogue entirely
 func _end_dialogue():
-	if _connected_input and _connected_input.actionButtonPressed.is_connected(_on_input_received):
-		_connected_input.actionButtonPressed.disconnect(_on_input_received)
+	if _connected_input and _connected_input.action_button_pressed.is_connected(_on_input_received):
+		_connected_input.action_button_pressed.disconnect(_on_input_received)
 		_connected_input = null
 	#TODO: Animation for the dialogue windows
 	#TODO: Unfreeze player interaction (can control with speak component, though)
@@ -175,7 +155,6 @@ func _end_dialogue():
 	if root and root.root:
 		root.root.freeze_input(false)
 		dialogue_closed.emit()
-	#emit the dialogue clsoed signal for use by other entities
 
 
 #endregion FUNCTIONS

@@ -9,8 +9,6 @@ extends UXDisplayElement
 ##The maximum number of bolts. Each bolt holds 4 energy.
 var _energy_component : EnergyComponent
 
-#=======INTERNAL VARIABLES=======#
-
 ##Whether the player is currently exhausted (0 energy).
 var _is_exhausted : bool = false
 
@@ -21,15 +19,15 @@ var _is_exhausted : bool = false
 ##Initializes the energy display with the energy component and player references.
 func initialize(energy_comp : EnergyComponent, player_body : CharacterBody2D, player_cam : CamClass) -> void:
 	_energy_component = energy_comp
-	if _energy_component and not _energy_component.energyChanged.is_connected(_on_energy_changed):
-		_energy_component.energyChanged.connect(_on_energy_changed)
+	if _energy_component and not _energy_component.energy_changed.is_connected(_on_energy_changed):
+		_energy_component.energy_changed.connect(_on_energy_changed)
 	initialize_display(player_body, player_cam)
 
 func _on_display_initialized() -> void:
 	_build_gui_elements(_energy_component.max_bolts)
 	_update_bolts(_energy_component.cur_energy)
 	if debug_me:
-		print(debug_name, " initialized with ", _energy_component.max_bolts, " bolts.")
+		print_rich(debug_name, ": [color=green][i]initialized[/i][/color] with [i]", _energy_component.max_bolts, "[/i] bolts.")
 
 func _can_fade_out() -> bool:
 	return _energy_component and _energy_component.is_full()
@@ -58,7 +56,6 @@ func _update_bolts(cur_energy : int) -> void:
 func _on_energy_changed(cur_energy : int, max_energy : int, change_amount : int) -> void:
 	var was_exhausted = _is_exhausted
 	_is_exhausted = _energy_component.is_exhausted_state
-	#Trigger use flash on decrease.
 	if change_amount < 0:
 		var bolts = gui_container.get_children()
 		var flash_idx = clampi(int(ceil(float(cur_energy) / 4.0)) - 1, 0, bolts.size() - 1)
@@ -67,7 +64,6 @@ func _on_energy_changed(cur_energy : int, max_energy : int, change_amount : int)
 			if bolt:
 				bolt.play_use_flash()
 	_update_bolts(cur_energy)
-	#Exhaustion state changes.
 	if _is_exhausted and not was_exhausted:
 		_start_exhausted_flash()
 		force_show(true)
@@ -79,7 +75,7 @@ func _on_energy_changed(cur_energy : int, max_energy : int, change_amount : int)
 	else:
 		show_element()
 	if debug_me:
-		print(debug_name, ": Energy changed by ", change_amount, ". Now: ", cur_energy, "/", max_energy, " exhausted=", _is_exhausted)
+		print_rich(debug_name, ": [i]energy changed[/i] by [i]", change_amount, "[/i]. Now: [i]", cur_energy, "/", max_energy, "[/i] exhausted=[i]", _is_exhausted, "[/i]")
 
 #endregion ENERGY CHANGE HANDLER
 
@@ -90,14 +86,14 @@ func _start_exhausted_flash() -> void:
 		if bolt is EnergyBoltGUI:
 			bolt.start_exhausted_flash()
 	if debug_me:
-		print(debug_name, ": Exhausted flash started.")
+		print_rich(debug_name, ": [color=red][i]exhausted flash started[/i][/color].")
 
 func _stop_exhausted_flash() -> void:
 	for bolt in gui_container.get_children():
 		if bolt is EnergyBoltGUI:
 			bolt.stop_exhausted_flash()
 	if debug_me:
-		print(debug_name, ": Exhausted flash stopped.")
+		print_rich(debug_name, ": [color=green][i]exhausted flash stopped[/i][/color].")
 
 func do_recovery_flash() -> void:
 	for bolt in gui_container.get_children():
@@ -105,7 +101,7 @@ func do_recovery_flash() -> void:
 			bolt.do_recovery_flash()
 	show_element()
 	if debug_me:
-		print(debug_name, ": Recovery flash triggered.")
+		print_rich(debug_name, ": [color=green][i]recovery flash triggered[/i][/color].")
 
 #endregion FLASH EFFECTS
 

@@ -19,6 +19,8 @@ signal snap_move_completed
 @export_group("Dynamic Thing Components")
 ##The physical body. Expects a CharacterBody2D with attached sprites and colliders.
 @export var body : CharacterBody2D
+##Handles drop resolution and world item spawning on break. Optional; assign in the scene.
+@export var drop_resolver : DropResolverComponent
 
 #=======INTERNAL VARIABLES=======#
 
@@ -158,46 +160,24 @@ func break_me():
 	else:
 		if interactable:
 			interactable.set_active(false)
-		_spawn_drops(_find_player())
+		_spawn_drops()
 		queue_free()
 
-func _spawn_drops(player = null):
-	if not object_data or not object_data.drop_table:
-		return
-	var drops : Array[PickupResource] = object_data.drop_table.resolve(player)
-	if drops.is_empty():
-		return
-	var spawn_pos = body.global_position if body else global_position
-	var space_state = get_world_2d().direct_space_state
-	var base_scatter_dir = Vector2.ZERO
-	if _damaged_by_attack and _last_damage_source_pos != Vector2.ZERO:
-		base_scatter_dir = (spawn_pos - _last_damage_source_pos).normalized()
-	for i in range(drops.size()):
-		var pickup = drops[i]
-		if not pickup:
-			continue
-		var world_item = _create_world_item()
-		world_item.pickup_data = pickup
-		get_tree().current_scene.add_child(world_item)
-		var scatter_dir : Vector2
-		if base_scatter_dir != Vector2.ZERO:
-			var spread_angle = randf_range(-0.6, 0.6)
-			scatter_dir = base_scatter_dir.rotated(spread_angle)
-		else:
-			var scatter_angle = (TAU / max(drops.size(), 1)) * i + randf_range(-0.3, 0.3)
-			scatter_dir = Vector2(cos(scatter_angle), sin(scatter_angle))
-		scatter_dir = _find_clear_direction(space_state, spawn_pos, scatter_dir)
-		var spawn_offset = scatter_dir * 12.0
-		var item_spawn_pos = spawn_pos + spawn_offset + Vector2(0, -8)
-		var impulse = 60.0 if _damaged_by_attack else 0.0
-		world_item.spawn(item_spawn_pos, spawn_pos.y + spawn_offset.y, scatter_dir, impulse)
+func _spawn_drops():
+	if drop_resolver:
+		drop_resolver.resolve_and_spawn(body, _last_damage_source_pos, _damaged_by_attack)
+	elif object_data and object_data.drop_table:
+		var temp_resolver := DropResolverComponent.new()
+		temp_resolver.drop_table = object_data.drop_table
+		add_child(temp_resolver)
+		temp_resolver.resolve_and_spawn(body, _last_damage_source_pos, _damaged_by_attack)
 	_damaged_by_attack = false
 	_last_damage_source_pos = Vector2.ZERO
 
 func _on_break_anim_finished(_anim_name : String):
 	if interactable:
 		interactable.set_active(false)
-	_spawn_drops(_find_player())
+	_spawn_drops()
 	queue_free()
 
 #endregion BREAK

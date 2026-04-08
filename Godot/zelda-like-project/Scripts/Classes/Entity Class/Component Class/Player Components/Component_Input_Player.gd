@@ -9,13 +9,13 @@ const DPAD_BUTTONS : Array[String] = ["dPadUp", "dPadRight", "dPadDown", "dPadLe
 #region SIGNALS
 #region Button Signals
 ##Signal for when one of the four action buttons is pressed (actionButton 1 - 4)
-signal actionButtonPressed(button : String)
+signal action_button_pressed(button : String)
 ##Signal for when one of the four DPad Directions is pressed (Up, Right, Down, or Left)
-signal dPadPressed(index : int)
+signal d_pad_pressed(index : int)
 #endregion Button Signals
 #region Cam Signals
 ##Signal when the cam up input is given
-signal onCamMove(cam_move_input : Vector2, cam_move_strength : float)
+signal on_cam_move(cam_move_input : Vector2, cam_move_strength : float)
 
 
 #endregion Cam Signals
@@ -45,7 +45,7 @@ func _process(_delta):
 	var move_strength : float = move_input.length()
 	on_move.emit(move_input, move_strength)
 	if debug_me:
-		print(debug_name, "	has emitted its move_input value with a value of ", move_input, "\n	and a move_strength value of ", move_strength)
+		print_rich(debug_name, ": [color=green][i]move emitted[/i][/color] input=[i]", move_input, "[/i] strength=[i]", move_strength, "[/i]")
 	#endregion
 	#region Cam Input
 	##handler for camera move input reception
@@ -53,29 +53,24 @@ func _process(_delta):
 	##determines the strength of the camera move input
 	var cam_move_strength : float = move_input.length()
 	if cam_move_input != null and cam_move_input != Vector2(0.0, 0.0):
-		#emit the camMove signal if it has a value, providing the Vector2 and float values.
-		onCamMove.emit(cam_move_input, cam_move_strength)
+		on_cam_move.emit(cam_move_input, cam_move_strength)
 		if debug_me:
-			print(debug_name, "	has emitted its cam_move_input value with a value of ", cam_move_input, "\n	and a cam_move_strength value of ", cam_move_strength)
+			print_rich(debug_name, ": [color=green][i]cam_move emitted[/i][/color] input=[i]", cam_move_input, "[/i] strength=[i]", cam_move_strength, "[/i]")
 	#endregion
 
 func _unhandled_input(event : InputEvent):
-	#PAUSE BUTTON HANDLING#
 	if event.is_action_pressed("pause"):
 		if get_tree().paused:
-			return #NOTE: Pause Menu handles its own close input
+			return
 		_open_pause_menu()
-	#BUTTON HANDLING#
 	if not get_tree().paused:
-	#ACTION BUTTON HANDLING#
 		for action in ACTION_BUTTONS:
 			if event.is_action_pressed(action):
 				_action_button_press(action)
 				break
-	#DPAD HANDLING
 		for i in range(DPAD_BUTTONS.size()):
 				if event.is_action_pressed(DPAD_BUTTONS[i]):
-					dPadPressed.emit(i + 1)
+					d_pad_pressed.emit(i + 1)
 					break
 
 #region Pause Menu
@@ -84,10 +79,8 @@ func _open_pause_menu():
 	if not pause_menu_scene:
 		return
 	if _pause_menu_instance and is_instance_valid(_pause_menu_instance):
-		#Reuse existing instance.
 		_pause_menu_instance.open()
 	else:
-		#First time -- instantiate and keep reference.
 		_pause_menu_instance = pause_menu_scene.instantiate()
 		get_tree().root.add_child(_pause_menu_instance)
 
@@ -96,7 +89,11 @@ func _open_pause_menu():
 #region Button Press
 #region Action Button handler
 func _action_button_press(btn : String):
-	actionButtonPressed.emit(btn)
+	action_button_pressed.emit(btn)
+
+## Returns true if the given action button is currently held down.
+func is_action_button_held(button: String) -> bool:
+	return Input.is_action_pressed(button)
 
 #endregion Action Button handler
 #endregion Button Press

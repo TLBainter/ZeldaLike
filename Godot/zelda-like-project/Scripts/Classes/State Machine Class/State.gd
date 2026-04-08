@@ -18,11 +18,11 @@ var root : EntityClass
 ##The reference to the State Coordinator that manages all state layers.[br]
 ##Used for cross-layer communication, such as freezing other state layers and preventing input.
 ##Set automatically by [b]StateMachineLayer.init()[/b]
-var coordinator
+var coordinator : StateCoordinator
 ##A reference to the State Machine Layer this state belongs to.[br]
 ##Set automatically by [b]StateMachineLayer.init()[/b]
-var state_machine
-#=====================#
+var state_machine : StateMachineLayer
+
 @export_group("Debug")
 @export var debug : DebugSettings = DebugSettings.new()
 var debug_me : bool:
@@ -33,7 +33,7 @@ var debug_name : String:
 	get: return debug.debug_name if debug else ""
 	set(v): if debug: debug.debug_name = v
 
-#=====================#
+
 ##Whether or not process_input's variable provided was used by the given state.
 var input_consumed : bool = false
 #endregion VARIABLES
@@ -41,12 +41,12 @@ var input_consumed : bool = false
 #region FUNCTIONS
 
 func _ready():
-	#Set the debug name if it is not set.
 	if debug_name == "":
 		debug_name = name
 
 ##Called after all state layers are initialized and coordinator is set.[br]
-##Override to assign transition state references using coordinator.get_state().[br]
+##[b]Deprecated:[/b] State transition lookups have moved to [method StateCoordinator.get_transition].[br]
+##Use [code]coordinator.get_transition("key")[/code] at the call site instead of storing typed state vars.[br]
 ##Do NOT call super() -- base implementation is intentionally empty.
 func init_state_refs() -> void:
 	pass
@@ -58,7 +58,7 @@ func enter():
 	if animation_name != "" and root.anim:
 		root.anim.play(animation_name)
 	if debug_me_verbose:
-		print_rich(root.debug_name, " ", debug_name, " State [color=#57FF84]entered[/color].")
+		print_rich(root.debug_name, " ", debug_name, " State [color=green][i]entered[/i][/color].")
 
 ##Called when this state's layer is frozen while this state is active.[br]
 ##Override to disconnect signals that should not fire while frozen.[br]
@@ -68,7 +68,7 @@ func enter():
 ##machine may freeze without exiting the active state.
 func pause():
 	if debug_me:
-		print_rich(debug_name, " [color=#E5FF3D]paused[/color].")
+		print_rich(debug_name, " [color=yellow][i]paused[/i][/color].")
 
 ##Called when this state's layer is unfrozen while this state is active.[br]
 ##Override to reconnect signals disconnected in [method pause].[br]
@@ -76,13 +76,13 @@ func pause():
 ##[b]Contract:[/b] Mirror every connection made in [method enter] and disconnected in [method pause].
 func resume():
 	if debug_me:
-		print_rich(debug_name, " [color=#29FFBF]resumed[/color].")
+		print_rich(debug_name, " [color=green][i]resumed[/i][/color].")
 
 ##Called when this state is replaced by another.[br]
 ##Override to add logic for cleaning up this state.
 func exit():
 	if debug_me_verbose:
-		print_rich(root.debug_name, " ", debug_name, " State [color=#FF2B48]exited[/color].")
+		print_rich(root.debug_name, " ", debug_name, " State [color=red][i]exited[/i][/color].")
 
 ##Called on unhandled input events. Return a [b]State[/b] to transition to or [b]null[/b] to remain.[br]
 ##Use this for movement, collision checks, etc.[br]
@@ -97,18 +97,19 @@ func get_character():
 	return null
 
 ##Returns the context key for the interactable currently in the character's interact area.[br]
-##Shared helper used by Idling, Move, and any state needing interactable context resolution.
-func _get_interactable_context_key(character) -> String:
+##Delegates to [b]StateCoordinator.resolve_interaction_priority()[/b] for consistent resolution.[br]
+##[b]is_moving[/b]: pass true when the character is in motion (affects grab vs lift priority).
+func _get_interactable_context_key(character, is_moving: bool = false) -> String:
 	if not character or not character.body.current_interactable:
 		return ""
 	var interact_node = character.body.current_interactable
 	var interactable_owner = interact_node.root if "root" in interact_node else null
 	if interactable_owner and "object_data" in interactable_owner and interactable_owner.object_data:
-		var data = interactable_owner.object_data
-		if data.pushable or data.pullable:
-			return "grab"
-		elif data.liftable:
-			return "lift"
+		var priority = coordinator.resolve_interaction_priority(interactable_owner.object_data, is_moving)
+		match priority:
+			StateCoordinator.InteractionPriority.GRAB: return "grab"
+			StateCoordinator.InteractionPriority.LIFT: return "lift"
+			_: return "interact"
 	return interact_node.context_key
 
 ##Returns the context key this state wants shown on the context label.[br]
@@ -137,5 +138,25 @@ func unlock_facing() -> void:
 	var character = get_character()
 	if character and character.anim and character.anim is CharacterAnimator:
 		character.anim.can_update_facing = true
+
+##Prints [b]msg[/b] prefixed with [b]debug_name[/b] when [b]debug_me[/b] is enabled.
+func _debug_log(msg: String) -> void:
+	if debug_me:
+		print_rich(debug_name, ": ", msg)
+
+##Prints [b]msg[/b] prefixed with [b]debug_name[/b] when [b]debug_me_verbose[/b] is enabled.
+func _debug_verbose(msg: String) -> void:
+	if debug_me_verbose:
+		print_rich(debug_name, ": ", msg)
+
+##Connects [b]cb[/b] to [b]sig[/b] if not already connected.
+func _safe_connect(sig: Signal, cb: Callable) -> void:
+	if not sig.is_connected(cb):
+		sig.connect(cb)
+
+##Disconnects [b]cb[/b] from [b]sig[/b] if currently connected.
+func _safe_disconnect(sig: Signal, cb: Callable) -> void:
+	if sig.is_connected(cb):
+		sig.disconnect(cb)
 
 #endregion FUNCTIONS

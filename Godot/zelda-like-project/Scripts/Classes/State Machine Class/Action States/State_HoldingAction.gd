@@ -8,11 +8,6 @@ extends State
 
 #region VARIABLES
 
-var throw_state : State
-var drop_state : State
-var no_action_state : State
-var run_state : State
-
 @export_group("Hold Settings")
 ##The offset above the player's body where the object is held.
 @export var hold_offset : Vector2 = Vector2(0, -12)
@@ -25,12 +20,6 @@ var _is_running : bool = false
 
 #region FUNCTIONS
 
-func init_state_refs() -> void:
-	throw_state = coordinator.get_state(StateThrow)
-	drop_state = coordinator.get_state(StateDrop)
-	no_action_state = coordinator.get_state(StateNoAction)
-	run_state = coordinator.get_state(StateRun)
-
 func enter():
 	super()
 	_is_running = false
@@ -40,39 +29,34 @@ func enter():
 	var character = get_character()
 	if character and character.anim and character.anim is CharacterAnimator:
 		character.anim.can_update_facing = true
-	if root.input and not root.input.on_move.is_connected(_on_move):
-		root.input.on_move.connect(_on_move)
-	if debug_me:
-		print(debug_name, ": Now holding object. Movement unfrozen.")
+	if root.input: _safe_connect(root.input.on_move, _on_move)
+	_debug_log("Now holding object. Movement unfrozen.")
 
 func exit():
-	if root.input and root.input.on_move.is_connected(_on_move):
-		root.input.on_move.disconnect(_on_move)
+	if root.input: _safe_disconnect(root.input.on_move, _on_move)
 	coordinator.unlock_context()
 	super()
 
 func pause():
-	if root.input and root.input.on_move.is_connected(_on_move):
-		root.input.on_move.disconnect(_on_move)
+	if root.input: _safe_disconnect(root.input.on_move, _on_move)
 	super()
 
 func resume():
-	if root.input and not root.input.on_move.is_connected(_on_move):
-		root.input.on_move.connect(_on_move)
+	if root.input: _safe_connect(root.input.on_move, _on_move)
 	super()
 
 func _on_move(_move_input : Vector2, move_strength : float):
 	var was_running = _is_running
-	_is_running = move_strength > 0.49
+	_is_running = move_strength > GameConstants.RUN_THRESHOLD
 	if _is_running != was_running:
 		coordinator.update_context(get_context_key(), true)
 
 func process_input(event : InputEvent) -> State:
 	if event.is_action_pressed("actionButton4"):
-		if _is_running and throw_state:
-			return coordinator.try_transition(state_machine, throw_state, "actionButton4+pressed+running")
-		elif drop_state:
-			return coordinator.try_transition(state_machine, drop_state, "actionButton4+pressed+not_running")
+		if _is_running:
+			return coordinator.try_transition(state_machine, coordinator.get_transition("throw"), "actionButton4+pressed+running")
+		else:
+			return coordinator.try_transition(state_machine, coordinator.get_transition("drop"), "actionButton4+pressed+not_running")
 	return null
 
 func get_context_key() -> String:

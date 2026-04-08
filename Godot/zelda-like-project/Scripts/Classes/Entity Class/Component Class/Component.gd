@@ -26,4 +26,22 @@ func _find_entity_parent() -> EntityClass:
 			return p
 		p = p.get_parent()
 	return null
+
+## Returns the [StatsResource] from the owning entity, or null if unavailable.
+## Convenience wrapper around [method _find_entity_parent] that also validates the stats chain.
+func _get_entity_stats() -> StatsResource:
+	var entity = _find_entity_parent()
+	if entity and "stats" in entity and entity.stats and entity.stats.resource:
+		return entity.stats.resource
+	return null
+
+##Prints [b]msg[/b] prefixed with [b]debug_name[/b] when [b]debug_me[/b] is enabled.
+func _debug_log(msg: String) -> void:
+	if debug_me:
+		print_rich(debug_name, ": ", msg)
+
+##Prints [b]msg[/b] prefixed with [b]debug_name[/b] when [b]debug_me_verbose[/b] is enabled.
+func _debug_verbose(msg: String) -> void:
+	if debug_me_verbose:
+		print_rich(debug_name, ": ", msg)
 #endregion

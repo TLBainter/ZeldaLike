@@ -21,35 +21,45 @@ signal ongoing_effect_ended(item_id : String)
 
 @export_category("Item Use Components")
 ##The player's health component.
-@export var health_comp : Node ## PlayerHealthComponent
+@export var health_comp : HealthComponent
 ##The player's energy component.
 @export var energy_comp : EnergyComponent
 ##The player's magic component.
 @export var magic_comp : MagicComponent
 
-#=======INTERNAL VARIABLES=======#
-
 ##Currently active ongoing effects.[br]
 ##Format: { "item_id" : { "timer": Timer, "tickers": Array[Timer] } }
 var _active_effects : Dictionary = {}
+##Registry of effect handlers keyed by EffectTarget.[br]
+##Add new targets with [method register_effect_handler] instead of editing [method _apply_single_effect].
+var _effect_handlers : Dictionary = {}
 
 #endregion VARIABLES
 
 #region FUNCTIONS
+
+func _ready() -> void:
+	_effect_handlers[EffectEnums.EffectTarget.HEALTH] = _apply_to_health
+	_effect_handlers[EffectEnums.EffectTarget.ENERGY] = _apply_to_energy
+	_effect_handlers[EffectEnums.EffectTarget.MAGIC] = _apply_to_magic
+
+##Registers a handler callable for a given EffectTarget.[br]
+##Callable signature: func(action: EffectEnums.EffectAction, amount: int) -> void[br]
+##Call this to support new effect targets without editing this file.
+func register_effect_handler(target: EffectEnums.EffectTarget, handler: Callable) -> void:
+	_effect_handlers[target] = handler
 
 ##Applies all effects from an ItemFunction resource.[br]
 ##Returns true if effects were applied, false if blocked.
 func apply_effects(item_function : ItemFunction, item_id : String = "") -> bool:
 	if not item_function:
 		if debug_me:
-			print(debug_name, ": No item function to apply!")
+			print_rich(debug_name, ": [color=red][i]no item function to apply[/i][/color]!")
 		return false
-	#Apply immediate effects.
 	for effect in item_function.immediate_effects:
 		_apply_single_effect(effect.action, effect.amount, effect.target)
 	if debug_me and not item_function.immediate_effects.is_empty():
-		print(debug_name, ": Applied ", item_function.immediate_effects.size(), " immediate effects.")
-	#Start ongoing effects if any.
+		print_rich(debug_name, ": [color=green][i]applied[/i][/color] [i]", item_function.immediate_effects.size(), "[/i] immediate effects.")
 	if item_function.has_ongoing_effects():
 		_start_ongoing_effects(item_function, item_id)
 	item_used.emit(item_id)
@@ -59,13 +69,8 @@ func apply_effects(item_function : ItemFunction, item_id : String = "") -> bool:
 
 ##Applies a single effect to the appropriate player component.
 func _apply_single_effect(action : EffectEnums.EffectAction, amount : int, target : EffectEnums.EffectTarget) -> void:
-	match target:
-		EffectEnums.EffectTarget.HEALTH:
-			_apply_to_health(action, amount)
-		EffectEnums.EffectTarget.ENERGY:
-			_apply_to_energy(action, amount)
-		EffectEnums.EffectTarget.MAGIC:
-			_apply_to_magic(action, amount)
+	if _effect_handlers.has(target):
+		_effect_handlers[target].call(action, amount)
 
 func _apply_to_health(action : EffectEnums.EffectAction, amount : int) -> void:
 	if not health_comp:
@@ -73,11 +78,11 @@ func _apply_to_health(action : EffectEnums.EffectAction, amount : int) -> void:
 	if action == EffectEnums.EffectAction.ADD:
 		health_comp.healed(amount)
 		if debug_me:
-			print(debug_name, ": Healed ", amount, " health.")
+			print_rich(debug_name, ": [color=green][i]healed[/i][/color] [i]", amount, "[/i] health.")
 	else:
 		health_comp.damaged(amount)
 		if debug_me:
-			print(debug_name, ": Dealt ", amount, " damage.")
+			print_rich(debug_name, ": [color=red][i]dealt[/i][/color] [i]", amount, "[/i] damage.")
 
 func _apply_to_energy(action : EffectEnums.EffectAction, amount : int) -> void:
 	if not energy_comp:
@@ -85,11 +90,11 @@ func _apply_to_energy(action : EffectEnums.EffectAction, amount : int) -> void:
 	if action == EffectEnums.EffectAction.ADD:
 		energy_comp.restore(amount)
 		if debug_me:
-			print(debug_name, ": Restored ", amount, " energy.")
+			print_rich(debug_name, ": [color=green][i]restored[/i][/color] [i]", amount, "[/i] energy.")
 	else:
 		energy_comp.consume(amount)
 		if debug_me:
-			print(debug_name, ": Consumed ", amount, " energy.")
+			print_rich(debug_name, ": [color=red][i]consumed[/i][/color] [i]", amount, "[/i] energy.")
 
 func _apply_to_magic(action : EffectEnums.EffectAction, amount : int) -> void:
 	if not magic_comp:
@@ -97,11 +102,11 @@ func _apply_to_magic(action : EffectEnums.EffectAction, amount : int) -> void:
 	if action == EffectEnums.EffectAction.ADD:
 		magic_comp.restore(amount)
 		if debug_me:
-			print(debug_name, ": Restored ", amount, " magic.")
+			print_rich(debug_name, ": [color=green][i]restored[/i][/color] [i]", amount, "[/i] magic.")
 	else:
 		magic_comp.consume(amount)
 		if debug_me:
-			print(debug_name, ": Consumed ", amount, " magic.")
+			print_rich(debug_name, ": [color=red][i]consumed[/i][/color] [i]", amount, "[/i] magic.")
 
 #endregion APPLY EFFECTS
 
@@ -109,13 +114,11 @@ func _apply_to_magic(action : EffectEnums.EffectAction, amount : int) -> void:
 
 ##Starts all ongoing effects from an ItemFunction, with tick timers and a duration timer.
 func _start_ongoing_effects(item_function : ItemFunction, item_id : String) -> void:
-	#Stop existing effects for this item if not stackable.
 	if item_function is ItemFunctionConsumable and not item_function.stackable:
 		if _active_effects.has(item_id):
 			_stop_ongoing_effects(item_id)
 	if item_function.ongoing_effects.is_empty():
 		return
-	#Create tick timers for each ongoing effect.
 	var tickers : Array[Timer] = []
 	for effect in item_function.ongoing_effects:
 		var tick_timer = Timer.new()
@@ -125,7 +128,6 @@ func _start_ongoing_effects(item_function : ItemFunction, item_id : String) -> v
 		add_child(tick_timer)
 		tick_timer.start()
 		tickers.append(tick_timer)
-	#Create a duration timer to stop all tickers when the effect expires.
 	var duration_timer = Timer.new()
 	duration_timer.wait_time = item_function.ongoing_duration
 	duration_timer.one_shot = true
@@ -138,7 +140,7 @@ func _start_ongoing_effects(item_function : ItemFunction, item_id : String) -> v
 	}
 	ongoing_effect_started.emit(item_id, item_function.ongoing_duration)
 	if debug_me:
-		print(debug_name, ": Started ", tickers.size(), " ongoing effects for ", item_id, " (", item_function.ongoing_duration, "s)")
+		print_rich(debug_name, ": [color=green][i]started[/i][/color] [i]", tickers.size(), "[/i] ongoing effects for [i]", item_id, "[/i] ([i]", item_function.ongoing_duration, "[/i]s)")
 
 ##Called each tick of an ongoing effect.
 func _on_ongoing_tick(action : EffectEnums.EffectAction, amount : int, target : EffectEnums.EffectTarget) -> void:
@@ -153,19 +155,17 @@ func _stop_ongoing_effects(item_id : String) -> void:
 	if not _active_effects.has(item_id):
 		return
 	var data = _active_effects[item_id]
-	#Stop and free all tick timers.
 	for ticker in data["tickers"]:
 		if is_instance_valid(ticker):
 			ticker.stop()
 			ticker.queue_free()
-	#Stop and free the duration timer.
 	if is_instance_valid(data["timer"]):
 		data["timer"].stop()
 		data["timer"].queue_free()
 	_active_effects.erase(item_id)
 	ongoing_effect_ended.emit(item_id)
 	if debug_me:
-		print(debug_name, ": Ongoing effects ended for ", item_id)
+		print_rich(debug_name, ": [color=red][i]ongoing effects ended[/i][/color] for [i]", item_id, "[/i]")
 
 ##Returns whether an ongoing effect is currently active for the given item_id.
 func has_active_effect(item_id : String) -> bool:

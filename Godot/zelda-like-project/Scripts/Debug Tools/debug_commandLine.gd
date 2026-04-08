@@ -96,6 +96,10 @@ func _execute_command(text : String) -> void:
 			_cmd_items()
 		"/help":
 			_cmd_help()
+		"/enable":
+			_cmd_enable(parts)
+		"/disable":
+			_cmd_disable(parts)
 		_:
 			_print_output("[color=red]Unknown command: " + command + ". Type /help for commands.[/color]")
 
@@ -219,6 +223,41 @@ func _cmd_items() -> void:
 		text += "  " + c + "\n"
 	_print_output(text)
 
+func _cmd_enable(parts : Array) -> void:
+	if parts.size() >= 3 and parts[1].to_lower() == "verbose" and parts[2].to_lower() == "debug":
+		var n = _set_debug_on_all(true, true)
+		_print_output("[color=green]Verbose debug enabled on " + str(n) + " nodes.[/color]")
+	elif parts.size() >= 2 and parts[1].to_lower() == "debug":
+		var n = _set_debug_on_all(true, false)
+		_print_output("[color=green]Debug enabled on " + str(n) + " nodes.[/color]")
+	else:
+		_print_output("[color=red]Usage: /enable debug | /enable verbose debug[/color]")
+
+func _cmd_disable(parts : Array) -> void:
+	if parts.size() >= 3 and parts[1].to_lower() == "verbose" and parts[2].to_lower() == "debug":
+		var n = _set_debug_on_all(false, true)
+		_print_output("[color=green]Verbose debug disabled on " + str(n) + " nodes.[/color]")
+	elif parts.size() >= 2 and parts[1].to_lower() == "debug":
+		var n = _set_debug_on_all(false, false)
+		_print_output("[color=green]Debug disabled on " + str(n) + " nodes.[/color]")
+	else:
+		_print_output("[color=red]Usage: /disable debug | /disable verbose debug[/color]")
+
+func _set_debug_on_all(enabled : bool, verbose_only : bool) -> int:
+	return _debug_recurse(get_tree().root, enabled, verbose_only)
+
+func _debug_recurse(node : Node, enabled : bool, verbose_only : bool) -> int:
+	var count := 0
+	if node.get("debug") is DebugSettings:
+		if verbose_only:
+			node.debug.debug_me_verbose = enabled
+		else:
+			node.debug.debug_me = enabled
+		count += 1
+	for child in node.get_children():
+		count += _debug_recurse(child, enabled, verbose_only)
+	return count
+
 #endregion COMMANDS
 
 #region VALIDATION
@@ -292,7 +331,7 @@ func _cmd_set_currency(amount : int) -> void:
 		return
 	amount = clampi(amount, 0, _currency.max_notes)
 	_currency.cur_notes = amount
-	_currency.notesChanged.emit(_currency.cur_notes, _currency.max_notes, 0)
+	_currency.notes_changed.emit(_currency.cur_notes, _currency.max_notes, 0)
 	_print_output("[color=green]Currency set to " + str(amount) + " / " + str(_currency.max_notes) + ".[/color]")
 
 func _cmd_set_health(amount : int) -> void:

@@ -3,7 +3,7 @@
 ##Max magic equals total shards collected. Each medallion holds up to 6 magic.[br]
 ##Recovers over time with a configurable delay and tick rate.
 class_name MagicComponent
-extends Component
+extends RecoverableResourceComponent
 
 #region SIGNALS
 
@@ -11,11 +11,11 @@ extends Component
 ##[b]cur_magic[/b]: Current magic after the change.[br]
 ##[b]max_magic[/b]: Maximum possible magic (total shards).[br]
 ##[b]change_amount[/b]: How much magic changed (negative = consumed, positive = restored).
-signal magicChanged(cur_magic : int, max_magic : int, change_amount : int)
+signal magic_changed(cur_magic : int, max_magic : int, change_amount : int)
 
 ##Emitted when a new shard is collected.[br]
 ##[b]total_shards[/b]: Total shards after collection.
-signal shardCollected(total_shards : int)
+signal shard_collected(total_shards : int)
 
 #endregion SIGNALS
 
@@ -25,14 +25,6 @@ signal shardCollected(total_shards : int)
 @export_group("Shard Configuration")
 ## Starting shards. Read from stats resource at runtime. Defaults to 6.
 var starting_shards : int = 6
-
-@export_group("Recovery")
-##How long after the last magic use before recovery begins (in seconds).
-@export var recovery_delay : float = 3.0
-##How much magic recovers per tick.
-@export var recovery_amount : int = 1
-##How often magic recovers (in seconds per tick).
-@export var recovery_interval : float = 0.75
 
 ##Total shards collected. Determines medallion layout and max magic.
 var total_shards : int = 6
@@ -45,70 +37,43 @@ var cur_magic : int = 6:
 		var change_amount = new_magic - cur_magic
 		cur_magic = new_magic
 		if change_amount != 0:
-			magicChanged.emit(cur_magic, max_magic, change_amount)
-
-#=======INTERNAL VARIABLES=======#
-
-##Timer that counts down after last magic use before recovery begins.
-var _recovery_delay_timer : Timer
-##Timer that ticks at recovery_interval to restore magic.
-var _recovery_tick_timer : Timer
+			magic_changed.emit(cur_magic, max_magic, change_amount)
 
 #endregion VARIABLES
 
 #region FUNCTIONS
 
 func _ready():
-	var entity = _find_entity_parent()
-	if entity and "stats" in entity and entity.stats and entity.stats.resource:
-		total_shards = entity.stats.resource.max_magic
-	else:
-		total_shards = starting_shards
+	var stats = _get_entity_stats()
+	total_shards = stats.max_magic if stats else starting_shards
 	max_magic = total_shards
 	cur_magic = max_magic
-	#Create recovery timers.
-	_recovery_delay_timer = Timer.new()
-	_recovery_delay_timer.one_shot = true
-	_recovery_delay_timer.wait_time = recovery_delay
-	_recovery_delay_timer.timeout.connect(_on_recovery_delay_finished)
-	add_child(_recovery_delay_timer)
-	_recovery_tick_timer = Timer.new()
-	_recovery_tick_timer.one_shot = false
-	_recovery_tick_timer.wait_time = recovery_interval
-	_recovery_tick_timer.timeout.connect(_on_recovery_tick)
-	add_child(_recovery_tick_timer)
-	if debug_me:
-		print(debug_name, " initialized with ", total_shards, " shards (", max_magic, " max magic).")
+	_setup_recovery_timers()
+	_debug_log(str("initialized with ", total_shards, " shards (", max_magic, " max magic)."))
 
 ##Consumes the specified amount of magic.[br]
 ##Returns [b]true[/b] if there was enough magic, [b]false[/b] if not.
 func consume(amount : int) -> bool:
 	if cur_magic < amount:
-		if debug_me:
-			print(debug_name, ": Not enough magic! Have ", cur_magic, ", need ", amount)
+		_debug_log(str("Not enough magic! Have ", cur_magic, ", need ", amount))
 		return false
 	self.cur_magic -= amount
-	_recovery_tick_timer.stop()
-	_recovery_delay_timer.stop()
-	_recovery_delay_timer.start(recovery_delay)
-	if debug_me:
-		print(debug_name, ": Consumed ", amount, " magic. Remaining: ", cur_magic)
+	_start_recovery_countdown()
+	_debug_log(str("Consumed ", amount, " magic. Remaining: ", cur_magic))
 	return true
 
 ##Restores the specified amount of magic.
 func restore(amount : int) -> void:
 	self.cur_magic += amount
-	if debug_me:
-		print(debug_name, ": Restored ", amount, " magic. Current: ", cur_magic)
+	_debug_log(str("Restored ", amount, " magic. Current: ", cur_magic))
 
 ##Adds a shard, increasing max magic by 1 and restoring that 1 point.
 func collect_shard() -> void:
 	total_shards += 1
 	max_magic = total_shards
 	self.cur_magic += 1
-	shardCollected.emit(total_shards)
-	if debug_me:
-		print(debug_name, ": Collected shard! Total: ", total_shards, " Max magic: ", max_magic)
+	shard_collected.emit(total_shards)
+	_debug_log(str("Collected shard! Total: ", total_shards, " Max magic: ", max_magic))
 
 ##Returns the number of complete medallions (6 shards each).
 func get_complete_medallion_count() -> int:
@@ -130,26 +95,9 @@ func get_medallion_count() -> int:
 func is_full() -> bool:
 	return cur_magic >= max_magic
 
-##Recovery timer callbacks.
-func _on_recovery_delay_finished() -> void:
-	if not is_full():
-		_recovery_tick_timer.start(recovery_interval)
-		if debug_me:
-			print(debug_name, ": Recovery started.")
-
-func _on_recovery_tick() -> void:
-	if is_full():
-		_recovery_tick_timer.stop()
-		if debug_me:
-			print(debug_name, ": Recovery complete. Magic is full.")
-		return
-	restore(recovery_amount)
-	if debug_me:
-		print(debug_name, ": Recovered ", recovery_amount, ". Current: ", cur_magic)
-	if is_full():
-		_recovery_tick_timer.stop()
-		if debug_me:
-			print(debug_name, ": Recovery complete. Magic is full.")
+func _is_resource_full() -> bool: return is_full()
+func _restore_one_tick() -> void: restore(recovery_amount)
+func _on_recovery_complete() -> void: _debug_log("Recovery complete. Magic is full.")
 
 ##Debug input for testing magic changes.[br]
 ##Numpad 7 to restore, Numpad 1 to consume.

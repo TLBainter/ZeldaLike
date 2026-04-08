@@ -28,9 +28,9 @@ var debug_name : String:
 ##The direction the character is facing.
 var facing : String = "down"
 ##The current prefix for idle animations. Set by states.
-var idle_prefix : String = "Idle"
+var idle_prefix : String = AnimationNames.IDLE
 ##The current prefix for walk animations. Set by stats.
-var walk_prefix : String = "Walk"
+var walk_prefix : String = AnimationNames.WALK
 ##Whether the character's facing direction can be changed.
 var can_update_facing : bool = true
 ##whether or not the character is currently moving.
@@ -127,7 +127,7 @@ func force_face(face_dir : Vector2):
 	if face_dir == Vector2.ZERO:
 		return
 	set_facing(face_dir)
-	play_directional_anim("Idle")
+	play_directional_anim(AnimationNames.IDLE)
 	if debug_me:
 		print(debug_name, " forced to face ", facing)
 

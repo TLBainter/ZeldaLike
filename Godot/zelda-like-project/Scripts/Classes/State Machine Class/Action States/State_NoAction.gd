@@ -6,25 +6,11 @@
 class_name StateNoAction
 extends State
 
-#region VARIABLES
-var attack_state : State
-var interact_state : State
-var grab_state : State
-var lift_state : State
-#endregion VARIABLES
-
 #region FUNCTIONS
-
-func init_state_refs() -> void:
-	attack_state = coordinator.get_state(StateAttack)
-	interact_state = coordinator.get_state(StateInteract)
-	grab_state = coordinator.get_state(StateGrab)
-	lift_state = coordinator.get_state(StateLift)
 
 func enter():
 	super()
-	if debug_me:
-		print(debug_name, ": entered ; requesting context refresh")
+	_debug_log("entered ; requesting context refresh")
 	coordinator.request_context_refresh()
 
 ##Listens for action button presses to transition to action states.
@@ -32,11 +18,10 @@ func process_input(event : InputEvent) -> State:
 	#Handle interaction when able
 	#region Light Attack
 	if event.is_action_pressed("attackLight"):
-		if attack_state:
-			return coordinator.try_transition(state_machine, attack_state, "attackLight+pressed")
+		return coordinator.try_transition(state_machine, coordinator.get_transition("attack"), "attackLight+pressed")
 	#endregion Light Attack
 	#region Context Button
-	if event.is_action_pressed("actionButton4") and interact_state:
+	if event.is_action_pressed("actionButton4"):
 		var character = get_character()
 		if not character or not character.body.current_interactable:
 			return null
@@ -48,7 +33,7 @@ func process_input(event : InputEvent) -> State:
 				return null
 			var data = interactable_owner.object_data
 			var move_input = Input.get_vector("moveLeft", "moveRight", "moveUp", "moveDown")
-			var is_moving : bool = move_input.length() > 0.15
+			var is_moving : bool = move_input.length() > GameConstants.JOYSTICK_DEADZONE
 			if debug_me_verbose:
 				print("NoAction ROUTING: is_moving=", is_moving, " velocity=", character.body.velocity, " vel_length=", character.body.velocity.length())
 				print("  pushable=", data.pushable, " pullable=", data.pullable, " liftable=", data.liftable)
@@ -56,12 +41,12 @@ func process_input(event : InputEvent) -> State:
 			#note some objects are grabbable and liftable.
 			#In such cases, the player will only grab if they are moving while pressing the action button; otherwise, they'll lift it.
 			var priority = coordinator.resolve_interaction_priority(data, is_moving)
-			if priority == "grab" and grab_state:
-				return coordinator.try_transition(state_machine, grab_state, "actionButton4+DynamicThing+grab")
-			elif priority == "lift" and lift_state:
-				return coordinator.try_transition(state_machine, lift_state, "actionButton4+DynamicThing+lift")
-		elif interact_state and interactable.interact_type != InteractableComponent.InteractType.NONE:
-			return coordinator.try_transition(state_machine, interact_state, "actionButton4+not_DynamicThing")
+			if priority == StateCoordinator.InteractionPriority.GRAB:
+				return coordinator.try_transition(state_machine, coordinator.get_transition("grab"), "actionButton4+DynamicThing+grab")
+			elif priority == StateCoordinator.InteractionPriority.LIFT:
+				return coordinator.try_transition(state_machine, coordinator.get_transition("lift"), "actionButton4+DynamicThing+lift")
+		elif interactable.interact_type != InteractableComponent.InteractType.NONE:
+			return coordinator.try_transition(state_machine, coordinator.get_transition("interact"), "actionButton4+not_DynamicThing")
 	#endregion Context Button
 	return null
 

@@ -10,6 +10,12 @@ extends Node
 signal context_changed(context_key : String)
 #endregion SIGNALS
 
+#region ENUMS
+##Result of [method resolve_interaction_priority].[br]
+##Use instead of comparing raw strings to determine grab/lift/interact behaviour.
+enum InteractionPriority { GRAB, LIFT, INTERACT }
+#endregion ENUMS
+
 #region VARIABLES
 
 @export_category("Coordinator Components")
@@ -21,7 +27,10 @@ signal context_changed(context_key : String)
 @export var action_layer : Node
 ##The State Machine Layer handling No Control states (death, paused, etc.)
 @export var no_control_layer : Node
-#==========#
+##Maps logical transition keys to state script resources.[br]
+##Assign a custom [StateTransitionTable] resource in the editor to swap state classes at design time.[br]
+##States call [method get_transition] instead of caching typed vars in [method State.init_state_refs].
+@export var transition_table: StateTransitionTable = StateTransitionTable.new()
 @export_category("Debug")
 @export var debug : DebugSettings = DebugSettings.new()
 var debug_me : bool:
@@ -34,8 +43,7 @@ var debug_name : String:
 ##When true, every state transition is logged to Output with the triggering reason.[br]
 ##Format: [SM] FromState → ToState | reason
 @export var debug_transitions : bool = false
-#============#
-#Internal Variables
+
 ##Shared cooldown duration (seconds) after any dodge (dash or backstep).
 const DODGE_COOLDOWN : float = 0.25
 ##Remaining cooldown time before the next dodge is allowed. Ticked down in _process.
@@ -77,7 +85,6 @@ func _ready():
 		printerr(debug_name, ": no control layer is not assigned!")
 		return
 	#endregion component debugger prints
-	#INITIALIZE
 	_discover_states()
 	movement_layer.init_refs(root, self)
 	action_layer.init_refs(root, self)
@@ -86,7 +93,7 @@ func _ready():
 		state.init_state_refs()
 	set_process(false)
 	if debug_me:
-		print(debug_name, " initialized with root: ", root.debug_name)
+		print_rich(debug_name, " [color=green][i]initialized[/i][/color] with root: [b]", root.debug_name, "[/b]")
 
 	#region input calls
 ##Routes unhandled input through to all layers.[br]
@@ -101,29 +108,26 @@ func _unhandled_input(event : InputEvent):
 	#endregion input calls
 
 	#region cross layer controls
+##Freezes [param layer], preventing it from processing. Null-safe.
+func freeze_layer(layer: StateMachineLayer) -> void:
+	if layer: layer.freeze()
+
+##Unfreezes [param layer], allowing it to process again. Null-safe.
+func unfreeze_layer(layer: StateMachineLayer) -> void:
+	if layer: layer.unfreeze()
+
 ##Freezes the Movement layer, preventing it from processing.
-func freeze_movement():
-	movement_layer.freeze()
-
+func freeze_movement() -> void:   freeze_layer(movement_layer)
 ##Unfreezes the Movement layer, allowing it to process, again.
-func unfreeze_movement():
-	movement_layer.unfreeze()
-
+func unfreeze_movement() -> void:  unfreeze_layer(movement_layer)
 ##Freezes the No Control layer, preventing it from processing.
-func freeze_no_control():
-	no_control_layer.freeze()
-
+func freeze_no_control() -> void:  freeze_layer(no_control_layer)
 ##Unfreezes the No Control layer, allowing it to process, again.
-func unfreeze_no_control():
-	no_control_layer.unfreeze()
-
+func unfreeze_no_control() -> void: unfreeze_layer(no_control_layer)
 ##Freezes the Action layer, preventing it from processing.
-func freeze_action():
-	action_layer.freeze()
-
+func freeze_action() -> void:      freeze_layer(action_layer)
 ##Unfreezes the Action layer, allowing it to process, again.
-func unfreeze_action():
-	action_layer.unfreeze()
+func unfreeze_action() -> void:    unfreeze_layer(action_layer)
 
 ##Freezes both Movement and Action layers.[br]
 ##Typically called by No Control states to override character input.
@@ -140,20 +144,20 @@ func unfreeze_all():
 ##Requests a state change on the Movement layer.
 func request_movement_change(new_state : State):
 	movement_layer.change_state(new_state)
-	if debug_me and debug_me_verbose:
-		print(root.debug_name, " ", debug_name, " requested Movement -> ", new_state.debug_name.trim_prefix("State"))
+	if debug_me_verbose:
+		print_rich(root.debug_name, " ", debug_name, " [color=green][i]requested Movement →[/i][/color] [i]", new_state.debug_name.trim_prefix("State"), "[/i]")
 
 ##Requests a state change on the No Control layer.
 func request_no_control_change(new_state : State):
 	no_control_layer.change_state(new_state)
-	if debug_me and debug_me_verbose:
-		print(root.debug_name, " ", debug_name, " requested No Control -> ", new_state.debug_name.trim_prefix("State"))
+	if debug_me_verbose:
+		print_rich(root.debug_name, " ", debug_name, " [color=green][i]requested No Control →[/i][/color] [i]", new_state.debug_name.trim_prefix("State"), "[/i]")
 		
 ##Requests a state change on the Action layer.
 func request_action_change(new_state : State):
 	action_layer.change_state(new_state)
-	if debug_me and debug_me_verbose:
-		print(root.debug_name, " ", debug_name, " requested Action -> ", new_state.debug_name.trim_prefix("State"))
+	if debug_me_verbose:
+		print_rich(root.debug_name, " ", debug_name, " [color=green][i]requested Action →[/i][/color] [i]", new_state.debug_name.trim_prefix("State"), "[/i]")
 
 ##Prevents movement states from updating the context label.
 func lock_context():
@@ -197,12 +201,20 @@ func _discover_states() -> void:
 			if child is State:
 				_states[child.get_script()] = child
 	if debug_me:
-		print(debug_name, " discovered ", _states.size(), " states.")
+		print_rich(debug_name, ": [color=green][i]discovered[/i][/color] [i]", _states.size(), "[/i] states.")
 
 ##Returns the State node for the given class, or null if not present on this entity.[br]
 ##Usage: [b]coordinator.get_state(StateIdling)[/b]
 func get_state(state_class) -> State:
 	return _states.get(state_class)
+
+##Returns the State node for the given transition key via the [member transition_table].[br]
+##Returns null if the key is missing or the state class is not present on this entity.[br]
+##Usage: [b]coordinator.get_transition("idle")[/b]
+func get_transition(key: String) -> State:
+	if not transition_table or not transition_table.transitions.has(key):
+		return null
+	return _states.get(transition_table.transitions[key])
 	#endregion state registry
 
 ##Returns [param to_state] unchanged, logging the transition when [b]debug_transitions[/b] is true.[br]
@@ -213,7 +225,7 @@ func try_transition(layer: Node, to_state: State, reason: String = "") -> State:
 		return null
 	if debug_transitions:
 		var from_name: String = layer.current_state.debug_name if layer.current_state else "none"
-		print("[SM] ", from_name, " → ", to_state.debug_name, " | ", reason)
+		print_rich("[b][SM][/b] ", from_name, " → [i]", to_state.debug_name, "[/i] | ", reason)
 	return to_state
 
 	#region shared entity helpers
@@ -245,18 +257,17 @@ func start_dodge_cooldown() -> void:
 func is_moving(threshold : float = 10.0) -> bool:
 	return root.body != null and root.body.velocity.length() > threshold
 
-##Resolves whether to "grab", "lift", or "interact" with a DynamicThing based on its ObjectData.[br]
+##Resolves whether to grab, lift, or interact with a DynamicThing based on its ObjectData.[br]
 ##Priority rule: if the object is pushable/pullable and the character is moving (or it is not liftable), grab wins.[br]
-##If the character is idle and the object is also liftable, lift wins.[br]
-##Returns one of: [code]"grab"[/code], [code]"lift"[/code], [code]"interact"[/code].
-func resolve_interaction_priority(data, is_moving_flag : bool) -> String:
+##If the character is idle and the object is also liftable, lift wins.
+func resolve_interaction_priority(data, is_moving_flag : bool) -> InteractionPriority:
 	if data.pushable or data.pullable:
 		if is_moving_flag or not data.liftable:
-			return "grab"
-		return "lift"
+			return InteractionPriority.GRAB
+		return InteractionPriority.LIFT
 	elif data.liftable:
-		return "lift"
-	return "interact"
+		return InteractionPriority.LIFT
+	return InteractionPriority.INTERACT
 	#endregion shared entity helpers
 
 #endregion FUNCTIONS

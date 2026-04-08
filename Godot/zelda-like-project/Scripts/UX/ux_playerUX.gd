@@ -143,14 +143,14 @@ func _on_zoom_changed(is_zoomed : bool):
 		else:
 			energy_display.force_show(false)
 			if energy_display._energy_component and energy_display._energy_component.is_full():
-				energy_display._target_alpha = 0.0
+				energy_display.hide_immediately()
 	if magic_display:
 		if is_zoomed:
 			magic_display.force_show(true)
 		else:
 			magic_display.force_show(false)
 			if magic_display._magic_component and magic_display._magic_component.is_full():
-				magic_display._target_alpha = 0.0
+				magic_display.hide_immediately()
 	if currency_display:
 		currency_display.force_show(is_zoomed)
 

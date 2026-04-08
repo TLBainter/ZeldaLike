@@ -49,8 +49,6 @@ var debug_name : String:
 	get: return debug.debug_name if debug else ""
 	set(v): if debug: debug.debug_name = v
 
-#=======INTERNAL VARIABLES=======#
-
 ##Reference to the player's inventory. Set at runtime.
 var _inventory : InventoryComponent = null
 ##The DPad index this salve responds to (1-4).
@@ -71,8 +69,8 @@ func _ready():
 func initialize(inventory : InventoryComponent, input_comp : PlayerInputComponent, concoction_use : ConcoctionItemUse = null) -> void:
 	_inventory = inventory
 	_concoction_use = concoction_use
-	if input_comp and not input_comp.dPadPressed.is_connected(_on_dpad_pressed):
-		input_comp.dPadPressed.connect(_on_dpad_pressed)
+	if input_comp and not input_comp.d_pad_pressed.is_connected(_on_dpad_pressed):
+		input_comp.d_pad_pressed.connect(_on_dpad_pressed)
 	if _inventory and not _inventory.inventory_changed.is_connected(_on_inventory_changed):
 		_inventory.inventory_changed.connect(_on_inventory_changed)
 	_update_display()
@@ -109,7 +107,6 @@ func _update_availability() -> void:
 		if has_salve:
 			salve_rect.modulate = Color(1, 1, 1, 1)
 		else:
-			#Desaturated (gray) and 50% transparent.
 			salve_rect.modulate = Color(0.5, 0.5, 0.5, 0.5)
 	if quantity_label:
 		if has_salve:
@@ -145,13 +142,12 @@ func _on_dpad_pressed(index : int) -> void:
 		return
 	if not _has_salve():
 		if debug_me:
-			print(debug_name, ": No salve to use!")
+			print_rich(debug_name, ": [color=red][i]no salve to use[/i][/color]!")
 		return
 	_use_salve()
 
 ##Uses the salve: plays animation, decreases quantity.
 func _use_salve() -> void:
-	#Play use animation with flash color.
 	if salve_anim_player and salve_anim_player.has_animation("salveUse"):
 		var anim = salve_anim_player.get_animation("salveUse")
 		var flash_color = item_resource.flash_color if item_resource.flash_color else Color.WHITE_SMOKE
@@ -162,13 +158,12 @@ func _use_salve() -> void:
 				break
 		salve_anim_player.stop()
 		salve_anim_player.play("salveUse")
-	#Decrease quantity by 1.
 	if _concoction_use and item_resource:
 		_concoction_use.use_concoction(item_resource)
 	elif _inventory and item_resource and not item_resource.item_id.is_empty():
 		_inventory.remove_item(item_resource.item_id, 1)
 	if debug_me:
-		print(debug_name, ": Used salve! Type=", SalveType.keys()[salve_type])
+		print_rich(debug_name, ": [color=green][i]used salve[/i][/color]. Type=[i]", SalveType.keys()[salve_type], "[/i]")
 
 #endregion INPUT
 

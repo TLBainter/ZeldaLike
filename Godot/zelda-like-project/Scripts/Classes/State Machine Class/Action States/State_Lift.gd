@@ -8,9 +8,6 @@ extends State
 
 #region VARIABLES
 
-var holding_action_state : State
-var no_action_state : State
-
 @export_group("Lift Settings")
 ##The vertical offset above the player's body where the held object sits.
 @export var hold_offset : Vector2 = Vector2(0, -20)
@@ -19,25 +16,23 @@ var no_action_state : State
 
 #region FUNCTIONS
 
-func init_state_refs() -> void:
-	holding_action_state = coordinator.get_state(StateHoldingAction)
-	no_action_state = coordinator.get_state(StateNoAction)
-
 func enter() -> void:
 	super()
 	var character = get_character()
 	if not character:
 		push_error(debug_name + ": missing character reference in enter()")
-		if no_action_state:
-			state_machine.change_state(coordinator.try_transition(state_machine, no_action_state, "enter+no_character"))
+		var _next : State = coordinator.get_transition("no_action")
+		if _next:
+			state_machine.change_state(coordinator.try_transition(state_machine, _next, "enter+no_character"))
 		return
 	#Get the DynamicThing via the InteractableComponent.
 	var component: InteractableComponent = character.body.current_interactable
 	var interactable = component.owner_entity if component else null
 	if not interactable or not interactable is DynamicThing:
 		push_error(debug_name + ": no valid DynamicThing to lift in enter()")
-		if no_action_state:
-			state_machine.change_state(coordinator.try_transition(state_machine, no_action_state, "enter+no_DynamicThing"))
+		var _next2 : State = coordinator.get_transition("no_action")
+		if _next2:
+			state_machine.change_state(coordinator.try_transition(state_machine, _next2, "enter+no_DynamicThing"))
 		return
 	#Store the held object on the coordinator.
 	coordinator.held_object = interactable
@@ -49,10 +44,8 @@ func enter() -> void:
 	#Lock facing direction.
 	if character.anim and character.anim is CharacterAnimator:
 		character.anim.can_update_facing = false
-		character.anim.play_directional_anim("Lift")
-		var played = character.anim.play_directional_anim("Lift", true)
-		if debug_me:
-			print("Lift anim played: ", played, ", current animation: ", character.anim.current_animation)
+		var played = character.anim.play_directional_anim(AnimationNames.LIFT, true)
+		_debug_log(str("Lift anim played: ", played, ", current animation: ", character.anim.current_animation))
 		###===SIGNAL CONNECTION: wait for lift animation to finish===###
 		if not character.anim.animation_finished.is_connected(_on_lift_finished):
 			character.anim.animation_finished.connect(_on_lift_finished, CONNECT_ONE_SHOT)
@@ -66,27 +59,26 @@ func enter() -> void:
 			print("LIFT: Difference (obj - player): ", interactable.body.global_position - character.body.global_position)
 	#Disable collision on the held object.
 	interactable.hold(hold_offset, character)
-	if debug_me:
-		print(debug_name, ": Lifting ", interactable)
+	_debug_log(str("Lifting ", interactable))
 
 func exit() -> void:
 	var character = get_character()
 	if character and character.anim and character.anim is CharacterAnimator:
 		#Disconnect if still connected (safety).
-		if character.anim.animation_finished.is_connected(_on_lift_finished):
-			character.anim.animation_finished.disconnect(_on_lift_finished)
+		_safe_disconnect(character.anim.animation_finished, _on_lift_finished)
 	super()
 
 ##Called when the lift animation finishes. Transitions to HoldingAction.
 func _on_lift_finished(anim_name : String) -> void:
-	if not "Lift" in anim_name:
+	if not AnimationNames.LIFT in anim_name:
 		#Wrong animation finished -- reconnect and wait for the real one.
 		var character = get_character()
 		if character and character.anim:
 			if not character.anim.animation_finished.is_connected(_on_lift_finished):
 				character.anim.animation_finished.connect(_on_lift_finished, CONNECT_ONE_SHOT)
 		return
-	if holding_action_state:
-		state_machine.change_state(coordinator.try_transition(state_machine, holding_action_state, "lift_animation_finished"))
+	var _next : State = coordinator.get_transition("holding_action")
+	if _next:
+		state_machine.change_state(coordinator.try_transition(state_machine, _next, "lift_animation_finished"))
 
 #endregion FUNCTIONS

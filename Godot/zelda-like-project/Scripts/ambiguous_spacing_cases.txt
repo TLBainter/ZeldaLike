@@ -1,0 +1,110 @@
+AMBIGUOUS SPACING CASES — Section 2.4 Review
+============================================================
+Files below are OUTSIDE the plan's critical file list.
+All known cases inside the plan files have already been fixed.
+
+Rule: " ; " (space-semicolon-space) used as a logical separator in
+string literals should become ": " (colon-space). Except where the
+semicolon is intentional visible UI text (help menus, etc.).
+
+------------------------------------------------------------
+INTENTIONAL — DO NOT CHANGE
+------------------------------------------------------------
+
+FILE: Scripts/Debug Tools/debug_commandLine.gd
+Lines 382-393 — help text output using " ; Description" as a
+command description separator in the in-game console help panel.
+This is user-facing UI text, not a debug log separator.
+SUGGESTION: Leave as-is. This is intentional formatting.
+
+------------------------------------------------------------
+NEEDS FIX — outside plan scope, flag for future pass
+------------------------------------------------------------
+
+FILE: Scripts/Classes/Audio Class/Audio_Component_Character.gd
+Lines 252, 255, 267, 270, 273, 277, 281
+Uses " ; " as a logical separator in print_rich() debug calls.
+Also uses non-standard [color=#FF69B4] (pink) — not in the
+approved color scheme.
+EXAMPLE (line 252):
+  print_rich("[color=#FF69B4][BatSqueak][/color] _roll_bat_squeak called but loop inactive ; bailing.")
+SUGGESTION: Replace " ; " with ": ". Standardize color to named
+  color or approved scheme. Consider [color=yellow] for audio-class
+  debug messages.
+
+------------------------------------------------------------
+
+FILE: Scripts/UX/ux_playerUX_Label_Context.gd
+Lines 73, 76, 94, 104
+Uses plain print() with " ; " separators. Not gated consistently.
+EXAMPLE (line 76):
+  print(debug_name, ": update_label('", new_text, "') ; was '", text, "'...")
+SUGGESTION: Convert to print_rich(). Gate with if debug_me:.
+  Replace " ; " with ": ".
+
+------------------------------------------------------------
+
+FILE: Scripts/Classes/Trap Class/Trap.gd
+Lines 54, 57, 60
+Uses push_warning() with " ; " separator.
+EXAMPLE (line 54):
+  push_warning(name + ": No TrapResource assigned ; trap will not function.")
+SUGGESTION: Replace " ; " with ": " — result would be
+  "No TrapResource assigned: trap will not function."
+  Alternatively, use a period and new sentence.
+
+------------------------------------------------------------
+
+FILE: Scripts/Resources/Resource Scripts/resource_Drop_Table.gd
+Lines 63, 105, 107, 114, 128, 134, 140, 146
+Uses plain print() with " ; " separators. No debug gate.
+EXAMPLE (line 63):
+  print("DropTable: Chance roll failed (", roll, " > ", drop_chance, "%) ; dropping nothing.")
+SUGGESTION: Decide whether these are debug prints (gate with
+  debug_me, convert to print_rich) or always-on logs (acceptable
+  as-is). Replace " ; " with ": " in either case.
+
+------------------------------------------------------------
+
+FILE: Scripts/Classes/Interaction Class/InteractableComponent.gd
+Lines 115, 120, 131, 140
+Uses plain print() with " ; " separators.
+EXAMPLE (line 115):
+  print(debug_name, ": set_active(false) ; evicting ", overlapping.size(), " overlapping bodies")
+SUGGESTION: Convert to print_rich(). Gate with if debug_me:.
+  Replace " ; " with ": ".
+
+------------------------------------------------------------
+
+FILE: Scripts/Classes/Interaction Class/Dialogue Class/Dialogue_Speak_Component.gd
+Line 27
+Uses plain print() with " ; " separator.
+EXAMPLE:
+  print("SpeakComponent requesting ref_id: ", ref_id, " ; exists in DB: ", ...)
+SUGGESTION: Convert to print_rich(). Gate with if debug_me:.
+  Replace " ; " with ": ".
+
+------------------------------------------------------------
+
+FILE: Scripts/Classes/State Machine Class/Action States/State_Throw.gd
+Line 80 — _debug_log("exit ; movement unfrozen, StateNoAction will refresh context")
+FILE: Scripts/Classes/State Machine Class/Action States/State_NoAction.gd
+Line 13 — _debug_log("entered ; requesting context refresh")
+FILE: Scripts/Classes/State Machine Class/Movement States/State_Backstep.gd
+Line 33 — _debug_log("backstep blocked ; exhausted.")
+These use _debug_log() (already gated) with " ; " separators.
+SUGGESTION: Replace " ; " with ": " in each string literal.
+
+------------------------------------------------------------
+
+FILE: Scripts/Classes/State Machine Class/Movement States/State_DashRebound.gd
+Lines 33, 45, 53, 58
+Uses print_rich() with non-standard [color=#FF8C00] (orange) and " ; " separators.
+EXAMPLE (line 33):
+  print_rich("[color=#FF8C00][", debug_name, "][/color] setup() ; dir=", _rebound_dir, ...)
+SUGGESTION: Replace " ; " with ": ". Standardize color to named
+  color from the approved scheme. Apply standard debug_name prefix format.
+
+============================================================
+END OF AMBIGUOUS CASES
+============================================================

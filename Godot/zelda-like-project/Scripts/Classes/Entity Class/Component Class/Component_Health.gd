@@ -22,13 +22,9 @@ signal health_changed(cur_hp : int, max_hp : int, chng_amt : int)
 var max_health : int = 4
 ##The current hit points of the entity.
 var cur_health : int = 4:
-	#Ensure health can't go below 0 or above max_health
 	set(value):
-		#Get the new value of the entity's Hit Points
 		var new_health = clampi(value, 0, max_health)
-		#Get the value by which the health was changed, which is used for signal emitting.
 		var chng_amt = new_health - cur_health
-		#Change health
 		cur_health = new_health
 		if chng_amt != 0:
 			health_changed.emit(cur_health, max_health, chng_amt)
@@ -38,19 +34,15 @@ var cur_health : int = 4:
 #region FUNCTIONS
 
 func _ready():
-	var entity = _find_entity_parent()
-	if entity and "stats" in entity and entity.stats and entity.stats.resource:
-		max_health = entity.stats.resource.max_health
-	else:
-		max_health = 4
+	var stats = _get_entity_stats()
+	max_health = stats.max_health if stats else 4
 	cur_health = max_health
 
 #region HEAL
 func healed(healing : int):
 	self.cur_health += healing
 	if debug_me:
-		print(debug_name, " gained ", healing, " health.")
-		print(debug_name, " now has ", cur_health, " remaining Hit Points.")
+		print_rich(debug_name, ": [color=green][i]gained[/i][/color] [i]", healing, "[/i] health. Now: [i]", cur_health, "[/i]")
 #endregion HEAL
 
 #region DAMAGE
@@ -58,12 +50,11 @@ func damaged(damage : int, _source_position : Vector2 = Vector2.ZERO):
 	var entity = _find_entity_parent()
 	if entity and "is_invulnerable" in entity and entity.is_invulnerable:
 		if debug_me:
-			print(debug_name, ": damage blocked ; entity is invulnerable.")
+			print_rich(debug_name, ": [color=red][i]damage blocked: entity is invulnerable[/i][/color].")
 		return
 	self.cur_health -= damage
 	if debug_me:
-		print(debug_name, " took ", damage, " damage.")
-		print(debug_name, " now has ", cur_health, " remaining Hit Points.")
+		print_rich(debug_name, ": [color=red][i]took[/i][/color] [i]", damage, "[/i] damage. Now: [i]", cur_health, "[/i]")
 #endregion DAMAGE
 
 #endregion FUNCTIONS

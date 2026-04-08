@@ -45,8 +45,6 @@ extends UXElement
 ##The color when currency is at maximum.
 @export var max_color : Color = Color.YELLOW
 
-#=======INTERNAL VARIABLES=======#
-
 ##The currency component reference.
 var _currency_component : CurrencyComponent
 ##The value currently being displayed (ticks toward the actual value).
@@ -68,19 +66,17 @@ var digit_count : int = 2
 
 ##Initializes the currency display with the currency component reference.
 func initialize(currency_comp : CurrencyComponent) -> void:
-	print("CurrencyDisplay.initialize called! comp=", currency_comp)
 	_currency_component = currency_comp
 	if _currency_component:
-		if not _currency_component.notesChanged.is_connected(_on_notes_changed):
-			_currency_component.notesChanged.connect(_on_notes_changed)
-			print("CurrencyDisplay: notesChanged signal connected.")
+		if not _currency_component.notes_changed.is_connected(_on_notes_changed):
+			_currency_component.notes_changed.connect(_on_notes_changed)
 
 		_display_value = _currency_component.cur_notes
 		_target_value = _display_value
 		_update_wallet_size()
 		_update_label()
 	if debug_me:
-		print(debug_name, " initialized.")
+		print_rich(debug_name, ": [color=green][i]initialized[/i][/color].")
 
 func _can_fade_out() -> bool:
 	return not _is_ticking
@@ -115,7 +111,7 @@ func _update_wallet_size() -> void:
 		if wallet_sprite and sprite_big_wallet:
 			wallet_sprite.texture = sprite_big_wallet
 	if debug_me:
-		print(debug_name, ": Wallet size updated. Max: ", max_notes, " Digits: ", digit_count)
+		print_rich(debug_name, ": [color=green][i]wallet size updated[/i][/color]. Max: [i]", max_notes, "[/i] Digits: [i]", digit_count, "[/i]")
 
 #endregion WALLET SIZE
 
@@ -138,7 +134,7 @@ func _update_label() -> void:
 
 func _on_notes_changed(cur_notes : int, max_notes : int, change_amount : int):
 	if debug_me:
-		print("CurrencyDisplay._on_notes_changed! cur=", cur_notes, "/", max_notes, " change=", change_amount)
+		print_rich(debug_name, ": [color=green][i]notes changed[/i][/color]. cur=[i]", cur_notes, "/", max_notes, "[/i] change=[i]", change_amount, "[/i]")
 
 	_target_value = cur_notes
 	var change_size : int = absi(_target_value - _display_value)
@@ -150,7 +146,7 @@ func _on_notes_changed(cur_notes : int, max_notes : int, change_amount : int):
 	show_element()
 	_play_change_anim()
 	if debug_me:
-		print(debug_name, ": Notes changed by ", change_amount, ". Ticking from ", _display_value, " to ", _target_value, " interval=", _tick_interval)
+		print_rich(debug_name, ": [color=green][i]ticking[/i][/color] from [i]", _display_value, "[/i] to [i]", _target_value, "[/i] interval=[i]", _tick_interval, "[/i]")
 
 #endregion CURRENCY CHANGE HANDLER
 
@@ -163,21 +159,19 @@ func _perform_tick() -> void:
 	elif _display_value > _target_value:
 		_display_value -= 1
 	_update_label()
-	#Play tick sound with randomized pitch.
 	if change_sounds and not change_sounds.sl.is_empty():
 		var clip = change_sounds.sl.pick_random()
 		if audioManager:
 			var player_node = audioManager.play(clip, "UI")
 			if player_node and player_node is AudioStreamPlayer:
 				player_node.pitch_scale = randf_range(0.9, 1.15)
-	#Check if ticking is complete.
 	if _display_value == _target_value:
 		_is_ticking = false
 		_play_change_anim()
 		_visibility_timer.stop()
 		_visibility_timer.start(visibility_duration)
 		if debug_me:
-			print(debug_name, ": Tick complete at ", _display_value)
+			print_rich(debug_name, ": [color=green][i]tick complete[/i][/color] at [i]", _display_value, "[/i]")
 
 ##Plays the 'Currency Changed' stretch animation.
 func _play_change_anim() -> void:

@@ -15,8 +15,6 @@ extends UXDisplayElement
 ##The pixel offset from the player's screen position (used if energy display is not available).
 @export var fallback_offset_distance : float = 56.0
 
-#=======INTERNAL VARIABLES=======#
-
 var _magic_component : MagicComponent
 
 #endregion VARIABLES
@@ -27,17 +25,17 @@ var _magic_component : MagicComponent
 func initialize(magic_comp : MagicComponent, player_body : CharacterBody2D, player_cam : CamClass) -> void:
 	_magic_component = magic_comp
 	if _magic_component:
-		if not _magic_component.magicChanged.is_connected(_on_magic_changed):
-			_magic_component.magicChanged.connect(_on_magic_changed)
-		if not _magic_component.shardCollected.is_connected(_on_shard_collected):
-			_magic_component.shardCollected.connect(_on_shard_collected)
+		if not _magic_component.magic_changed.is_connected(_on_magic_changed):
+			_magic_component.magic_changed.connect(_on_magic_changed)
+		if not _magic_component.shard_collected.is_connected(_on_shard_collected):
+			_magic_component.shard_collected.connect(_on_shard_collected)
 	initialize_display(player_body, player_cam)
 
 func _on_display_initialized() -> void:
 	_rebuild_medallions()
 	_update_medallions()
 	if debug_me:
-		print(debug_name, " initialized with ", _magic_component.get_medallion_count(), " medallions.")
+		print_rich(debug_name, ": [color=green][i]initialized[/i][/color] with [i]", _magic_component.get_medallion_count(), "[/i] medallions.")
 
 func _can_fade_out() -> bool:
 	return _magic_component and _magic_component.is_full()
@@ -56,7 +54,6 @@ func _update_medallions() -> void:
 		return
 	var medallions_data : Array = _calculate_medallion_data()
 	var gui_children = gui_container.get_children()
-	#Find the active medallion (highest index with fill > 0).
 	var active_idx = -1
 	for i in range(medallions_data.size()):
 		if medallions_data[i]["fill"] > 0:
@@ -93,7 +90,6 @@ func _calculate_medallion_data() -> Array:
 #region MAGIC CHANGE HANDLER
 
 func _on_magic_changed(cur_magic : int, max_magic : int, change_amount : int) -> void:
-	#Trigger use flash on decrease.
 	if change_amount < 0:
 		var gui_children = gui_container.get_children()
 		var medallions_data = _calculate_medallion_data()
@@ -108,14 +104,14 @@ func _on_magic_changed(cur_magic : int, max_magic : int, change_amount : int) ->
 	_update_medallions()
 	show_element()
 	if debug_me:
-		print(debug_name, ": Magic changed by ", change_amount, ". Now: ", cur_magic, "/", max_magic)
+		print_rich(debug_name, ": [i]magic changed[/i] by [i]", change_amount, "[/i]. Now: [i]", cur_magic, "/", max_magic, "[/i]")
 
 func _on_shard_collected(total_shards : int) -> void:
 	_rebuild_medallions()
 	_update_medallions()
 	show_element()
 	if debug_me:
-		print(debug_name, ": Shard collected! Total: ", total_shards, ". Rebuilding display.")
+		print_rich(debug_name, ": [color=green][i]shard collected[/i][/color]! Total: [i]", total_shards, "[/i]. Rebuilding display.")
 
 #endregion MAGIC CHANGE HANDLER
 

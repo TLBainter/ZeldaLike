@@ -8,8 +8,6 @@ extends State
 
 #region VARIABLES
 
-var no_action_state : State
-
 ##Reference to the active projectile component (created dynamically).
 var _projectile : ProjectileComponent
 
@@ -17,24 +15,22 @@ var _projectile : ProjectileComponent
 
 #region FUNCTIONS
 
-func init_state_refs() -> void:
-	no_action_state = coordinator.get_state(StateNoAction)
-
 func enter():
 	super()
 	var character = get_character()
 	var held = coordinator.held_object
 	if not character or not held:
 		push_error(debug_name + ": missing character or held object in enter()")
-		if no_action_state:
-			state_machine.change_state(coordinator.try_transition(state_machine, no_action_state, "enter+no_character_or_held"))
+		var _next : State = coordinator.get_transition("no_action")
+		if _next:
+			state_machine.change_state(coordinator.try_transition(state_machine, _next, "enter+no_character_or_held"))
 		return
 	if character.energy:
 		if not character.energy.consume(1):
-			if debug_me:
-				print(debug_name, ": Not enough energy to throw, dropping instead.")
-			if no_action_state:
-				state_machine.change_state(coordinator.try_transition(state_machine, no_action_state, "enter+insufficient_energy"))
+			_debug_log("Not enough energy to throw, dropping instead.")
+			var _next2 : State = coordinator.get_transition("no_action")
+			if _next2:
+				state_machine.change_state(coordinator.try_transition(state_machine, _next2, "enter+insufficient_energy"))
 			return
 	#Freeze movement during the throw.
 	coordinator.freeze_movement()
@@ -74,30 +70,28 @@ func enter():
 	_projectile.launch(held, facing_dir, throw_distance, throw_speed, arc)
 	#Clear the held object from the coordinator.
 	coordinator.held_object = null
-	if debug_me:
-		print(debug_name, ": Threw object ", facing_dir, " distance=", throw_distance)
+	_debug_log(str("Threw object ", facing_dir, " distance=", throw_distance))
 
 func exit():
 	var character = get_character()
 	if character and character.anim and character.anim is CharacterAnimator:
 		character.anim.can_update_facing = true
 	coordinator.unfreeze_movement()
-	if debug_me:
-		print(debug_name, ": exit ; movement unfrozen, StateNoAction will refresh context")
+	_debug_log("exit ; movement unfrozen, StateNoAction will refresh context")
 	#Clean up projectile reference.
 	_projectile = null
 	super()
 
 ##Called when the projectile lands or hits something.
 func _on_projectile_landed(broke : bool):
-	if debug_me:
-		print(debug_name, ": Projectile landed. Broke: ", broke)
+	_debug_log(str("Projectile landed. Broke: ", broke))
 	#Clean up the projectile node.
 	if _projectile and is_instance_valid(_projectile):
 		_projectile.queue_free()
 		_projectile = null
-	if no_action_state:
-		state_machine.change_state(coordinator.try_transition(state_machine, no_action_state, "projectile_landed"))
+	var _next : State = coordinator.get_transition("no_action")
+	if _next:
+		state_machine.change_state(coordinator.try_transition(state_machine, _next, "projectile_landed"))
 
 ##Calculates throw distance based on object weight.[br]
 ##Light (10): full distance. Medium (30): ~66%. Heavy (60): ~33%.

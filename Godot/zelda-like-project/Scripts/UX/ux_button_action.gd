@@ -53,8 +53,6 @@ var debug_name : String:
 	get: return debug.debug_name if debug else ""
 	set(v): if debug: debug.debug_name = v
 
-#====INTERNAL====#
-#SPELL TRACKING VARIABLES#
 var _current_spell : MenuItemResource = null
 var _equipped_spells : EquippedSpellsComponent = null
 var _my_slot : int = -1
@@ -64,19 +62,18 @@ var _my_slot : int = -1
 func _ready():
 	if input:
 		if debug_me:
-			print("Got input component for button ", action_name)
-		if not input.actionButtonPressed.is_connected(_on_action_button_pressed):
-			input.actionButtonPressed.connect(_on_action_button_pressed)
+			print_rich(debug_name, ": [color=green][i]got input component[/i][/color] for button [b]", action_name, "[/b]")
+		if not input.action_button_pressed.is_connected(_on_action_button_pressed):
+			input.action_button_pressed.connect(_on_action_button_pressed)
 		#TODO: Fix this logic; it may not always be true. Setting availability should happen outside of this script, being called by other entities.
-		#Perhaps set_available should have a default state stored within itself.
 		set_available(true)
 	else:
 		if debug_me:
-			print("Could not get input component for button ", action_name)
+			print_rich(debug_name, ": [color=red][i]could not get input component[/i][/color] for button [b]", action_name, "[/b]")
 	if spell_texture_rect and not _current_spell:
 		spell_texture_rect.visible = false
 	if debug_me:
-			print("ACTION BTN ", action_name, ": _ready() hid spell_texture_rect. _current_spell=", _current_spell)
+		print_rich(debug_name, ": [b]", action_name, "[/b] _ready() hid spell_texture_rect. _current_spell=[i]", _current_spell, "[/i]")
 	_apply_spell_position()
 	_assign_button_texture()
 
@@ -86,7 +83,6 @@ func _on_action_button_pressed(btn : String):
 
 func _play_press_anim():
 	if anim_player:
-		##Names the animation to play; it is imperative that this match the animation in the ActionButtonAnimator!
 		var anim_to_play : String = "actionButton_press"
 		if anim_player.has_animation(anim_to_play):
 			anim_player.stop()
@@ -117,7 +113,7 @@ func set_equipped_spells(equipped_spells : EquippedSpellsComponent, slot_index :
 		_equipped_spells.spell_equip_changed.connect(_on_spell_equip_changed)
 	_current_spell = _equipped_spells.get_spell(_my_slot) if _equipped_spells else null
 	if debug_me:
-		print("ACTION BTN ", action_name, ": set_equipped_spells called. slot=", _my_slot, " _current_spell=", _current_spell)
+		print_rich(debug_name, ": [b]", action_name, "[/b] set_equipped_spells called. slot=[i]", _my_slot, "[/i] _current_spell=[i]", _current_spell, "[/i]")
 	_update_spell_display()
 
 func _on_spell_equip_changed(slot : int, spell_resource : MenuItemResource) -> void:
@@ -128,11 +124,11 @@ func _on_spell_equip_changed(slot : int, spell_resource : MenuItemResource) -> v
 
 func _update_spell_display() -> void:
 	if debug_me:
-		print("ACTION BTN ", action_name, ": _update_spell_display called.")
-		print("  spell_texture_rect=", spell_texture_rect)
-		print("  _current_spell=", _current_spell)
+		print_rich(debug_name, ": [b]", action_name, "[/b] _update_spell_display called.")
+		print_rich("  spell_texture_rect=[i]", spell_texture_rect, "[/i]")
+		print_rich("  _current_spell=[i]", _current_spell, "[/i]")
 		if spell_texture_rect:
-			print("  BEFORE visible=", spell_texture_rect.visible, " texture=", spell_texture_rect.texture)
+			print_rich("  BEFORE visible=[i]", spell_texture_rect.visible, "[/i] texture=[i]", spell_texture_rect.texture, "[/i]")
 	if not spell_texture_rect:
 		return
 	if _current_spell and _current_spell.mini_icon:
@@ -141,7 +137,7 @@ func _update_spell_display() -> void:
 	else:
 		spell_texture_rect.visible = false
 	if debug_me:
-		print("  AFTER visible=", spell_texture_rect.visible, " texture=", spell_texture_rect.texture)
+		print_rich("  AFTER visible=[i]", spell_texture_rect.visible, "[/i] texture=[i]", spell_texture_rect.texture, "[/i]")
 	_apply_spell_position()
 #endregion Spell Setting===========#
 

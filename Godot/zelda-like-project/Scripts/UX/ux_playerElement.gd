@@ -32,6 +32,10 @@ var _target_alpha : float = 0.0
 var _force_visible : bool = false
 ##Timer reference for visibility countdown.
 var _visibility_timer : Timer
+##Saved [member _force_visible] value before [method set_paused] was called.
+var _pre_pause_force_visible : bool = false
+##Saved [member _target_alpha] value before [method set_paused] was called.
+var _pre_pause_target_alpha : float = 0.0
 
 #endregion VARIABLES
 
@@ -106,6 +110,26 @@ func force_show(should_force : bool) -> void:
 ##Override if the element has additional conditions (e.g., ticking animation).
 func _should_start_fade_timer() -> bool:
 	return true
+
+##Instantly begins fading out by setting the target alpha to 0. Does not affect [member _force_visible].
+func hide_immediately() -> void:
+	_target_alpha = 0.0
+
+##Saves internal visibility state and instantly hides this element (pause), or restores it (unpause).[br]
+##Pair with a [code]set_paused(false)[/code] call to restore the pre-pause state.
+func set_paused(paused: bool) -> void:
+	if paused:
+		_pre_pause_force_visible = _force_visible
+		_pre_pause_target_alpha = _target_alpha
+		_force_visible = false
+		_visibility_timer.stop()
+		_target_alpha = 0.0
+		modulate.a = 0.0
+	else:
+		_force_visible = _pre_pause_force_visible
+		_target_alpha = _pre_pause_target_alpha
+		if _pre_pause_target_alpha > 0.0:
+			set_process(true)
 
 #endregion VISIBILITY
 

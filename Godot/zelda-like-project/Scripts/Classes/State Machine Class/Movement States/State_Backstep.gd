@@ -10,8 +10,6 @@ extends State
 
 #region VARIABLES
 
-var idle_state : State
-
 var _dodge_executed : bool = false
 var _backstep_dir : Vector2 = Vector2.ZERO
 var _distance_traveled : float = 0.0
@@ -27,18 +25,15 @@ func _ready():
 	set_physics_process(false)
 	super()
 
-func init_state_refs() -> void:
-	idle_state = coordinator.get_state(StateIdling)
-
 func enter():
 	super()
 	var character = get_character()
 	# Blocked when exhausted (no energy), even though backstep itself costs 0.
 	if coordinator.is_exhausted():
-		if debug_me:
-			print(debug_name, ": backstep blocked ; exhausted.")
-		if idle_state:
-			state_machine.change_state(coordinator.try_transition(state_machine, idle_state, "backstep+exhausted"))
+		_debug_log("backstep blocked ; exhausted.")
+		var _next : State = coordinator.get_transition("idle")
+		if _next:
+			state_machine.change_state(coordinator.try_transition(state_machine, _next, "backstep+exhausted"))
 		return
 	# Backstep direction = opposite of current facing direction.
 	if character and character.anim:
@@ -79,8 +74,9 @@ func _physics_process(_delta : float):
 	# Exit: max distance reached, or any world collision (mask is world-only during backstep).
 	if _distance_traveled >= _max_dist or root.body.get_slide_collision_count() > 0:
 		# TODO: Play 'backstep exit' directional animation (e.g. "BackstepExitDown") when animations are created.
-		if idle_state:
-			state_machine.change_state(coordinator.try_transition(state_machine, idle_state, "backstep+complete"))
+		var _next : State = coordinator.get_transition("idle")
+		if _next:
+			state_machine.change_state(coordinator.try_transition(state_machine, _next, "backstep+complete"))
 
 ##Returns the safe backstep distance in physical pixels.[br]
 ##Checks the full player shape at the endpoint (not just the center point), so it handles

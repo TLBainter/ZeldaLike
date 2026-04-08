@@ -29,11 +29,8 @@ func _ready():
 	
 	#region Set Max HP
 	#Read max_health from the stats resource if available.
-	var entity = _find_entity_parent()
-	if entity and "stats" in entity and entity.stats and entity.stats.resource:
-		max_health = entity.stats.resource.max_health
-	else:
-		max_health = max_hearts * 4
+	var stats = _get_entity_stats()
+	max_health = stats.max_health if stats else max_hearts * 4
 	#Derive heart count from max_health (4 HP per heart).
 	max_hearts = int(max_health / 4.0)
 	if debug_me:

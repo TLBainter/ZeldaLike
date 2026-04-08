@@ -26,11 +26,8 @@ var move_str : float
 
 func _ready():
 	#Read walk speed from stats as the default move speed.
-	var entity = root
-	if entity and "stats" in entity and entity.stats and entity.stats.resource:
-		root.move_speed = entity.stats.resource.walk_speed
-	else:
-		root.move_speed = 50.0
+	var stats = _get_entity_stats()
+	root.move_speed = stats.walk_speed if stats else 50.0
 	#connect signals
 	input.on_move.connect(move)
 

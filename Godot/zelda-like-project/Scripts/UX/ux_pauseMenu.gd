@@ -62,14 +62,6 @@ var heart_fade_target : float = 1.0
 var consumable_fade_target : float = 1.0
 ## Reference to the Action Buttons Margin's current alpha value.
 var action_button_fade_target : float = 1.0
-## Whether energy display was force-visible before pause.
-var _energy_was_force_visible : bool = false
-## The target alpha of the energy display before pause.
-var _energy_pre_pause_alpha : float = 0.0
-## Whether magic display was force-visible before pause.
-var _magic_was_force_visible : bool = false
-## The target alpha of the magic display before pause.
-var _magic_pre_pause_alpha : float = 0.0
 ##Internal reference to the action buttons.
 var _action_buttons : Array = []
 
@@ -279,21 +271,11 @@ func _show_pause_ux() -> void:
 	# Instantly hide energy display.
 	if ux.energy_display:
 		ux.energy_display.process_mode = Node.PROCESS_MODE_WHEN_PAUSED
-		_energy_was_force_visible = ux.energy_display._force_visible
-		_energy_pre_pause_alpha = ux.energy_display._target_alpha
-		ux.energy_display._force_visible = false
-		ux.energy_display._visibility_timer.stop()
-		ux.energy_display._target_alpha = 0.0
-		ux.energy_display.modulate.a = 0.0
+		ux.energy_display.set_paused(true)
 	# Instantly hide magic display.
 	if ux.magic_display:
 		ux.magic_display.process_mode = Node.PROCESS_MODE_WHEN_PAUSED
-		_magic_was_force_visible = ux.magic_display._force_visible
-		_magic_pre_pause_alpha = ux.magic_display._target_alpha
-		ux.magic_display._force_visible = false
-		ux.magic_display._visibility_timer.stop()
-		ux.magic_display._target_alpha = 0.0
-		ux.magic_display.modulate.a = 0.0
+		ux.magic_display.set_paused(true)
 	#Raise PlayerUX canvas above the menu.
 	_player_ux_canvas = _find_ux_canvas_layer(ux)
 	if _player_ux_canvas:
@@ -325,17 +307,11 @@ func _restore_ux() -> void:
 	# Restore energy display.
 	if ux.energy_display:
 		ux.energy_display.process_mode = Node.PROCESS_MODE_INHERIT
-		ux.energy_display._force_visible = _energy_was_force_visible
-		ux.energy_display._target_alpha = _energy_pre_pause_alpha
-		if _energy_pre_pause_alpha > 0.0:
-			ux.energy_display.set_process(true)
+		ux.energy_display.set_paused(false)
 	# Restore magic display.
 	if ux.magic_display:
 		ux.magic_display.process_mode = Node.PROCESS_MODE_INHERIT
-		ux.magic_display._force_visible = _magic_was_force_visible
-		ux.magic_display._target_alpha = _magic_pre_pause_alpha
-		if _magic_pre_pause_alpha > 0.0:
-			ux.magic_display.set_process(true)
+		ux.magic_display.set_paused(false)
 	#Restore canvas layer.
 	if _player_ux_canvas:
 		_player_ux_canvas.layer = _original_canvas_layer

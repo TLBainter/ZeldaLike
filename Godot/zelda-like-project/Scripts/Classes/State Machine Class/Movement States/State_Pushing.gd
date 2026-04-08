@@ -1,4 +1,4 @@
-﻿##[b][color=red]StatePushing[/color][/b] is the [b]Movement layer[/b] state for pushing a grabbed object.[br]
+##[b][color=red]StatePushing[/color][/b] is the [b]Movement layer[/b] state for pushing a grabbed object.[br]
 ##Smoothly moves both the player and object 8px in the facing direction.[br]
 ##Holding directional input causes continuous snaps with a weight-based delay between them.[br]
 ##Returns to GrabIdle when input stops. Transitions to Pulling if input reverses (and object is pullable).[br]
@@ -7,16 +7,7 @@
 class_name StatePushing
 extends State
 
-#region CONSTANTS
-
-const SNAP_DISTANCE : float = 8.0
-
-#endregion CONSTANTS
-
 #region VARIABLES
-
-var grab_idle_state : State
-var pulling_state : State
 
 ##Whether input is currently being held along the push axis.
 var _input_held : bool = false
@@ -33,10 +24,6 @@ var _snap_speed : float = 80.0
 
 #region FUNCTIONS
 
-func init_state_refs() -> void:
-	grab_idle_state = coordinator.get_state(StateGrabIdle)
-	pulling_state = coordinator.get_state(StatePulling)
-
 func enter():
 	super()
 	_input_held = true
@@ -44,8 +31,7 @@ func enter():
 	_is_snapping = false
 	root.body.velocity = Vector2.ZERO
 	###===SIGNAL CONNECTION===###
-	if root.input and not root.input.on_move.is_connected(_on_move):
-		root.input.on_move.connect(_on_move)
+	if root.input: _safe_connect(root.input.on_move, _on_move)
 	###===END SIGNAL CONNECTION===###
 	#Perform the first snap immediately on enter.
 	_perform_snap()
@@ -57,8 +43,7 @@ func exit():
 	_snap_timer_active = false
 	root.body.velocity = Vector2.ZERO
 	###===SIGNAL DISCONNECTION===###
-	if root.input and root.input.on_move.is_connected(_on_move):
-		root.input.on_move.disconnect(_on_move)
+	if root.input: _safe_disconnect(root.input.on_move, _on_move)
 	###===END SIGNAL DISCONNECTION===###
 	super()
 
@@ -67,28 +52,28 @@ func pause() -> void:
 	_snap_timer_active = false
 	_is_snapping = false
 	set_physics_process(false)
-	if root.input and root.input.on_move.is_connected(_on_move):
-		root.input.on_move.disconnect(_on_move)
+	if root.input: _safe_disconnect(root.input.on_move, _on_move)
 	root.body.velocity = Vector2.ZERO
 	super()
 
 func resume() -> void:
-	if root.input and not root.input.on_move.is_connected(_on_move):
-		root.input.on_move.connect(_on_move)
+	if root.input: _safe_connect(root.input.on_move, _on_move)
 	super()
 
 ##Tracks directional input. Returns to GrabIdle if input stops.[br]
 ##Transitions to Pulling if input reverses and object is pullable.
 func _on_move(move_input : Vector2, move_strength : float) -> void:
-	if move_strength < 0.15:
+	if move_strength < GameConstants.JOYSTICK_DEADZONE:
 		_input_held = false
-		if not _is_snapping and grab_idle_state:
-			state_machine.change_state(coordinator.try_transition(state_machine, grab_idle_state, "on_move+strength<0.15"))
+		if not _is_snapping:
+			var _gi : State = coordinator.get_transition("grab_idle")
+			if _gi:
+				state_machine.change_state(coordinator.try_transition(state_machine, _gi, "on_move+strength<0.15"))
 		return
 	var character = get_character()
 	if not character or not character.anim:
 		return
-	var facing_dir : Vector2 = _get_facing_vector(character.anim.facing)
+	var facing_dir : Vector2 = facing_to_vector(character.anim.facing)
 	var dot : float = move_input.normalized().dot(facing_dir)
 	#Input still in push direction -- keep holding.
 	if dot > 0.5:
@@ -98,16 +83,21 @@ func _on_move(move_input : Vector2, move_strength : float) -> void:
 		_input_held = false
 		if not _is_snapping:
 			var grabbed = coordinator.grabbed_object
-			if grabbed and grabbed.object_data and grabbed.object_data.pullable and pulling_state:
-				state_machine.change_state(coordinator.try_transition(state_machine, pulling_state, "on_move+dot<-0.5+pullable"))
+			if grabbed and grabbed.object_data and grabbed.object_data.pullable:
+				var _pull : State = coordinator.get_transition("pulling")
+				if _pull:
+					state_machine.change_state(coordinator.try_transition(state_machine, _pull, "on_move+dot<-0.5+pullable"))
 			else:
-				if grab_idle_state:
-					state_machine.change_state(coordinator.try_transition(state_machine, grab_idle_state, "on_move+dot<-0.5+not_pullable"))
+				var _gi2 : State = coordinator.get_transition("grab_idle")
+				if _gi2:
+					state_machine.change_state(coordinator.try_transition(state_machine, _gi2, "on_move+dot<-0.5+not_pullable"))
 	#Perpendicular input -- ignore, treat as stopped.
 	else:
 		_input_held = false
-		if not _is_snapping and grab_idle_state:
-			state_machine.change_state(coordinator.try_transition(state_machine, grab_idle_state, "on_move+perpendicular"))
+		if not _is_snapping:
+			var _gi3 : State = coordinator.get_transition("grab_idle")
+			if _gi3:
+				state_machine.change_state(coordinator.try_transition(state_machine, _gi3, "on_move+perpendicular"))
 
 ##Attempts to smoothly snap the object and player 8px in the facing direction.
 func _perform_snap() -> void:
@@ -119,16 +109,17 @@ func _perform_snap() -> void:
 	var grabbed = coordinator.grabbed_object
 	if not grabbed:
 		return
-	var facing_dir : Vector2 = _get_facing_vector(character.anim.facing)
-	if facing_dir == Vector2.ZERO:
+	var facing_str : String = character.anim.facing
+	if facing_str not in ["up", "down", "left", "right"]:
 		return
+	var facing_dir : Vector2 = facing_to_vector(facing_str)
 	var weight : int = 30
 	if grabbed.stats and grabbed.stats.resource:
 		weight = grabbed.stats.resource.weight
 	_snap_speed = 120.0 - (float(weight) * 0.8)
-	if grabbed.smooth_snap_move(facing_dir, SNAP_DISTANCE, _snap_speed):
+	if grabbed.smooth_snap_move(facing_dir, GameConstants.SNAP_DISTANCE, _snap_speed):
 		_is_snapping = true
-		_player_snap_target = character.body.global_position + (facing_dir * SNAP_DISTANCE)
+		_player_snap_target = character.body.global_position + (facing_dir * GameConstants.SNAP_DISTANCE)
 		if not grabbed.snap_move_completed.is_connected(_on_snap_completed):
 			grabbed.snap_move_completed.connect(_on_snap_completed, CONNECT_ONE_SHOT)
 		set_physics_process(true)
@@ -137,8 +128,7 @@ func _perform_snap() -> void:
 		if grabbed.object_data and grabbed.object_data.material and grabbed.object_data.material.move_sounds:
 			if character.audio:
 				character.audio.play_sound(grabbed.object_data.material.move_sounds.sl.pick_random())
-		if debug_me:
-			print(debug_name, ": Snapping push ", facing_dir)
+		_debug_log(str("Snapping push ", facing_dir))
 	else:
 		_start_snap_timer(grabbed)
 
@@ -172,10 +162,11 @@ func _on_snap_completed() -> void:
 	var character = get_character()
 	if character:
 		character.body.global_position = _player_snap_target
-	if not Input.is_action_pressed("actionButton4"):
+	if not root.input or not root.input.is_action_button_held("actionButton4"):
 		_input_held = false
-		if grab_idle_state:
-			state_machine.change_state(coordinator.try_transition(state_machine, grab_idle_state, "snap_completed+button_released"))
+		var _gi : State = coordinator.get_transition("grab_idle")
+		if _gi:
+			state_machine.change_state(coordinator.try_transition(state_machine, _gi, "snap_completed+button_released"))
 		return
 	var grabbed = coordinator.grabbed_object
 	if grabbed:
@@ -192,10 +183,11 @@ func _start_snap_timer(grabbed) -> void:
 ##Called when the snap delay expires. Performs another snap if input is still held.
 func _on_snap_timer() -> void:
 	_snap_timer_active = false
-	if not Input.is_action_pressed("actionButton4"):
+	if not root.input or not root.input.is_action_button_held("actionButton4"):
 		_input_held = false
-		if grab_idle_state:
-			state_machine.change_state(coordinator.try_transition(state_machine, grab_idle_state, "snap_timer+button_released"))
+		var _gi : State = coordinator.get_transition("grab_idle")
+		if _gi:
+			state_machine.change_state(coordinator.try_transition(state_machine, _gi, "snap_timer+button_released"))
 		return
 	if _input_held:
 		_perform_snap()
@@ -208,15 +200,6 @@ func _get_snap_delay(grabbed) -> float:
 	if grabbed.stats and grabbed.stats.resource:
 		weight = grabbed.stats.resource.weight
 	return 0.05 + (float(weight) * 0.01)
-
-##Converts a facing string to a Vector2 direction.
-func _get_facing_vector(facing : String) -> Vector2:
-	match facing:
-		"up": return Vector2.UP
-		"down": return Vector2.DOWN
-		"left": return Vector2.LEFT
-		"right": return Vector2.RIGHT
-	return Vector2.ZERO
 
 func get_context_key() -> String:
 	return "grab"

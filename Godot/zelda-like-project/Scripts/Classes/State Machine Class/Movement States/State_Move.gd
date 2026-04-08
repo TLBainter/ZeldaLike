@@ -6,72 +6,57 @@
 class_name StateMove
 extends State
 
-#region VARIABLES
-
-var idle_state : State
-var run_state : State
-var dash_state : State
-var backstep_state : State
-
-#endregion VARIABLES
-
 #region FUNCTIONS
-
-func init_state_refs() -> void:
-	idle_state = coordinator.get_state(StateIdling)
-	run_state = coordinator.get_state(StateRun)
-	dash_state = coordinator.get_state(StateDash)
-	backstep_state = coordinator.get_state(StateBackstep)
 
 func enter():
 	super()
 	#Set walk speed from stats.
 	if root and "stats" in root and root.stats and root.stats.resource:
 		root.move_speed = root.stats.resource.walk_speed
-	if root.input and not root.input.on_move.is_connected(_on_move):
-		root.input.on_move.connect(_on_move)
+	if root.input: _safe_connect(root.input.on_move, _on_move)
 	if not state_machine.is_active:
 		return
 	coordinator.update_context(get_context_key())
 	var character = get_character()
 	if character and character.anim and character.anim is CharacterAnimator:
 		if character.energy and character.energy.is_exhausted_state:
-			character.anim.idle_prefix = "ExhaustedIdle"
-			character.anim.walk_prefix = "ExhaustedWalk"
+			character.anim.idle_prefix = AnimationNames.EXHAUSTED_IDLE
+			character.anim.walk_prefix = AnimationNames.EXHAUSTED_WALK
 		else:
-			character.anim.idle_prefix = "Idle"
-			character.anim.walk_prefix = "Walk"
+			character.anim.idle_prefix = AnimationNames.IDLE
+			character.anim.walk_prefix = AnimationNames.WALK
 	
 func exit():
-	if root.input and root.input.on_move.is_connected(_on_move):
-		root.input.on_move.disconnect(_on_move)
+	if root.input: _safe_disconnect(root.input.on_move, _on_move)
 	super()
 
 func pause():
-	if root.input and root.input.on_move.is_connected(_on_move):
-		root.input.on_move.disconnect(_on_move)
+	if root.input: _safe_disconnect(root.input.on_move, _on_move)
 	root.body.velocity = Vector2.ZERO
 	super()
 
 func resume():
-	if root.input and not root.input.on_move.is_connected(_on_move):
-		root.input.on_move.connect(_on_move)
+	if root.input: _safe_connect(root.input.on_move, _on_move)
 
 func _on_move(_move_input : Vector2, move_strength : float):
-	if move_strength < 0.15 and idle_state:
-		state_machine.change_state(coordinator.try_transition(state_machine, idle_state, "on_move+strength<0.15"))
-	elif move_strength > 0.49 and run_state:
+	if move_strength < GameConstants.JOYSTICK_DEADZONE:
+		var _next : State = coordinator.get_transition("idle")
+		if _next:
+			state_machine.change_state(coordinator.try_transition(state_machine, _next, "on_move+strength<0.15"))
+	elif move_strength > GameConstants.RUN_THRESHOLD:
 		var character = get_character()
 		if coordinator.context_locked:
 			return
 		if character and character.energy and character.energy.is_exhausted_state:
 			return
-		state_machine.change_state(coordinator.try_transition(state_machine, run_state, "on_move+strength>0.49"))
+		var _next : State = coordinator.get_transition("run")
+		if _next:
+			state_machine.change_state(coordinator.try_transition(state_machine, _next, "on_move+strength>0.49"))
 
 ##Trigger backstep when actionButton4 is pressed with no interactable and not exhausted.
 ##The dedicated dash input always triggers backstep regardless of interactable.
 func process_input(event : InputEvent) -> State:
-	if event.is_action_pressed("actionButton4") and backstep_state:
+	if event.is_action_pressed("actionButton4"):
 		if coordinator.held_object:
 			return null
 		var character = get_character()
@@ -79,13 +64,13 @@ func process_input(event : InputEvent) -> State:
 			return null  # Let the action layer handle the interaction.
 		if coordinator.is_exhausted() or coordinator.is_on_dodge_cooldown():
 			return null
-		return coordinator.try_transition(state_machine, backstep_state, "actionButton4+walk+no_interactable")
-	if event.is_action_pressed("dash") and backstep_state:
+		return coordinator.try_transition(state_machine, coordinator.get_transition("backstep"), "actionButton4+walk+no_interactable")
+	if event.is_action_pressed("dash"):
 		if coordinator.held_object:
 			return null
 		if coordinator.is_exhausted() or coordinator.is_on_dodge_cooldown():
 			return null
-		return coordinator.try_transition(state_machine, backstep_state, "dash+walk")
+		return coordinator.try_transition(state_machine, coordinator.get_transition("backstep"), "dash+walk")
 	return null
 
 func get_context_key() -> String:
@@ -98,9 +83,9 @@ func get_context_key() -> String:
 		if interactable_owner and interactable_owner is DynamicThing and interactable_owner.object_data:
 			var data = interactable_owner.object_data
 			var priority = coordinator.resolve_interaction_priority(data, true)
-			if priority == "grab":
+			if priority == StateCoordinator.InteractionPriority.GRAB:
 				return "grab"
-			elif priority == "lift":
+			elif priority == StateCoordinator.InteractionPriority.LIFT:
 				return "lift"
 		return component.context_key
 	return "backstep"

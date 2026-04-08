@@ -26,12 +26,10 @@ func resume():
 	super()
 
 func _connect_move():
-	if root.input and not root.input.on_move.is_connected(_on_move):
-		root.input.on_move.connect(_on_move)
+	if root.input: _safe_connect(root.input.on_move, _on_move)
 
 func _disconnect_move():
-	if root.input and root.input.on_move.is_connected(_on_move):
-		root.input.on_move.disconnect(_on_move)
+	if root.input: _safe_disconnect(root.input.on_move, _on_move)
 
 ##Called when the input component emits on_move.[br]
 ##Override in subclasses to handle movement transitions.

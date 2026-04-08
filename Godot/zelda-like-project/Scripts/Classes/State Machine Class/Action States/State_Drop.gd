@@ -7,8 +7,6 @@ extends State
 
 #region VARIABLES
 
-var no_action_state : State
-
 @export_group("Drop Settings")
 ##Offset from the player's body position where the object is placed on drop.[br]
 ##Typically a small distance in the facing direction.
@@ -18,17 +16,15 @@ var no_action_state : State
 
 #region FUNCTIONS
 
-func init_state_refs() -> void:
-	no_action_state = coordinator.get_state(StateNoAction)
-
 func enter() -> void:
 	super()
 	var character = get_character()
 	var held = coordinator.held_object
 	if not character or not held:
 		push_error(debug_name + ": missing character or held object in enter()")
-		if no_action_state:
-			state_machine.change_state(coordinator.try_transition(state_machine, no_action_state, "enter+no_character_or_held"))
+		var _next : State = coordinator.get_transition("no_action")
+		if _next:
+			state_machine.change_state(coordinator.try_transition(state_machine, _next, "enter+no_character_or_held"))
 		return
 	#Calculate drop position in the facing direction.
 	var drop_pos : Vector2 = character.body.global_position
@@ -65,19 +61,10 @@ func enter() -> void:
 			character.audio.play_sound(held.object_data.material.drop_sounds.sl.pick_random())
 	#Clear held object.
 	coordinator.held_object = null
-	if debug_me:
-		print(debug_name, ": Dropped object at ", drop_pos)
+	_debug_log(str("Dropped object at ", drop_pos))
 	#Transition to NoAction.
-	if no_action_state:
-		state_machine.change_state(coordinator.try_transition(state_machine, no_action_state, "drop_complete"))
-
-##Converts a facing string to a Vector2 direction.
-func _get_facing_vector(facing : String) -> Vector2:
-	match facing:
-		"up": return Vector2.UP
-		"down": return Vector2.DOWN
-		"left": return Vector2.LEFT
-		"right": return Vector2.RIGHT
-	return Vector2.DOWN
+	var _next2 : State = coordinator.get_transition("no_action")
+	if _next2:
+		state_machine.change_state(coordinator.try_transition(state_machine, _next2, "drop_complete"))
 
 #endregion FUNCTIONS

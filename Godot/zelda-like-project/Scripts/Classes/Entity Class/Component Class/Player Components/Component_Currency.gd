@@ -9,7 +9,7 @@ extends Component
 ##[b]cur_notes[/b]: Current notes after the change.[br]
 ##[b]max_notes[/b]: Maximum possible notes.[br]
 ##[b]change_amount[/b]: How much changed (negative = spent, positive = gained).
-signal notesChanged(cur_notes : int, max_notes : int, change_amount : int)
+signal notes_changed(cur_notes : int, max_notes : int, change_amount : int)
 
 #endregion SIGNALS
 
@@ -29,7 +29,7 @@ var cur_notes : int = 0:
 		var change_amount = new_notes - cur_notes
 		cur_notes = new_notes
 		if change_amount != 0:
-			notesChanged.emit(cur_notes, max_notes, change_amount)
+			notes_changed.emit(cur_notes, max_notes, change_amount)
 
 #endregion VARIABLES
 
@@ -40,7 +40,7 @@ func _ready():
 	if textResolver:
 		textResolver.register_category("cur", _resolve_text)
 	if debug_me:
-		print(debug_name, " initialized with ", cur_notes, "/", max_notes, " notes.")
+		print_rich(debug_name, ": [color=green][i]initialized[/i][/color] with [i]", cur_notes, "/", max_notes, "[/i] notes.")
 
 ##Calls the text resolver autoload for parsing of text.
 func _resolve_text(key : String):
@@ -59,22 +59,22 @@ func _resolve_text(key : String):
 func add(amount : int) -> bool:
 	if cur_notes >= max_notes:
 		if debug_me:
-			print(debug_name, ": Already at max notes!")
+			print_rich(debug_name, ": [color=red][i]already at max notes[/i][/color]!")
 		return false
 	self.cur_notes += amount
 	if debug_me:
-		print(debug_name, ": Added ", amount, " notes. Current: ", cur_notes)
+		print_rich(debug_name, ": [color=green][i]added[/i][/color] [i]", amount, "[/i] notes. Current: [i]", cur_notes, "[/i]")
 	return true
 
 ##Spends notes. Returns [b]true[/b] if enough notes were available, [b]false[/b] if not.
 func spend(amount : int) -> bool:
 	if cur_notes < amount:
 		if debug_me:
-			print(debug_name, ": Not enough notes! Have ", cur_notes, ", need ", amount)
+			print_rich(debug_name, ": [color=red][i]not enough notes[/i][/color]! Have [i]", cur_notes, "[/i], need [i]", amount, "[/i]")
 		return false
 	self.cur_notes -= amount
 	if debug_me:
-		print(debug_name, ": Spent ", amount, " notes. Current: ", cur_notes)
+		print_rich(debug_name, ": [color=red][i]spent[/i][/color] [i]", amount, "[/i] notes. Current: [i]", cur_notes, "[/i]")
 	return true
 
 ##Returns whether the player has max notes.
@@ -85,7 +85,7 @@ func is_full() -> bool:
 func upgrade_max(new_max : int) -> void:
 	max_notes = new_max
 	if debug_me:
-		print(debug_name, ": Max notes upgraded to ", max_notes)
+		print_rich(debug_name, ": [color=green][i]max notes upgraded[/i][/color] to [i]", max_notes, "[/i]")
 
 ##Debug input for testing.[br]
 ##Numpad 9 to add, Numpad 3 to spend.
