@@ -123,7 +123,7 @@ func set_active(active: bool) -> void:
 
 #region BODY DETECTION
 
-func _on_body_entered(body: CharacterBody2D) -> void:
+func _on_body_entered(body: Node2D) -> void:
 	if body is PlayerBody:
 		if "current_interactable" in body:
 			body.current_interactable = self
@@ -132,7 +132,7 @@ func _on_body_entered(body: CharacterBody2D) -> void:
 		if body.root and body.root.state_machine:
 			body.root.state_machine.request_context_refresh()
 
-func _on_body_exited(body: CharacterBody2D) -> void:
+func _on_body_exited(body: Node2D) -> void:
 	if body is PlayerBody:
 		if "current_interactable" in body and body.current_interactable == self:
 			body.current_interactable = null

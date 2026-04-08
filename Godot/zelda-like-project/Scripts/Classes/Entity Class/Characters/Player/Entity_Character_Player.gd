@@ -21,6 +21,10 @@ extends Character
 @export_group("Spells")
 ##A reference to the player's spell management component, which tracks equipped spells.
 @export var equipped_spells : EquippedSpellsComponent
+##The Action Layer state that handles spell casting.
+@export var cast_spell_state : StateCastSpell
+##The StateCoordinator used to request Action Layer state changes.
+@export var state_coordinator : StateCoordinator
 @export_group("Items")
 ##reference to the player's Inventory Component.
 @export var inventory : InventoryComponentPlayer
@@ -54,6 +58,7 @@ func _ready():
 	if textResolver:
 		textResolver.register_category("player", _resolve_text)
 	input.action_button_pressed.connect(_on_action_button_pressed)
+	input.spell_cast_requested.connect(_on_spell_cast_requested)
 
 func _resolve_text(key : String):
 	match key:
@@ -66,15 +71,32 @@ func _on_action_button_pressed(btn):
 	match btn:
 		"actionButton4":
 			pass
-		#TODO: Add action button 3 logic
-		"actionButton3":
-			pass
-		#TODO: Add action button 2 logic
-		"actionButton2":
-			pass
-		#TODO: Add action button 1 logic
-		"actionButton1":
-			pass
+
+##Received from [b]PlayerInputComponent.spell_cast_requested[/b].[br]
+##Routes the spell to [b]StateCastSpell[/b] via the StateCoordinator.
+func _on_spell_cast_requested(_slot : int, spell : MenuItemResource) -> void:
+	if not cast_spell_state or not state_coordinator:
+		return
+	cast_spell_state.prepare(spell)
+	state_coordinator.request_action_change(cast_spell_state)
+
+##Called by an AnimationPlayer method track during a spell cast animation.[br]
+##Relays to [method StateCastSpell.on_start_spell].
+func _anim_start_spell() -> void:
+	if cast_spell_state:
+		cast_spell_state.on_start_spell()
+
+##Called by an AnimationPlayer method track during a spell cast animation.[br]
+##Relays to [method StateCastSpell.on_cast_spell].
+func _anim_cast_spell() -> void:
+	if cast_spell_state:
+		cast_spell_state.on_cast_spell()
+
+##Called by an AnimationPlayer method track during a spell cast animation.[br]
+##Relays to [method StateCastSpell.on_end_spell_casting].
+func _anim_end_spell_casting() -> void:
+	if cast_spell_state:
+		cast_spell_state.on_end_spell_casting()
 
 #region ACTION BUTTON 4
 

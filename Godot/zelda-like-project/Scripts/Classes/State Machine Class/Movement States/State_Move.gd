@@ -88,5 +88,5 @@ func get_context_key() -> String:
 			elif priority == StateCoordinator.InteractionPriority.LIFT:
 				return "lift"
 		return component.context_key
-	return "backstep"
+	return "Bat Step"
 #endregion FUNCTIONS

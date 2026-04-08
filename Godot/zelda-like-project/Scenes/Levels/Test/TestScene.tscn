@@ -15,6 +15,7 @@
 [ext_resource type="PackedScene" uid="uid://ckisejbbaxpl" path="res://Scenes/Objects/Test Objects/grab_lift_test_object.tscn" id="12_6qfvj"]
 [ext_resource type="PackedScene" uid="uid://c5x6kbg4wbbhf" path="res://Scenes/Decor/Grass/Grass_Scene.tscn" id="13_53jui"]
 [ext_resource type="PackedScene" uid="uid://cr07kkycqw1o4" path="res://Scenes/Decor/Traps/trap_spikes-small.tscn" id="15_3ubh8"]
+[ext_resource type="PackedScene" path="res://Scenes/Bat Travel/BatTravelRoute.tscn" id="16_su1sj"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_t5cxl"]
 texture = ExtResource("1_7ds01")
@@ -1254,6 +1255,9 @@ debug_me = true
 debug_me_verbose = true
 debug_name = "Player"
 
+[sub_resource type="Resource" id="Resource_a1u2c"]
+script = ExtResource("7_nrk3t")
+
 [sub_resource type="CircleShape2D" id="CircleShape2D_nrk3t"]
 radius = 8.0
 
@@ -1270,6 +1274,20 @@ debug_me = true
 debug_me_verbose = true
 debug_name = "SpikeTrap"
 metadata/_custom_type_script = "uid://c0gguh8o4ftae"
+
+[sub_resource type="Curve2D" id="Curve2D_t71xk"]
+bake_interval = 35.84
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 505, -523.63635, 0, 0, 0, 0, -305, -135.75757, 0, 0, 0, 0, -316, -31.848484, 0, 0, 0, 0, -317, 2.9090958, 0, 0, 0, 0, -170, -9.696968, 0, 0, 0, 0, -63, 0, 0, 0, 0, 0, 2, -0.96969604)
+}
+point_count = 7
+
+[sub_resource type="Curve2D" id="Curve2D_su1sj"]
+bake_interval = 64.84
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 863, 127, 0, 0, 0, 0, 856, -257)
+}
+point_count = 3
 
 [node name="Main" type="Node2D" unique_id=917202910]
 z_as_relative = false
@@ -1308,6 +1326,7 @@ script = ExtResource("8_3oc0o")
 speaker = NodePath("../SpeakComponent")
 interact_type = 3
 context_key = "speak"
+debug = SubResource("Resource_a1u2c")
 
 [node name="InteractArea" type="Area2D" parent="Dialogue Test NPC/NPC Interact Area" unique_id=2033206705]
 
@@ -1426,3 +1445,12 @@ position = Vector2(55, 24)
 
 [node name="TestTrap8" parent="." unique_id=2026612007 instance=ExtResource("15_3ubh8")]
 position = Vector2(55, 17)
+
+[node name="BatTravelRoute" parent="." unique_id=1672841919 instance=ExtResource("16_su1sj")]
+position = Vector2(-249, 68)
+scale = Vector2(1, 1.03125)
+curve = SubResource("Curve2D_t71xk")
+
+[node name="BatTravelRoute2" parent="." unique_id=1931802799 instance=ExtResource("16_su1sj")]
+position = Vector2(-300, -39)
+curve = SubResource("Curve2D_su1sj")
