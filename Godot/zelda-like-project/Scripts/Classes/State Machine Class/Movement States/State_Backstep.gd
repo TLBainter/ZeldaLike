@@ -78,10 +78,10 @@ func _physics_process(_delta : float):
 		if _next:
 			state_machine.change_state(coordinator.try_transition(state_machine, _next, "backstep+complete"))
 
-##Returns the safe backstep distance in physical pixels.[br]
+##Returns the safe backstep distance in pixels.[br]
 ##Checks the full player shape at the endpoint (not just the center point), so it handles
 ##multiple objects in sequence and objects wider than the gap between them.[br]
-##If the shape at the endpoint overlaps any interactable, binary-searches for the front face
+##If the shape at the endpoint overlaps any interactable, searches for the front face
 ##of the first blocking object and returns that distance instead.[br]
 ##If the path is clear or the player fully clears all objects, returns proposed_max unchanged.
 func _clearance_adjusted_dist(direction: Vector2, proposed_max: float) -> float:

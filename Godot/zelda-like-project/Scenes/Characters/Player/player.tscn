@@ -88,6 +88,7 @@
 [ext_resource type="AudioStream" uid="uid://b5yhkcgqhp2s5" path="res://Sound/SFX/Player/Player Action SFX/Player Dash SFX/Dash-Bat-Squeak/bat-squeak_02.wav" id="54_ltuto"]
 [ext_resource type="AudioStream" uid="uid://ffhbpeo3jwai" path="res://Sound/SFX/Player/Player Action SFX/Player Dash SFX/Dash-Bat-Squeak/bat-squeak_03.wav" id="55_xb8ch"]
 [ext_resource type="AudioStream" uid="uid://ey8fy7c2c7t6" path="res://Sound/SFX/Player/Player Action SFX/Player Dash SFX/Dash-Bat-Squeak/bat-squeak_04.wav" id="56_3cq7n"]
+[ext_resource type="Script" path="res://Scripts/Classes/State Machine Class/Movement States/State_BatTravel.gd" id="57_btrav"]
 
 [sub_resource type="Resource" id="Resource_h1onf"]
 script = ExtResource("15_8uivy")
@@ -1795,6 +1796,9 @@ metadata/_custom_type_script = "uid://i7ojxhqxdh1w"
 script = ExtResource("37_mf3wh")
 debug = SubResource("Resource_uhwn4")
 metadata/_custom_type_script = "uid://dbbcqo0pc3e7r"
+
+[node name="StateBatTravel" type="Node" parent="StateCoordinator/Movement Layer" unique_id=789012345]
+script = ExtResource("57_btrav")
 
 [node name="Action Layer" type="Node" parent="StateCoordinator" unique_id=2064601243 node_paths=PackedStringArray("starting_state")]
 script = ExtResource("18_a7o8c")

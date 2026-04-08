@@ -36,7 +36,7 @@ func _on_move(_move_input : Vector2, move_strength : float):
 func get_context_key() -> String:
 	if coordinator.held_object:
 		return "throw"
-	return "dash"
+	return "Bat Dash"
 
 func process_input(event : InputEvent) -> State:
 	if event.is_action_pressed("actionButton4") or event.is_action_pressed("dash"):

@@ -176,8 +176,8 @@ flash_anim = NodePath("FlashAnimator")
 motion_anim = NodePath("MotionAnimator")
 button_1_texture = ExtResource("2_v8pmw")
 button_2_texture = ExtResource("3_u2quy")
-button_3_texture = ExtResource("4_513uh")
-button_4_texture = ExtResource("5_u2quy")
+button_3_texture = ExtResource("5_u2quy")
+button_4_texture = ExtResource("4_513uh")
 action_name = "actionButton1"
 spell_texture_rect = NodePath("ActionButton1_Spell")
 

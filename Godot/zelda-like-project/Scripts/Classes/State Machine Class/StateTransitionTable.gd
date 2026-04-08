@@ -26,6 +26,7 @@ func _init() -> void:
 		"grab_idle":      preload("res://Scripts/Classes/State Machine Class/Movement States/State_GrabIdle.gd"),
 		"pushing":        preload("res://Scripts/Classes/State Machine Class/Movement States/State_Pushing.gd"),
 		"pulling":        preload("res://Scripts/Classes/State Machine Class/Movement States/State_Pulling.gd"),
+		"bat_travel":     preload("res://Scripts/Classes/State Machine Class/Movement States/State_BatTravel.gd"),
 		# Action Layer
 		"attack":         preload("res://Scripts/Classes/State Machine Class/Action States/State_Attack.gd"),
 		"no_action":      preload("res://Scripts/Classes/State Machine Class/Action States/State_NoAction.gd"),

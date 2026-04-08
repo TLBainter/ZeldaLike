@@ -4,6 +4,12 @@ extends InputComponent
 
 #region CONSTANTS
 const DPAD_BUTTONS : Array[String] = ["dPadUp", "dPadRight", "dPadDown", "dPadLeft"]
+##Maps spell action button names to their corresponding spell slot index (1–3).
+const SPELL_BUTTON_SLOTS : Dictionary = {
+	"actionButton1": 1,
+	"actionButton2": 2,
+	"actionButton3": 3
+}
 #endregion CONSTANTS
 
 #region SIGNALS
@@ -12,6 +18,10 @@ const DPAD_BUTTONS : Array[String] = ["dPadUp", "dPadRight", "dPadDown", "dPadLe
 signal action_button_pressed(button : String)
 ##Signal for when one of the four DPad Directions is pressed (Up, Right, Down, or Left)
 signal d_pad_pressed(index : int)
+##Emitted when an action button mapped to a spell slot (1–3) is pressed and a spell is equipped.[br]
+##[b]slot[/b]: The spell slot index (1, 2, or 3).[br]
+##[b]spell[/b]: The [MenuItemResource] assigned to that slot.
+signal spell_cast_requested(slot : int, spell : MenuItemResource)
 #endregion Button Signals
 #region Cam Signals
 ##Signal when the cam up input is given
@@ -26,6 +36,10 @@ signal on_cam_move(cam_move_input : Vector2, cam_move_strength : float)
 @export_group("External Components")
 ##A reference to the pause menu's scene file.
 @export var pause_menu_scene : PackedScene
+@export_group("Spell Integration")
+##A reference to the player's equipped spells component.[br]
+##Used to look up which spell is assigned to each action button slot before emitting [signal spell_cast_requested].
+@export var equipped_spells : EquippedSpellsComponent
 
 #region Internal Variables
 #region pause menu variables
@@ -88,7 +102,15 @@ func _open_pause_menu():
 
 #region Button Press
 #region Action Button handler
-func _action_button_press(btn : String):
+func _action_button_press(btn : String) -> void:
+	# For spell buttons (1–3), check the equipped spell first.
+	if SPELL_BUTTON_SLOTS.has(btn) and equipped_spells:
+		var slot : int = SPELL_BUTTON_SLOTS[btn]
+		var spell : MenuItemResource = equipped_spells.get_spell(slot)
+		if spell:
+			spell_cast_requested.emit(slot, spell)
+			return  # Input fully handled; skip the generic signal.
+	# Fall through for actionButton4 and unequipped spell buttons.
 	action_button_pressed.emit(btn)
 
 ## Returns true if the given action button is currently held down.
