@@ -1,4 +1,4 @@
-##[b][color=red]HealthComponentPlayer[/color][/b] is the manager for the player's health bar (represented by hearts).[br]
+﻿##[b][color=red]HealthComponentPlayer[/color][/b] is the manager for the player's health bar (represented by hearts).[br]
 ##This utilizes a 4-part heart system, configures maximum health automatically, and also addreses damage.
 class_name PlayerHealthComponent
 extends HealthComponent
@@ -19,7 +19,6 @@ func _ready():
 	#region DEBUG HEALTH NOTIF
 	var debug_health_notice : bool = false
 	if debug_me:
-		#provide instructions for health debugging if they have not yet been given
 		if debug_health_notice == false:
 			print("You can control the player's health with the num pad.")
 			print("Press Numpad Key 8 to recover health,")
@@ -28,10 +27,8 @@ func _ready():
 	#endregion DEBUG HEALTH NOTIF
 	
 	#region Set Max HP
-	#Read max_health from the stats resource if available.
 	var stats = _get_entity_stats()
 	max_health = stats.max_health if stats else max_hearts * 4
-	#Derive heart count from max_health (4 HP per heart).
 	max_hearts = int(max_health / 4.0)
 	if debug_me:
 		print("Player Max Health defined as ", max_health, 

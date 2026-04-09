@@ -1,4 +1,4 @@
-##[b][color=red]MoveComponent[/color][/b] is the handler for all movement a Character entity can take, regardless of their type.[br]
+﻿##[b][color=red]MoveComponent[/color][/b] is the handler for all movement a Character entity can take, regardless of their type.[br]
 class_name MoveComponent
 extends Component
 
@@ -25,27 +25,20 @@ var move_str : float
 #region FUNCTIONS
 
 func _ready():
-	#Read walk speed from stats as the default move speed.
 	var stats = _get_entity_stats()
 	root.move_speed = stats.walk_speed if stats else 50.0
-	#connect signals
 	input.on_move.connect(move)
 
 func move(move_input, move_strength):
 	move_dir = move_input
 	move_str = move_strength
-	# Yield to State_Dash / State_Backstep when they own physics.
 	if root.is_dashing:
 		return
-	#Configures the state machine to prevent moving while the movement layer is frozen.
 	if root.state_machine and root.state_machine.movement_layer \
 	and not root.state_machine.movement_layer.is_active:
 		body.velocity = Vector2.ZERO
 		return
-	#The move direction and rate of movement for the character; determined by their move input.
-	#Pulls a reference to the character's main self for this function.
 	body.velocity = move_dir * root.move_speed
-	#Apply the movement as intended.
 	body.move_and_slide()
 	if debug_me:
 		print(debug_name, ": is moving with a move_dir of ", move_dir, " and a move_str of ", move_str)

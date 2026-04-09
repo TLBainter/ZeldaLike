@@ -1,4 +1,4 @@
-##[b][color=red]EnergyBoltGUI[/color][/b] controls the display of a single energy bolt in the player's energy UI.[br]
+﻿##[b][color=red]EnergyBoltGUI[/color][/b] controls the display of a single energy bolt in the player's energy UI.[br]
 ##Uses a sprite sheet with 5 frames: full (0), 3/4 (1), 1/2 (2), 1/4 (3), empty (4).[br]
 ##Supports red flashing (exhausted) and white flashing (recovery pickup).[br]
 ##Updated by [b]EnergyDisplay[/b] based on the character's current energy.
@@ -45,7 +45,6 @@ var debug_name : String:
 	get: return debug.debug_name if debug else ""
 	set(v): if debug: debug.debug_name = v
 
-#=======INTERNAL VARIABLES=======#
 
 ##Whether the bolt is currently flashing red (exhausted).
 var _is_flash_red : bool = false
@@ -102,7 +101,6 @@ func do_recovery_flash() -> void:
 func _process(delta : float) -> void:
 	_flash_time += delta
 	if _is_flash_white:
-		#White flash lasts 0.15 seconds then returns to normal.
 		if _flash_time > 0.15:
 			_is_flash_white = false
 			if sprite:
@@ -112,7 +110,6 @@ func _process(delta : float) -> void:
 			_flash_time = 0.0
 		return
 	if _is_flash_red:
-		#Oscillate between normal and exhausted color.
 		var t : float = (sin(_flash_time * flash_speed * TAU) + 1.0) / 2.0
 		if sprite:
 			sprite.modulate = Color.WHITE.lerp(exhausted_flash_color, t)

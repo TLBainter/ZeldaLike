@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="SoundLibrary" format=3 uid="uid://btlgmnwosi6hb"]
+
+[ext_resource type="Script" uid="uid://vdqimlmcg4ql" path="res://Scripts/Resources/Resource Scripts/resource_Sound_Library.gd" id="1_wbk75"]
+[ext_resource type="AudioStream" uid="uid://clpbpcbciq8pu" path="res://Sound/SFX/Objects/Chests/chest_open_01.wav" id="2_r0xvm"]
+[ext_resource type="AudioStream" uid="uid://bwydatsdke36e" path="res://Sound/SFX/Objects/Chests/chest_open_02.wav" id="3_ewut1"]
+[ext_resource type="AudioStream" uid="uid://xyfy3rubb5aa" path="res://Sound/SFX/Objects/Chests/chest_open_03.wav" id="4_dxvhg"]
+
+[resource]
+script = ExtResource("1_wbk75")
+sl = Array[AudioStream]([ExtResource("2_r0xvm"), ExtResource("3_ewut1"), ExtResource("4_dxvhg")])
+metadata/_custom_type_script = "uid://vdqimlmcg4ql"

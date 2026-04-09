@@ -14,7 +14,6 @@ signal spell_equip_changed(slot : int, spell_resource : MenuItemResource)
 
 #region VARIABLES
 
-#=======INTERNAL VARIABLES=======#
 
 ##Spell assignments. Format: { slot_index : MenuItemResource }
 var _slots : Dictionary = {}
@@ -28,7 +27,6 @@ func assign_spell(slot : int, spell_resource : MenuItemResource) -> bool:
 	if slot < 1 or slot > 3:
 		return false
 	if _slots.get(slot) == spell_resource:
-		#Already assigned here -- do nothing.
 		return false
 	_slots[slot] = spell_resource
 	spell_equip_changed.emit(slot, spell_resource)
@@ -69,7 +67,6 @@ func swap_spells(slot_a : int, slot_b : int) -> void:
 		_slots[slot_b] = spell_a if spell_a else null
 	else:
 		_slots.erase(slot_b)
-	#Clean up null entries.
 	if _slots.has(slot_a) and _slots[slot_a] == null:
 		_slots.erase(slot_a)
 	if _slots.has(slot_b) and _slots[slot_b] == null:

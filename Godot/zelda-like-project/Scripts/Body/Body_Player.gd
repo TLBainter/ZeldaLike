@@ -1,4 +1,4 @@
-##[b][color=red]playerBody[/color][/b] is a class primarily used for easy detection.
+﻿##[b][color=red]playerBody[/color][/b] is a class primarily used for easy detection.
 class_name PlayerBody
 extends Body
 
@@ -14,7 +14,6 @@ var current_interactable : InteractableComponent = null
 
 func _ready():
 	#region INITIALIZE
-	#INITIALIZE#
 	if player_ux == null:
 		player_ux = root.player_ux
 		if debug_me:
@@ -27,7 +26,6 @@ func _ready():
 		input = root.input
 		if debug_me:
 			print("input was null and is now ", input)
-	#END INITIALIZE
 	#endregion INTIALIZE
 
 #endregion FUNCTIONS

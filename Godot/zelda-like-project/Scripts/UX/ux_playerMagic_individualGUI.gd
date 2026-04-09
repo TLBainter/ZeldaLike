@@ -1,4 +1,4 @@
-##[b][color=red]MagicMedallionGUI[/color][/b] controls the display of a single magic medallion in the player's magic UI.[br]
+﻿##[b][color=red]MagicMedallionGUI[/color][/b] controls the display of a single magic medallion in the player's magic UI.[br]
 ##Computes the correct sprite from a 17x17 sprite sheet based on shard count and current fill.[br]
 ##Updated by [b]MagicDisplay[/b] based on the character's current magic.
 class_name MagicMedallionGUI
@@ -28,7 +28,6 @@ var debug_name : String:
 	get: return debug.debug_name if debug else ""
 	set(v): if debug: debug.debug_name = v
 
-#=======INTERNAL VARIABLES=======#
 
 ##The size of each sprite cell in the sheet.
 const CELL_SIZE : int = 17
@@ -70,16 +69,12 @@ func update(shards : int, fill : int) -> void:
 func _get_sprite_position(shards : int, fill : int) -> Vector2i:
 	var col : int = 6 - fill
 	var row : int
-	#Complete medallion (6 shards): always row 0.
 	if shards == 6:
 		row = 0
-	#Full medallion (fill equals shards): row 1.
 	elif fill == shards:
 		row = 1
-	#1-shard empty: also row 1 (the empty medallion sprite).
 	elif shards == 1 and fill == 0:
 		row = 1
-	#Partial fill (shards 2-5, not full): row based on shard count.
 	else:
 		row = 7 - shards
 	var result = Vector2i(col, row)

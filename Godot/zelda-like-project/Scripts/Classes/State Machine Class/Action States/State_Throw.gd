@@ -32,23 +32,16 @@ func enter():
 			if _next2:
 				state_machine.change_state(coordinator.try_transition(state_machine, _next2, "enter+insufficient_energy"))
 			return
-	#Freeze movement during the throw.
 	coordinator.freeze_movement()
-	#Clear context label immediately -- the held object is gone.
 	coordinator.update_context("")
-	#Calculate throw direction from facing.
 	var facing_dir : Vector2 = facing_to_vector(character.anim.facing) if character.anim else Vector2.DOWN
-	#Detach the object from the player's hold position.
 	held.release(held.body.global_position + (facing_dir * 8.0), false) 
-	#Play throw animation.
 	if character.anim and character.anim is CharacterAnimator:
 		character.anim.can_update_facing = false
 		character.anim.play_directional_anim("Throw")
-	#Play throw sound.
 	if held.object_data and held.object_data.material and held.object_data.material.throw_sounds:
 		if character.audio:
 			character.audio.play_sound(held.object_data.material.throw_sounds.sl.pick_random())
-	#Create and launch the projectile component.
 	_projectile = ProjectileComponent.new()
 	_projectile.debug_me = debug_me
 	_projectile.debug_me_verbose = debug_me_verbose
@@ -58,7 +51,6 @@ func enter():
 	if not _projectile.projectile_landed.is_connected(_on_projectile_landed):
 		_projectile.projectile_landed.connect(_on_projectile_landed, CONNECT_ONE_SHOT)
 	###===END SIGNAL CONNECTION===###
-	#Seed drop scatter so breaks use throw direction (away from player) instead of circular default.
 	if held is DynamicThing:
 		held._damaged_by_attack = true
 		held._last_damage_source_pos = character.body.global_position
@@ -68,7 +60,6 @@ func enter():
 	var arc : float = data.throw_arc_height if data else 8.0
 	var throw_distance : float = _calculate_throw_distance(held, base_distance)
 	_projectile.launch(held, facing_dir, throw_distance, throw_speed, arc)
-	#Clear the held object from the coordinator.
 	coordinator.held_object = null
 	_debug_log(str("Threw object ", facing_dir, " distance=", throw_distance))
 
@@ -77,15 +68,13 @@ func exit():
 	if character and character.anim and character.anim is CharacterAnimator:
 		character.anim.can_update_facing = true
 	coordinator.unfreeze_movement()
-	_debug_log("exit ; movement unfrozen, StateNoAction will refresh context")
-	#Clean up projectile reference.
+	_debug_log("exit; movement unfrozen, StateNoAction will refresh context")
 	_projectile = null
 	super()
 
 ##Called when the projectile lands or hits something.
 func _on_projectile_landed(broke : bool):
 	_debug_log(str("Projectile landed. Broke: ", broke))
-	#Clean up the projectile node.
 	if _projectile and is_instance_valid(_projectile):
 		_projectile.queue_free()
 		_projectile = null

@@ -1,4 +1,4 @@
-##[b][color=red]Entity Class[/color][/b] is the [i]Parent Class[/i] of all entities in the game.[br]
+﻿##[b][color=red]Entity Class[/color][/b] is the [i]Parent Class[/i] of all entities in the game.[br]
 ##Subclasses include [b][color=yellow]Character[/color][/b] and [b][color=yellow]Object[/color][/b]
 class_name EntityClass
 extends Node2D
@@ -60,11 +60,9 @@ var debug_name : String:
 #endregion
 
 func _ready():
-	#set the y sort
 	if sprite != null:
 		sprite.y_sort_enabled = y_sort
 	if animated_sprite != null:
 		animated_sprite.y_sort_enabled = y_sort
-	#disable y sorting for shadows
 	if shadow != null:
 		shadow.y_sort_enabled = false

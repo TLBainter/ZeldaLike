@@ -2,6 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://d0nnexuwr0xpq" path="res://Sprites/Item Sprites/bead_25_pickup.tres" id="1_mb0p1"]
 [ext_resource type="Script" uid="uid://dps4pg1os47me" path="res://Scripts/Resources/Resource Scripts/resource_Item.gd" id="2_5xtj3"]
+[ext_resource type="Texture2D" uid="uid://bi1d0g1r3hdyl" path="res://Sprites/Item Sprites/bead_25_mini.tres" id="2_iidsw"]
 [ext_resource type="Texture2D" uid="uid://bcifbh3vly7iw" path="res://Sprites/Item Sprites/item_pickup_shadow.tres" id="3_iidsw"]
 [ext_resource type="Resource" uid="uid://b578mryux50rt" path="res://Scripts/Resources/Resource Files/Resources_Sound Libraries/UX Libraries/currency_sounds.tres" id="4_5xtj3"]
 
@@ -10,6 +11,7 @@ script = ExtResource("2_5xtj3")
 item_strip = ExtResource("1_mb0p1")
 shadow_strip = ExtResource("3_iidsw")
 grant_notes = 25
+mini_sprite = ExtResource("2_iidsw")
 use_sounds = ExtResource("4_5xtj3")
 first_get_dialogue_ref = "pickupBeadOrange"
 metadata/_custom_type_script = "uid://dps4pg1os47me"

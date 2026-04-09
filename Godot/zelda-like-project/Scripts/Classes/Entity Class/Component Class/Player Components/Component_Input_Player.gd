@@ -103,14 +103,12 @@ func _open_pause_menu():
 #region Button Press
 #region Action Button handler
 func _action_button_press(btn : String) -> void:
-	# For spell buttons (1–3), check the equipped spell first.
 	if SPELL_BUTTON_SLOTS.has(btn) and equipped_spells:
 		var slot : int = SPELL_BUTTON_SLOTS[btn]
 		var spell : MenuItemResource = equipped_spells.get_spell(slot)
 		if spell:
 			spell_cast_requested.emit(slot, spell)
 			return  # Input fully handled; skip the generic signal.
-	# Fall through for actionButton4 and unequipped spell buttons.
 	action_button_pressed.emit(btn)
 
 ## Returns true if the given action button is currently held down.

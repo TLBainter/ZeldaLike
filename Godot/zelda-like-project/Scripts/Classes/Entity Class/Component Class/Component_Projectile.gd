@@ -60,12 +60,9 @@ func launch(object : DynamicThing, direction : Vector2, max_distance : float, sp
 	_arc_height = arc_height
 	_distance_traveled = 0.0
 	_active = true
-	#Find the sprite for visual arc offset.
 	_sprite = object.animated_sprite as Node2D if object.animated_sprite else object.sprite as Node2D
 	if _sprite:
-		#Capture the hold offset so the arc descends from it to body center.
 		_sprite_original_offset = _sprite.position
-	#Re-enable collision for the projectile to detect walls.
 	if object.body:
 		var col = object.body.get_node_or_null("CollisionShape2D")
 		if col:
@@ -82,29 +79,23 @@ func _physics_process(delta : float):
 	if not _active or not _body:
 		set_physics_process(false)
 		return
-	#Calculate movement this frame.
 	var move_amount : float = _speed * delta
 	var remaining : float = _max_distance - _distance_traveled
 	if move_amount > remaining:
 		move_amount = remaining
-	#Attempt to move the body.
 	var collision = _body.move_and_collide(_direction * move_amount)
 	if collision:
-		#Hit something -- land here.
 		_distance_traveled = _max_distance
 		_land(true)
 		return
 	_distance_traveled += move_amount
-	#Apply visual arc to sprite.
 	if _sprite:
 		var progress : float = _distance_traveled / _max_distance
-		#Descend from hold offset to body center, with a parabolic upward bump.
 		var descent : float = _sprite_original_offset.y * (1.0 - progress)
 		var bump : float = -_arc_height * 4.0 * progress * (1.0 - progress)
 		_sprite.position = Vector2(_sprite_original_offset.x, descent + bump)
 		if debug_me and debug_me_verbose:
 			print(debug_name, ": progress=", snapped(progress, 0.01), " arc_offset=", snapped(bump, 0.1), " sprite.pos=", _sprite.position)
-	#Check if we've reached max distance.
 	if _distance_traveled >= _max_distance:
 		_land(false)
 
@@ -112,11 +103,9 @@ func _physics_process(delta : float):
 func _land(hit_something : bool):
 	_active = false
 	set_physics_process(false)
-	#Reset sprite to body center (arc has fully descended by landing).
 	if _sprite:
 		_sprite.position = Vector2.ZERO
 	var broke : bool = false
-	#Check if the object should break.
 	var parent = _body.get_parent() if _body else null
 	if parent and "shadow" in parent and parent.shadow:
 		parent.shadow.visible = true
@@ -125,7 +114,6 @@ func _land(hit_something : bool):
 			_object.break_me()
 			broke = true
 		else:
-			#Re-enable collision for the landed object.
 			_object.enable_collision()
 	if debug_me:
 		var reason = "collision" if hit_something else "max distance"

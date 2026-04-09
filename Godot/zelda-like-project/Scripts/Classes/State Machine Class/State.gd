@@ -8,7 +8,6 @@ extends Node
 #region VARIABLES
 
 @export_group("State Settings")
-#TODO: Create enum for the animation player to make life easier!
 ##The animation to play on the parent's animation player when this state is entered.[br]
 ##Leave empty if the state should not change the current animation.
 @export var animation_name : String = ""

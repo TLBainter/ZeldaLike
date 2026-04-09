@@ -5,6 +5,13 @@
 [ext_resource type="Script" uid="uid://c0gguh8o4ftae" path="res://Scripts/Resources/Resource Scripts/resource_debug_settings.gd" id="3_v2abd"]
 [ext_resource type="Texture2D" uid="uid://vfs2jpw6uqe0" path="res://Sprites/Decor Sprites/Sigils/decor_sigil_bat-soar.png" id="4_tr5xp"]
 
+[sub_resource type="Curve2D" id="Curve2D_v2abd"]
+resource_local_to_scene = true
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+}
+point_count = 2
+
 [sub_resource type="Resource" id="Resource_iloat"]
 script = ExtResource("3_v2abd")
 
@@ -18,6 +25,8 @@ script = ExtResource("3_v2abd")
 radius = 16.0
 
 [node name="BatTravelRoute" type="Path2D" unique_id=1252271372]
+z_index = -1
+curve = SubResource("Curve2D_v2abd")
 script = ExtResource("1_route")
 
 [node name="BatTravelCircle_A" type="Node2D" parent="." unique_id=1261439325]
@@ -35,8 +44,8 @@ shape = SubResource("CircleShape2D_A")
 
 [node name="BatTravelSigilA" type="Sprite2D" parent="BatTravelCircle_A" unique_id=87744968]
 texture = ExtResource("4_tr5xp")
-hframes = 10
-frame = 9
+hframes = 11
+frame = 10
 
 [node name="BatTravelCircle_B" type="Node2D" parent="." unique_id=774927630]
 script = ExtResource("2_circle")
@@ -53,5 +62,5 @@ shape = SubResource("CircleShape2D_B")
 
 [node name="BatTravelSigilB" type="Sprite2D" parent="BatTravelCircle_B" unique_id=430060524]
 texture = ExtResource("4_tr5xp")
-hframes = 10
+hframes = 11
 frame = 9

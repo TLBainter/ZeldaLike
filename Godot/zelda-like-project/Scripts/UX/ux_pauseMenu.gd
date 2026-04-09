@@ -40,7 +40,6 @@ var debug_name : String:
 	get: return debug.debug_name if debug else ""
 	set(v): if debug: debug.debug_name = v
 
-#=======INTERNAL VARIABLES=======#
 
 ##The dark overlay ColorRect.
 var _overlay : ColorRect
@@ -92,12 +91,10 @@ func open() -> void:
 		print(debug_name, ": Pause menu reopened.")
 
 func _initialize() -> void:
-	#Get player references.
 	var player = _find_player()
 	var ux = _find_player_ux()
 	if ux:
 		_action_buttons = [null, ux.action_button_1, ux.action_button_2, ux.action_button_3]
-	#Pass data to menu controller.
 	if menu_controller:
 		if player and player.inventory:
 			menu_controller.set_inventory(player.inventory)
@@ -108,13 +105,10 @@ func _initialize() -> void:
 		menu_controller.activate()
 		menu_controller.nav_move_sounds = nav_move_sounds
 		menu_controller.pause_menu = self
-	#Hide menu content initially.
 	if menu_container:
 		menu_container.modulate.a = 0.0
-	#Pause and adjust UX.
 	get_tree().paused = true
 	_show_pause_ux()
-	#Start fade in.
 	_fading_in = true
 	set_process(true)
 #endregion INITIALIZER
@@ -122,12 +116,10 @@ func _initialize() -> void:
 func _unhandled_input(event : InputEvent) -> void:
 	if _is_closing:
 		return
-	#Handle assignment of Spell Buttons
 	if event.is_action_pressed("actionButton1") or event.is_action_pressed("actionButton2") or event.is_action_pressed("actionButton3"):
 		if menu_controller and menu_controller.get_current() is MenuHoverableSpell:
 			get_viewport().set_input_as_handled()
 			return
-	#Close on pause or actionButton1.
 	if event.is_action_pressed("pause") or event.is_action_pressed("actionButton1"):
 		get_viewport().set_input_as_handled()
 		_close()
@@ -147,7 +139,6 @@ func _create_overlay() -> void:
 	_overlay.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_overlay.process_mode = Node.PROCESS_MODE_WHEN_PAUSED
 	_overlay_layer.add_child(_overlay)
-	#Make sure the menu canvas renders above the overlay.
 	if canvas:
 		canvas.layer = 100
 
@@ -162,7 +153,6 @@ func _process(delta : float) -> void:
 			_overlay.color.a = move_toward(_overlay.color.a, overlay_darkness, delta / fade_in_duration)
 		if menu_container:
 			menu_container.modulate.a = move_toward(menu_container.modulate.a, 1.0, delta / fade_in_duration)
-		#Check if fade in is complete.
 		var overlay_done = _overlay.color.a >= overlay_darkness if _overlay else true
 		var menu_done = menu_container.modulate.a >= 1.0 if menu_container else true
 		if overlay_done and menu_done:
@@ -173,7 +163,6 @@ func _process(delta : float) -> void:
 			_overlay.color.a = move_toward(_overlay.color.a, 0.0, delta / fade_out_duration)
 		if menu_container:
 			menu_container.modulate.a = move_toward(menu_container.modulate.a, 0.0, delta / fade_out_duration)
-		#Check if fade out is complete.
 		var overlay_done = _overlay.color.a <= 0.0 if _overlay else true
 		var menu_done = menu_container.modulate.a <= 0.0 if menu_container else true
 		if overlay_done and menu_done:
@@ -236,7 +225,6 @@ func _show_pause_ux() -> void:
 	var ux = _find_player_ux()
 	if not ux:
 		return
-	#OVERRIDE PAUSE TO FADE OUT########################
 	if ux.heartsContainer:
 		var hearts_margin = ux.heartsContainer.get_parent()
 		if hearts_margin and hearts_margin is InGameMargin:
@@ -245,7 +233,6 @@ func _show_pause_ux() -> void:
 			hearts_margin.fade_out(0.0)
 		elif hearts_margin:
 			hearts_margin.visible = false
-	#OVERRIDE PAUSE TO FADE OUT########################
 	var consumable_buttons = ux.consumable_buttons
 	if debug_me:
 		print("PAUSE UX: consumable_buttons = ", consumable_buttons)
@@ -262,21 +249,17 @@ func _show_pause_ux() -> void:
 		consumable_buttons.visible = false
 		if debug_me:
 			print("PAUSE UX: Consumables hidden via visible=false")
-	# Fade action buttons IN to full alpha during pause.
 	var action_buttons_margin = ux.action_buttons_margin
 	if action_buttons_margin and action_buttons_margin is InGameMargin:
 		action_buttons_margin.process_mode = Node.PROCESS_MODE_WHEN_PAUSED
 		action_button_fade_target = action_buttons_margin.modulate.a
 		action_buttons_margin.fade_in(1.0)
-	# Instantly hide energy display.
 	if ux.energy_display:
 		ux.energy_display.process_mode = Node.PROCESS_MODE_WHEN_PAUSED
 		ux.energy_display.set_paused(true)
-	# Instantly hide magic display.
 	if ux.magic_display:
 		ux.magic_display.process_mode = Node.PROCESS_MODE_WHEN_PAUSED
 		ux.magic_display.set_paused(true)
-	#Raise PlayerUX canvas above the menu.
 	_player_ux_canvas = _find_ux_canvas_layer(ux)
 	if _player_ux_canvas:
 		_original_canvas_layer = _player_ux_canvas.layer
@@ -286,33 +269,27 @@ func _restore_ux() -> void:
 	var ux = _find_player_ux()
 	if not ux:
 		return
-	#Restore hearts.
 	if ux.heartsContainer:
 		var hearts_margin = ux.heartsContainer.get_parent()
 		if hearts_margin and hearts_margin is InGameMargin:
 			hearts_margin.process_mode = Node.PROCESS_MODE_INHERIT
 			hearts_margin.fade_in(heart_fade_target)
-	#Restore consumables.
 	var consumable_buttons = ux.consumable_buttons
 	if ux.consumable_buttons and consumable_buttons is InGameMargin:
 		consumable_buttons.process_mode = Node.PROCESS_MODE_INHERIT
 		consumable_buttons.modulate.a = 1.0
 	elif ux.consumable_buttons:
 		ux.consumable_buttons.visible = true
-	# Restore action buttons to their pre-pause alpha.
 	var action_buttons_margin = ux.action_buttons_margin
 	if action_buttons_margin and action_buttons_margin is InGameMargin:
 		action_buttons_margin.process_mode = Node.PROCESS_MODE_INHERIT
 		action_buttons_margin.fade_out(action_button_fade_target)
-	# Restore energy display.
 	if ux.energy_display:
 		ux.energy_display.process_mode = Node.PROCESS_MODE_INHERIT
 		ux.energy_display.set_paused(false)
-	# Restore magic display.
 	if ux.magic_display:
 		ux.magic_display.process_mode = Node.PROCESS_MODE_INHERIT
 		ux.magic_display.set_paused(false)
-	#Restore canvas layer.
 	if _player_ux_canvas:
 		_player_ux_canvas.layer = _original_canvas_layer
 		_player_ux_canvas = null
@@ -329,21 +306,18 @@ func handle_spell_assignment(spell_panel : MenuHoverableSpell, slot : int) -> vo
 	if not spell_panel.player_has_item:
 		return
 	var current_slot = equipped.get_slot_for_spell(item_res.item_id)
-	#Already assigned to this button -- do nothing.################
 	if current_slot == slot:
 		return
 	var existing_in_target = equipped.get_spell(slot)
 	var target_button : ActionButtonSprite = _action_buttons[slot] if slot < _action_buttons.size() else null
 	var source_button : ActionButtonSprite = _action_buttons[current_slot] if current_slot > 0 and current_slot < _action_buttons.size() else null
 	if current_slot == -1:
-		#Not assigned anywhere -- simple assign.
 		equipped.assign_spell(slot, item_res)
 		_play_sound(inventory_confirm_sounds)
 		if target_button:
 			target_button._update_spell_display()
 			target_button.play_assign_anim()
 	elif existing_in_target == null:
-		#Moving from one slot to empty slot.
 		_play_sound(inventory_change_sounds)
 		if source_button:
 			source_button.play_unassign_anim()
@@ -356,7 +330,6 @@ func handle_spell_assignment(spell_panel : MenuHoverableSpell, slot : int) -> vo
 			target_button._update_spell_display()
 			target_button.play_assign_anim()
 	else:
-		#Both occupied -- swap.
 		_play_sound(inventory_change_sounds)
 		if source_button:
 			source_button.play_unassign_anim()

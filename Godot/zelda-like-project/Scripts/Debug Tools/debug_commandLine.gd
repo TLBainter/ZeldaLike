@@ -48,7 +48,6 @@ func _open() -> void:
 	_input_field.text = ""
 	_input_field.grab_focus()
 	print("CONSOLE: after grab_focus. has_focus=", _input_field.has_focus())
-	#Find inventory if we don't have it yet.
 	if not _inventory:
 		var players = get_tree().get_nodes_in_group("player")
 		if not players.is_empty() and "inventory" in players[0]:
@@ -96,6 +95,8 @@ func _execute_command(text : String) -> void:
 			_cmd_items()
 		"/help":
 			_cmd_help()
+		"/upgrade":
+			_cmd_upgrade(parts)
 		"/enable":
 			_cmd_enable(parts)
 		"/disable":
@@ -131,15 +132,12 @@ func _cmd_give_all(parts : Array) -> void:
 		_print_output("[color=red]No inventory found on player.[/color]")
 		return
 	var quantity = 1
-	#Check for category name.
 	if parts.size() >= 3:
 		var category = parts[2].to_lower()
-		#Check if third arg is a number (quantity for "give all").
 		if category.is_valid_int():
 			quantity = int(category)
 			_give_all_items(quantity)
 			return
-		#Check for optional quantity after category.
 		if parts.size() >= 4:
 			quantity = int(parts[3])
 			if quantity <= 0:
@@ -153,7 +151,6 @@ func _cmd_give_all(parts : Array) -> void:
 			var valid = ", ".join(ItemID.CATEGORIES.keys())
 			_print_output("[color=red]Unknown category: '" + category + "'. Valid: " + valid + "[/color]")
 	else:
-		#No category -- give everything.
 		_give_all_items(quantity)
 
 func _give_all_items(quantity : int = 1) -> void:
@@ -223,6 +220,27 @@ func _cmd_items() -> void:
 		text += "  " + c + "\n"
 	_print_output(text)
 
+func _cmd_upgrade(parts : Array) -> void:
+	if parts.size() < 2:
+		_print_output("[color=red]Usage: /upgrade <item_id>[/color]")
+		return
+	if not _inventory:
+		_print_output("[color=red]No inventory found on player.[/color]")
+		return
+	var item_id : String = " ".join(parts.slice(1)).replace(" ", "_").to_lower()
+	if not ItemID.UPGRADES.has(item_id):
+		_print_output("[color=red]No upgrade defined for '" + item_id + "'.[/color]")
+		return
+	var upgraded_id : String = ItemID.UPGRADES[item_id]
+	if _inventory.has_item(upgraded_id):
+		_print_output("[color=yellow]'" + item_id + "' is already upgraded to '" + upgraded_id + "'.[/color]")
+		return
+	if not _inventory.has_item(item_id):
+		_print_output("[color=yellow]Player does not have '" + item_id + "'. Granting upgrade directly.[/color]")
+	_inventory.remove_item(item_id, 1)
+	_inventory.add_item(upgraded_id, 1)
+	_print_output("[color=green]Upgraded '" + item_id + "' → '" + upgraded_id + "'.[/color]")
+
 func _cmd_enable(parts : Array) -> void:
 	if parts.size() >= 3 and parts[1].to_lower() == "verbose" and parts[2].to_lower() == "debug":
 		var n = _set_debug_on_all(true, true)
@@ -270,8 +288,6 @@ func _validate_item_id(item_id : String) -> bool:
 ##Reads all constant values from the ItemID class dynamically.
 func _get_all_item_ids() -> Array[String]:
 	var result : Array[String] = []
-	#ItemID uses const, which won't show in property list.
-	#Instead, we use the script's get_script_constant_map.
 	var script = load("res://Scripts/Constants/const_itemIDs.gd") as GDScript
 	if script:
 		var constants = script.get_script_constant_map()
@@ -303,7 +319,6 @@ func _cmd_set(parts : Array) -> void:
 		"all":
 			_cmd_set_all(parts)
 		_:
-			#Treat as item_id with quantity.
 			_cmd_set_item(target, int(parts[2]))
 
 func _cmd_set_wallet(wallet_type : String) -> void:
@@ -320,7 +335,6 @@ func _cmd_set_wallet(wallet_type : String) -> void:
 		_:
 			_print_output("[color=red]Unknown wallet type: '" + wallet_type + "'. Use: pocket, wallet, big[/color]")
 			return
-	#Clamp current currency to new max.
 	if _currency.cur_notes > _currency.max_notes:
 		_currency.cur_notes = _currency.max_notes
 	_print_output("[color=green]Wallet set to '" + wallet_type + "' (max: " + str(_currency.max_notes) + ").[/color]")
@@ -379,18 +393,19 @@ func _cmd_set_all(parts : Array) -> void:
 
 func _cmd_help() -> void:
 	var text = "[color=white]Available commands:[/color]\n"
-	text += "  [color=gray]/give <item_id> [quantity][/color] ; Add items\n"
-	text += "  [color=gray]/give all [category] [quantity][/color] ; Add all items\n"
-	text += "  [color=gray]/remove <item_id> [quantity][/color] ; Remove items\n"
-	text += "  [color=gray]/remove all [category][/color] ; Remove all items\n"
-	text += "  [color=gray]/set wallet pocket|wallet|big[/color] ; Set wallet size\n"
-	text += "  [color=gray]/set currency <amount>[/color] ; Set currency\n"
-	text += "  [color=gray]/set health <amount>[/color] ; Set health\n"
-	text += "  [color=gray]/set <item_id> <quantity>[/color] ; Set item quantity\n"
-	text += "  [color=gray]/set all <category> <quantity>[/color] ; Set all in category\n"
-	text += "  [color=gray]/list[/color] ; Show inventory\n"
-	text += "  [color=gray]/items[/color] ; Show valid item IDs\n"
-	text += "  [color=gray]/help[/color] ; Show this message\n"
+	text += "  [color=gray]/give <item_id> [quantity][/color]; Add items\n"
+	text += "  [color=gray]/give all [category] [quantity][/color]; Add all items\n"
+	text += "  [color=gray]/remove <item_id> [quantity][/color]; Remove items\n"
+	text += "  [color=gray]/remove all [category][/color]; Remove all items\n"
+	text += "  [color=gray]/set wallet pocket|wallet|big[/color]; Set wallet size\n"
+	text += "  [color=gray]/set currency <amount>[/color]; Set currency\n"
+	text += "  [color=gray]/set health <amount>[/color]; Set health\n"
+	text += "  [color=gray]/set <item_id> <quantity>[/color]; Set item quantity\n"
+	text += "  [color=gray]/set all <category> <quantity>[/color]; Set all in category\n"
+	text += "  [color=gray]/upgrade <item_id>[/color]; Replace item with its upgrade\n"
+	text += "  [color=gray]/list[/color]; Show inventory\n"
+	text += "  [color=gray]/items[/color]; Show valid item IDs\n"
+	text += "  [color=gray]/help[/color]; Show this message\n"
 	_print_output(text)
 
 #endregion HELP

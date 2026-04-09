@@ -8,7 +8,6 @@ extends Interact
 #region VARIABLES
 
 @export_category("Dialogue Settings")
-#The root node/parent of this dialogue component
 @export var parent : EntityClass
 ##The speak component of this dialogue
 @export var speaker : SpeakComponent
@@ -37,10 +36,8 @@ func interact(user = null):
 			if not dc.dialogue_closed.is_connected(_on_dialogue_closed):
 				dc.dialogue_closed.connect(_on_dialogue_closed, CONNECT_ONE_SHOT)
 
-#TODO: Add dialogue close animation.
 ##Relays the dialogue_closed signal as interaction_finished on this Interact entity.
 func _on_dialogue_closed():
-	#TODO: Put dialogue close animation and other elements here.
 	interaction_finished.emit()
 	
 #endregion FUNCTIONS

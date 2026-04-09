@@ -1,4 +1,4 @@
-##[b][color=red]InventoryComponent[/color][/b] tracks which items the player has and how many.[br]
+﻿##[b][color=red]InventoryComponent[/color][/b] tracks which items the player has and how many.[br]
 ##Attach as a child of the Player node.[br]
 ##[br]
 ##Items are identified by their [b]ItemID[/b] string constants.[br]
@@ -18,7 +18,11 @@ signal inventory_changed(item_id : String, quantity : int)
 
 #region VARIABLES
 
-#=======INTERNAL VARIABLES=======#
+
+##Items the player owns at the start of the game.[br]
+##Populated once in [method _ready]. Add item IDs here to grant them from the beginning.
+@export var start_items : PackedStringArray = []
+
 
 ##Stores all item data.[br]
 ##Format: { "item_id" : int quantity }[br]
@@ -28,6 +32,10 @@ var _items : Dictionary = {}
 #endregion VARIABLES
 
 #region FUNCTIONS
+
+func _ready() -> void:
+	for item_id in start_items:
+		add_item(item_id)
 
 #region QUERY
 

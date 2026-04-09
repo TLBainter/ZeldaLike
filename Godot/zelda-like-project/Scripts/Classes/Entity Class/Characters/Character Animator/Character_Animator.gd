@@ -1,4 +1,4 @@
-##[b][color=red]CharacterAnimator[/color][/b] is used to play the animations of a Character-type [b]Entity[/b] if they have an Animnation Player.[br]
+﻿##[b][color=red]CharacterAnimator[/color][/b] is used to play the animations of a Character-type [b]Entity[/b] if they have an Animnation Player.[br]
 ##It uses signals from the character's Input Component to play the animations.
 class_name CharacterAnimator
 extends AnimationPlayer
@@ -106,8 +106,6 @@ func play_directional_anim(prefix : String, force : bool = false) -> bool:
 		printerr(debug_name, " received a request to play ", prefix, " while facing ", facing, ", but ", anim_name, " does not exist for this animation player!")
 	return false
 
-#TODO: Remove walk/idle from this function and instead call animations based on what animation should be played.
-#Will rely on state machines to determine.
 ##Sets the player's facing direction and plays their Walk Animation and Idle animation based on input.
 func face(face_dir : Vector2, _delta : float):
 	if not can_update_facing:
@@ -118,8 +116,6 @@ func face(face_dir : Vector2, _delta : float):
 	else:
 		play_directional_anim(idle_prefix)
 
-#TODO: Remove forced idle from this function and instead call animations based on what animation should be played.
-#Will rely on state machines to determine.
 ##Forces the character to face a given direction, bypassing input and state machine checks.[br]
 ##Used for interactions, cutscenes, and other scripted moments.[br]
 ##Plays the Idle animation for the resulting facing direction by default.

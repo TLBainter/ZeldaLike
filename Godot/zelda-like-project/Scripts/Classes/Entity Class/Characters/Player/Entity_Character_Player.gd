@@ -1,4 +1,4 @@
-##[b][color=red]Player[/color][/b] is the player character class stemming from [b]Entity[/b]/[b]Character[/b].[br]
+﻿##[b][color=red]Player[/color][/b] is the player character class stemming from [b]Entity[/b]/[b]Character[/b].[br]
 ##This class holds holds the control data for the player.
 class_name Player
 extends Character
@@ -26,6 +26,10 @@ extends Character
 ##The StateCoordinator used to request Action Layer state changes.
 @export var state_coordinator : StateCoordinator
 @export_group("Items")
+##reference to the player's Item Get Sprite.
+@export var item_get_sprite : Sprite2D
+##reference to the Item Get Sprite's animator
+@export var igs_anim : AnimationPlayer
 ##reference to the player's Inventory Component.
 @export var inventory : InventoryComponentPlayer
 ##A reference to the player's Concoction Item Use Component.
@@ -73,7 +77,6 @@ func _on_action_button_pressed(btn):
 			pass
 
 ##Received from [b]PlayerInputComponent.spell_cast_requested[/b].[br]
-##Routes the spell to [b]StateCastSpell[/b] via the StateCoordinator.
 func _on_spell_cast_requested(_slot : int, spell : MenuItemResource) -> void:
 	if not cast_spell_state or not state_coordinator:
 		return
@@ -81,22 +84,43 @@ func _on_spell_cast_requested(_slot : int, spell : MenuItemResource) -> void:
 	state_coordinator.request_action_change(cast_spell_state)
 
 ##Called by an AnimationPlayer method track during a spell cast animation.[br]
-##Relays to [method StateCastSpell.on_start_spell].
 func _anim_start_spell() -> void:
 	if cast_spell_state:
 		cast_spell_state.on_start_spell()
 
 ##Called by an AnimationPlayer method track during a spell cast animation.[br]
-##Relays to [method StateCastSpell.on_cast_spell].
 func _anim_cast_spell() -> void:
 	if cast_spell_state:
 		cast_spell_state.on_cast_spell()
 
 ##Called by an AnimationPlayer method track during a spell cast animation.[br]
-##Relays to [method StateCastSpell.on_end_spell_casting].
 func _anim_end_spell_casting() -> void:
 	if cast_spell_state:
 		cast_spell_state.on_end_spell_casting()
+
+#region ITEM GET SPRITE
+
+##Shows the Item Get Sprite with [param texture] and plays the [b]acquired[/b] animation.
+func show_item_get(texture : Texture2D) -> void:
+	if not item_get_sprite or not igs_anim:
+		return
+	item_get_sprite.texture = texture
+	igs_anim.play("itemAcquired")
+	igs_anim.seek(0.0, true)
+	item_get_sprite.visible = true
+
+##Plays the [b]dismiss[/b] animation then hides the Item Get Sprite when it finishes.
+func dismiss_item_get() -> void:
+	if not igs_anim:
+		return
+	igs_anim.animation_finished.connect(_on_igs_dismiss_done, CONNECT_ONE_SHOT)
+	igs_anim.play("itemDismiss")
+
+func _on_igs_dismiss_done(_anim_name : String) -> void:
+	if item_get_sprite:
+		item_get_sprite.visible = false
+
+#endregion ITEM GET SPRITE
 
 #region ACTION BUTTON 4
 

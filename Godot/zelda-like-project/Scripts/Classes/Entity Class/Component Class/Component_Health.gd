@@ -12,12 +12,10 @@ extends Component
 ##[b]chng_amt[/b]: The value by which the hit points were changed.[br]
 ##Note that this signal is emitted by the variable itself any time it is changed; no need to call it elsewhere!
 signal health_changed(cur_hp : int, max_hp : int, chng_amt : int)
-#TODO: Make it so that the change amount also tells you whether the change was positive or negative.
 
 #endregion SIGNALS
 
 #region VARIBALES
-#TODO: Ensure that this does not override scene-set current health.
 ## Max health. Set at runtime from StatsComponent. Defaults to 4 if no stats resource.
 var max_health : int = 4
 ##The current hit points of the entity.

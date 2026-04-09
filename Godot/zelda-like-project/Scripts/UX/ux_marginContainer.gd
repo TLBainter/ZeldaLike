@@ -1,4 +1,4 @@
-##[b][color=red]InGameMargin[/color][/b] is a script designed to automatically scale each side of the viewport margin in game.[br]
+﻿##[b][color=red]InGameMargin[/color][/b] is a script designed to automatically scale each side of the viewport margin in game.[br]
 ##By default, a margin of 16 pixels is used for the in-game margin container.[br]
 ##This script overrides that to allow the screen to be easily scaled and responsive!
 class_name InGameMargin
@@ -21,15 +21,9 @@ var is_player_under_ui : bool = false
 
 #region FUNCTIONS
 func _ready():
-	#Disable process to save frame rate and resources.
-	#Process is disabled throughout this script for optimization.
 	set_process(false)
-	#TODO: Test this functionality
-	#Connects the viewport size change signal to the margin update script.
 	get_viewport().size_changed.connect(_update_margins)
 	root.check_viewport_size.connect(_update_margins)
-	#Link to timer for checking various UX entities
-	#Also verify that 'me' is assigned in inspector
 	if root:
 		root.check_ux_overlap.connect(_check_player_overlap)
 		if root.debug_me and root.debug_me_verbose:
@@ -40,7 +34,6 @@ func _ready():
 		
 func _check_player_overlap():
 	if not player:
-		#assign the player if it has a null value
 		player = root.player
 		return
 	
@@ -49,7 +42,6 @@ func _check_player_overlap():
 	var my_rect = get_global_rect()
 	var is_overlapping = get_global_rect().has_point(player_screen_pos)
 	
-	#Debug Print
 	if root and root.debug_me and root.debug_me_verbose:
 		print("--- UX Overlap Check ---")
 		print("\tPlayer Screen Pos: ", player_screen_pos)
@@ -57,12 +49,10 @@ func _check_player_overlap():
 		print("\tIs Overlapping: ", is_overlapping)
 		print("\tis_player_under_ui state: ", is_player_under_ui)
 	
-	#Fade out
 	if is_overlapping and not is_player_under_ui:
 		is_player_under_ui = true
 		target_alpha = ux_fade_target
 		set_process(true)
-	#Fade back in
 	elif not is_overlapping and is_player_under_ui:
 		is_player_under_ui = false
 		target_alpha = 1.0
@@ -81,7 +71,6 @@ func _update_margins():
 		##the scale of the viewport when this function is called
 		var viewport_size = get_viewport_rect().size / root.player_cam.zoom
 	
-		#add padding based on viewport size
 		if viewport_size != null:
 			##X axis padding, with a target of 16 pixels.
 			var padding_x = clampi(int(viewport_size.x * 0.01), 16, 32)
@@ -92,7 +81,6 @@ func _update_margins():
 			add_theme_constant_override("margin_right", padding_x)
 			add_theme_constant_override("margin_top", padding_y)
 			add_theme_constant_override("margin_bottom", padding_y)
-		#resort to default padding
 		else:
 			add_theme_constant_override("margin_left", -16)
 			add_theme_constant_override("margin_right", -16)

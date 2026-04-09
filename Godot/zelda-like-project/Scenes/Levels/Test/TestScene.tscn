@@ -15,7 +15,13 @@
 [ext_resource type="PackedScene" uid="uid://ckisejbbaxpl" path="res://Scenes/Objects/Test Objects/grab_lift_test_object.tscn" id="12_6qfvj"]
 [ext_resource type="PackedScene" uid="uid://c5x6kbg4wbbhf" path="res://Scenes/Decor/Grass/Grass_Scene.tscn" id="13_53jui"]
 [ext_resource type="PackedScene" uid="uid://cr07kkycqw1o4" path="res://Scenes/Decor/Traps/trap_spikes-small.tscn" id="15_3ubh8"]
-[ext_resource type="PackedScene" path="res://Scenes/Bat Travel/BatTravelRoute.tscn" id="16_su1sj"]
+[ext_resource type="PackedScene" uid="uid://du3hahgcedn7o" path="res://Scenes/Bat Travel/BatTravelRoute.tscn" id="16_su1sj"]
+[ext_resource type="PackedScene" uid="uid://chest00000001" path="res://Scenes/Objects/Containers/chest.tscn" id="17_ut0kp"]
+[ext_resource type="AudioStream" uid="uid://bwydatsdke36e" path="res://Sound/SFX/Objects/Chests/chest_open_02.wav" id="18_fe3l3"]
+[ext_resource type="Script" uid="uid://diqdn2225adtk" path="res://Scripts/Resources/Resource Scripts/resource_Container.gd" id="18_t71xk"]
+[ext_resource type="Texture2D" uid="uid://cwyihga7pftar" path="res://Sprites/Object Sprites/Openables/chest2.png" id="19_t71xk"]
+[ext_resource type="Resource" uid="uid://csiwja4im8uot" path="res://Scripts/Resources/Resource Files/Resources_Items/item_bead_25.tres" id="21_ltvlh"]
+[ext_resource type="Script" uid="uid://tp0m7574selp" path="res://Scripts/Resources/Resource Scripts/resource_ContainerReward.gd" id="21_npqhc"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_t5cxl"]
 texture = ExtResource("1_7ds01")
@@ -1275,19 +1281,29 @@ debug_me_verbose = true
 debug_name = "SpikeTrap"
 metadata/_custom_type_script = "uid://c0gguh8o4ftae"
 
-[sub_resource type="Curve2D" id="Curve2D_t71xk"]
-bake_interval = 35.84
-_data = {
-"points": PackedVector2Array(0, 0, 0, 0, 505, -523.63635, 0, 0, 0, 0, -305, -135.75757, 0, 0, 0, 0, -316, -31.848484, 0, 0, 0, 0, -317, 2.9090958, 0, 0, 0, 0, -170, -9.696968, 0, 0, 0, 0, -63, 0, 0, 0, 0, 0, 2, -0.96969604)
-}
-point_count = 7
+[sub_resource type="Resource" id="Resource_t71xk"]
+script = ExtResource("7_nrk3t")
 
-[sub_resource type="Curve2D" id="Curve2D_su1sj"]
-bake_interval = 64.84
+[sub_resource type="Resource" id="Resource_npqhc"]
+script = ExtResource("18_t71xk")
+sprite_sheet = ExtResource("19_t71xk")
+frame_count = 3
+open_sound = ExtResource("18_fe3l3")
+item_kind = 4
+metadata/_custom_type_script = "uid://diqdn2225adtk"
+
+[sub_resource type="Resource" id="Resource_ltvlh"]
+script = ExtResource("21_npqhc")
+item = 30
+item_resource = ExtResource("21_ltvlh")
+metadata/_custom_type_script = "uid://tp0m7574selp"
+
+[sub_resource type="Curve2D" id="Curve2D_ltvlh"]
+resource_local_to_scene = true
 _data = {
-"points": PackedVector2Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 863, 127, 0, 0, 0, 0, 856, -257)
+"points": PackedVector2Array(0, 0, 44.666664, -3.6666665, -53, 8, -42.27635, -14.8750105, 26.86555, 9.452693, 81, -3, 4.589039, 28.10786, -7.6864405, -47.07945, 1, 27, 28.877716, 37.968845, -26.44362, -34.768463, 65, -101, 39.333336, -19, 0, 0, -53, -44)
 }
-point_count = 3
+point_count = 5
 
 [node name="Main" type="Node2D" unique_id=917202910]
 z_as_relative = false
@@ -1446,11 +1462,16 @@ position = Vector2(55, 24)
 [node name="TestTrap8" parent="." unique_id=2026612007 instance=ExtResource("15_3ubh8")]
 position = Vector2(55, 17)
 
-[node name="BatTravelRoute" parent="." unique_id=1672841919 instance=ExtResource("16_su1sj")]
-position = Vector2(-249, 68)
-scale = Vector2(1, 1.03125)
-curve = SubResource("Curve2D_t71xk")
+[node name="Chest" parent="." unique_id=495694602 instance=ExtResource("17_ut0kp")]
+position = Vector2(-366, -22)
+debug = SubResource("Resource_t71xk")
 
-[node name="BatTravelRoute2" parent="." unique_id=1931802799 instance=ExtResource("16_su1sj")]
-position = Vector2(-300, -39)
-curve = SubResource("Curve2D_su1sj")
+[node name="Chest2" parent="." unique_id=1138560821 instance=ExtResource("17_ut0kp")]
+position = Vector2(-347, -22)
+container_data = SubResource("Resource_npqhc")
+reward = SubResource("Resource_ltvlh")
+debug = SubResource("Resource_t71xk")
+
+[node name="BatTravelRoute" parent="." unique_id=1252271372 instance=ExtResource("16_su1sj")]
+position = Vector2(-233, 27)
+curve = SubResource("Curve2D_ltvlh")

@@ -1,4 +1,4 @@
-class_name StateAttack
+﻿class_name StateAttack
 extends State
 
 #region VARIABLES
@@ -11,7 +11,6 @@ extends State
 @export var energy_cost : int = 1
 @export var attack_config : AttackConfiguration = AttackConfiguration.new()
 
-#=======INTERNAL VARIABLES=======#
 
 var _hit_processed : bool = false
 var _expected_anim : String = ""

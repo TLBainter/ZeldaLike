@@ -32,6 +32,11 @@ extends Resource
 ##How many notes (money) this item grants. 0 = no notes.
 @export var grant_notes : int = 0
 
+@export_category("Item Get Sprite")
+##The texture shown in the Item Get Sprite when this item is picked up.[br]
+##Used for container rewards. World items use their [b]item_strip[/b] frame 0 instead.
+@export var mini_sprite : Texture2D
+
 @export_category("Item Audio")
 ##Sounds that play when this item is picked up or used.
 @export var use_sounds : SoundLibrary

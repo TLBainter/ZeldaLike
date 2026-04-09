@@ -112,12 +112,12 @@ func set_active(active: bool) -> void:
 		if not active and _area.monitoring:
 			var overlapping := _area.get_overlapping_bodies()
 			if debug_me:
-				print(debug_name, ": set_active(false) ; evicting ", overlapping.size(), " overlapping bodies")
+				print(debug_name, ": set_active(false); evicting ", overlapping.size(), " overlapping bodies")
 			for body in overlapping:
 				_on_body_exited(body)
 		elif not active:
 			if debug_me:
-				print(debug_name, ": set_active(false) ; monitoring already off, skipping eviction")
+				print(debug_name, ": set_active(false); monitoring already off, skipping eviction")
 		_area.set_deferred("monitoring", active)
 		_area.set_deferred("monitorable", active)
 
@@ -128,7 +128,7 @@ func _on_body_entered(body: Node2D) -> void:
 		if "current_interactable" in body:
 			body.current_interactable = self
 		if debug_me:
-			print(debug_name, ": body_entered ; current_interactable set, requesting context refresh")
+			print(debug_name, ": body_entered; current_interactable set, requesting context refresh")
 		if body.root and body.root.state_machine:
 			body.root.state_machine.request_context_refresh()
 
@@ -137,7 +137,7 @@ func _on_body_exited(body: Node2D) -> void:
 		if "current_interactable" in body and body.current_interactable == self:
 			body.current_interactable = null
 		if debug_me:
-			print(debug_name, ": body_exited ; current_interactable cleared, requesting context refresh")
+			print(debug_name, ": body_exited; current_interactable cleared, requesting context refresh")
 		if body.root and body.root.state_machine:
 			body.root.state_machine.request_context_refresh()
 

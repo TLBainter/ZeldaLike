@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://c07lv6hkbio2h"
+path="res://.godot/imported/bat-step_02.wav-d1f4c4cb69cb2df32a28343665ccf57b.sample"
+
+[deps]
+
+source_file="res://Sound/SFX/Player/Player Action SFX/Player Dash SFX/Dash-Bat-Step/bat-step_02.wav"
+dest_files=["res://.godot/imported/bat-step_02.wav-d1f4c4cb69cb2df32a28343665ccf57b.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

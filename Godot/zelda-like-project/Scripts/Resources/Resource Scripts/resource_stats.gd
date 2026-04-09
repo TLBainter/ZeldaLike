@@ -1,4 +1,4 @@
-##[b][color=red]StatsResource[/color][/b] defines the base stats for an entity.[br]
+﻿##[b][color=red]StatsResource[/color][/b] defines the base stats for an entity.[br]
 ##Attach to any entity to configure health, defense, weight, speed, and player resources.[br]
 ##Shared across instances of the same entity type.
 class_name StatsResource
@@ -6,7 +6,6 @@ extends Resource
 
 #region VARIABLES
 
-#======CATEGORY: All Entities======#
 @export_category("All Entities")
 @export_group("Survivability")
 ## The maximum health of this entity.
@@ -17,7 +16,6 @@ extends Resource
 ## The weight of this entity. Affects push/pull speed, throw distance, and knockback resistance.
 @export_enum("Light:10", "Medium:30", "Heavy:60", "Immovable:100") var weight : int = 30
 
-#======CATEGORY: Character======#
 @export_category("Character")
 @export_group("Speed")
 ## The speed used when attacking. Reserved for future use.
@@ -29,7 +27,6 @@ extends Resource
 ## The speed used when running.
 @export var run_speed : float = 75.0
 
-#======CATEGORY: Player======#
 @export_category("Player")
 @export_group("Resources")
 ## The maximum energy (in total units, not bolts) the player starts with.

@@ -3,8 +3,8 @@
 ; since the parameters that go here are not all obvious.
 ;
 ; Format:
-;   [section] ; section goes between []
-;   param=value ; assign values to parameters
+;   [section]; section goes between []
+;   param=value; assign values to parameters
 
 config_version=5
 
@@ -25,6 +25,7 @@ audioManager="*uid://cct1tqjxxcrx8"
 dialogueDB="*uid://cbcxd8qo46pai"
 debugConsole="*uid://l8t30uovjgbg"
 textResolver="*uid://bqwsqn6f06yrk"
+containerManager="*res://Scripts/Managers/manager_Container.gd"
 
 [display]
 

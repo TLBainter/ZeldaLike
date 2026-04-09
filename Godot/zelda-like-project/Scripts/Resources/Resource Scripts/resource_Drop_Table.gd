@@ -60,12 +60,11 @@ func resolve(player = null) -> Array[PickupResource]:
 		var roll = randi_range(1, 100)
 		if roll > drop_chance:
 			if debug_me:
-				print("DropTable: Chance roll failed (", roll, " > ", drop_chance, "%) ; dropping nothing.")
+				print("DropTable: Chance roll failed (", roll, " > ", drop_chance, "%); dropping nothing.")
 			_apply_pity_miss(player)
 			return results
 		elif debug_me:
 			print("DropTable: Chance roll passed (", roll, " <= ", drop_chance, "%).")
-	#Build a filtered pool excluding items the player doesn't need.
 	var eligible_pickups : Array[PickupResource] = []
 	for pickup in drop_pool.keys():
 		if pickup and _is_item_needed(pickup, player):
@@ -102,16 +101,16 @@ func _apply_pity_miss(player) -> void:
 	player.drop_pity = min(player.drop_pity + 1, 25)
 	if "debug_me_verbose" in player and player.debug_me_verbose:
 		if old_pity < 25:
-			print("DropTable: Nothing dropped ; pity increased to ", player.drop_pity, "/25.")
+			print("DropTable: Nothing dropped; pity increased to ", player.drop_pity, "/25.")
 		else:
-			print("DropTable: Nothing dropped ; pity already at cap (25/25).")
+			print("DropTable: Nothing dropped; pity already at cap (25/25).")
 
 ##Resets player.drop_pity to 0.
 func _apply_pity_hit(player) -> void:
 	if not player or not "drop_pity" in player:
 		return
 	if "debug_me_verbose" in player and player.debug_me_verbose and player.drop_pity > 0:
-		print("DropTable: Item dropped ; pity reset from ", player.drop_pity, " to 0.")
+		print("DropTable: Item dropped; pity reset from ", player.drop_pity, " to 0.")
 	player.drop_pity = 0
 
 ##Checks whether the player actually needs this item.[br]
@@ -121,29 +120,25 @@ func _is_item_needed(pickup : PickupResource, player) -> bool:
 	if not player or not pickup or not pickup.item:
 		return true
 	var item = pickup.item
-	#Health: skip if player is at full health.
 	if item.recover_health > 0:
 		if player.health and player.health.cur_health >= player.health.max_health:
 			if debug_me:
-				print("DropTable: Skipping ", item.first_get_dialogue_ref, " ; health is full (", player.health.cur_health, "/", player.health.max_health, ")")
+				print("DropTable: Skipping ", item.first_get_dialogue_ref, "; health is full (", player.health.cur_health, "/", player.health.max_health, ")")
 			return false
-	#Energy: skip if player is at full energy.
 	if item.recover_energy > 0:
 		if player.energy and player.energy.cur_energy >= (player.energy.max_energy - 1):
 			if debug_me:
-				print("DropTable: Skipping ", item.first_get_dialogue_ref, " ; energy too high (", player.energy.cur_energy, "/", player.energy.max_energy, ")")
+				print("DropTable: Skipping ", item.first_get_dialogue_ref, "; energy too high (", player.energy.cur_energy, "/", player.energy.max_energy, ")")
 			return false
-	#Magic: skip if player is at full magic.
 	if item.recover_magic > 0:
 		if player.magic and player.magic.cur_magic >= player.magic.max_magic:
 			if debug_me:
-				print("DropTable: Skipping ", item.first_get_dialogue_ref, " ; magic is full (", player.magic.cur_magic, "/", player.magic.max_magic, ")")
+				print("DropTable: Skipping ", item.first_get_dialogue_ref, "; magic is full (", player.magic.cur_magic, "/", player.magic.max_magic, ")")
 			return false
-	#Notes: skip if player has max notes.
 	if item.grant_notes > 0:
 		if player.currency and player.currency.is_full():
 			if debug_me:
-				print("DropTable: Skipping ", item.first_get_dialogue_ref, " ; notes are full (", player.currency.cur_notes, "/", player.currency.max_notes, ")")
+				print("DropTable: Skipping ", item.first_get_dialogue_ref, "; notes are full (", player.currency.cur_notes, "/", player.currency.max_notes, ")")
 			return false
 	if debug_me:
 		print("DropTable: ", item.first_get_dialogue_ref, " is eligible to drop.")

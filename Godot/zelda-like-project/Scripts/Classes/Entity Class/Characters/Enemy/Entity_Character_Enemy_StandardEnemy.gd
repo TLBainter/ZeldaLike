@@ -1,4 +1,4 @@
-##[b][color=red]StandardEnemy[/color][/b] is a character class stemming from [b]Entity[/b]/[b]Character[/b]/[b]Enemy[/b].[br]
+﻿##[b][color=red]StandardEnemy[/color][/b] is a character class stemming from [b]Entity[/b]/[b]Character[/b]/[b]Enemy[/b].[br]
 ##Minibosses have a death trigger, such as dropping an item or unlocking a door. They also display a health bar on the screen.
 class_name StandardEnemy
 extends Enemy
@@ -18,5 +18,4 @@ extends Enemy
 #region READY FUNCTION
 func _ready():
 	super._ready()
-	#establish variables
 	category = "Standard"

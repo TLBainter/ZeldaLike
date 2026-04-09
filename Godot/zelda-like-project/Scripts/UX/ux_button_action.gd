@@ -1,4 +1,4 @@
-##[b][color=red]ActionButtonSprite[/color][/b] handles the visuals of a button in the UI.[br]
+﻿##[b][color=red]ActionButtonSprite[/color][/b] handles the visuals of a button in the UI.[br]
 ##Used for the action buttons (A/B/X/Y, Up, Down, Right, Left, etc.)
 class_name ActionButtonSprite
 extends Panel
@@ -65,7 +65,6 @@ func _ready():
 			print_rich(debug_name, ": [color=green][i]got input component[/i][/color] for button [b]", action_name, "[/b]")
 		if not input.action_button_pressed.is_connected(_on_action_button_pressed):
 			input.action_button_pressed.connect(_on_action_button_pressed)
-		#TODO: Fix this logic; it may not always be true. Setting availability should happen outside of this script, being called by other entities.
 		set_available(true)
 	else:
 		if debug_me:

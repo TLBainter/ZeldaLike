@@ -1,4 +1,4 @@
-##[b][color=red]TextResolver[/color][/b] is an autoload that resolves variable placeholders in text strings.[br]
+﻿##[b][color=red]TextResolver[/color][/b] is an autoload that resolves variable placeholders in text strings.[br]
 ##Placeholders use the format [code][category.key][/code].[br]
 ##Categories are registered at runtime with a callback that returns the value.[br]
 class_name TextResolver
@@ -24,7 +24,6 @@ func resolve(text : String) -> String:
 	var regex = RegEx.new()
 	regex.compile("\\[([a-zA-Z_]+)\\.([a-zA-Z_]+)\\]")
 	var matches = regex.search_all(result)
-	#Process matches in reverse order so positions stay valid.
 	matches.reverse()
 	for m in matches:
 		var full_match = m.get_string()

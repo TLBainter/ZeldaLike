@@ -1,4 +1,4 @@
-##[b][color=red]NPC[/color][/b] is a character class stemming from [b]Entity[/b]/[b]Character[/b].[br]
+﻿##[b][color=red]NPC[/color][/b] is a character class stemming from [b]Entity[/b]/[b]Character[/b].[br]
 ##This class holds [b]Shopkeepers[/b], [b]Standard NPCs[/b], and [b]Story NPCs[/b].
 class_name NPC
 extends Character
@@ -25,6 +25,5 @@ var category : String
 #region READY FUNCTION
 func _ready():
 	super._ready()
-	#establish variables
 	subtype = "NPC"
 	add_to_group("entities")

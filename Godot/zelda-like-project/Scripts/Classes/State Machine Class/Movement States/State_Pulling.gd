@@ -1,4 +1,4 @@
-##[b][color=red]StatePulling[/color][/b] is the [b]Movement layer[/b] state for pulling a grabbed object.[br]
+﻿##[b][color=red]StatePulling[/color][/b] is the [b]Movement layer[/b] state for pulling a grabbed object.[br]
 ##Smoothly moves both the player and object 8px opposite the facing direction.[br]
 ##The player moves backward first, then the object follows into the player's previous position.[br]
 ##Holding directional input causes continuous snaps with a weight-based delay between them.[br]
@@ -34,7 +34,6 @@ func enter() -> void:
 	###===SIGNAL CONNECTION===###
 	if root.input: _safe_connect(root.input.on_move, _on_move)
 	###===END SIGNAL CONNECTION===###
-	#Perform the first snap immediately on enter.
 	_perform_snap()
 
 func exit() -> void:
@@ -76,10 +75,8 @@ func _on_move(move_input : Vector2, move_strength : float) -> void:
 		return
 	var facing_dir : Vector2 = facing_to_vector(character.anim.facing)
 	var dot : float = move_input.normalized().dot(facing_dir)
-	#Input in pull direction (opposite facing) -- keep holding.
 	if dot < -0.5:
 		_input_held = true
-	#Input reversed to push direction.
 	elif dot > 0.5:
 		_input_held = false
 		if not _is_snapping:
@@ -92,7 +89,6 @@ func _on_move(move_input : Vector2, move_strength : float) -> void:
 				var _gi2 : State = coordinator.get_transition("grab_idle")
 				if _gi2:
 					state_machine.change_state(coordinator.try_transition(state_machine, _gi2, "on_move+dot>0.5+not_pushable"))
-	#Perpendicular input -- ignore, treat as stopped.
 	else:
 		_input_held = false
 		if not _is_snapping:
@@ -115,7 +111,6 @@ func _perform_snap() -> void:
 		return
 	var facing_dir : Vector2 = facing_to_vector(facing_str)
 	var pull_dir : Vector2 = -facing_dir
-	#Test if the player can move backward.
 	var player_collision = character.body.move_and_collide(pull_dir * GameConstants.SNAP_DISTANCE, true)
 	if player_collision:
 		_debug_log("Player blocked, cannot pull.")
@@ -127,7 +122,6 @@ func _perform_snap() -> void:
 	_snap_speed = 120.0 - (float(weight) * 0.8)
 	_is_snapping = true
 	_player_snap_target = character.body.global_position + (pull_dir * GameConstants.SNAP_DISTANCE)
-	#Start smooth move on the object.
 	grabbed.smooth_snap_move(pull_dir, GameConstants.SNAP_DISTANCE, _snap_speed, true)
 	if not grabbed.snap_move_completed.is_connected(_on_snap_completed):
 		grabbed.snap_move_completed.connect(_on_snap_completed, CONNECT_ONE_SHOT)
@@ -198,7 +192,6 @@ func _on_snap_timer() -> void:
 	if _input_held:
 		_perform_snap()
 
-#TODO: Test pull weight timer delay values for optimization and game feel.
 ##Calculates the delay between snaps based on object weight.[br]
 ##Light (10): ~0.25s, Medium (30): ~0.65s, Heavy (60): ~1.25s
 func _get_snap_delay(grabbed) -> float:

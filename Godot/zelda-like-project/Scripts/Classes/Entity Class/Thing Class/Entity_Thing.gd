@@ -1,4 +1,4 @@
-##[b][color=red]Object[/color][/b] refers to any object that can be placed in the world,[br]
+﻿##[b][color=red]Object[/color][/b] refers to any object that can be placed in the world,[br]
 ##regardless of whether the object can be interacted with.[br]
 ##This includes chests, switches, breakable pots, torches, and more.
 class_name Thing
@@ -20,7 +20,6 @@ var subtype : String
 #region READY
 func _ready():
 	super._ready()
-	#establish variables
 	type = "Thing"
 	add_to_group("entities")
 

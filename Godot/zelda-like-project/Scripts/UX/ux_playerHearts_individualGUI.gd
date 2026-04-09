@@ -1,4 +1,4 @@
-##[b][color=red]HeartGUI[/color][/b] is a class that defines the overall appearance and control for individual hearts.[br]
+﻿##[b][color=red]HeartGUI[/color][/b] is a class that defines the overall appearance and control for individual hearts.[br]
 ##[i]Hearts[/i] here refers to the player's visual heart display for their hit points.
 class_name HeartGUI
 extends Panel
@@ -28,9 +28,7 @@ extends Panel
 #region FUNCTIONS
 ##Updates the value of a heart based on its fill rate
 func update(update_value : int):
-	#Ensure update value doesn't exceed heart allotment
 	update_value = clampi(update_value, 0, 4)
-	#set the heart's texture to be equal to the number of hits remaining in that heart
 	match update_value:
 		0: sprite.texture = sprite_0_4_heart
 		1: sprite.texture = sprite_1_4_heart

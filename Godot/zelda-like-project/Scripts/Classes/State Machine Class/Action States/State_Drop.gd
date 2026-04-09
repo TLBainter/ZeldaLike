@@ -1,4 +1,4 @@
-##[b][color=red]StateDrop[/color][/b] is the Action layer state for dropping a held object.[br]
+﻿##[b][color=red]StateDrop[/color][/b] is the Action layer state for dropping a held object.[br]
 ##Places the object at the player's feet, re-enables its collision, and transitions to NoAction.[br]
 ##[br]
 ##[b]Layer[/b]: Action
@@ -26,7 +26,6 @@ func enter() -> void:
 		if _next:
 			state_machine.change_state(coordinator.try_transition(state_machine, _next, "enter+no_character_or_held"))
 		return
-	#Calculate drop position in the facing direction.
 	var drop_pos : Vector2 = character.body.global_position
 	match character.anim.facing if character.anim else "down":
 		"right":
@@ -52,17 +51,13 @@ func enter() -> void:
 		print("  After release body pos: ", held.body.global_position)
 		print("  After release sprite pos: ", held.root.sprite.position if held.root and held.root.sprite else "no sprite")
 		print("--- END DROP DEBUG ---")
-	#Play drop animation if available.
 	if character.anim and character.anim is CharacterAnimator:
 		character.anim.play_directional_anim("Drop")
-	#Play drop sound.
 	if held.object_data and held.object_data.material and held.object_data.material.drop_sounds:
 		if character.audio:
 			character.audio.play_sound(held.object_data.material.drop_sounds.sl.pick_random())
-	#Clear held object.
 	coordinator.held_object = null
 	_debug_log(str("Dropped object at ", drop_pos))
-	#Transition to NoAction.
 	var _next2 : State = coordinator.get_transition("no_action")
 	if _next2:
 		state_machine.change_state(coordinator.try_transition(state_machine, _next2, "drop_complete"))

@@ -25,7 +25,6 @@ func enter() -> void:
 		if _next:
 			state_machine.change_state(coordinator.try_transition(state_machine, _next, "enter+no_character"))
 		return
-	#Get the DynamicThing via the InteractableComponent.
 	var component: InteractableComponent = character.body.current_interactable
 	var interactable = component.owner_entity if component else null
 	if not interactable or not interactable is DynamicThing:
@@ -34,14 +33,11 @@ func enter() -> void:
 		if _next2:
 			state_machine.change_state(coordinator.try_transition(state_machine, _next2, "enter+no_DynamicThing"))
 		return
-	#Store the held object on the coordinator.
 	coordinator.held_object = interactable
-	#Freeze movement during lift.
 	coordinator.freeze_movement()
 	if interactable.object_data and interactable.object_data.material and interactable.object_data.material.lift_sounds:
 		if character.audio:
 			character.audio.play_sound(interactable.object_data.material.lift_sounds.sl.pick_random())
-	#Lock facing direction.
 	if character.anim and character.anim is CharacterAnimator:
 		character.anim.can_update_facing = false
 		var played = character.anim.play_directional_anim(AnimationNames.LIFT, true)
@@ -57,21 +53,18 @@ func enter() -> void:
 			print("LIFT: Original object body pos: ", interactable.body.global_position)
 			print("LIFT: Player body pos: ", character.body.global_position)
 			print("LIFT: Difference (obj - player): ", interactable.body.global_position - character.body.global_position)
-	#Disable collision on the held object.
 	interactable.hold(hold_offset, character)
 	_debug_log(str("Lifting ", interactable))
 
 func exit() -> void:
 	var character = get_character()
 	if character and character.anim and character.anim is CharacterAnimator:
-		#Disconnect if still connected (safety).
 		_safe_disconnect(character.anim.animation_finished, _on_lift_finished)
 	super()
 
 ##Called when the lift animation finishes. Transitions to HoldingAction.
 func _on_lift_finished(anim_name : String) -> void:
 	if not AnimationNames.LIFT in anim_name:
-		#Wrong animation finished -- reconnect and wait for the real one.
 		var character = get_character()
 		if character and character.anim:
 			if not character.anim.animation_finished.is_connected(_on_lift_finished):

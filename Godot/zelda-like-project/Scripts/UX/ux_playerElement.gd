@@ -1,4 +1,4 @@
-##[b][color=red]UXElement[/color][/b] is the base class for player UI elements that fade in/out.[br]
+﻿##[b][color=red]UXElement[/color][/b] is the base class for player UI elements that fade in/out.[br]
 ##Provides common visibility management, fade animation, force-show, and timer logic.[br]
 ##Subclasses override [b]_on_element_ready()[/b], [b]_on_element_process()[/b], and [b]_can_fade_out()[/b].
 class_name UXElement
@@ -24,7 +24,6 @@ var debug_name : String:
 	get: return debug.debug_name if debug else ""
 	set(v): if debug: debug.debug_name = v
 
-#=======INTERNAL VARIABLES=======#
 
 ##Current target alpha for fade in/out.
 var _target_alpha : float = 0.0
