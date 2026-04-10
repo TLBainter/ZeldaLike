@@ -1,4 +1,4 @@
-##[b][color=red]StateHoldingAction[/color][/b] is the Action layer state for when the character is holding an object above their head.[br]
+﻿##[b][color=red]StateHoldingAction[/color][/b] is the Action layer state for when the character is holding an object above their head.[br]
 ##Unfreezes movement so the player can walk/run while holding.[br]
 ##On actionButton4 press: checks the current movement state to decide between Throw (running) and Drop (idle/move).[br]
 ##[br]
@@ -12,7 +12,6 @@ extends State
 ##The offset above the player's body where the object is held.
 @export var hold_offset : Vector2 = Vector2(0, -12)
 
-#===#
 ##Whether the player's input strength is above the run threshold.
 var _is_running : bool = false
 

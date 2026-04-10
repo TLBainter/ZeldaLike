@@ -1,4 +1,4 @@
-##[b][color=red]Character[/color][/b] is a subclass of the [b][color=yellow]EntityClass[/color][/b] class.[br]
+﻿##[b][color=red]Character[/color][/b] is a subclass of the [b][color=yellow]EntityClass[/color][/b] class.[br]
 ##This class encompasses [b]NPCs[/b], [b]Enemies[/b], and even the [b]Player[/b].
 class_name Character
 extends EntityClass
@@ -32,5 +32,4 @@ var subtype : String
 #region READY FUNCTION
 func _ready():
 	super._ready()
-	#establish variables
 	type = "Character"

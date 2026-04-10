@@ -56,11 +56,15 @@ func process_input(event : InputEvent) -> State:
 		var character = get_character()
 		if character and character.body.current_interactable:
 			return null  # Let the action layer handle the interaction.
+		if not _has_bat_form():
+			return null
 		if coordinator.is_exhausted() or coordinator.is_on_dodge_cooldown():
 			return null
 		return coordinator.try_transition(state_machine, coordinator.get_transition("backstep"), "actionButton4+idle+no_interactable")
 	if event.is_action_pressed("dash"):
 		if coordinator.held_object:
+			return null
+		if not _has_bat_form():
 			return null
 		if coordinator.is_exhausted() or coordinator.is_on_dodge_cooldown():
 			return null
@@ -82,6 +86,14 @@ func get_context_key() -> String:
 			elif priority == StateCoordinator.InteractionPriority.GRAB:
 				return "grab"
 		return component.context_key
-	return "Bat Step"
+	if _has_bat_form():
+		return "Bat Step"
+	return ""
+
+func _has_bat_form() -> bool:
+	var character = get_character()
+	if not character or not character.inventory:
+		return false
+	return character.inventory.has_item(ItemID.BAT_FORM) or character.inventory.has_item(ItemID.BAT_FORM_UPGRADED)
 
 #endregion FUNCTIONS

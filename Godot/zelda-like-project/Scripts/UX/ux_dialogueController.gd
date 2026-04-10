@@ -1,4 +1,4 @@
-##[b][color=red]DialogueUI[/color][/b] is used to control the display of text, audio playing, button advancement, and more.
+﻿##[b][color=red]DialogueUI[/color][/b] is used to control the display of text, audio playing, button advancement, and more.
 class_name DialogueUI
 extends Control
 
@@ -106,7 +106,6 @@ func _show_next_line():
 func advance():
 	if _is_typing:
 		_finish_typing()
-		#TODO: Add a 'skip' sound here.
 	else:
 		_current_line_index += 1
 		if _current_line_index >= _current_lines.size():
@@ -147,8 +146,6 @@ func _end_dialogue():
 	if _connected_input and _connected_input.action_button_pressed.is_connected(_on_input_received):
 		_connected_input.action_button_pressed.disconnect(_on_input_received)
 		_connected_input = null
-	#TODO: Animation for the dialogue windows
-	#TODO: Unfreeze player interaction (can control with speak component, though)
 	initialize(false)
 	if _active_speak_component:
 		_active_speak_component.dialogue_finished()

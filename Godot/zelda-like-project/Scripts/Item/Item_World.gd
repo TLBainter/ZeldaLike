@@ -1,4 +1,4 @@
-##[b][color=red]WorldItem[/color][/b] is the scene script for items that exist in the game world.[br]
+﻿##[b][color=red]WorldItem[/color][/b] is the scene script for items that exist in the game world.[br]
 ##Handles spawn animation (Float/Drop/Bounce gravity), bob animation, shadow sync,[br]
 ##sparkle animation, auto-pickup on player contact, item application, and first-get dialogue.[br]
 ##[br]
@@ -86,7 +86,6 @@ var debug_name : String:
 	get: return debug.debug_name if debug else ""
 	set(v): if debug: debug.debug_name = v
 
-#=======INTERNAL VARIABLES=======#
 
 #region Cached Frame Textures
 ##Sliced frames from the item strip. Index 0 = static, 1-4 = animation.
@@ -150,7 +149,6 @@ func _ready():
 	body_entered.connect(_on_body_entered)
 	_slice_strips()
 	_apply_static_sprites()
-	#Shadow starts hidden until landing.
 	if shadow_sprite:
 		shadow_sprite.visible = false
 
@@ -215,7 +213,6 @@ func spawn(spawn_pos : Vector2, ground_y : float = -1.0, scatter_direction : Vec
 		collision.set_deferred("disabled", true)
 	if shadow_sprite:
 		shadow_sprite.visible = false
-	#Initialize gravity-specific state.
 	if pickup_data:
 		match pickup_data.gravity_type:
 			"Float":
@@ -233,7 +230,6 @@ func spawn(spawn_pos : Vector2, ground_y : float = -1.0, scatter_direction : Vec
 				_horizontal_velocity = _scatter_dir.x * bounce_speed * 0.4
 	if impulse_speed > 0.0 and scatter_direction != Vector2.ZERO:
 		_impulse_velocity = scatter_direction.normalized() * impulse_speed
-	#Float items drift gently; impulse fights the descent and the X override makes it useless anyway.
 	if pickup_data and pickup_data.gravity_type == "Float":
 		_impulse_velocity = Vector2.ZERO
 	set_physics_process(true)
@@ -313,7 +309,6 @@ func _finish_spawn() -> void:
 	_can_pickup = true
 	if collision:
 		collision.set_deferred("disabled", false)
-	#Show shadow on landing.
 	if shadow_sprite:
 		shadow_sprite.visible = true
 	if item_sprite:
@@ -412,6 +407,12 @@ func _pickup(player_body : PlayerBody) -> void:
 			_mark_collected(item_id)
 			should_show_dialogue = true
 	if should_show_dialogue:
+		if not _item_frames.is_empty():
+			player.show_item_get(_item_frames[0])
+		if player.player_ux and player.player_ux.dialogue_controller:
+			player.player_ux.dialogue_controller.dialogue_closed.connect(
+				player.dismiss_item_get, CONNECT_ONE_SHOT
+			)
 		_show_first_get_dialogue(item, player)
 	item_picked_up.emit(pickup_data)
 	if debug_me:

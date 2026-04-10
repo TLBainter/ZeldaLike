@@ -1,6 +1,7 @@
 [gd_resource type="Resource" script_class="ItemResource" format=3 uid="uid://cfswbibalk4jx"]
 
 [ext_resource type="Texture2D" uid="uid://dr6yvpkektsuo" path="res://Sprites/Item Sprites/bead_1_pickup.tres" id="1_x1u1k"]
+[ext_resource type="Texture2D" uid="uid://cas0dxccrlhy" path="res://Sprites/Item Sprites/bead_1_mini.tres" id="2_ltwmy"]
 [ext_resource type="Script" uid="uid://dps4pg1os47me" path="res://Scripts/Resources/Resource Scripts/resource_Item.gd" id="2_ymfi6"]
 [ext_resource type="Texture2D" uid="uid://bcifbh3vly7iw" path="res://Sprites/Item Sprites/item_pickup_shadow.tres" id="3_ltwmy"]
 [ext_resource type="Resource" uid="uid://b578mryux50rt" path="res://Scripts/Resources/Resource Files/Resources_Sound Libraries/UX Libraries/currency_sounds.tres" id="4_ymfi6"]
@@ -10,6 +11,7 @@ script = ExtResource("2_ymfi6")
 item_strip = ExtResource("1_x1u1k")
 shadow_strip = ExtResource("3_ltwmy")
 grant_notes = 1
+mini_sprite = ExtResource("2_ltwmy")
 use_sounds = ExtResource("4_ymfi6")
 first_get_dialogue_ref = "pickupBeadWhite"
 metadata/_custom_type_script = "uid://dps4pg1os47me"

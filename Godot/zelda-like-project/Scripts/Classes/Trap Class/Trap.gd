@@ -33,14 +33,12 @@ var _is_animating : bool = false
 var _current_frame : int = 0
 var _can_trigger : bool = true		# PLAYER_TOUCH only
 
-# Timers
 var _frame_timer : Timer
 ##One-shot timer for TIME_INTERVAL mode.[br]
 ##Wait time is always computed from the global engine clock so all traps stay phase-locked.
 var _sync_timer : Timer
 var _touch_delay_timer : Timer		# PLAYER_TOUCH only (when touch_delay > 0)
 
-# Visibility notifier -- created at runtime for TIME_INTERVAL mode
 var _vis_notifier : VisibleOnScreenNotifier2D
 #endregion INTERNAL VARIABLES
 
@@ -51,31 +49,27 @@ var _vis_notifier : VisibleOnScreenNotifier2D
 #region READY
 func _ready() -> void:
 	if not trap_resource:
-		push_warning(name + ": No TrapResource assigned ; trap will not function.")
+		push_warning(name + ": No TrapResource assigned; trap will not function.")
 		return
 	if not trap_sprite:
-		push_warning(name + ": No TrapSprite assigned ; trap will not function.")
+		push_warning(name + ": No TrapSprite assigned; trap will not function.")
 		return
 	if not trap_damage_area:
-		push_warning(name + ": No TrapDamageArea assigned ; trap will not function.")
+		push_warning(name + ": No TrapDamageArea assigned; trap will not function.")
 		return
 
-	# --- Collision setup ---
 	trap_damage_area.collision_layer = 8	# Layer 4: Trap
 	trap_damage_area.collision_mask = 1		# Layer 1: Character
 
-	# --- Sprite setup ---
 	trap_sprite.texture = trap_resource.sprite_texture
 	trap_sprite.hframes = trap_resource.frame_count
 	trap_sprite.frame = 0
 
-	# --- Frame animation timer ---
 	_frame_timer = Timer.new()
 	_frame_timer.one_shot = true
 	_frame_timer.timeout.connect(_on_frame_timer_timeout)
 	add_child(_frame_timer)
 
-	# --- Trigger setup ---
 	match trap_resource.trigger_type:
 		TrapResource.TriggerType.TIME_INTERVAL:
 			_setup_interval_trigger()
@@ -95,7 +89,6 @@ func _setup_interval_trigger() -> void:
 	_sync_timer.timeout.connect(_trigger)
 	add_child(_sync_timer)
 
-	# If already on screen when the scene loads, start immediately.
 	if _vis_notifier.is_on_screen():
 		_on_screen_entered()
 
@@ -125,10 +118,8 @@ func _start_sync_timer() -> void:
 	var interval : float = trap_resource.interval_seconds
 	var time_until_next : float
 	if t < phase:
-		# Engine hasn't reached the phase offset yet; wait out the remaining phase + one interval.
 		time_until_next = phase + interval - t
 	else:
-		# Snap to the next scheduled beat in the global cycle.
 		var time_in_cycle : float = fmod(t - phase, interval)
 		time_until_next = interval - time_in_cycle
 	_sync_timer.start(time_until_next)
@@ -149,24 +140,19 @@ func _trigger() -> void:
 
 #region ANIMATION
 func _on_frame_timer_timeout() -> void:
-	# Deal damage while the damage frame is displayed.
 	if _current_frame == trap_resource.damage_frame:
 		_try_deal_damage()
 
 	_current_frame += 1
 
 	if _current_frame >= trap_resource.frame_count:
-		# Animation complete -- reset to idle.
 		trap_sprite.frame = 0
 		_is_animating = false
 
 		match trap_resource.trigger_type:
 			TrapResource.TriggerType.TIME_INTERVAL:
-				# Re-sync to the global clock for the next beat, but only if still on screen.
 				if _vis_notifier and _vis_notifier.is_on_screen():
 					_start_sync_timer()
-			# PLAYER_TOUCH: _can_trigger is managed by body_entered/exited signals.
-			# The trap waits for the player to exit before allowing re-trigger.
 	else:
 		trap_sprite.frame = _current_frame
 		_frame_timer.start(trap_resource.frame_duration)

@@ -10,12 +10,11 @@ extends State
 
 func enter():
 	super()
-	_debug_log("entered ; requesting context refresh")
+	_debug_log("entered; requesting context refresh")
 	coordinator.request_context_refresh()
 
 ##Listens for action button presses to transition to action states.
 func process_input(event : InputEvent) -> State:
-	#Handle interaction when able
 	#region Light Attack
 	if event.is_action_pressed("attackLight"):
 		return coordinator.try_transition(state_machine, coordinator.get_transition("attack"), "attackLight+pressed")
@@ -28,7 +27,6 @@ func process_input(event : InputEvent) -> State:
 		var interactable: InteractableComponent = character.body.current_interactable
 		var interactable_owner = interactable.owner_entity if interactable else null
 		if interactable_owner and interactable_owner is DynamicThing and interactable_owner.object_data:
-			#Don't allow this transition if character is exhausted
 			if character.energy and character.energy.is_exhausted_state:
 				return null
 			var data = interactable_owner.object_data
@@ -37,9 +35,6 @@ func process_input(event : InputEvent) -> State:
 			if debug_me_verbose:
 				print("NoAction ROUTING: is_moving=", is_moving, " velocity=", character.body.velocity, " vel_length=", character.body.velocity.length())
 				print("  pushable=", data.pushable, " pullable=", data.pullable, " liftable=", data.liftable)
-			# grab the object if it can be grabbed, lift if it can be lifted.
-			#note some objects are grabbable and liftable.
-			#In such cases, the player will only grab if they are moving while pressing the action button; otherwise, they'll lift it.
 			var priority = coordinator.resolve_interaction_priority(data, is_moving)
 			if priority == StateCoordinator.InteractionPriority.GRAB:
 				return coordinator.try_transition(state_machine, coordinator.get_transition("grab"), "actionButton4+DynamicThing+grab")

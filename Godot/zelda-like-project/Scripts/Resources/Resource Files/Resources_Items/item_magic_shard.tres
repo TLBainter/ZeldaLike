@@ -1,6 +1,7 @@
 [gd_resource type="Resource" script_class="ItemResource" format=3 uid="uid://dnwxi554jcsbe"]
 
 [ext_resource type="Texture2D" uid="uid://hei7aj8d2bvm" path="res://Sprites/Item Sprites/magic_shard_pickup.tres" id="1_qdvjr"]
+[ext_resource type="Texture2D" uid="uid://bpi5awii35m3f" path="res://Sprites/Item Sprites/magic_shard_mini.tres" id="2_8g5gx"]
 [ext_resource type="Script" uid="uid://dps4pg1os47me" path="res://Scripts/Resources/Resource Scripts/resource_Item.gd" id="2_bp3of"]
 [ext_resource type="Texture2D" uid="uid://bcifbh3vly7iw" path="res://Sprites/Item Sprites/item_pickup_shadow.tres" id="3_8g5gx"]
 [ext_resource type="Resource" uid="uid://busdqy6uhm3l" path="res://Scripts/Resources/Resource Files/Resources_Sound Libraries/UX Libraries/pickup_magic_sounds.tres" id="4_bp3of"]
@@ -10,6 +11,7 @@ script = ExtResource("2_bp3of")
 item_strip = ExtResource("1_qdvjr")
 shadow_strip = ExtResource("3_8g5gx")
 recover_magic = 4
+mini_sprite = ExtResource("2_8g5gx")
 use_sounds = ExtResource("4_bp3of")
 first_get_dialogue_ref = "pickupMagicShard"
 metadata/_custom_type_script = "uid://dps4pg1os47me"

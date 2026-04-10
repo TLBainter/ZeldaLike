@@ -1,4 +1,4 @@
-##[b][color=red]StateMove[/color][/b] is the initial movement state.[br]
+﻿##[b][color=red]StateMove[/color][/b] is the initial movement state.[br]
 ##In this state, a character is moving at a moderate pace rather than running or idling.[br]
 ##Transitions to idle when joystick input is within the deadzone, or to running when joystick input is high.
 ##[br]
@@ -10,7 +10,6 @@ extends State
 
 func enter():
 	super()
-	#Set walk speed from stats.
 	if root and "stats" in root and root.stats and root.stats.resource:
 		root.move_speed = root.stats.resource.walk_speed
 	if root.input: _safe_connect(root.input.on_move, _on_move)
@@ -62,16 +61,26 @@ func process_input(event : InputEvent) -> State:
 		var character = get_character()
 		if character and character.body.current_interactable:
 			return null  # Let the action layer handle the interaction.
+		if not _has_bat_form():
+			return null
 		if coordinator.is_exhausted() or coordinator.is_on_dodge_cooldown():
 			return null
 		return coordinator.try_transition(state_machine, coordinator.get_transition("backstep"), "actionButton4+walk+no_interactable")
 	if event.is_action_pressed("dash"):
 		if coordinator.held_object:
 			return null
+		if not _has_bat_form():
+			return null
 		if coordinator.is_exhausted() or coordinator.is_on_dodge_cooldown():
 			return null
 		return coordinator.try_transition(state_machine, coordinator.get_transition("backstep"), "dash+walk")
 	return null
+
+func _has_bat_form() -> bool:
+	var character = get_character()
+	if not character or not character.inventory:
+		return false
+	return character.inventory.has_item(ItemID.BAT_FORM) or character.inventory.has_item(ItemID.BAT_FORM_UPGRADED)
 
 func get_context_key() -> String:
 	if coordinator.held_object:
@@ -88,5 +97,7 @@ func get_context_key() -> String:
 			elif priority == StateCoordinator.InteractionPriority.LIFT:
 				return "lift"
 		return component.context_key
-	return "Bat Step"
+	if _has_bat_form():
+		return "Bat Step"
+	return ""
 #endregion FUNCTIONS

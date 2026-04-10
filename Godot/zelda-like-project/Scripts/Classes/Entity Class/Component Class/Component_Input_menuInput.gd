@@ -23,7 +23,6 @@ var debug_name : String:
 	get: return debug.debug_name if debug else ""
 	set(v): if debug: debug.debug_name = v
 
-#=======INTERNAL VARIABLES=======#
 
 ##The currently hovered panel.
 var _current : MenuHoverable = null
@@ -106,13 +105,11 @@ func _process(delta : float) -> void:
 	var direction = _get_input_direction()
 	if direction != "":
 		if direction != _held_direction:
-			#New direction pressed -- navigate immediately.
 			_held_direction = direction
 			_held_time = 0.0
 			_repeat_started = false
 			_try_navigate(direction)
 		else:
-			#Same direction held -- handle repeat.
 			_held_time += delta
 			if not _repeat_started:
 				if _held_time >= input_repeat_delay:
@@ -124,11 +121,9 @@ func _process(delta : float) -> void:
 					_held_time = 0.0
 					_try_navigate(direction)
 	else:
-		#No direction held -- reset.
 		_held_direction = ""
 		_held_time = 0.0
 		_repeat_started = false
-	#Manage Spell Hoverable assignment to action buttons.
 	if _current and _current is MenuHoverableSpell:
 		for i in range(1, 4):
 			var action = "actionButton" + str(i)
@@ -166,7 +161,6 @@ func _navigate_to(target : MenuHoverable, play_sound : bool = true) -> void:
 
 ##Returns the current directional input as a string, or "" if none.
 func _get_input_direction() -> String:
-	#Check D-pad first (menu-only).
 	if Input.is_action_pressed("dPadUp"):
 		return "up"
 	if Input.is_action_pressed("dPadDown"):
@@ -175,7 +169,6 @@ func _get_input_direction() -> String:
 		return "left"
 	if Input.is_action_pressed("dPadRight"):
 		return "right"
-	#Also check left stick for menu navigation.
 	var move = Input.get_vector("moveLeft", "moveRight", "moveUp", "moveDown")
 	if move.length() < 0.4:
 		return ""

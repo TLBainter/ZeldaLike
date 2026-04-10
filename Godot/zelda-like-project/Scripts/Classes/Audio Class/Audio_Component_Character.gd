@@ -15,7 +15,6 @@ extends AudioControl
 @onready var body : CharacterBody2D = root.body
 
 #region sound libraries
-#Sound Libraries#
 
 @export_category("Sound Libraries")
 @export_group("Damage and Heal")
@@ -99,35 +98,26 @@ func _play_local_sound(stream : AudioStream, bus : String = default_bus, pitch :
 #region health and damage audio
 ##Receives the health change signal and plays a sound from a set based on the damage or healing received.
 func _on_health_changed(cur_hp : int, _max_hp : int, change_amount : int):
-	#TAKING DEADLY DAMAGE#
 	if cur_hp == 0:
 		_play_death_sound()
 		return
-	#TAKING HEAVY DAMAGE#
 	elif change_amount <= -4 and heavy_damage_sounds != null and heavy_damage_sounds.sl.has(AudioStream):
 		_play_heavy_damage_sound()
 		return
-	#TAKING SOME DAMAGE#
 	elif change_amount < 0:
 		_play_damage_sound()
 		return
-	#RECEIVING HEALING#
 	elif change_amount > 0:
 		_play_heal_sound()
 		return
 
 ##Plays Heavy Damage Sound
 func _play_heavy_damage_sound():
-	#Return if no audio value
 	if heavy_damage_sounds == null:
 		return
 	
-	#Get random sound
 	var clip = heavy_damage_sounds.sl.pick_random()
 	
-	#Play the sound with the appropriate bus
-	#If local audio is available, it will play it there.
-	#Otherwise, it will only play the sound globally with the audio manager.
 	if local_audio != null:
 		_play_local_sound(clip, default_bus)
 	else:
@@ -135,16 +125,11 @@ func _play_heavy_damage_sound():
 
 ##Plays Damage Sound
 func _play_damage_sound():
-		#Return if no audio value
 	if damage_sounds == null:
 		return
 	
-	#Get random sound
 	var clip = damage_sounds.sl.pick_random()
 	
-	#Play the sound with the appropriate bus
-	#If local audio is available, it will play it there.
-	#Otherwise, it will only play the sound globally with the audio manager.
 	if local_audio != null:
 		_play_local_sound(clip, default_bus)
 	else:
@@ -152,16 +137,11 @@ func _play_damage_sound():
 
 ##Plays Heal Sound
 func _play_heal_sound():
-		#Return if no audio value
 	if heal_sounds == null:
 		return
 	
-	#Get random sound
 	var clip = heal_sounds.sl.pick_random()
 	
-	#Play the sound with the appropriate bus
-	#If local audio is available, it will play it there.
-	#Otherwise, it will only play the sound globally with the audio manager.
 	if local_audio != null:
 		_play_local_sound(clip, default_bus)
 	else:
@@ -169,16 +149,11 @@ func _play_heal_sound():
 
 ##Plays Death Sound
 func _play_death_sound():
-		#Return if no audio value
 	if death_sounds == null:
 		return
 	
-	#Get random sound
 	var clip = death_sounds.sl.pick_random()
 	
-	#Play the sound with the appropriate bus
-	#If local audio is available, it will play it there.
-	#Otherwise, it will only play the sound globally with the audio manager.
 	if local_audio != null:
 		_play_local_sound(clip, default_bus)
 	else:
@@ -227,7 +202,6 @@ func stop_dash_loop() -> void:
 	_bat_flap_timer.stop()
 	_bat_squeak_timer.stop()
 
-# --- Bat Flap ---
 func _schedule_bat_flap() -> void:
 	if not _dash_loop_active or bat_flap_sounds == null or bat_flap_sounds.sl.is_empty():
 		return
@@ -246,16 +220,15 @@ func _on_bat_flap_timer() -> void:
 func _on_bat_flap_sound_finished() -> void:
 	_bat_flap_active_count = maxi(0, _bat_flap_active_count - 1)
 
-# --- Bat Squeak ---
 func _roll_bat_squeak() -> void:
 	if not _dash_loop_active:
-		if debug_me: print_rich("[color=#FF69B4][BatSqueak][/color] _roll_bat_squeak called but loop inactive ; bailing.")
+		if debug_me_verbose: print_rich("[color=#FF69B4][BatSqueak][/color] _roll_bat_squeak called but loop inactive; bailing.")
 		return
 	if bat_squeak_sounds == null or bat_squeak_sounds.sl.is_empty():
-		if debug_me: print_rich("[color=#FF69B4][BatSqueak][/color] _roll_bat_squeak bailing ; library null or empty.")
+		if debug_me_verbose: print_rich("[color=#FF69B4][BatSqueak][/color] _roll_bat_squeak bailing; library null or empty.")
 		return
 	var roll := randf()
-	if debug_me: print_rich("[color=#FF69B4][BatSqueak][/color] rolling: ", snappedf(roll, 0.01), " vs chance ", snappedf(_bat_squeak_chance, 0.01))
+	if debug_me_verbose: print_rich("[color=#FF69B4][BatSqueak][/color] rolling: ", snappedf(roll, 0.01), " vs chance ", snappedf(_bat_squeak_chance, 0.01))
 	if roll < _bat_squeak_chance:
 		_bat_squeak_chance = 0.4
 		var clip : AudioStream = bat_squeak_sounds.sl.pick_random()
@@ -264,21 +237,21 @@ func _roll_bat_squeak() -> void:
 		if ap:
 			ap.volume_db = linear_to_db(0.1)
 			ap.finished.connect(_on_bat_squeak_sound_finished, CONNECT_ONE_SHOT)
-			if debug_me: print_rich("[color=#FF69B4][BatSqueak][/color] PLAYING ; clip=", clip.resource_path.get_file(),
+			if debug_me_verbose: print_rich("[color=#FF69B4][BatSqueak][/color] PLAYING; clip=", clip.resource_path.get_file(),
 				"  pitch=", snappedf(pitch, 0.01), "  bus=", ap.bus, "  player=", ap)
 		else:
-			if debug_me: print_rich("[color=#FF69B4][BatSqueak][/color] play_sound returned NULL ; chain broken!")
+			if debug_me_verbose: print_rich("[color=#FF69B4][BatSqueak][/color] play_sound returned NULL; chain broken!")
 	else:
 		_bat_squeak_chance = 0.6
-		if debug_me: print_rich("[color=#FF69B4][BatSqueak][/color] skipped ; waiting 0.02s before next roll.")
+		if debug_me_verbose: print_rich("[color=#FF69B4][BatSqueak][/color] skipped; waiting 0.02s before next roll.")
 		_bat_squeak_timer.start(0.02)
 
 func _on_bat_squeak_sound_finished() -> void:
-	if debug_me: print_rich("[color=#FF69B4][BatSqueak][/color] sound finished ; rolling again.")
+	if debug_me_verbose: print_rich("[color=#FF69B4][BatSqueak][/color] sound finished; rolling again.")
 	_roll_bat_squeak()
 
 func _on_bat_squeak_timer() -> void:
-	if debug_me: print_rich("[color=#FF69B4][BatSqueak][/color] retry timer fired ; rolling again.")
+	if debug_me_verbose: print_rich("[color=#FF69B4][BatSqueak][/color] retry timer fired; rolling again.")
 	_roll_bat_squeak()
 #endregion dash loop
 

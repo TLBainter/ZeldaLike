@@ -46,8 +46,6 @@ var _was_zooming : bool = false
 var _current_whoosh_player : AudioStreamPlayer
 ##internal value that determines whether the cam_whoosh audio file should be played
 var _was_cam_moved : bool = false
-#TODO: Make the ground variable an array, someday--or something to that effect. Could be a dictionary?[br]
-#This will be necessary if I am going to have more than one ground tilemap layer in a single scene!
 @export_subgroup("Detection")
 ##The ground layer of the level.
 var ground : GroundTilemap
@@ -55,17 +53,11 @@ var ground : GroundTilemap
 
 #region FUNCTIONS
 
-#Initialize position
 func _ready() -> void:
-	#Get a reference to the GroundTilemap of a level on ready.
-	#TEST: Testing whether or not this has significant impact on the camera's functionality.
 	top_level = true
 	reset_zoom()
 	set_ground()
 	set_cam_limits()
-	#TODO: Use the input signal to call the camera movement.
-	#BUG: This does not currently work; using physics process temporarily.
-	#input.on_move.connect(update_cam_pos)
 
 func _physics_process(delta: float) -> void:
 	var player_pos : Vector2 = player.global_position if player else global_position
@@ -90,9 +82,6 @@ func reset_zoom():
 ##This is used to determine the level's bounds.[br]
 ##The tilemap must have the GroundTileMap script assigned.
 func set_ground() -> void:
-	#sets the value of ground to be the FIRST ground tilemap in the scene; if there is more than one, this will not work.
-	#TODO: Revisit this if there is ever going to be more than a single ground tilemap in a scene.
-	#May need to make this an array.
 	ground = get_tree().current_scene.find_children("*", "GroundTilemap").front() as GroundTilemap
 	if debug_me:
 		if ground != null:
@@ -139,7 +128,6 @@ func set_cam_limits():
 
 ##Update's the camera position.
 func update_cam_pos(delta):
-	#Do not proceed if player is not established
 	if not player:
 		return
 	#region update_cam_pos variables
@@ -151,32 +139,26 @@ func update_cam_pos(delta):
 	var target_pos = camera_pos
 	#endregion update_cam_pos variables
 	
-	#Horizontal Movement Control
 	if abs(player_pos.x - camera_pos.x) > horizontal_dead_zone:
 		target_pos.x = player_pos.x
-	#Vertical Movement Control condensed to match horizontal logic
 	if abs(player_pos.y - camera_pos.y) > vertical_dead_zone:
 		target_pos.y = player_pos.y
 	
 	
-	# smooth movement control; uses delta to move the camera at the player's speed
 	global_position.x = move_toward(global_position.x, target_pos.x, abs(player.velocity.x) * delta)
 	global_position.y = move_toward(global_position.y, target_pos.y, abs(player.velocity.y) * delta)
 
 ##Addresses inputs from the player that allow the camera to move
 func _handle_pan_zoom(delta):
-	#Get and assign input using built-in vector calculation
 	var is_zooming = Input.is_action_pressed("camZoom")
 	var pan_input = Input.get_vector("camLeft", "camRight", "camUp", "camDown")
 	
-	#Emit 'was zooming' signal
 	if is_zooming and not _was_zooming:
 		zoom_changed.emit(true)
 	elif not is_zooming and _was_zooming:
 		zoom_changed.emit(false)
 	_was_zooming = is_zooming
 	
-	#Gets the target areas
 	#region Zoom
 	if is_zooming:
 		_target_offset = Vector2.ZERO
@@ -205,7 +187,6 @@ func _handle_pan_zoom(delta):
 		_target_offset.y = clamp(desired_offset.y, -allowed_top, allowed_bottom)
 	#endregion Pan
 
-	#Handles playing the camera zoom audio
 	#region audioHandler
 	##determines whether we currently have an input pertaining to zoom/pan
 	var has_input = is_zooming or pan_input.length() > 0.1
@@ -215,13 +196,11 @@ func _handle_pan_zoom(delta):
 	var is_new_press = Input.is_action_just_pressed("camZoom") or Input.is_action_just_pressed("camRight") or Input.is_action_just_pressed("camLeft") or Input.is_action_just_pressed("camDown") or Input.is_action_just_pressed("camUp")
 	
 	if not has_input:
-		#controls for zoom/pan released; plays reverse
 		if _was_cam_moved:
 			_play_cam_audio(cam_whoosh_reverse)
 			_was_cam_moved = false
 			if debug_me_verbose:
 				print(debug_name, " is now playing ", cam_whoosh_reverse)
-	#player initiated a move action
 	else:
 		if will_move and (not _was_cam_moved or is_new_press):
 			var is_audio_playing = is_instance_valid(_current_whoosh_player) and _current_whoosh_player.playing
@@ -233,7 +212,6 @@ func _handle_pan_zoom(delta):
 	#endregion audioHandler
 
 	
-	#Applys zoom and/or pan
 	#region Apply Zoom/Pan
 	offset = offset.lerp(_target_offset, smoothness * delta)
 	zoom = zoom.lerp(_target_zoom, smoothness * delta)
@@ -245,7 +223,6 @@ func _play_cam_audio(stream : AudioStream):
 		return
 	
 	#region Whoosh SFX
-	#If a whoosh is currently playing, instantly stop and destroy it to prevent stacking
 	if is_instance_valid(_current_whoosh_player):
 		_current_whoosh_player.stop()
 		_current_whoosh_player.queue_free()

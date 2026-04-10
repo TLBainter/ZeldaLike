@@ -1,4 +1,4 @@
-@tool
+﻿@tool
 extends EditorPlugin
 
 const DockScene := preload("res://addons/Todo_Manager/UI/Dock.tscn")
@@ -76,16 +76,10 @@ func handle_built_in_scripts(contents: String, resource_path: String):
 func find_tokens(text: String, script_path: String) -> void:
 	var cached_todos = get_cached_todos(script_path)
 	if cached_todos.size() != 0:
-#		var i := 0
-#		for todo_item in _dockUI.todo_items:
-#			if todo_item.script_path == script_path:
-#				_dockUI.todo_items.remove_at(i)
-#			i += 1
 		var todo_item := TodoItem.new(script_path, cached_todos)
 		_dockUI.todo_items.append(todo_item)
 	else:
 		var regex = RegEx.new()
-	#	if regex.compile("#\\s*\\bTODO\\b.*|#\\s*\\bHACK\\b.*") == OK:
 		if regex.compile(combined_pattern) == OK:
 			var result : Array[RegExMatch] = regex.search_all(text)
 			if result.is_empty():
@@ -115,7 +109,6 @@ func create_todo_item(regex_results: Array[RegExMatch], text: String, script_pat
 	for r in regex_results:
 		var new_todo : Todo = create_todo(r.get_string(), script_path)
 		new_todo.line_number = get_line_number(r.get_string(), text, last_line_number)
-		# GD Multiline comment
 		var trailing_line := new_todo.line_number
 		var should_break = false
 		while trailing_line < lines.size() and lines[trailing_line].dedent().begins_with("#"):
@@ -141,7 +134,6 @@ func update_todo_item(todo_item: TodoItem, regex_results: Array[RegExMatch], tex
 	for r in regex_results:
 		var new_todo : Todo = create_todo(r.get_string(), script_path)
 		new_todo.line_number = get_line_number(r.get_string(), text)
-		# GD Multiline comment
 		var trailing_line := new_todo.line_number
 		var should_break = false
 		while trailing_line < lines.size() and lines[trailing_line].dedent().begins_with("#"):
@@ -251,7 +243,6 @@ func rescan_files(clear_cache: bool) -> void:
 
 
 func combine_patterns(patterns: Array) -> String:
-	# Case Sensitivity
 	cased_patterns = []
 	for pattern in patterns:
 		if pattern[2] == _dockUI.CASE_INSENSITIVE:

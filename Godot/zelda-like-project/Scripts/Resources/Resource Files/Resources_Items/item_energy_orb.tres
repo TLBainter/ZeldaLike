@@ -2,6 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://cnjnruuxbrg7e" path="res://Sprites/Item Sprites/energy_pickup.tres" id="1_fqfye"]
 [ext_resource type="Script" uid="uid://dps4pg1os47me" path="res://Scripts/Resources/Resource Scripts/resource_Item.gd" id="1_mhti5"]
+[ext_resource type="Texture2D" uid="uid://dm55ary8j4x0k" path="res://Sprites/Item Sprites/energy_mini.tres" id="2_1y02c"]
 [ext_resource type="Texture2D" uid="uid://bcifbh3vly7iw" path="res://Sprites/Item Sprites/item_pickup_shadow.tres" id="3_0jdkm"]
 [ext_resource type="Resource" uid="uid://d3pqs4idpxus0" path="res://Scripts/Resources/Resource Files/Resources_Sound Libraries/UX Libraries/pickup_energy_sounds.tres" id="4_0jdkm"]
 
@@ -10,6 +11,7 @@ script = ExtResource("1_mhti5")
 item_strip = ExtResource("1_fqfye")
 shadow_strip = ExtResource("3_0jdkm")
 recover_energy = 4
+mini_sprite = ExtResource("2_1y02c")
 use_sounds = ExtResource("4_0jdkm")
 first_get_dialogue_ref = "pickupEnergyOrb"
 metadata/_custom_type_script = "uid://dps4pg1os47me"

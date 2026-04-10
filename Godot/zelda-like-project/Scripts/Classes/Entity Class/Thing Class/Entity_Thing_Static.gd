@@ -26,7 +26,6 @@ extends Thing
 ##The sprite to display for decor behavior. Required if using [b]DecorObject[/b].
 @export var decor_sprite : Sprite2D
 
-#=======INTERNAL VARIABLES (Decor)=======#
 
 ##Whether this decor has already been broken.
 var _is_broken : bool = false

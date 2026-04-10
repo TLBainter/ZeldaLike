@@ -1,4 +1,4 @@
-##[b][color=red]StateDash[/color][/b] is the dash movement state.[br]
+﻿##[b][color=red]StateDash[/color][/b] is the dash movement state.[br]
 ##Entered from StateRun via actionButton4 when the player has >= 1 energy.[br]
 ##The player dashes in their current movement direction at dodge_speed.[br]
 ##Dash distance = 2 * dodge_speed (pixels). Invulnerable while dashing.[br]
@@ -12,8 +12,10 @@ extends State
 
 ##Energy consumed per dash.
 const DASH_COST : int = 1
+const SMOKE_VFX_SCENE = preload("res://Scenes/VFX/Particle Systems/vfx_bat_smoke.tscn")
 
 var _dodge_executed : bool = false
+var _smoke_vfx : GPUParticles2D = null
 var _dash_dir : Vector2 = Vector2.ZERO
 var _distance_traveled : float = 0.0
 var _dodge_speed : float = 100.0
@@ -61,7 +63,6 @@ func enter():
 	root.body.collision_mask = 1
 	if root.sprite:
 		root.sprite.modulate = Color(0.3, 0.3, 0.3, 0.5)
-	# TODO: Play 'dash enter' directional animation (e.g. "DashEnterDown") when animations are created.
 	if character and character.audio is CharacterAudioControl:
 		character.audio.play_enter_dash_sound()
 		character.audio.start_dash_loop()
@@ -74,6 +75,9 @@ func enter():
 				print_rich(debug_name, ": [color=red][i]bat_squeak_sounds: assigned but EMPTY[/i][/color]")
 			else:
 				print_rich(debug_name, ": [color=green][i]bat_squeak_sounds: OK ([/i][/color][i]", lib.sl.size(), "[/i][color=green][i] clips)[/i][/color]")
+	_smoke_vfx = SMOKE_VFX_SCENE.instantiate() as GPUParticles2D
+	_smoke_vfx.local_coords = false
+	root.body.add_child(_smoke_vfx)
 	_dodge_executed = true
 	set_physics_process(true)
 
@@ -82,7 +86,6 @@ func _physics_process(_delta : float):
 	root.body.move_and_slide()
 	_distance_traveled += _delta * 2.0 * _dodge_speed
 	if root.body.get_slide_collision_count() > 0:
-		# TODO: Play 'dash exit' directional animation (e.g. "DashExitDown") when animations are created.
 		var rebound_dist : float = 16.0 + _distance_traveled * 0.25
 		var _rebound : StateDashRebound = coordinator.get_transition("dash_rebound") as StateDashRebound
 		if debug_me:
@@ -100,7 +103,6 @@ func _physics_process(_delta : float):
 				state_machine.change_state(coordinator.try_transition(state_machine, _next, "dash+wall_hit"))
 		return
 	if _distance_traveled >= _max_dist:
-		# TODO: Play 'dash exit' directional animation (e.g. "DashExitDown") when animations are created.
 		var _rebound2 : StateDashRebound = coordinator.get_transition("dash_rebound") as StateDashRebound
 		if _clearance_clipped and _rebound2:
 			var rebound_dist : float = 16.0 + _distance_traveled * 0.25
@@ -154,6 +156,17 @@ func exit():
 			character.audio.stop_dash_loop()
 			character.audio.play_exit_dash_sound()
 	_dodge_executed = false
+	_detach_smoke()
 	super()
+
+func _detach_smoke() -> void:
+	if not is_instance_valid(_smoke_vfx):
+		_smoke_vfx = null
+		return
+	var vfx := _smoke_vfx
+	_smoke_vfx = null
+	vfx.reparent(root.get_tree().current_scene)
+	vfx.emitting = false
+	root.get_tree().create_timer(vfx.lifetime + 0.5).timeout.connect(vfx.queue_free)
 
 #endregion FUNCTIONS

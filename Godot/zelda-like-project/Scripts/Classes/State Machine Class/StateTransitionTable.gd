@@ -1,4 +1,4 @@
-##[b][color=red]StateTransitionTable[/color][/b] maps logical transition keys to GDScript resources.[br]
+﻿##[b][color=red]StateTransitionTable[/color][/b] maps logical transition keys to GDScript resources.[br]
 ##Assign this to a [b]StateCoordinator[/b] to configure which concrete state class handles each role.[br]
 ##[br]
 ##[b]Default behavior:[/b] [method _init] pre-populates all 17 standard state mappings.[br]
@@ -16,7 +16,6 @@ extends Resource
 
 func _init() -> void:
 	transitions = {
-		# Movement Layer
 		"idle":           preload("res://Scripts/Classes/State Machine Class/Movement States/State_Idling.gd"),
 		"move":           preload("res://Scripts/Classes/State Machine Class/Movement States/State_Move.gd"),
 		"run":            preload("res://Scripts/Classes/State Machine Class/Movement States/State_Run.gd"),
@@ -27,7 +26,6 @@ func _init() -> void:
 		"pushing":        preload("res://Scripts/Classes/State Machine Class/Movement States/State_Pushing.gd"),
 		"pulling":        preload("res://Scripts/Classes/State Machine Class/Movement States/State_Pulling.gd"),
 		"bat_travel":     preload("res://Scripts/Classes/State Machine Class/Movement States/State_BatTravel.gd"),
-		# Action Layer
 		"attack":         preload("res://Scripts/Classes/State Machine Class/Action States/State_Attack.gd"),
 		"no_action":      preload("res://Scripts/Classes/State Machine Class/Action States/State_NoAction.gd"),
 		"interact":       preload("res://Scripts/Classes/State Machine Class/Action States/State_Interact.gd"),

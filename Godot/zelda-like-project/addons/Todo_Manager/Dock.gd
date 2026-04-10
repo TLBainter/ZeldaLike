@@ -1,7 +1,6 @@
-@tool
+﻿@tool
 extends Control
 
-#signal tree_built # used for debugging
 enum { CASE_INSENSITIVE, CASE_SENSITIVE }
 
 const Project := preload("res://addons/Todo_Manager/Project.gd")
@@ -14,7 +13,6 @@ const PatternEdit := preload("res://addons/Todo_Manager/PatternEdit.gd")
 const PatternEditScene := preload("res://addons/Todo_Manager/UI/PatternEdit.tscn")
 const ToggleButton := preload("res://addons/Todo_Manager/UI/ToggleButton.tscn")
 
-# Pattern array format - [regex, colour, case_sensitivity, enabled]
 const DEFAULT_PATTERNS := [["\\bTODO\\b", Color("96f1ad"), CASE_INSENSITIVE, true], ["\\bHACK\\b", Color("d5bc70"), CASE_INSENSITIVE, true], ["\\bFIXME\\b", Color("d57070"), CASE_INSENSITIVE, true]]
 const DEFAULT_SCRIPT_COLOUR := Color("ccced3")
 const DEFAULT_SCRIPT_NAME := false
@@ -76,11 +74,9 @@ func get_active_script() -> TodoItem:
 			if todo_item.script_path == script_path:
 				return todo_item
 		
-		# nothing found
 		var todo_item := TodoItem.new(script_path, [])
 		return todo_item
 	else:
-		# not a script
 		var todo_item := TodoItem.new("res://Documentation", [])
 		return todo_item
 
@@ -155,7 +151,6 @@ func populate_settings() -> void:
 	var pattern_button := $VBoxContainer/TabContainer/Settings/ScrollContainer/MarginContainer/VBoxContainer/HBoxContainer4/Patterns/AddPatternButton
 	$VBoxContainer/TabContainer/Settings/ScrollContainer/MarginContainer/VBoxContainer/HBoxContainer4/Patterns.move_child(pattern_button, 0)
 	
-	# path filtering
 	var ignore_paths_field := ignore_textbox
 	if not ignore_paths_field.is_connected("text_changed", _on_ignore_paths_changed):
 		ignore_paths_field.connect("text_changed", _on_ignore_paths_changed)
@@ -238,7 +233,6 @@ func _on_SettingsButton_toggled(button_pressed: bool) -> void:
 	settings_panel.visible = button_pressed
 	if button_pressed == false:
 		create_config_file()
-#		plugin.find_tokens_from_path(plugin.script_cache)
 		if auto_refresh:
 			plugin.rescan_files(true)
 
@@ -320,7 +314,6 @@ func _on_ignore_paths_changed(new_text: String) -> void:
 		if elem == " " || elem == "": 
 			continue
 		ignore_paths.push_front(elem.lstrip(' ').rstrip(' '))
-	# validate so no empty string slips through (all paths ignored)
 	var i := 0
 	for path in ignore_paths:
 		if (path == "" || path == " "):

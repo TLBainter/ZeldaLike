@@ -1,0 +1,57 @@
+[gd_scene format=3 uid="uid://chest00000001"]
+
+[ext_resource type="Script" uid="uid://dul2xrlyh0fnc" path="res://Scripts/Classes/Interaction Class/Container Class/InteractableComponent_Container.gd" id="1_cont"]
+[ext_resource type="Resource" uid="uid://1w1nq7hvdm5c" path="res://Scripts/Resources/Resource Files/Resources_Chests/container_test.tres" id="2_ilshc"]
+[ext_resource type="Resource" uid="uid://ctk3lr0radb0j" path="res://Scripts/Resources/Resource Files/Resources_Items/container_reward_test.tres" id="3_dnlab"]
+[ext_resource type="Script" uid="uid://c0gguh8o4ftae" path="res://Scripts/Resources/Resource Scripts/resource_debug_settings.gd" id="4_afmbl"]
+[ext_resource type="Texture2D" uid="uid://bkfwo6c63md4q" path="res://Sprites/Object Sprites/Openables/chest1.png" id="5_shvb5"]
+[ext_resource type="Texture2D" uid="uid://ddl7dkwolgta4" path="res://Sprites/Item Sprites/heart_pickup.tres" id="6_shvb5"]
+
+[sub_resource type="Resource" id="Resource_88lic"]
+script = ExtResource("4_afmbl")
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_chest"]
+size = Vector2(16, 12)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_chest"]
+radius = 8.0
+
+[node name="Chest" type="Node2D" unique_id=495694602 node_paths=PackedStringArray("chest_sprite", "contained_item_sprite")]
+y_sort_enabled = true
+script = ExtResource("1_cont")
+container_data = ExtResource("2_ilshc")
+reward = ExtResource("3_dnlab")
+chest_sprite = NodePath("ChestBody/ChestSprite")
+contained_item_sprite = NodePath("containedItemSprite")
+interact_type = 6
+context_key = "open"
+area_offset = Vector2(0, -2)
+debug = SubResource("Resource_88lic")
+
+[node name="ChestBody" type="StaticBody2D" parent="." unique_id=610724472]
+z_as_relative = false
+position = Vector2(0, -4)
+collision_layer = 2
+
+[node name="ChestSprite" type="Sprite2D" parent="ChestBody" unique_id=1555313025]
+z_as_relative = false
+texture = ExtResource("5_shvb5")
+hframes = 3
+
+[node name="ChestCollider" type="CollisionShape2D" parent="ChestBody" unique_id=624690326]
+position = Vector2(0, 5)
+shape = SubResource("RectangleShape2D_chest")
+
+[node name="InteractArea" type="Area2D" parent="." unique_id=1706351879]
+position = Vector2(0, -2)
+collision_layer = 2
+
+[node name="InteractCollider" type="CollisionShape2D" parent="InteractArea" unique_id=1802725501]
+position = Vector2(0, 6)
+shape = SubResource("CircleShape2D_chest")
+
+[node name="containedItemSprite" type="Sprite2D" parent="." unique_id=372903511]
+self_modulate = Color(1, 1, 1, 0.5019608)
+texture = ExtResource("6_shvb5")
+offset = Vector2(15, -15)
+hframes = 5

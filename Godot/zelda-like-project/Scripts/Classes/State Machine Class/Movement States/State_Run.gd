@@ -1,4 +1,4 @@
-##[b][color=red]StateRun[/color][/b] is a movement state for moving at high speeds.[br]
+﻿##[b][color=red]StateRun[/color][/b] is a movement state for moving at high speeds.[br]
 ##While running, you can activate the dash context action.[br]
 ##There are things you can't do while running, though, like grabbing things or speaking.
 ##[br]
@@ -10,7 +10,6 @@ extends State
 
 func enter():
 	super()
-	#Set run speed from stats.
 	if root and "stats" in root and root.stats and root.stats.resource:
 		root.move_speed = root.stats.resource.run_speed
 	if root.input: _safe_connect(root.input.on_move, _on_move)
@@ -27,7 +26,6 @@ func _on_move(_move_input : Vector2, move_strength : float):
 		var _next : State = coordinator.get_transition("idle")
 		if _next:
 			state_machine.change_state(coordinator.try_transition(state_machine, _next, "on_move+strength<0.15"))
-	#TODO: Test this value to make sure it is reasonable for entering the running state.
 	elif move_strength <= GameConstants.RUN_THRESHOLD:
 		var _next : State = coordinator.get_transition("move")
 		if _next:
@@ -36,15 +34,25 @@ func _on_move(_move_input : Vector2, move_strength : float):
 func get_context_key() -> String:
 	if coordinator.held_object:
 		return "throw"
-	return "Bat Dash"
+	if _has_bat_form():
+		return "Bat Dash"
+	return ""
 
 func process_input(event : InputEvent) -> State:
 	if event.is_action_pressed("actionButton4") or event.is_action_pressed("dash"):
 		if coordinator.held_object:
 			return null
+		if not _has_bat_form():
+			return null
 		if coordinator.is_on_dodge_cooldown():
 			return null
 		return coordinator.try_transition(state_machine, coordinator.get_transition("dash"), "dash+running+no_held")
 	return null
+
+func _has_bat_form() -> bool:
+	var character = get_character()
+	if not character or not character.inventory:
+		return false
+	return character.inventory.has_item(ItemID.BAT_FORM) or character.inventory.has_item(ItemID.BAT_FORM_UPGRADED)
 
 #endregion FUNCTIONS

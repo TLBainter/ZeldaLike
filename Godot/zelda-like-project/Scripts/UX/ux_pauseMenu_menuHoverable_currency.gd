@@ -1,4 +1,4 @@
-##[b][color=red]MenuHoverableCurrency[/color][/b] extends [b]MenuHoverable[/b] for the currency display panel.[br]
+﻿##[b][color=red]MenuHoverableCurrency[/color][/b] extends [b]MenuHoverable[/b] for the currency display panel.[br]
 ##Shows the wallet sprite and "current / max" currency text.[br]
 ##Info box content is set via exports rather than read from a resource.
 @tool
@@ -26,7 +26,6 @@ extends MenuHoverable
 ##Font for the effect text.
 @export var effect_font : Font
 
-#=======INTERNAL VARIABLES=======#
 
 ##Reference to the player's currency component; set at runtime.
 var _currency_component : CurrencyComponent

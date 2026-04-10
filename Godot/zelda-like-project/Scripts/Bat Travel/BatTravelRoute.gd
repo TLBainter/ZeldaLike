@@ -1,10 +1,5 @@
-##[b][color=red]BatTravelRoute[/color][/b] is the editor tool that defines a bat travel path.[br]
-##Drop [b]BatTravelRoute.tscn[/b] into a level, then draw the [Path2D] curve using Godot's
-##built-in path editor. [b]BatTravelCircle_A[/b] and [b]BatTravelCircle_B[/b] auto-snap
-##to the first and last points of the curve whenever it is edited.[br]
-##[br]
-##The player interacts with either circle to glide along the path to the other.[br]
-##Travel speed is controlled by [member travel_speed].
+﻿##[b][color=red]BatTravelRoute[/color][/b] is the editor tool that defines a bat travel path.[br]
+##Drop [b]BatTravelRoute.tscn[/b] into a level.[br]
 @tool
 class_name BatTravelRoute
 extends Path2D
@@ -16,11 +11,17 @@ extends Path2D
 
 #endregion EXPORTS
 
+
 #region INTERNALS
 
 @onready var _circle_a: BatTravelCircle = $BatTravelCircle_A
 @onready var _circle_b: BatTravelCircle = $BatTravelCircle_B
+
 var _smoothing: bool = false
+var _updating_curve: bool = false
+
+var _last_pos_a: Vector2 = Vector2(INF, INF)
+var _last_pos_b: Vector2 = Vector2(INF, INF)
 
 #endregion INTERNALS
 
@@ -28,18 +29,58 @@ var _smoothing: bool = false
 
 func _ready() -> void:
 	if curve:
-		if not curve.changed.is_connected(_sync_circles):
-			curve.changed.connect(_sync_circles)
-	_sync_circles()
-	if not Engine.is_editor_hint():
-		# Tell each circle which end it is so the state knows direction.
+		if not curve.changed.is_connected(_on_curve_changed):
+			curve.changed.connect(_on_curve_changed)
+	if Engine.is_editor_hint():
+		
+		if _circle_a:
+			_last_pos_a = _circle_a.position
+		if _circle_b:
+			_last_pos_b = _circle_b.position
+		
+		_smooth_curve()
+		set_process(true)
+	else:
+		
+		_sync_circles()
+		
 		if _circle_a:
 			_circle_a._is_start = true
 		if _circle_b:
 			_circle_b._is_start = false
+		set_process(false)
+
+##Editor tick: detect when a circle node has been dragged and move the matching curve endpoint.
+func _process(_delta: float) -> void:
+	if not Engine.is_editor_hint():
+		return
+	if not _circle_a or not _circle_b:
+		return
+	if _circle_a.position != _last_pos_a:
+		_last_pos_a = _circle_a.position
+		_move_endpoint(0, _circle_a.position)
+	if _circle_b.position != _last_pos_b:
+		_last_pos_b = _circle_b.position
+		var last_idx: int = curve.point_count - 1 if curve else 1
+		_move_endpoint(last_idx, _circle_b.position)
+
+##Moves the curve point at [param idx] to [param pos] and re-smooths.
+func _move_endpoint(idx: int, pos: Vector2) -> void:
+	if not curve or curve.point_count < 2:
+		return
+	_updating_curve = true
+	curve.set_point_position(idx, pos)
+	_smooth_curve()
+	_updating_curve = false
+
+##Called when the curve is modified externally (e.g. adding interior points via Path2D tool).
+func _on_curve_changed() -> void:
+	if _updating_curve or _smoothing:
+		return
+	_sync_circles()
+	_smooth_curve()
 
 ##Repositions the two interact circles to match the current curve endpoints.[br]
-##Called automatically whenever the [Curve2D] is modified in the editor.
 func _sync_circles() -> void:
 	if not _circle_a or not _circle_b:
 		return
@@ -47,10 +88,10 @@ func _sync_circles() -> void:
 		return
 	_circle_a.position = curve.get_point_position(0)
 	_circle_b.position = curve.get_point_position(curve.point_count - 1)
-	_smooth_curve()
+	_last_pos_a = _circle_a.position
+	_last_pos_b = _circle_b.position
 
 ##Forces all curve points to use Catmull-Rom tangents so the path is always smooth.[br]
-##Uses a re-entrance guard because [method set_point_in] / [method set_point_out] re-emit [signal Curve2D.changed].
 func _smooth_curve() -> void:
 	if _smoothing or not curve or curve.point_count < 2:
 		return

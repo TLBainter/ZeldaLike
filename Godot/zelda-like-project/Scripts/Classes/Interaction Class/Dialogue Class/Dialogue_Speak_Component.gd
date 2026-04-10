@@ -24,9 +24,8 @@ func start_interaction() -> Dictionary:
 	var current_sequence = dialogue_sequences[_active_sequence_index]
 	var ref_id = current_sequence.get_next_ref_id()
 	if debug_me:
-		print("SpeakComponent requesting ref_id: ", ref_id, " ; exists in DB: ", dialogueDB._dialogue_library.has(ref_id))
+		print("SpeakComponent requesting ref_id: ", ref_id, "; exists in DB: ", dialogueDB._dialogue_library.has(ref_id))
 	var dialogue_data = dialogueDB.get_dialogue_data(ref_id)
-	#Set the source component for the dialogue controller.
 	if dialogue_data.is_empty():
 		if debug_me:
 			printerr(debug_name, ": No dialogue data found for ref_id ", ref_id)
@@ -42,15 +41,11 @@ func dialogue_finished():
 	var current_sequence = dialogue_sequences[_active_sequence_index]
 	if current_sequence.is_exhausted():
 		match current_sequence.on_finish:
-			#If the sequence is set to RETURN...
 			"Return":
 				pass
-			#If the sequence is set to SWITCH...
 			"Switch":
 				_switch_sequence(current_sequence.target_switch_index)
-			#If the sequence is set to SWITCH IF...
 			"Switch IF":
-				#TODO: Fill this out once quest system is established.
 				var condition_met = false
 				if condition_met:
 					_switch_sequence(current_sequence.target_switch_index)

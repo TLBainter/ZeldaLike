@@ -1,4 +1,4 @@
-##[b][color=red]playerUX[/color][/b] is primarily used to feed variable values to other entities within the player ui.
+﻿##[b][color=red]playerUX[/color][/b] is primarily used to feed variable values to other entities within the player ui.
 class_name PlayerUX
 extends Control
 
@@ -68,8 +68,6 @@ var debug_name : String:
 
 func _ready():
 	
-	#Creates a timer for reference by other UX elements.
-	#This timer ticks ten times per second, which is more efficient than Physics Process (every frame).
 	var ux_check_timer = Timer.new()
 	ux_check_timer.wait_time = 0.1
 	ux_check_timer.autostart = true
@@ -78,38 +76,31 @@ func _ready():
 	if debug_me:
 		print("ux_check_timer created!")
 	
-	#Set maximum hearts
 	var hp_component : PlayerHealthComponent = root.health
 	heartsContainer.set_max_hearts(hp_component.max_hearts)
 	heartsContainer.update_hearts(hp_component.cur_health)
 	hp_component.health_changed.connect(_on_health_changed)
-	#Calls the margin update on player UX launch.
 	check_viewport_size.emit()
 	
-	#Set energy display
 	var energy_comp : EnergyComponent = root.energy
 	if energy_comp and energy_display:
 		energy_display.initialize(energy_comp, player, player_cam)
 	
-	#Set magic display
 	var magic_comp : MagicComponent = root.magic
 	if magic_comp and magic_display:
 		magic_display.initialize(magic_comp, player, player_cam)
 	
-	#Set currency display
 	var currency_comp : CurrencyComponent = root.currency
 	print("PlayerUX currency check: comp=", currency_comp, " display=", currency_display)
 
 	if currency_comp and currency_display:
 		currency_display.initialize(currency_comp)
 	
-	#Configure the concoctions
 	if root.inventory and input:
 		for panel in salve_panels:
 			if panel:
 				panel.initialize(root.inventory, input, root.concoction_use)
 	
-	#Configure spell equipment
 	print("PlayerUX SPELL WIRE: equipped_spells=", root.equipped_spells)
 	print("PlayerUX SPELL WIRE: btn1=", action_button_1, " btn2=", action_button_2, " btn3=", action_button_3)
 	if debug_me:
@@ -131,7 +122,6 @@ func _ready():
 		if debug_me:
 			print("PlayerUX: root.equipped_spells is null! Skipping spell wiring.")
 	
-	#Configure zoom call connections
 	if player_cam:
 		if energy_display and not player_cam.zoom_changed.is_connected(_on_zoom_changed):
 			player_cam.zoom_changed.connect(_on_zoom_changed)

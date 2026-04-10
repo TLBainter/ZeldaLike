@@ -1,4 +1,4 @@
-##[b][color=red]DialogueSequence[/color][/b] is an array of dialogue strings based on the Dialogue CSV.[br]
+﻿##[b][color=red]DialogueSequence[/color][/b] is an array of dialogue strings based on the Dialogue CSV.[br]
 ##This feature is used to create strings of dialogue chained together by varying events.
 class_name DialogueSequence
 extends Resource
@@ -24,7 +24,6 @@ extends Resource
 ##The script will check whether that bool is true when dialogue is exhausted.
 @export var condition_key : String = ""
 
-#INTERNAL TRACKER#
 ##Tracks the current index of this instance of the dialogue sequence.
 var _current_index : int = 0
 
@@ -37,10 +36,8 @@ func get_next_ref_id() -> String:
 	if dialogue_refs.is_empty():
 		return ""
 	var ref_id = ""
-	#Handler for the 'random' sequence type
 	if sequence_type == "Random":
 		ref_id = dialogue_refs.pick_random()
-	#Handler for the 'sequential' sequence type
 	else:
 		ref_id = dialogue_refs[_current_index]
 		if _current_index < dialogue_refs.size() - 1:

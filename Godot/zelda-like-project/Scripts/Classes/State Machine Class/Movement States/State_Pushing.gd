@@ -1,4 +1,4 @@
-##[b][color=red]StatePushing[/color][/b] is the [b]Movement layer[/b] state for pushing a grabbed object.[br]
+﻿##[b][color=red]StatePushing[/color][/b] is the [b]Movement layer[/b] state for pushing a grabbed object.[br]
 ##Smoothly moves both the player and object 8px in the facing direction.[br]
 ##Holding directional input causes continuous snaps with a weight-based delay between them.[br]
 ##Returns to GrabIdle when input stops. Transitions to Pulling if input reverses (and object is pullable).[br]
@@ -33,7 +33,6 @@ func enter():
 	###===SIGNAL CONNECTION===###
 	if root.input: _safe_connect(root.input.on_move, _on_move)
 	###===END SIGNAL CONNECTION===###
-	#Perform the first snap immediately on enter.
 	_perform_snap()
 
 func exit():
@@ -75,10 +74,8 @@ func _on_move(move_input : Vector2, move_strength : float) -> void:
 		return
 	var facing_dir : Vector2 = facing_to_vector(character.anim.facing)
 	var dot : float = move_input.normalized().dot(facing_dir)
-	#Input still in push direction -- keep holding.
 	if dot > 0.5:
 		_input_held = true
-	#Input reversed -- check if we can pull.
 	elif dot < -0.5:
 		_input_held = false
 		if not _is_snapping:
@@ -91,7 +88,6 @@ func _on_move(move_input : Vector2, move_strength : float) -> void:
 				var _gi2 : State = coordinator.get_transition("grab_idle")
 				if _gi2:
 					state_machine.change_state(coordinator.try_transition(state_machine, _gi2, "on_move+dot<-0.5+not_pullable"))
-	#Perpendicular input -- ignore, treat as stopped.
 	else:
 		_input_held = false
 		if not _is_snapping:
@@ -192,7 +188,6 @@ func _on_snap_timer() -> void:
 	if _input_held:
 		_perform_snap()
 
-#TODO: Test the snap delay values for game feel.
 ##Calculates the delay between snaps based on object weight.[br]
 ##Light (10): ~0.15s, Medium (30): ~0.35s, Heavy (60): ~0.65s
 func _get_snap_delay(grabbed) -> float:

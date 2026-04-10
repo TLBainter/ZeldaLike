@@ -1,4 +1,4 @@
-##[b][color=red]Enemy[/color][/b] is a character class stemming from [b]Entity[/b]/[b]Character[/b].[br]
+﻿##[b][color=red]Enemy[/color][/b] is a character class stemming from [b]Entity[/b]/[b]Character[/b].[br]
 ##This class holds [b]Bosses[/b], [b]Mini Bosses[/b], and [b]Standard Enemies[/b].
 class_name Enemy
 extends Character
@@ -22,6 +22,5 @@ var category : String
 #region READY FUNCTION
 func _ready():
 	super._ready()
-	#establish variables
 	subtype = "Enemy"
 	add_to_group("enemies")

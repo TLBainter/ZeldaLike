@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://tgithof7e8op" path="res://Scenes/UX/menu_pause.tscn" id="5_1ujki"]
 [ext_resource type="Script" uid="uid://djapfq7f0epj" path="res://Scripts/Classes/Entity Class/Component Class/Player Components/Component_Currency.gd" id="5_2iqoh"]
 [ext_resource type="Script" uid="uid://b4n8t40ywnse5" path="res://Scripts/Classes/Entity Class/Component Class/Player Components/Component_Health_Player.gd" id="5_8gg06"]
+[ext_resource type="Texture2D" uid="uid://do8mrtajvul1a" path="res://Sprites/Item Sprites/Ingredients/ingredient_menuMini_bloodClot.tres" id="5_q4102"]
 [ext_resource type="Script" uid="uid://bnvc2tsxle17g" path="res://Scripts/Classes/Entity Class/Component Class/Component_Movement.gd" id="6_fu1fx"]
 [ext_resource type="Script" uid="uid://b8f02yr5l3n5q" path="res://Scripts/Classes/Camera Class/Player Camera/Camera_Player.gd" id="7_1mdwi"]
 [ext_resource type="Script" uid="uid://clnpwpvwchpab" path="res://Scripts/Classes/Audio Class/Audio_Component_Character.gd" id="7_cscr0"]
@@ -88,7 +89,24 @@
 [ext_resource type="AudioStream" uid="uid://b5yhkcgqhp2s5" path="res://Sound/SFX/Player/Player Action SFX/Player Dash SFX/Dash-Bat-Squeak/bat-squeak_02.wav" id="54_ltuto"]
 [ext_resource type="AudioStream" uid="uid://ffhbpeo3jwai" path="res://Sound/SFX/Player/Player Action SFX/Player Dash SFX/Dash-Bat-Squeak/bat-squeak_03.wav" id="55_xb8ch"]
 [ext_resource type="AudioStream" uid="uid://ey8fy7c2c7t6" path="res://Sound/SFX/Player/Player Action SFX/Player Dash SFX/Dash-Bat-Squeak/bat-squeak_04.wav" id="56_3cq7n"]
-[ext_resource type="Script" path="res://Scripts/Classes/State Machine Class/Movement States/State_BatTravel.gd" id="57_btrav"]
+[ext_resource type="AudioStream" uid="uid://betjhqvngkkci" path="res://Sound/SFX/Player/Player Action SFX/Player Dash SFX/Dash-Bat-Step/bat-step_01.wav" id="57_2co4i"]
+[ext_resource type="Script" uid="uid://clojk0vd2eqtk" path="res://Scripts/Classes/State Machine Class/Movement States/State_BatTravel.gd" id="57_btrav"]
+[ext_resource type="AudioStream" uid="uid://c07lv6hkbio2h" path="res://Sound/SFX/Player/Player Action SFX/Player Dash SFX/Dash-Bat-Step/bat-step_02.wav" id="58_q4102"]
+[ext_resource type="AudioStream" uid="uid://dl36q8wi3esoi" path="res://Sound/SFX/Player/Player Action SFX/Player Dash SFX/Dash-Bat-Rebound/bat_rebound_01.wav" id="59_23621"]
+[ext_resource type="AudioStream" uid="uid://bcjvgm2uvxjw4" path="res://Sound/SFX/Player/Player Action SFX/Player Dash SFX/Dash-Bat-Rebound/bat_rebound_02.wav" id="60_ovnlg"]
+[ext_resource type="AudioStream" uid="uid://yvvg0si8wn58" path="res://Sound/SFX/Player/Player Action SFX/Player Dash SFX/Dash-Bat-Rebound/bat_rebound_03.wav" id="61_6byyc"]
+[ext_resource type="AudioStream" uid="uid://dsg460k44k3po" path="res://Sound/SFX/Player/Player Action SFX/Player Dash SFX/Dash-Bat-Rebound/bat_rebound_04.wav" id="62_0q3fj"]
+[ext_resource type="AudioStream" uid="uid://x3wpngu0hudg" path="res://Sound/SFX/Player/Player Action SFX/Player Dash SFX/Dash-Bat-Rebound/bat_rebound_05.wav" id="63_espqb"]
+[ext_resource type="AudioStream" uid="uid://b6frlovm8i1b7" path="res://Sound/SFX/Player/Player Action SFX/Player Dash SFX/Dash-Bat-Rebound/bat_rebound_06.wav" id="64_dmdk8"]
+[ext_resource type="AudioStream" uid="uid://rbyp2t5hr80u" path="res://Sound/SFX/Player/Player Action SFX/Player Dash SFX/Dash-Bat-Rebound/bat_rebound_07.wav" id="65_liw1v"]
+[ext_resource type="AudioStream" uid="uid://bt2fh43pfs01v" path="res://Sound/SFX/Player/Player Action SFX/Player Dash SFX/Dash-Bat-Rebound/bat_rebound_08.wav" id="66_3gsd7"]
+[ext_resource type="AudioStream" uid="uid://3utw2fedppv3" path="res://Sound/SFX/Player/Player Action SFX/Player Dash SFX/Dash-Bat-Rebound/bat_rebound_09.wav" id="67_db7j8"]
+[ext_resource type="AudioStream" uid="uid://df72wniomoiyl" path="res://Sound/SFX/Player/Player Action SFX/Player Dash SFX/Dash-Bat-Rebound/bat_rebound_10.wav" id="68_2yw8k"]
+[ext_resource type="AudioStream" uid="uid://bw75g36auuf2w" path="res://Sound/SFX/Player/Player Action SFX/Player Dash SFX/Dash-Bat-Rebound/bat_rebound_11.wav" id="69_nl7rt"]
+[ext_resource type="AudioStream" uid="uid://cab4wur2vomag" path="res://Sound/SFX/Player/Player Action SFX/Player Dash SFX/Dash-Bat-Rebound/bat_rebound_12.wav" id="70_g8qw5"]
+[ext_resource type="AudioStream" uid="uid://dkf4g7yneerno" path="res://Sound/SFX/Player/Player Action SFX/Player Dash SFX/Dash-Bat-Rebound/bat_rebound_13.wav" id="71_g8j83"]
+[ext_resource type="AudioStream" uid="uid://bl3fa0aoyh36c" path="res://Sound/SFX/Player/Player Action SFX/Player Dash SFX/Dash-Bat-Rebound/bat_rebound_14.wav" id="72_g0j35"]
+[ext_resource type="Script" uid="uid://dkx61w7ur853m" path="res://Scripts/Classes/State Machine Class/Action States/State_CastSpell.gd" id="89_bikm2"]
 
 [sub_resource type="Resource" id="Resource_h1onf"]
 script = ExtResource("15_8uivy")
@@ -105,6 +123,120 @@ height = 14.0
 size = Vector2(12, 3)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_2iqoh"]
+
+[sub_resource type="Animation" id="Animation_23621"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:offset")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:self_modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_ovnlg"]
+resource_name = "itemAcquired"
+length = 0.25
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:offset")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.23333335),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 4), Vector2(0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:self_modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.23333335),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_6byyc"]
+resource_name = "itemDismiss"
+length = 0.56666666
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:offset")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.56666666),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(5.885, 22.82)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:self_modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.56666666),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_0q3fj"]
+_data = {
+&"RESET": SubResource("Animation_23621"),
+&"itemAcquired": SubResource("Animation_ovnlg"),
+&"itemDismiss": SubResource("Animation_6byyc")
+}
 
 [sub_resource type="Resource" id="Resource_8uivy"]
 script = ExtResource("15_8uivy")
@@ -129,6 +261,20 @@ metadata/_custom_type_script = "uid://vdqimlmcg4ql"
 [sub_resource type="Resource" id="Resource_ttmt4"]
 script = ExtResource("15_ya4ld")
 sl = Array[AudioStream]([ExtResource("53_vrgvg"), ExtResource("54_ltuto"), ExtResource("55_xb8ch"), ExtResource("56_3cq7n")])
+metadata/_custom_type_script = "uid://vdqimlmcg4ql"
+
+[sub_resource type="Resource" id="Resource_c166g"]
+script = ExtResource("15_ya4ld")
+sl = Array[AudioStream]([ExtResource("57_2co4i"), ExtResource("58_q4102")])
+metadata/_custom_type_script = "uid://vdqimlmcg4ql"
+
+[sub_resource type="Resource" id="Resource_1w2cp"]
+script = ExtResource("15_ya4ld")
+metadata/_custom_type_script = "uid://vdqimlmcg4ql"
+
+[sub_resource type="Resource" id="Resource_050eg"]
+script = ExtResource("15_ya4ld")
+sl = Array[AudioStream]([ExtResource("59_23621"), ExtResource("60_ovnlg"), ExtResource("61_6byyc"), ExtResource("62_0q3fj"), ExtResource("63_espqb"), ExtResource("64_dmdk8"), ExtResource("65_liw1v"), ExtResource("66_3gsd7"), ExtResource("67_db7j8"), ExtResource("68_2yw8k"), ExtResource("69_nl7rt"), ExtResource("70_g8qw5"), ExtResource("71_g8j83"), ExtResource("72_g0j35")])
 metadata/_custom_type_script = "uid://vdqimlmcg4ql"
 
 [sub_resource type="Resource" id="Resource_ya4ld"]
@@ -272,6 +418,21 @@ tracks/1/keys = {
 "args": [],
 "method": &"attack_hit"
 }]
+}
+
+[sub_resource type="Animation" id="Animation_2co4i"]
+resource_name = "ChestOpenUp"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PlayerBody/playerSprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [30]
 }
 
 [sub_resource type="Animation" id="Animation_j3cns"]
@@ -882,6 +1043,22 @@ tracks/0/keys = {
 "values": [30, 31, 32, 33]
 }
 
+[sub_resource type="Animation" id="Animation_q4102"]
+resource_name = "ItemGetDown"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PlayerBody/playerSprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.06666667),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [200, 201]
+}
+
 [sub_resource type="Animation" id="Animation_yfcdn"]
 resource_name = "LiftDown"
 length = 0.4
@@ -1431,6 +1608,7 @@ _data = {
 &"Attack1Left": SubResource("Animation_5qakp"),
 &"Attack1Right": SubResource("Animation_j8mah"),
 &"Attack1Up": SubResource("Animation_3spsx"),
+&"ChestOpenUp": SubResource("Animation_2co4i"),
 &"DropDown": SubResource("Animation_j3cns"),
 &"DropLeft": SubResource("Animation_fu5o4"),
 &"DropRight": SubResource("Animation_sofil"),
@@ -1459,6 +1637,7 @@ _data = {
 &"IdleLeft": SubResource("Animation_1mdwi"),
 &"IdleRight": SubResource("Animation_8gg06"),
 &"IdleUp": SubResource("Animation_cscr0"),
+&"ItemGetDown": SubResource("Animation_q4102"),
 &"LiftDown": SubResource("Animation_yfcdn"),
 &"LiftLeft": SubResource("Animation_68bc3"),
 &"LiftRight": SubResource("Animation_mf3wh"),
@@ -1540,6 +1719,12 @@ debug_me = true
 debug_me_verbose = true
 metadata/_custom_type_script = "uid://c0gguh8o4ftae"
 
+[sub_resource type="Resource" id="Resource_u0fy1"]
+script = ExtResource("15_8uivy")
+debug_me = true
+debug_name = "BatTravel"
+metadata/_custom_type_script = "uid://c0gguh8o4ftae"
+
 [sub_resource type="Resource" id="Resource_ht3jl"]
 script = ExtResource("15_8uivy")
 debug_me = true
@@ -1588,13 +1773,19 @@ debug_me = true
 debug_name = "Attack"
 metadata/_custom_type_script = "uid://c0gguh8o4ftae"
 
+[sub_resource type="Resource" id="Resource_bikm2"]
+script = ExtResource("15_8uivy")
+debug_me = true
+debug_me_verbose = true
+metadata/_custom_type_script = "uid://c0gguh8o4ftae"
+
 [sub_resource type="Resource" id="Resource_8xw4w"]
 script = ExtResource("15_8uivy")
 debug_me = true
 debug_name = "Initialized"
 metadata/_custom_type_script = "uid://c0gguh8o4ftae"
 
-[node name="Player" type="Node2D" unique_id=209100190 node_paths=PackedStringArray("currency", "magic", "energy", "input", "player_ux", "player_cam", "equipped_spells", "inventory", "concoction_use", "body", "foot_area", "root", "sprite", "anim", "state_machine", "collider", "audio", "stats", "health", "move")]
+[node name="Player" type="Node2D" unique_id=209100190 node_paths=PackedStringArray("currency", "magic", "energy", "input", "player_ux", "player_cam", "equipped_spells", "cast_spell_state", "state_coordinator", "item_get_sprite", "igs_anim", "inventory", "concoction_use", "body", "foot_area", "root", "sprite", "anim", "state_machine", "collider", "audio", "stats", "health", "move")]
 y_sort_enabled = true
 script = ExtResource("1_27cb7")
 currency = NodePath("Component Manager/CurrencyComponent")
@@ -1604,6 +1795,10 @@ input = NodePath("Component Manager/PlayerInput")
 player_ux = NodePath("PlayerUX")
 player_cam = NodePath("PlayerCam")
 equipped_spells = NodePath("Component Manager/EquippedSpellsComponent")
+cast_spell_state = NodePath("StateCoordinator/Action Layer/StateCastSpell")
+state_coordinator = NodePath("StateCoordinator")
+item_get_sprite = NodePath("PlayerBody/ItemGetSprite")
+igs_anim = NodePath("PlayerBody/ItemGetSprite/ItemGetSpriteAnimator")
 inventory = NodePath("Component Manager/InventoryComponent")
 concoction_use = NodePath("Component Manager/ConcoctionItemUse")
 body = NodePath("PlayerBody")
@@ -1655,11 +1850,20 @@ scale = Vector2(0.9999999, 0.9999999)
 shape = SubResource("RectangleShape2D_2iqoh")
 debug_color = Color(0.9755257, 0, 0.422273, 0.41960785)
 
+[node name="ItemGetSprite" type="Sprite2D" parent="PlayerBody" unique_id=677369127]
+visible = false
+position = Vector2(0, -27.89)
+texture = ExtResource("5_q4102")
+
+[node name="ItemGetSpriteAnimator" type="AnimationPlayer" parent="PlayerBody/ItemGetSprite" unique_id=430755018]
+libraries/ = SubResource("AnimationLibrary_0q3fj")
+
 [node name="Component Manager" type="Node" parent="." unique_id=995905587]
 
-[node name="PlayerInput" type="Node" parent="Component Manager" unique_id=129810198]
+[node name="PlayerInput" type="Node" parent="Component Manager" unique_id=129810198 node_paths=PackedStringArray("equipped_spells")]
 script = ExtResource("2_qqvsf")
 pause_menu_scene = ExtResource("5_1ujki")
+equipped_spells = NodePath("../EquippedSpellsComponent")
 metadata/_custom_type_script = "uid://dnjxdytfvi2k6"
 
 [node name="CurrencyComponent" type="Node" parent="Component Manager" unique_id=2088649308]
@@ -1687,6 +1891,9 @@ enter_dash_sounds = SubResource("Resource_6mdo8")
 exit_dash_sounds = SubResource("Resource_t5tea")
 bat_flap_sounds = SubResource("Resource_ynqe8")
 bat_squeak_sounds = SubResource("Resource_ttmt4")
+enter_backstep_sounds = SubResource("Resource_c166g")
+exit_backstep_sounds = SubResource("Resource_1w2cp")
+rebound_sounds = SubResource("Resource_050eg")
 default_bus = "Character"
 debug = SubResource("Resource_ya4ld")
 metadata/_custom_type_script = "uid://clnpwpvwchpab"
@@ -1799,6 +2006,7 @@ metadata/_custom_type_script = "uid://dbbcqo0pc3e7r"
 
 [node name="StateBatTravel" type="Node" parent="StateCoordinator/Movement Layer" unique_id=789012345]
 script = ExtResource("57_btrav")
+debug = SubResource("Resource_u0fy1")
 
 [node name="Action Layer" type="Node" parent="StateCoordinator" unique_id=2064601243 node_paths=PackedStringArray("starting_state")]
 script = ExtResource("18_a7o8c")
@@ -1847,6 +2055,11 @@ no_action_state = NodePath("../StateNoAction")
 attack_area = NodePath("../../../PlayerBody/AttackArea")
 debug = SubResource("Resource_n6yol")
 metadata/_custom_type_script = "uid://bdbkkcliin28w"
+
+[node name="StateCastSpell" type="Node" parent="StateCoordinator/Action Layer" unique_id=1291971176 node_paths=PackedStringArray("no_action_state")]
+script = ExtResource("89_bikm2")
+no_action_state = NodePath("../StateNoAction")
+debug = SubResource("Resource_bikm2")
 
 [node name="No Control Layer" type="Node" parent="StateCoordinator" unique_id=762655186 node_paths=PackedStringArray("starting_state")]
 script = ExtResource("18_a7o8c")

@@ -1,4 +1,4 @@
-##[b][color=red]StateGrabIdle[/color][/b] is the [b]Movement layer[/b] state for the character's grabbing of an object while not moving.[br]
+﻿##[b][color=red]StateGrabIdle[/color][/b] is the [b]Movement layer[/b] state for the character's grabbing of an object while not moving.[br]
 ##Listens for directional input along the locked axis to transition to [i]Pushing[/i] or [i]Pulling[/i].[br]
 ##The character cannot turn (change facing) or move freely in this state.[br]
 ##[br]
@@ -8,7 +8,6 @@ extends State
 
 #region VARIABLES
 
-#====#
 var _snap_cooldown : bool = false
 
 #endregion VARIABLES
@@ -16,14 +15,10 @@ var _snap_cooldown : bool = false
 #region FUNCTION
 
 func enter():
-	#Call super
 	super()
 	root.body.velocity = Vector2.ZERO
-	#Connect signal for directional input
 	if root.input: _safe_connect(root.input.on_move, _on_move)
-	#Grab
 	coordinator.update_context("grab")
-	#Release Grab if button is no longer pressed.
 	var _no_action : State = coordinator.get_transition("no_action")
 	if root.input and not root.input.is_action_button_held("actionButton4") and _no_action:
 		coordinator.request_action_change(_no_action)
@@ -31,8 +26,6 @@ func enter():
 	_snap_cooldown = true
 	var grabbed = coordinator.grabbed_object
 	var delay : float = 0.15
-	#TODO: Make this delay pull the _snap_delay_value from the push/pull state, so it is consistent with their delays.
-	#Push/Pull have different modifiers.
 	var obj_weight : int = 30
 	if grabbed and grabbed.stats and grabbed.stats.resource:
 		obj_weight = grabbed.stats.resource.weight
@@ -40,50 +33,37 @@ func enter():
 	get_tree().create_timer(delay).timeout.connect(_on_cooldown_finished)
 
 func exit():
-	#Disconnect Signals
 	if root.input: _safe_disconnect(root.input.on_move, _on_move)
-	#Call super
 	super()
 
 func pause():
-	#disconnect input move to _on_move
 	if root.input: _safe_disconnect(root.input.on_move, _on_move)
-	#call super
 	super()
 
 func resume():
-	#connect input move to _on_move
 	if root.input: _safe_connect(root.input.on_move, _on_move)
-	#call super
 	super()
 
 func _on_move(move_input : Vector2, move_strength : float):
-	#return if not moving enough
 	if move_strength < 0.15:
 		return
-	#return if snap cooldown is still coolding down
 	if _snap_cooldown:
 		return
-	#set character and animation
 	var character = get_character()
 	if not character or not character.anim:
 		return
-	#set facing direction
 	var facing_str : String = character.anim.facing
 	if facing_str not in ["up", "down", "left", "right"]:
 		return
 	var facing_dir : Vector2 = facing_to_vector(facing_str)
-	#project input and facing axis to determine push/pull
 	var dot : float = move_input.normalized().dot(facing_dir)
 	var grabbed = coordinator.grabbed_object
 	if not grabbed or not grabbed.object_data:
 		return
-	#PUSHING (input is equal to facing)
 	if dot > 0.5 and grabbed.object_data.pushable:
 		var _push : State = coordinator.get_transition("pushing")
 		if _push:
 			state_machine.change_state(coordinator.try_transition(state_machine, _push, "on_move+dot>0.5+pushable"))
-	#PULLING (input is opposite facing)
 	if dot < -0.5 and grabbed.object_data.pullable:
 		var _pull : State = coordinator.get_transition("pulling")
 		if _pull:

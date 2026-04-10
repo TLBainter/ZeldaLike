@@ -1,4 +1,4 @@
-##[b][color=red]MenuHoverableItem[/color][/b] extends [b]MenuHoverable[/b] for inventory item panels.[br]
+﻿##[b][color=red]MenuHoverableItem[/color][/b] extends [b]MenuHoverable[/b] for inventory item panels.[br]
 ##Handles item sprite display (outline/owned), frame animation on hover,[br]
 ##flash effects, quantity labels, and inventory integration.
 @tool
@@ -24,7 +24,6 @@ extends MenuHoverable
 ##The Label child used to display item quantity. Hidden when not applicable.
 @export var quantity_label : Label
 
-#=======INTERNAL VARIABLES=======#
 
 ##Cached frames sliced from the item's main AtlasTexture strip.
 var _item_frames : Array[AtlasTexture] = []

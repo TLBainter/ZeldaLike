@@ -1,4 +1,4 @@
-##[b][color=red]DynamicThing[/color][/b] is a [b]Thing[/b] that uses a [b]CharacterBody2D[/b] and can be physically manipulated:[br]
+﻿##[b][color=red]DynamicThing[/color][/b] is a [b]Thing[/b] that uses a [b]CharacterBody2D[/b] and can be physically manipulated:[br]
 ##lifted, thrown, pushed, pulled, and broken.[br]
 ##Assign an [b]InteractableObject[/b] resource to configure capabilities.[br]
 ##Add an [b]InteractableComponent[/b] child to make it interactable by the player.
@@ -22,7 +22,6 @@ signal snap_move_completed
 ##Handles drop resolution and world item spawning on break. Optional; assign in the scene.
 @export var drop_resolver : DropResolverComponent
 
-#=======INTERNAL VARIABLES=======#
 
 var _hold_character = null
 var _hold_offset : Vector2 = Vector2.ZERO
