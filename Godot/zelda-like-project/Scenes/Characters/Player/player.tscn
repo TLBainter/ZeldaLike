@@ -300,6 +300,13 @@ weight = 10
 max_energy = 8
 metadata/_custom_type_script = "uid://dw1v2olrhdbdx"
 
+[sub_resource type="Resource" id="Resource_q4102"]
+script = ExtResource("15_8uivy")
+debug_me = true
+debug_me_verbose = true
+debug_name = "PlayerCam"
+metadata/_custom_type_script = "uid://c0gguh8o4ftae"
+
 [sub_resource type="Animation" id="Animation_8bd3e"]
 resource_name = "Attack1Down"
 length = 0.2
@@ -1716,7 +1723,6 @@ metadata/_custom_type_script = "uid://c0gguh8o4ftae"
 [sub_resource type="Resource" id="Resource_uhwn4"]
 script = ExtResource("15_8uivy")
 debug_me = true
-debug_me_verbose = true
 metadata/_custom_type_script = "uid://c0gguh8o4ftae"
 
 [sub_resource type="Resource" id="Resource_u0fy1"]
@@ -1816,7 +1822,7 @@ debug = SubResource("Resource_h1onf")
 
 [node name="PlayerBody" type="CharacterBody2D" parent="." unique_id=1872381837]
 z_as_relative = false
-collision_mask = 3
+collision_mask = 19
 script = ExtResource("2_aencf")
 
 [node name="playerSprite" type="Sprite2D" parent="PlayerBody" unique_id=584966771]
@@ -1939,6 +1945,7 @@ init_zoom = Vector2(3, 3)
 max_pan_distance = Vector2(80, 60)
 cam_whoosh = ExtResource("13_rtkie")
 cam_whoosh_reverse = ExtResource("14_c5nky")
+debug = SubResource("Resource_q4102")
 
 [node name="PlayerAnimator" type="AnimationPlayer" parent="." unique_id=1778712659]
 libraries/ = SubResource("AnimationLibrary_1mdwi")

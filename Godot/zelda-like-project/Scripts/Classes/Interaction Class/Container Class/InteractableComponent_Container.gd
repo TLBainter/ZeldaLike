@@ -84,9 +84,9 @@ func interact(user = null) -> void:
 		push_error(name, ": interact() called without a Player reference")
 		return
 
-	# Play the chest open sound.
-	if container_data.open_sound and audioManager:
-		audioManager.play(container_data.open_sound, "Sound Effects")
+	# Play the chest open sound (random clip from library).
+	if container_data.open_sound and not container_data.open_sound.sl.is_empty() and audioManager:
+		audioManager.play(container_data.open_sound.sl.pick_random(), "Sound Effects")
 
 	# Face the player up and play the chest-open animation.
 	if user.anim and user.anim is CharacterAnimator:
@@ -109,6 +109,12 @@ func _on_chest_open_done(_anim_name : String, user : Player) -> void:
 		_on_item_get_done("", user)
 
 func _on_item_get_done(_anim_name : String, user : Player) -> void:
+	# Play the item-get sting for this container's kind.
+	if container_data and audioManager:
+		var sting := _get_item_get_sound(reward.item_kind)
+		if sting:
+			audioManager.play(sting, "UI")
+
 	var item := reward.item_resource if reward else null
 	var ref_id : String = item.first_get_dialogue_ref if item else ""
 
@@ -127,6 +133,22 @@ func _on_item_get_done(_anim_name : String, user : Player) -> void:
 	# No dialogue (or lookup failed); dismiss sprite and finish immediately.
 	user.dismiss_item_get()
 	_finish(user)
+
+## Returns the item-get sting [AudioStream] for the given [enum ContainerRewardResource.ItemKind].[br]
+## Once you have the audio files, replace [code]null[/code] with [code]preload("res://Sound/SFX/UX/Item Get/YourFile.wav")[/code].
+static func _get_item_get_sound(kind : ContainerRewardResource.ItemKind) -> AudioStream:
+	match kind:
+		ContainerRewardResource.ItemKind.PROGRESSION:
+			return null  # Replace: preload("res://Sound/SFX/UX/Item Get/Progression_Sting.wav")
+		ContainerRewardResource.ItemKind.DUNGEON_ITEM:
+			return null  # Replace: preload("res://Sound/SFX/UX/Item Get/DungeonItem_Sting.wav")
+		ContainerRewardResource.ItemKind.UPGRADE:
+			return null  # Replace: preload("res://Sound/SFX/UX/Item Get/Upgrade_Sting.wav")
+		ContainerRewardResource.ItemKind.INGREDIENT:
+			return null  # Replace: preload("res://Sound/SFX/UX/Item Get/Ingredient_Sting.wav")
+		ContainerRewardResource.ItemKind.MONEY:
+			return null  # Replace: preload("res://Sound/SFX/UX/Item Get/Money_Sting.wav")
+	return null
 
 func _on_dialogue_closed(user : Player) -> void:
 	user.dismiss_item_get()

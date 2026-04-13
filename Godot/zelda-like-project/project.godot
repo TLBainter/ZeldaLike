@@ -3,8 +3,8 @@
 ; since the parameters that go here are not all obvious.
 ;
 ; Format:
-;   [section]; section goes between []
-;   param=value; assign values to parameters
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
 
 config_version=5
 
@@ -26,6 +26,7 @@ dialogueDB="*uid://cbcxd8qo46pai"
 debugConsole="*uid://l8t30uovjgbg"
 textResolver="*uid://bqwsqn6f06yrk"
 containerManager="*res://Scripts/Managers/manager_Container.gd"
+SceneTransitionManager="*res://Scripts/Managers/manager_SceneTransition.gd"
 
 [display]
 
@@ -57,6 +58,7 @@ folder_colors={
 "res://Sound/SFX/Player/": "green",
 "res://Sprites/": "orange",
 "res://Sprites/Character Sprites/Player Sprites/": "green",
+"res://Sprites/Debug Stuff/": "orange",
 "res://Sprites/UX/InGameUX/PlayerStats/": "green",
 "res://TileMaps/": "yellow",
 "res://addons/": "gray"
@@ -209,6 +211,7 @@ dash={
 2d_physics/layer_2="Interactable Layer"
 2d_physics/layer_3="Grass Layer"
 2d_physics/layer_4="Trap Layer"
+2d_physics/layer_5="Blocking Layer"
 
 [physics]
 

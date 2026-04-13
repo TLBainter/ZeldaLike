@@ -77,3 +77,17 @@ const UPGRADES : Dictionary = {
 	BAT_FORM: BAT_FORM_UPGRADED,
 }
 #endregion UPGRADES=======#
+
+#region ITEM RESOURCES=======#
+##Maps each item ID to its [b]ItemResource[/b] .tres file.[br]
+##Add an entry here whenever a new ItemResource asset is created.
+const ITEM_RESOURCES : Dictionary = {
+	HEART:           preload("res://Scripts/Resources/Resource Files/Resources_Items/item_small_heart.tres"),
+	WHITE_BEAD:      preload("res://Scripts/Resources/Resource Files/Resources_Items/item_bead_1.tres"),
+	BLUE_BEAD:       preload("res://Scripts/Resources/Resource Files/Resources_Items/item_bead_5.tres"),
+	PURPLE_BEAD:     preload("res://Scripts/Resources/Resource Files/Resources_Items/item_bead_10.tres"),
+	ORANGE_BEAD:     preload("res://Scripts/Resources/Resource Files/Resources_Items/item_bead_25.tres"),
+	ENERGY_BOLT:     preload("res://Scripts/Resources/Resource Files/Resources_Items/item_energy_orb.tres"),
+	MAGIC_MEDALLION: preload("res://Scripts/Resources/Resource Files/Resources_Items/item_magic_shard.tres"),
+}
+#endregion ITEM RESOURCES=======#

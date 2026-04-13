@@ -1498,5 +1498,3 @@ curve = SubResource("Curve2D_pisjv")
 [node name="transitionDoor" parent="." unique_id=2055706719 instance=ExtResource("25_pisjv")]
 position = Vector2(-464, -73)
 debug = SubResource("Resource_sbtm1")
-target_scene_path = "res://Scenes/Levels/Test/TestTransitionScene.tscn"
-target_door_name = "topLevelDoor"

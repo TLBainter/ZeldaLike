@@ -11,7 +11,7 @@
 script = ExtResource("4_afmbl")
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_chest"]
-size = Vector2(16, 12)
+size = Vector2(16, 9)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_chest"]
 radius = 8.0
@@ -39,7 +39,7 @@ texture = ExtResource("5_shvb5")
 hframes = 3
 
 [node name="ChestCollider" type="CollisionShape2D" parent="ChestBody" unique_id=624690326]
-position = Vector2(0, 5)
+position = Vector2(0, 3.5)
 shape = SubResource("RectangleShape2D_chest")
 
 [node name="InteractArea" type="Area2D" parent="." unique_id=1706351879]
@@ -52,6 +52,7 @@ shape = SubResource("CircleShape2D_chest")
 
 [node name="containedItemSprite" type="Sprite2D" parent="." unique_id=372903511]
 self_modulate = Color(1, 1, 1, 0.5019608)
+scale = Vector2(0.25, 0.25)
 texture = ExtResource("6_shvb5")
-offset = Vector2(15, -15)
+offset = Vector2(30, -30)
 hframes = 5

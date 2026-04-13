@@ -78,6 +78,22 @@ func reset_zoom():
 	zoom = init_zoom
 	_target_zoom = init_zoom
 
+##Recalibrates the camera for a new scene after the player has been reparented into it.[br]
+##Re-finds the [GroundTilemap], recalculates camera limits, and snaps [code]global_position[/code]
+##to the player's current position so there is no drift or lag on arrival.
+func snap_to_player() -> void:
+	set_ground()
+	if ground:
+		set_cam_limits()
+	else:
+		# No GroundTilemap in this scene — snap position directly and clear limits
+		# so the camera isn't clamped to stale values from the previous scene.
+		global_position = player.global_position
+		limit_left   = -10000000
+		limit_right  =  10000000
+		limit_top    = -10000000
+		limit_bottom =  10000000
+
 ##Sets the value of the ground tilemap(s).[br]
 ##This is used to determine the level's bounds.[br]
 ##The tilemap must have the GroundTileMap script assigned.
