@@ -67,6 +67,26 @@ func request_transition(player        : Node,
 	_pending_door_name = target_door_name
 	_exit_walk_dir     = exit_walk_dir
 	_execute_exit(player)
+
+##Returns the [code]res://[/code] path of the last scene transitioned into, or an empty string.
+func get_last_scene_path() -> String:
+	return _pending_scene.resource_path if _pending_scene else ""
+
+##Returns the node name of the last door arrived at, or an empty string.
+func get_last_door_name() -> String:
+	return _pending_door_name
+
+##Returns the exit walk direction used during the last transition.
+func get_last_exit_walk_dir() -> Vector2:
+	return _exit_walk_dir
+
+##Clears all transition state. Called by [b]saveManager.new_game()[/b] before a hard scene reset.
+func reset() -> void:
+	_carried_player    = null
+	_pending_scene     = null
+	_pending_door_name = ""
+	_exit_walk_dir     = Vector2.DOWN
+	_is_transitioning  = false
 #endregion PUBLIC API
 
 #region EXIT SEQUENCE
@@ -110,8 +130,15 @@ func _execute_arrival() -> void:
 	if player.get("player_cam") != null:
 		player.player_cam.set_physics_process(false)
 
+	# If the destination scene has its own embedded Player (e.g. it doubles as the main scene),
+	# remove it before adding the carried player so there is never more than one Player at a time.
+	var scene_root := get_tree().current_scene
+	for node in scene_root.find_children("*", "Player", true, false):
+		if node != player:
+			node.queue_free()
+
 	remove_child(player)
-	get_tree().current_scene.add_child(player)
+	scene_root.add_child(player)
 	player.body.global_position = target_door.get_spawn_position()
 
 	if player.get("player_cam") != null:

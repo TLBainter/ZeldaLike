@@ -1,4 +1,5 @@
-﻿##[b][color=red]HealthComponent[/color][/b] addresses the current and maximum health of a member of the Entity Class,[br]
+﻿@icon("res://Editor Tools/Icons/icon_health.svg")
+##[b][color=red]HealthComponent[/color][/b] addresses the current and maximum health of a member of the Entity Class,[br]
 ##as well as the damage and healing.
 class_name HealthComponent
 extends Component

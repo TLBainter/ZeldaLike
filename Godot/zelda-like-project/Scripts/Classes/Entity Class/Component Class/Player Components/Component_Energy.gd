@@ -1,3 +1,4 @@
+@icon("res://Editor Tools/Icons/icon_energy.svg")
 ##[b][color=red]EnergyComponent[/color][/b] handles the energy (stamina) values of a character.[br]
 ##Sends signals on change, manages current/maximum energy, and handles consumption/recovery.[br]
 ##Replaces the previous StaminaComponent.

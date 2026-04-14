@@ -1,3 +1,4 @@
+@icon("res://Editor Tools/Icons/icon_inventory.svg")
 class_name InventoryComponent
 extends Node
 

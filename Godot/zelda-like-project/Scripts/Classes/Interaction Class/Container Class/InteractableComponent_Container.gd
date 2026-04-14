@@ -1,3 +1,4 @@
+@icon("res://Editor Tools/Icons/icon_chest.svg")
 ##[b][color=red]InteractableComponent_Container[/color][/b] is a pluggable container interaction zone.[br]
 ##Extends [b]InteractableComponent[/b] with chest-opening logic.[br]
 @tool
@@ -52,7 +53,7 @@ const CHEST_ANIM_FPS : float = 8.0
 
 #region VARIABLES
 
-##Whether this chest has been opened in the current session.
+##Whether this chest has been opened. Persisted across sessions via [b]containerManager[/b].
 var is_opened : bool = false
 
 #endregion VARIABLES
@@ -69,6 +70,11 @@ func _ready() -> void:
 	# Hide the item preview sprite at runtime; it is only for level editing.
 	if contained_item_sprite:
 		contained_item_sprite.visible = false
+	# Restore opened state from ContainerManager so chests stay open across sessions.
+	# Also subscribe to containers_restored so a /load can update state without a scene reload.
+	if containerManager:
+		containerManager.containers_restored.connect(_on_containers_restored)
+		_on_containers_restored()
 
 ##Called by [b]State_Interact[/b] to begin the chest-opening sequence.
 func interact(user = null) -> void:
@@ -177,6 +183,7 @@ func _finish(user : Player) -> void:
 		user.inventory.add_item(reward.item_id, reward.quantity)
 
 	is_opened = true
+	containerManager.mark_opened(_get_chest_id())
 	set_active(false)
 	interaction_finished.emit()
 
@@ -241,5 +248,27 @@ func _animate_sprite_open() -> void:
 		tween.tween_interval(interval)
 
 #endregion SPRITE HELPERS
+
+#region PERSISTENCE HELPERS
+
+##Called when [b]containerManager[/b] restores saved state (on [method load_game]).[br]
+##Also called once during [method _ready] so startup and load-without-transition both work.
+func _on_containers_restored() -> void:
+	if is_opened:
+		return
+	if containerManager and containerManager.is_opened(_get_chest_id()):
+		is_opened = true
+		_show_frame(_last_frame())
+		set_active(false)
+
+##Returns a stable ID for this chest: scene_file_path + "::" + node path from scene root.[br]
+##Unique as long as the node is not renamed or moved in the scene tree.
+func _get_chest_id() -> String:
+	var scene_path : String = ""
+	if get_tree() and get_tree().current_scene:
+		scene_path = get_tree().current_scene.scene_file_path
+	return scene_path + "::" + str(get_path())
+
+#endregion PERSISTENCE HELPERS
 
 #endregion FUNCTIONS

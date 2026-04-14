@@ -1,4 +1,5 @@
-﻿##[b][color=red]SpellSlotManager[/color][/b] tracks spell assignments to action buttons.[br]
+﻿@icon("res://Editor Tools/Icons/icon_equippedSpells.svg")
+##[b][color=red]SpellSlotManager[/color][/b] tracks spell assignments to action buttons.[br]
 ##Each slot (1, 2, 3) can hold one MenuItemResource representing a spell.[br]
 class_name EquippedSpellsComponent
 extends Component

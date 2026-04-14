@@ -101,6 +101,12 @@ func _execute_command(text : String) -> void:
 			_cmd_enable(parts)
 		"/disable":
 			_cmd_disable(parts)
+		"/save":
+			_cmd_save()
+		"/load":
+			_cmd_load()
+		"/new":
+			_cmd_new_game(parts)
 		_:
 			_print_output("[color=red]Unknown command: " + command + ". Type /help for commands.[/color]")
 
@@ -276,6 +282,23 @@ func _debug_recurse(node : Node, enabled : bool, verbose_only : bool) -> int:
 		count += _debug_recurse(child, enabled, verbose_only)
 	return count
 
+func _cmd_save() -> void:
+	saveManager.save()
+	_print_output("[color=green]Game saved.[/color]")
+
+func _cmd_load() -> void:
+	if saveManager.load_game():
+		_print_output("[color=green]Save loaded.[/color]")
+	else:
+		_print_output("[color=red]No save file found.[/color]")
+
+func _cmd_new_game(parts : Array) -> void:
+	if parts.size() >= 2 and parts[1].to_lower() == "game":
+		saveManager.new_game()
+		_print_output("[color=green]Save deleted. Starting new game.[/color]")
+	else:
+		_print_output("[color=red]Usage: /new game[/color]")
+
 #endregion COMMANDS
 
 #region VALIDATION
@@ -405,6 +428,9 @@ func _cmd_help() -> void:
 	text += "  [color=gray]/upgrade <item_id>[/color]; Replace item with its upgrade\n"
 	text += "  [color=gray]/list[/color]; Show inventory\n"
 	text += "  [color=gray]/items[/color]; Show valid item IDs\n"
+	text += "  [color=gray]/save[/color]; Save current game\n"
+	text += "  [color=gray]/load[/color]; Load last save\n"
+	text += "  [color=gray]/new game[/color]; Delete save and restart\n"
 	text += "  [color=gray]/help[/color]; Show this message\n"
 	_print_output(text)
 

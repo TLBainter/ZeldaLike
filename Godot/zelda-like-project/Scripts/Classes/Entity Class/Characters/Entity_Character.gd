@@ -1,4 +1,5 @@
-﻿##[b][color=red]Character[/color][/b] is a subclass of the [b][color=yellow]EntityClass[/color][/b] class.[br]
+﻿@icon("res://Editor Tools/Icons/icon_npc.svg")
+##[b][color=red]Character[/color][/b] is a subclass of the [b][color=yellow]EntityClass[/color][/b] class.[br]
 ##This class encompasses [b]NPCs[/b], [b]Enemies[/b], and even the [b]Player[/b].
 class_name Character
 extends EntityClass

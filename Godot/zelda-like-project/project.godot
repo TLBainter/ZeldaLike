@@ -27,6 +27,7 @@ debugConsole="*uid://l8t30uovjgbg"
 textResolver="*uid://bqwsqn6f06yrk"
 containerManager="*res://Scripts/Managers/manager_Container.gd"
 SceneTransitionManager="*res://Scripts/Managers/manager_SceneTransition.gd"
+saveManager="*res://Scripts/Managers/manager_Save.gd"
 
 [display]
 

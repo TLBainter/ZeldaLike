@@ -137,6 +137,14 @@ func _on_notes_changed(cur_notes : int, max_notes : int, change_amount : int):
 		print_rich(debug_name, ": [color=green][i]notes changed[/i][/color]. cur=[i]", cur_notes, "/", max_notes, "[/i] change=[i]", change_amount, "[/i]")
 
 	_target_value = cur_notes
+
+	# Snap instantly during save-load restore — no tick animation or sounds.
+	if saveManager and saveManager.is_loading():
+		_display_value = cur_notes
+		_is_ticking = false
+		_update_label()
+		return
+
 	var change_size : int = absi(_target_value - _display_value)
 	if change_size > 0:
 		var calculated_interval = max_tick_duration / float(change_size)

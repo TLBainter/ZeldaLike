@@ -1,3 +1,4 @@
+@icon("res://Editor Tools/Icons/icon_input.svg")
 ##[b][color=red]InputComponent[/color][/b] handles all input for signal sending; this can be used for players as the [i]PlayerInputComponent[/i] or enemies as the [i]EnemyInputComponent[/i].[br]
 ##All of them send the move(Vector2, float) signal, among others.
 class_name InputComponent

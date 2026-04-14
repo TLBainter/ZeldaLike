@@ -1,4 +1,5 @@
-﻿##[b][color=red]Player[/color][/b] is the player character class stemming from [b]Entity[/b]/[b]Character[/b].[br]
+﻿@icon("res://Editor Tools/Icons/icon_player.svg")
+##[b][color=red]Player[/color][/b] is the player character class stemming from [b]Entity[/b]/[b]Character[/b].[br]
 ##This class holds holds the control data for the player.
 class_name Player
 extends Character
@@ -63,6 +64,8 @@ func _ready():
 		textResolver.register_category("player", _resolve_text)
 	input.action_button_pressed.connect(_on_action_button_pressed)
 	input.spell_cast_requested.connect(_on_spell_cast_requested)
+	if saveManager:
+		saveManager.register_player(self)
 
 func _resolve_text(key : String):
 	match key:

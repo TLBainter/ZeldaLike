@@ -1,9 +1,9 @@
 [gd_scene format=3 uid="uid://dj37dq415c4me"]
 
 [ext_resource type="Texture2D" uid="uid://bo872h4d60t0" path="res://Sprites/Object Sprites/Doors/door_locked-sprite.tres" id="1_dhjkg"]
-[ext_resource type="Texture2D" uid="uid://bqjloy2p3ceqp" path="res://Sprites/Debug Stuff/debug-ico_location.png" id="2_4df7d"]
 [ext_resource type="Script" uid="uid://c1xoynuks7gqw" path="res://Scripts/Objects/Doors/object_TransitionDoor.gd" id="2_lrjjn"]
 [ext_resource type="Script" uid="uid://c0gguh8o4ftae" path="res://Scripts/Resources/Resource Scripts/resource_debug_settings.gd" id="3_lrjjn"]
+[ext_resource type="Texture2D" uid="uid://bxpb1vnhjvjos" path="res://Editor Tools/Icons/debug_location.svg" id="4_lrjjn"]
 
 [sub_resource type="Resource" id="Resource_ckll5"]
 script = ExtResource("3_lrjjn")
@@ -17,43 +17,49 @@ size = Vector2(7, 24)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ckll5"]
 size = Vector2(36, 5)
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_5o2iv"]
-radius = 12.0
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_lrjjn"]
+radius = 5.0
+height = 15.999999
 
 [node name="transitionDoor" type="Sprite2D" unique_id=2055706719]
 y_sort_enabled = true
 texture = ExtResource("1_dhjkg")
+offset = Vector2(0, -12)
 hframes = 2
 frame = 1
 script = ExtResource("2_lrjjn")
-point_location = Vector2(0, 35)
+point_location = Vector2(0, 30)
 debug = SubResource("Resource_ckll5")
 target_scene_path = ""
 
 [node name="doorPhysCollider" type="Area2D" parent="." unique_id=344668012]
+position = Vector2(0, -24)
 collision_layer = 16
 
 [node name="LeftPillarCollider" type="CollisionShape2D" parent="doorPhysCollider" unique_id=1479601728]
-position = Vector2(-15, 0)
+position = Vector2(-15, 11.5)
 shape = SubResource("RectangleShape2D_h0b6f")
 
 [node name="RightPillarCollider" type="CollisionShape2D" parent="doorPhysCollider" unique_id=1834427868]
-position = Vector2(15, 0)
+position = Vector2(15, 11.5)
 shape = SubResource("RectangleShape2D_lrjjn")
 
 [node name="TopCollider" type="CollisionShape2D" parent="doorPhysCollider" unique_id=506536419]
-position = Vector2(0, -14.5)
+position = Vector2(0, -3)
 shape = SubResource("RectangleShape2D_ckll5")
 
 [node name="doorTransCollider" type="Area2D" parent="." unique_id=28935765]
+position = Vector2(0, -8)
 
 [node name="transCollider" type="CollisionShape2D" parent="doorTransCollider" unique_id=1696442577]
-shape = SubResource("CircleShape2D_5o2iv")
+rotation = 1.5707964
+shape = SubResource("CapsuleShape2D_lrjjn")
 
 [node name="transitionTarget" type="Node2D" parent="." unique_id=1267899954]
-position = Vector2(0, 35)
+position = Vector2(0, 30)
 
 [node name="transitionTargetDebugIMG" type="Sprite2D" parent="transitionTarget" unique_id=2067109098]
-scale = Vector2(0.025, 0.025)
-texture = ExtResource("2_4df7d")
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("4_lrjjn")
+offset = Vector2(0, -50)
 metadata/_edit_lock_ = true

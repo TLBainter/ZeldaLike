@@ -1,3 +1,4 @@
+@icon("res://Editor Tools/Icons/icon_currency.svg")
 ##[b][color=red]CurrencyComponent[/color][/b] tracks the player's notes (currency).[br]
 ##Supports an expandable maximum (wallet upgrades) and signals on change.
 class_name CurrencyComponent

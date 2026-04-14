@@ -1,4 +1,5 @@
-﻿##[b][color=red]StaticThing[/color][/b] is a [b]Thing[/b] that does not move.[br]
+﻿@icon("res://Editor Tools/Icons/icon_grass.svg")
+##[b][color=red]StaticThing[/color][/b] is a [b]Thing[/b] that does not move.[br]
 ##[br]
 ##Behavior is data-driven:[br]
 ##- Assign a [b]DecorObject[/b] resource to enable persistent breakable decor (grass, bushes, pots-on-tables).[br]

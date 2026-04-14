@@ -1,4 +1,5 @@
-﻿##[b][color=red]CharacterAudioControl[b][/color] is used to play audio from an Entity_Character class.
+﻿@icon("res://Editor Tools/Icons/icon_audio.svg")
+##[b][color=red]CharacterAudioControl[b][/color] is used to play audio from an Entity_Character class.
 class_name CharacterAudioControl
 extends AudioControl
 

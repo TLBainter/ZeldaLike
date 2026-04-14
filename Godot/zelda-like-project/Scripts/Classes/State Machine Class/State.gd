@@ -1,4 +1,5 @@
-﻿##[b][color=red]State[/color][/b] is the overarching handler of all substates for a character.[br]
+﻿@icon("res://Editor Tools/Icons/icon_state.svg")
+##[b][color=red]State[/color][/b] is the overarching handler of all substates for a character.[br]
 ##It is the base class from which all substates in the state machine system are derived.[br]
 ##States are child nodes of a [b]StateMachineLayer[/b] and control behavior for one layer (Movement, Action, No Control).[br]
 ##Return a [b]State[/b] from a process function to trigger a transition; return [b][color=pink]null[/color][/b] to stay in the current state.

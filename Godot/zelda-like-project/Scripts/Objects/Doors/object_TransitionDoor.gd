@@ -1,3 +1,4 @@
+@icon("res://Editor Tools/Icons/icon_door.svg")
 ##[b][color=yellow]TransitionDoor[/color][/b] is the script for a door that transitions the player to another scene.
 @tool
 class_name TransitionDoor
@@ -5,15 +6,10 @@ extends Node2D
 
 #region EXPORTS
 @export_group("Transition Settings")
-## The target scene and door name are managed via [method _get_property_list] so the inspector
-## shows a drag-drop [PackedScene] slot while the .tscn file stores only a string path —
-## avoiding the circular resource dependency a plain @export PackedScene creates on
-## bidirectionally-linked doors.
 
-## Runtime path (res://…). Persisted to .tscn via [method _get_property_list]; never shown in inspector.
+## Runtime path
 var _target_scene_path : String = ""
-## Editor display cache — holds the [PackedScene] object for the inspector drag-drop slot.
-## NOT persisted; reconstructed lazily from [member _target_scene_path].
+## Editor display cache; holds the [PackedScene] object for the inspector drag-drop slot.
 var _target_scene_obj  : PackedScene = null
 
 ## The name of the [TransitionDoor] node in the target scene the player arrives at.
@@ -241,6 +237,11 @@ func _write_inverse() -> void:
 		print("[TransitionDoor] Inverse set — '%s' in '%s' ↔ '%s' in '%s'." % [
 			_target_door_name, save_path.get_file(), name, current_scene_path.get_file()
 		])
+
+	# If the target scene is already open in the editor, reload it so the
+	# inverse properties take effect immediately without a manual close/reopen.
+	if Engine.is_editor_hint() and save_path in EditorInterface.get_open_scenes():
+		EditorInterface.reload_scene_from_path(save_path)
 #endregion EDITOR TOOL — Inverse connection writer
 
 #region EDITOR TOOL — Dynamic dropdown for target_door_name

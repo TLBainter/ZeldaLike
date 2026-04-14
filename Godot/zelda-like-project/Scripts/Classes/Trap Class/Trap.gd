@@ -1,4 +1,5 @@
-﻿##[b][color=red]Trap[/color][/b] drives a data-driven hazard that animates and deals damage to the player.[br]
+﻿@icon("res://Editor Tools/Icons/icon_trap.svg")
+##[b][color=red]Trap[/color][/b] drives a data-driven hazard that animates and deals damage to the player.[br]
 ##Reads all configuration from an assigned [b][color=yellow]TrapResource[/color][/b].[br]
 ##[br]
 ##Supports two trigger modes:[br]

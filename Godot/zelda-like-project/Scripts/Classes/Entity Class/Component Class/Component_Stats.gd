@@ -1,3 +1,4 @@
+@icon("res://Editor Tools/Icons/icon_stats.svg")
 ##[b][color=red]StatsComponent[/color][/b] holds the [b]StatsResource[/b] for an entity.[br]
 ##Other components read their initial values from this component via root.stats.resource.
 class_name StatsComponent

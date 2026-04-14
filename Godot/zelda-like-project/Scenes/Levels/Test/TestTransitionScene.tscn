@@ -227,6 +227,7 @@ debug_me = true
 debug_me_verbose = true
 
 [node name="TestTransitionScene" type="Node2D" unique_id=1124964965]
+y_sort_enabled = true
 
 [node name="LevelBase" type="Node" parent="." unique_id=949028690]
 
@@ -238,7 +239,7 @@ script = ExtResource("2_pv6bi")
 metadata/_custom_type_script = "uid://crk47tt7fqojy"
 
 [node name="topLevelDoor" parent="." unique_id=2055706719 instance=ExtResource("3_pv6bi")]
-position = Vector2(97, 18)
+position = Vector2(96, 18)
 debug = SubResource("Resource_juub3")
 target_scene_path = "res://Scenes/Levels/Test/TestScene.tscn"
 target_door_name = "transitionDoor"

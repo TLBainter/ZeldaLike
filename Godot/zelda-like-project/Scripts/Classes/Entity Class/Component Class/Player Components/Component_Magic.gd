@@ -1,4 +1,5 @@
-﻿##[b][color=red]MagicComponent[/color][/b] handles the magic values for a character.[br]
+﻿@icon("res://Editor Tools/Icons/icon_magic.svg")
+##[b][color=red]MagicComponent[/color][/b] handles the magic values for a character.[br]
 ##Magic is tracked in shards -- every 6 shards forms a complete medallion.[br]
 ##Max magic equals total shards collected. Each medallion holds up to 6 magic.[br]
 ##Recovers over time with a configurable delay and tick rate.
