@@ -55,6 +55,9 @@ func update_hearts(cur_health : int):
 		print("Player has ", hearts.size(), " hearts")
 		print("Player's max hp is ", max_hp)
 		print("Player's low_hp_threshold is ", low_hp_threshold)
+	if debug_me_verbose:
+		print_rich(debug_name, ": [color=cyan]=== Hearts Size Snapshot ===[/color] cur_health=", cur_health)
+		print_rich(debug_name, ": GridContainer | size=", size, " | custom_min=", custom_minimum_size, " | h_sep=", get_theme_constant(&"h_separation"), " | v_sep=", get_theme_constant(&"v_separation"))
 	for i in range(hearts.size()):
 		##Gets and defines individual hearts for later use
 		var individual_heart = hearts[i] as HeartGUI
@@ -67,5 +70,18 @@ func update_hearts(cur_health : int):
 		individual_heart.pulse(pulse, pulse_speed)
 		var flash = (hp_low and heart_fill_value > 0)
 		individual_heart.flash(flash)
+		if debug_me_verbose:
+			var atlas_region_str : String = "n/a"
+			if individual_heart.sprite and individual_heart.sprite.texture is AtlasTexture:
+				atlas_region_str = str((individual_heart.sprite.texture as AtlasTexture).region)
+			print_rich(debug_name, ": Heart[", i, "]",
+				" pulsing=", pulse,
+				" | Panel.size=", individual_heart.size,
+				" | Panel.custom_min=", individual_heart.custom_minimum_size,
+				" | Sprite.size=", individual_heart.sprite.size,
+				" | Sprite.scale=", individual_heart.sprite.scale,
+				" | Sprite.pivot_offset=", individual_heart.sprite.pivot_offset,
+				" | Sprite.custom_min=", individual_heart.sprite.custom_minimum_size,
+				" | atlas_region=", atlas_region_str)
 
 #endregion FUNCTIONS

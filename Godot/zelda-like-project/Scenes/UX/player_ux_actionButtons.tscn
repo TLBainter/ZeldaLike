@@ -6,6 +6,14 @@
 [ext_resource type="Texture2D" uid="uid://b7pjvpt53p2bl" path="res://Sprites/UX/InGameUX/ActionButtons/UX_Button_ActionButton2_A.tres" id="3_u2quy"]
 [ext_resource type="Texture2D" uid="uid://8xjmn2c0ttaa" path="res://Sprites/UX/InGameUX/ActionButtons/UX_Button_ActionButton3_X.tres" id="4_513uh"]
 [ext_resource type="Texture2D" uid="uid://cj2nrvcohmc8j" path="res://Sprites/UX/InGameUX/ActionButtons/UX_Button_ActionButton4_Y.tres" id="5_u2quy"]
+[ext_resource type="Script" uid="uid://c0gguh8o4ftae" path="res://Scripts/Resources/Resource Scripts/resource_debug_settings.gd" id="6_513uh"]
+
+[sub_resource type="Resource" id="Resource_vcj84"]
+script = ExtResource("6_513uh")
+debug_me = true
+debug_me_verbose = true
+debug_name = "ActionButton"
+metadata/_custom_type_script = "uid://c0gguh8o4ftae"
 
 [sub_resource type="Animation" id="Animation_c33dl"]
 length = 0.001
@@ -180,6 +188,7 @@ button_3_texture = ExtResource("5_u2quy")
 button_4_texture = ExtResource("4_513uh")
 action_name = "actionButton1"
 spell_texture_rect = NodePath("ActionButton1_Spell")
+debug = SubResource("Resource_vcj84")
 
 [node name="ActionButtonSprite" type="TextureRect" parent="." unique_id=642926156]
 layout_mode = 1

@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="MenuItemResource" format=3 uid="uid://bddqjgwc3ypq0"]
+
+[ext_resource type="Texture2D" uid="uid://b5jscw05l5i8j" path="res://Sprites/Item Sprites/Mobility/mobility_menu_batUpgrade.tres" id="1_oxmch"]
+[ext_resource type="Texture2D" uid="uid://b15mfl8bvmnlk" path="res://Sprites/Item Sprites/Mobility/mobility_menuMini_batUpgrade.tres" id="2_dm7hb"]
+[ext_resource type="Texture2D" uid="uid://3mvbfanlqavj" path="res://Sprites/Item Sprites/Mobility/mobility_menuOutline_bat.tres" id="3_hry4t"]
+[ext_resource type="Script" uid="uid://cs0x7737rheme" path="res://Scripts/Resources/Resource Scripts/resource_menuItem.gd" id="4_dho3k"]
+
+[resource]
+script = ExtResource("4_dho3k")
+item_id = "bat_form_upgraded"
+outline = ExtResource("3_hry4t")
+main = ExtResource("1_oxmch")
+mini_icon = ExtResource("2_dm7hb")
+text_ref_id = "mobilityBatFormUpgraded"
+flash_color = Color(1, 0.6346009, 0.61663896, 1)
+metadata/_custom_type_script = "uid://cs0x7737rheme"

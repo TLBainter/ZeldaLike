@@ -1938,10 +1938,10 @@ resource = SubResource("Resource_yfcdn")
 metadata/_custom_type_script = "uid://ccyvuto8p13ak"
 
 [node name="PlayerCam" type="Camera2D" parent="." unique_id=1506803803 node_paths=PackedStringArray("root")]
-zoom = Vector2(3, 3)
+zoom = Vector2(2, 2)
 script = ExtResource("7_1mdwi")
 root = NodePath("..")
-init_zoom = Vector2(3, 3)
+init_zoom = Vector2(2, 2)
 max_pan_distance = Vector2(80, 60)
 cam_whoosh = ExtResource("13_rtkie")
 cam_whoosh_reverse = ExtResource("14_c5nky")

@@ -2,14 +2,19 @@
 
 [ext_resource type="Script" uid="uid://dbn03j7e4rbgn" path="res://Scripts/UX/ux_pauseMenu_menuHoverable_currency.gd" id="1_ae00n"]
 [ext_resource type="FontFile" uid="uid://bsube4x6p1pws" path="res://Sprites/UX/Fonts/GothicPixelSerif.ttf" id="2_wt8bi"]
-[ext_resource type="Texture2D" uid="uid://6a2omo18dffh" path="res://Sprites/UX/Pause Menu Elements/ux_menu_slot_rectangle-ultra-wide.png" id="3_yn16f"]
-[ext_resource type="Texture2D" uid="uid://bme8ht4t0gibd" path="res://Sprites/UX/Pause Menu Elements/Cursor Images/ux_cursor-xtra-wide-rectangle.png" id="4_w7m10"]
+[ext_resource type="Texture2D" uid="uid://bc2rxhvyshvli" path="res://Sprites/UX/Pause Menu Elements/ux_pause-menu_inventory_panel-money.png" id="3_wt8bi"]
+[ext_resource type="Texture2D" uid="uid://b8stocusc24aw" path="res://Sprites/UX/Pause Menu Elements/ux_pause-menu_inventory_panel-money_selected.png" id="4_w7m10"]
+[ext_resource type="Texture2D" uid="uid://c38kmdwah4uaa" path="res://Sprites/UX/Pause Menu Elements/Cursor/ux_pause-menu_cursor-money.png" id="4_yn16f"]
 [ext_resource type="Texture2D" uid="uid://dhscs6m6qbsgt" path="res://Sprites/UX/InGameUX/PlayerStats/playerCurrency_pocketWallet.tres" id="5_4ephe"]
+[ext_resource type="Script" uid="uid://c0gguh8o4ftae" path="res://Scripts/Resources/Resource Scripts/resource_debug_settings.gd" id="5_w7m10"]
 [ext_resource type="FontFile" uid="uid://hmspkjbm2loq" path="res://Sprites/UX/Fonts/GothicPixelNumerics.ttf" id="6_8gtmh"]
+
+[sub_resource type="Resource" id="Resource_4ephe"]
+script = ExtResource("5_w7m10")
 
 [sub_resource type="FontVariation" id="FontVariation_g3vwm"]
 base_font = ExtResource("6_8gtmh")
-spacing_glyph = 4
+spacing_glyph = 2
 
 [sub_resource type="Animation" id="Animation_jfkd1"]
 resource_name = "CursorActive"
@@ -51,40 +56,31 @@ _data = {
 
 [node name="CurrencyPanel" type="Panel" unique_id=1803250299 node_paths=PackedStringArray("wallet_rect", "currency_label", "panel_rect", "cursor_rect", "cursor_anim")]
 self_modulate = Color(1, 1, 1, 0)
+custom_minimum_size = Vector2(64, 18)
 size_flags_vertical = 8
 script = ExtResource("1_ae00n")
-wallet_rect = NodePath("PanelTexture/WalletTexture")
+wallet_rect = NodePath("WalletTexture")
 currency_label = NodePath("PanelTexture/CurrentCurrency")
 info_description = "Used to purchase goods and services in the realm."
 info_effect = "You have [currency] remaining and can store an additional [difference] in your [wallet size]."
 description_font = ExtResource("2_wt8bi")
 effect_font = ExtResource("2_wt8bi")
 panel_rect = NodePath("PanelTexture")
-panel_texture = ExtResource("3_yn16f")
+panel_texture = ExtResource("3_wt8bi")
+panel_texture_hovered = ExtResource("4_w7m10")
 content_anchors_preset = 0
-cursor_texture = ExtResource("4_w7m10")
+cursor_texture = ExtResource("4_yn16f")
 cursor_rect = NodePath("CurrencyCursor")
 cursor_anim = NodePath("CurrencyCursor/CursorActiveAnimator2")
+debug = SubResource("Resource_4ephe")
 
 [node name="PanelTexture" type="TextureRect" parent="." unique_id=737922099]
 layout_mode = 1
-offset_right = 194.0
-offset_bottom = 50.0
-pivot_offset = Vector2(97, 25)
-texture = ExtResource("3_yn16f")
+offset_right = 64.0
+offset_bottom = 18.0
+pivot_offset = Vector2(32, 9)
+texture = ExtResource("3_wt8bi")
 stretch_mode = 4
-
-[node name="WalletTexture" type="TextureRect" parent="PanelTexture" unique_id=1041466661]
-layout_mode = 1
-anchors_preset = 4
-anchor_top = 0.5
-anchor_bottom = 0.5
-offset_top = -20.0
-offset_right = 40.0
-offset_bottom = 20.0
-grow_vertical = 2
-pivot_offset_ratio = Vector2(0, 0.5)
-texture = ExtResource("5_4ephe")
 
 [node name="CurrentCurrency" type="Label" parent="PanelTexture" unique_id=490361201]
 layout_mode = 1
@@ -93,28 +89,42 @@ anchor_left = 1.0
 anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
-offset_left = -138.0
-offset_top = -16.0
-offset_right = -5.0
-offset_bottom = 16.0
+offset_left = -62.0
+offset_top = -6.5
+offset_right = -2.0
+offset_bottom = 6.5
 grow_horizontal = 0
 grow_vertical = 2
 pivot_offset_ratio = Vector2(1, 0.5)
 theme_override_constants/outline_size = 3
 theme_override_fonts/font = SubResource("FontVariation_g3vwm")
-theme_override_font_sizes/font_size = 31
+theme_override_font_sizes/font_size = 12
 text = "0000/0000"
-horizontal_alignment = 2
+horizontal_alignment = 1
 
 [node name="CurrencyCursor" type="TextureRect" parent="." unique_id=877226270]
+visible = false
 layout_mode = 1
-offset_left = 1.63
-offset_top = 1.375
-offset_right = 193.63
-offset_bottom = 51.375
-pivot_offset = Vector2(97, 25)
-texture = ExtResource("4_w7m10")
+offset_right = 66.0
+offset_bottom = 20.0
+pivot_offset_ratio = Vector2(0.5, 0.5)
+texture = ExtResource("4_yn16f")
 stretch_mode = 4
 
 [node name="CursorActiveAnimator2" type="AnimationPlayer" parent="CurrencyCursor" unique_id=2058952920]
 libraries/ = SubResource("AnimationLibrary_mwiei")
+
+[node name="WalletTexture" type="TextureRect" parent="." unique_id=1041466661]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -16.0
+offset_right = 32.000046
+offset_bottom = 16.0
+grow_horizontal = 0
+grow_vertical = 2
+pivot_offset_ratio = Vector2(0.5, 0.5)
+texture = ExtResource("5_4ephe")

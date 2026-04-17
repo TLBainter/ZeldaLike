@@ -74,20 +74,12 @@ func _populate_info_box() -> void:
 		return
 	var text = ""
 	text += "[color=red][font_size=28]" + info_title + "[/font_size][/color]\n"
-	if description_font:
-		text += "[font=" + description_font.resource_path + "]"
 	var resolved_desc = textResolver.resolve(info_description) if textResolver else info_description
 	text += "[color=gray][font_size=16]" + resolved_desc + "[/font_size][/color]"
-	if description_font:
-		text += "[/font]"
 	if not info_effect.is_empty():
 		text += "\n"
-		if effect_font:
-			text += "[font=" + effect_font.resource_path + "]"
 		var resolved_effect = textResolver.resolve(info_effect) if textResolver else info_effect
 		text += "[color=white][font_size=16]" + resolved_effect + "[/font_size][/color]"
-		if effect_font:
-			text += "[/font]"
 	info_box.bbcode_enabled = true
 	info_box.text = text
 

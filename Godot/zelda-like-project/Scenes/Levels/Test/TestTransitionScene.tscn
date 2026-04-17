@@ -1,6 +1,7 @@
 [gd_scene format=4 uid="uid://coilmg1c57mno"]
 
 [ext_resource type="Texture2D" uid="uid://d8m3seegcyca" path="res://TileMaps/Cave/grounds1.png" id="1_4qbvf"]
+[ext_resource type="Script" uid="uid://dv421a2fe5bph" path="res://Scripts/Level Script/level.gd" id="1_juub3"]
 [ext_resource type="Script" uid="uid://crk47tt7fqojy" path="res://Scripts/Tilemap Scripts/Tilemap_Ground.gd" id="2_pv6bi"]
 [ext_resource type="PackedScene" uid="uid://dj37dq415c4me" path="res://Scenes/Objects/Doors/transition_door-test.tscn" id="3_pv6bi"]
 [ext_resource type="Script" uid="uid://c0gguh8o4ftae" path="res://Scripts/Resources/Resource Scripts/resource_debug_settings.gd" id="7_fsu44"]
@@ -228,6 +229,7 @@ debug_me_verbose = true
 
 [node name="TestTransitionScene" type="Node2D" unique_id=1124964965]
 y_sort_enabled = true
+script = ExtResource("1_juub3")
 
 [node name="LevelBase" type="Node" parent="." unique_id=949028690]
 

@@ -1,13 +1,17 @@
 [gd_scene format=3 uid="uid://k2xjf6ebp7x8"]
 
 [ext_resource type="Script" uid="uid://d1taqjbkp7d8f" path="res://Scripts/UX/ux_pauseMenu_menuHoverable_item.gd" id="1_tpnf1"]
-[ext_resource type="Texture2D" uid="uid://354uv6aeyi2n" path="res://Sprites/UX/Pause Menu Elements/Cursor Images/ux_cursor-small-square.png" id="3_tpnf1"]
-[ext_resource type="Texture2D" uid="uid://cj7ih0phnja5h" path="res://Sprites/Item Sprites/Ingredients/ingredient_menuOutline_bloodClot.tres" id="4_tpnf1"]
-[ext_resource type="Texture2D" uid="uid://dyf62j83ix406" path="res://Sprites/UX/Pause Menu Elements/ux_menu_slot_square-xtra-small.png" id="4_xdy3j"]
 [ext_resource type="Texture2D" uid="uid://b7pjvpt53p2bl" path="res://Sprites/UX/InGameUX/ActionButtons/UX_Button_ActionButton2_A.tres" id="5_pr1q6"]
 [ext_resource type="FontFile" uid="uid://hmspkjbm2loq" path="res://Sprites/UX/Fonts/GothicPixelNumerics.ttf" id="6_jfkd1"]
 [ext_resource type="Texture2D" uid="uid://coj45ljky5bay" path="res://Sprites/UX/InGameUX/ActionButtons/UX_Button_ActionButton1_B.tres" id="6_nqh24"]
 [ext_resource type="Texture2D" uid="uid://8xjmn2c0ttaa" path="res://Sprites/UX/InGameUX/ActionButtons/UX_Button_ActionButton3_X.tres" id="6_vhand"]
+[ext_resource type="Script" uid="uid://c0gguh8o4ftae" path="res://Scripts/Resources/Resource Scripts/resource_debug_settings.gd" id="7_6vul3"]
+[ext_resource type="Texture2D" uid="uid://cgytaakseib2o" path="res://Sprites/UX/Pause Menu Elements/Cursor/ux_pause-menu_cursor-spell.png" id="8_6vul3"]
+[ext_resource type="Texture2D" uid="uid://b63jdji1n60nr" path="res://Sprites/UX/Pause Menu Elements/ux_pause-menu_inventory_panel-spell.png" id="8_k6u7s"]
+[ext_resource type="Texture2D" uid="uid://dldnas5m2e22s" path="res://Sprites/Item Sprites/Spells/spell_menuOutline_haste.tres" id="9_k6u7s"]
+
+[sub_resource type="Resource" id="Resource_l51id"]
+script = ExtResource("7_6vul3")
 
 [sub_resource type="Animation" id="Animation_jfkd1"]
 resource_name = "CursorActive"
@@ -97,27 +101,29 @@ item_rect = NodePath("PanelBCKG/OutlineTexture")
 flash_player = NodePath("PanelBCKG/OutlineTexture/FlashAnimator")
 quantity_label = NodePath("PanelBCKG/QuantityLabel")
 panel_rect = NodePath("PanelBCKG")
-panel_texture = ExtResource("4_xdy3j")
+panel_texture = ExtResource("8_k6u7s")
 content_anchors_preset = 0
-cursor_texture = ExtResource("3_tpnf1")
+cursor_texture = ExtResource("8_6vul3")
 cursor_rect = NodePath("PanelBCKG/PanelCursor")
 cursor_anim = NodePath("PanelBCKG/PanelCursor/CursorActiveAnimator")
 button_1_sprite = ExtResource("6_nqh24")
 button_2_sprite = ExtResource("5_pr1q6")
 button_3_sprite = ExtResource("6_vhand")
 assignment_rect = NodePath("PanelBCKG/AssignedButton")
+debug = SubResource("Resource_l51id")
 
 [node name="PanelBCKG" type="TextureRect" parent="." unique_id=1291658304]
 layout_mode = 1
-offset_right = 48.0
-offset_bottom = 48.0
-pivot_offset = Vector2(24, 24)
+offset_right = 64.0
+offset_bottom = 72.0
+pivot_offset = Vector2(32, 36)
 pivot_offset_ratio = Vector2(0.5, 0.5)
-texture = ExtResource("4_xdy3j")
+texture = ExtResource("8_k6u7s")
 stretch_mode = 5
 
 [node name="PanelCursor" type="TextureRect" parent="PanelBCKG" unique_id=299574781]
 visible = false
+z_index = 1
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -125,7 +131,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 pivot_offset_ratio = Vector2(0.4, 0.5)
-texture = ExtResource("3_tpnf1")
+texture = ExtResource("8_6vul3")
 stretch_mode = 5
 
 [node name="CursorActiveAnimator" type="AnimationPlayer" parent="PanelBCKG/PanelCursor" unique_id=2141237903]
@@ -146,29 +152,28 @@ offset_bottom = 16.0
 grow_horizontal = 2
 grow_vertical = 2
 pivot_offset_ratio = Vector2(0.5, 0.5)
-texture = ExtResource("4_tpnf1")
+texture = ExtResource("9_k6u7s")
 stretch_mode = 5
 
 [node name="FlashAnimator" type="AnimationPlayer" parent="PanelBCKG/OutlineTexture" unique_id=993298837]
 libraries/ = SubResource("AnimationLibrary_6vul3")
 
 [node name="QuantityLabel" type="Label" parent="PanelBCKG" unique_id=682721538]
-visible = false
 layout_mode = 1
 anchors_preset = 3
 anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -40.0
-offset_top = -17.0
+offset_left = -19.0
+offset_top = -13.0
 grow_horizontal = 0
 grow_vertical = 0
 pivot_offset_ratio = Vector2(1, 1)
 theme_override_constants/line_spacing = 4
 theme_override_constants/outline_size = 3
 theme_override_fonts/font = SubResource("FontVariation_nqh24")
-theme_override_font_sizes/font_size = 24
+theme_override_font_sizes/font_size = 12
 text = "00"
 horizontal_alignment = 2
 

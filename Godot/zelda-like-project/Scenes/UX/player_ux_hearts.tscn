@@ -1,11 +1,11 @@
 [gd_scene format=3 uid="uid://dwprjilrl8d0p"]
 
-[ext_resource type="Texture2D" uid="uid://1o4duhb0vjbj" path="res://Sprites/UX/InGameUX/PlayerStats/PlayerHearts/playerHeart_4-4.tres" id="1_46yoo"]
 [ext_resource type="Script" uid="uid://co1f1glq28hbq" path="res://Scripts/UX/ux_playerHearts_individualGUI.gd" id="1_ab7fi"]
-[ext_resource type="Texture2D" uid="uid://3ubd5vo4gsd4" path="res://Sprites/UX/InGameUX/PlayerStats/PlayerHearts/playerHeart_3-4.tres" id="3_1bk6c"]
-[ext_resource type="Texture2D" uid="uid://5aei0fm41ba" path="res://Sprites/UX/InGameUX/PlayerStats/PlayerHearts/playerHeart_2-4.tres" id="4_uqgch"]
-[ext_resource type="Texture2D" uid="uid://byjmm5cfh23ha" path="res://Sprites/UX/InGameUX/PlayerStats/PlayerHearts/playerHeart_1-4.tres" id="5_0i4qs"]
-[ext_resource type="Texture2D" uid="uid://bvwdmy8vo6jrx" path="res://Sprites/UX/InGameUX/PlayerStats/PlayerHearts/playerHeart_0-4.tres" id="6_m4dit"]
+[ext_resource type="Texture2D" uid="uid://b334ygyrh1suv" path="res://Sprites/UX/InGameUX/PlayerStats/PlayerHearts/playerFang_4.tres" id="2_uqgch"]
+[ext_resource type="Texture2D" uid="uid://cj8kuuqrnhx01" path="res://Sprites/UX/InGameUX/PlayerStats/PlayerHearts/playerFang_3.tres" id="3_0i4qs"]
+[ext_resource type="Texture2D" uid="uid://ds743pv10lp1w" path="res://Sprites/UX/InGameUX/PlayerStats/PlayerHearts/playerFang_2.tres" id="4_m4dit"]
+[ext_resource type="Texture2D" uid="uid://ft5hbc86kgbf" path="res://Sprites/UX/InGameUX/PlayerStats/PlayerHearts/playerFang_1.tres" id="5_v7aap"]
+[ext_resource type="Texture2D" uid="uid://b1dwvaombpw" path="res://Sprites/UX/InGameUX/PlayerStats/PlayerHearts/playerFang_0.tres" id="6_v7uj8"]
 [ext_resource type="Script" uid="uid://qbhpk3sbvly6" path="res://Scripts/UX/ux_playerHearts_individualGUI_heartTexture.gd" id="7_uqgch"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ab7fi"]
@@ -39,7 +39,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0, 0.39999998, 0.40119624, 0.55, 0.8, 1),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
 "update": 0,
-"values": [Vector2(1.05, 1.05), Vector2(1.15, 1.15), Vector2(1.1492025, 1.1492025), Vector2(1.05, 1.05), Vector2(1.15, 1.15), Vector2(1.05, 1.05)]
+"values": [Vector2(0.75, 0.75), Vector2(1, 1), Vector2(0.9992025, 0.9992025), Vector2(0.75, 0.75), Vector2(1, 1), Vector2(0.75, 0.75)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_v7aap"]
@@ -90,20 +90,21 @@ self_modulate = Color(1, 1, 1, 0)
 custom_minimum_size = Vector2(32, 32)
 offset_right = 32.0
 offset_bottom = 32.0
+pivot_offset_ratio = Vector2(0.5, 0.5)
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_ab7fi")
 script = ExtResource("1_ab7fi")
 sprite = NodePath("playerHeartTexture")
 pulse_anim = NodePath("HeartPulseAnim")
 flash_anim = NodePath("HeartFlashAnim")
-sprite_4_4_heart = ExtResource("1_46yoo")
-sprite_3_4_heart = ExtResource("3_1bk6c")
-sprite_2_4_heart = ExtResource("4_uqgch")
-sprite_1_4_heart = ExtResource("5_0i4qs")
-sprite_0_4_heart = ExtResource("6_m4dit")
+sprite_4_4_heart = ExtResource("2_uqgch")
+sprite_3_4_heart = ExtResource("3_0i4qs")
+sprite_2_4_heart = ExtResource("4_m4dit")
+sprite_1_4_heart = ExtResource("5_v7aap")
+sprite_0_4_heart = ExtResource("6_v7uj8")
 
 [node name="playerHeartTexture" type="TextureRect" parent="." unique_id=328674179]
-custom_minimum_size = Vector2(16, 16)
+custom_minimum_size = Vector2(32, 32)
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -116,8 +117,8 @@ offset_right = 16.0
 offset_bottom = 16.0
 grow_horizontal = 2
 grow_vertical = 2
-pivot_offset_ratio = Vector2(0.5, 0.5)
-texture = ExtResource("1_46yoo")
+pivot_offset = Vector2(16, 16)
+texture = ExtResource("2_uqgch")
 stretch_mode = 4
 script = ExtResource("7_uqgch")
 

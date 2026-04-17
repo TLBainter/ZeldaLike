@@ -30,6 +30,13 @@ extends Panel
 		panel_texture = value
 		if is_inside_tree():
 			_apply_content_properties()
+##The texture to display in the panel TextureRect while this panel is hovered.[br]
+##If unset, the standard panel_texture is used.
+@export var panel_texture_hovered : Texture2D:
+	set(value):
+		panel_texture_hovered = value
+		if is_inside_tree():
+			_apply_content_properties()
 ##The anchors preset for the content TextureRect.
 @export_enum(
 	"Top Left:0", "Top Right:1", "Bottom Right:2", "Bottom Left:3",
@@ -126,7 +133,7 @@ func _on_hoverable_ready() -> void:
 func _apply_content_properties() -> void:
 	if not panel_rect:
 		return
-	if panel_texture:
+	if panel_texture and not _is_hovered:
 		panel_rect.texture = panel_texture
 		panel_rect.size = panel_texture.get_size()
 	panel_rect.set_anchors_preset(content_anchors_preset as Control.LayoutPreset)
@@ -176,6 +183,8 @@ func _clear_info_box() -> void:
 ##Activates the cursor on this panel. Subclasses should call super.
 func hover() -> void:
 	_is_hovered = true
+	if panel_rect and panel_texture_hovered:
+		panel_rect.texture = panel_texture_hovered
 	if cursor_rect:
 		cursor_rect.visible = true
 	if cursor_anim and cursor_anim.has_animation("CursorActive"):
@@ -187,6 +196,8 @@ func hover() -> void:
 ##Deactivates the cursor on this panel. Subclasses should call super.
 func unhover() -> void:
 	_is_hovered = false
+	if panel_rect and panel_texture:
+		panel_rect.texture = panel_texture
 	if cursor_rect:
 		cursor_rect.visible = false
 	if cursor_anim and cursor_anim.is_playing():

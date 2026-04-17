@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="MenuItemResource" format=3 uid="uid://bx353qbwaf0ck"]
+
+[ext_resource type="Texture2D" uid="uid://dsdwnxsbgdnpn" path="res://Sprites/Item Sprites/Mobility/mobility_menu_hoodUpgrade.tres" id="1_ksmff"]
+[ext_resource type="Texture2D" uid="uid://bsjevj2327t54" path="res://Sprites/Item Sprites/Mobility/mobility_menuMini_hoodUpgrade.tres" id="2_pkqot"]
+[ext_resource type="Texture2D" uid="uid://bamr3a3f3ubc2" path="res://Sprites/Item Sprites/Mobility/mobility_menuOutline_hood.tres" id="3_f7rp3"]
+[ext_resource type="Script" uid="uid://cs0x7737rheme" path="res://Scripts/Resources/Resource Scripts/resource_menuItem.gd" id="4_uq302"]
+
+[resource]
+script = ExtResource("4_uq302")
+item_id = "albedo_hood_upgraded"
+outline = ExtResource("3_f7rp3")
+main = ExtResource("1_ksmff")
+mini_icon = ExtResource("2_pkqot")
+text_ref_id = "mobilityAlbedoHoodUpgraded"
+flash_color = Color(0.9462003, 0.75362366, 0.9037251, 1)
+metadata/_custom_type_script = "uid://cs0x7737rheme"

@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="MenuItemResource" format=3 uid="uid://ctdwwhox2fjj0"]
+
+[ext_resource type="Texture2D" uid="uid://b1xycyhsf5as2" path="res://Sprites/Item Sprites/Mobility/mobility_menu_bootUpgrade.tres" id="1_otfxc"]
+[ext_resource type="Texture2D" uid="uid://dqxn6abuhpbp7" path="res://Sprites/Item Sprites/Mobility/mobility_menuMini_bootUpgrade.tres" id="2_5to42"]
+[ext_resource type="Texture2D" uid="uid://d2im5qwrsr2l6" path="res://Sprites/Item Sprites/Mobility/mobility_menuOutline_boot.tres" id="3_4ckr0"]
+[ext_resource type="Script" uid="uid://cs0x7737rheme" path="res://Scripts/Resources/Resource Scripts/resource_menuItem.gd" id="4_x8s45"]
+
+[resource]
+script = ExtResource("4_x8s45")
+item_id = "wavewalk_boots_upgraded"
+outline = ExtResource("3_4ckr0")
+main = ExtResource("1_otfxc")
+mini_icon = ExtResource("2_5to42")
+text_ref_id = "mobilityWavewalkBootsUpgraded"
+flash_color = Color(0.7921569, 0.7647059, 0.42352942, 1)
+metadata/_custom_type_script = "uid://cs0x7737rheme"

@@ -27,9 +27,11 @@ const SPELL_HASTE = "spell_haste"
 
 #region MOBILITY ITEMS
 const WAVEWALK_BOOTS = "wavewalk_boots"
+const WAVEWALK_BOOTS_UPGRADED = "wavewalk_boots_upgraded"
 const BAT_FORM = "bat_form"
 const BAT_FORM_UPGRADED = "bat_form_upgraded"
 const ALBEDO_HOOD = "albedo_hood"
+const ALBEDO_HOOD_UPGRADED = "albedo_hood_upgraded"
 #endregion MOBILITY ITEMS
 
 #region CONCOCTIONS
@@ -46,10 +48,16 @@ const NOTEBOOK = "notebook"
 #endregion DUNGEON ITEMS
 
 #region UPGRADES
-const PIECE_OF_HEART  = "piece_of_heart"
-const MAGIC_MEDALLION = "magic_medallion"
-const ENERGY_BOLT     = "energy_bolt"
+const BONE_SHARD  = "bone_shard"
+const ARCANE_SHARD = "arcane_shard"
+const GLAND     = "gland"
 #endregion UPGRADES
+
+#region RECOVERY
+const ENERGY_ORB = "energy_orb"
+const TOOTH = "tooth"
+const CRYSTAL_SHARD = "crystal"
+#endregion RECOVERY
 
 #region MONEY
 const WHITE_BEAD = "white_bead"
@@ -62,10 +70,11 @@ const ORANGE_BEAD = "orange_bead"
 const CATEGORIES : Dictionary = {
 	"spell":      [SPELL_GRAPPLE, SPELL_IGNITE, SPELL_HAMMER, SPELL_SUMMON, SPELL_HASTE],
 	"ingredient": [BLOOD_CLOT, RED_GARNET, RITUAL_STEEL, STARDUST, FULGURITE, HEART, KIDNEY, METEORITE],
-	"mobility":   [WAVEWALK_BOOTS, BAT_FORM, BAT_FORM_UPGRADED, ALBEDO_HOOD],
+	"mobility":   [WAVEWALK_BOOTS, BAT_FORM, BAT_FORM_UPGRADED, ALBEDO_HOOD, ALBEDO_HOOD_UPGRADED, WAVEWALK_BOOTS_UPGRADED],
 	"concoction": [ARCANE_SALVE, BLOOD_SALVE, ENERGIZING_SALVE, RESTORATIVE_SALVE],
 	"dungeon":    [KEY, MAP, NOTEBOOK],
-	"upgrade":    [PIECE_OF_HEART, MAGIC_MEDALLION, ENERGY_BOLT],
+	"upgrade":    [BONE_SHARD, ARCANE_SHARD, GLAND],
+	"recovery":   [ENERGY_ORB, TOOTH, CRYSTAL_SHARD],
 	"money":      [WHITE_BEAD, BLUE_BEAD, PURPLE_BEAD, ORANGE_BEAD],
 }
 #endregion CATEGORIES=======#
@@ -75,6 +84,8 @@ const CATEGORIES : Dictionary = {
 ##Used by the debug console's /upgrade command and future upgrade systems.
 const UPGRADES : Dictionary = {
 	BAT_FORM: BAT_FORM_UPGRADED,
+	ALBEDO_HOOD: ALBEDO_HOOD_UPGRADED,
+	WAVEWALK_BOOTS: WAVEWALK_BOOTS_UPGRADED
 }
 #endregion UPGRADES=======#
 
@@ -82,12 +93,12 @@ const UPGRADES : Dictionary = {
 ##Maps each item ID to its [b]ItemResource[/b] .tres file.[br]
 ##Add an entry here whenever a new ItemResource asset is created.
 const ITEM_RESOURCES : Dictionary = {
-	HEART:           preload("res://Scripts/Resources/Resource Files/Resources_Items/item_small_heart.tres"),
+	TOOTH:           preload("res://Scripts/Resources/Resource Files/Resources_Items/item_small_heart.tres"),
 	WHITE_BEAD:      preload("res://Scripts/Resources/Resource Files/Resources_Items/item_bead_1.tres"),
 	BLUE_BEAD:       preload("res://Scripts/Resources/Resource Files/Resources_Items/item_bead_5.tres"),
 	PURPLE_BEAD:     preload("res://Scripts/Resources/Resource Files/Resources_Items/item_bead_10.tres"),
 	ORANGE_BEAD:     preload("res://Scripts/Resources/Resource Files/Resources_Items/item_bead_25.tres"),
-	ENERGY_BOLT:     preload("res://Scripts/Resources/Resource Files/Resources_Items/item_energy_orb.tres"),
-	MAGIC_MEDALLION: preload("res://Scripts/Resources/Resource Files/Resources_Items/item_magic_shard.tres"),
+	ENERGY_ORB:     preload("res://Scripts/Resources/Resource Files/Resources_Items/item_energy_orb.tres"),
+	CRYSTAL_SHARD: preload("res://Scripts/Resources/Resource Files/Resources_Items/item_magic_shard.tres"),
 }
 #endregion ITEM RESOURCES=======#

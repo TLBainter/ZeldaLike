@@ -26,7 +26,11 @@
 [ext_resource type="Script" uid="uid://dwp4hegm041y7" path="res://Scripts/UX/ux_playerElement_Display_Energy.gd" id="16_xwql8"]
 [ext_resource type="PackedScene" uid="uid://21qvkrep0b38" path="res://Scenes/UX/player_ux_magic.tscn" id="18_t6yf8"]
 [ext_resource type="PackedScene" uid="uid://cv8mrdsulnqih" path="res://Scenes/UX/player_ux_currency.tscn" id="19_cmm85"]
-[ext_resource type="Resource" uid="uid://b578mryux50rt" path="res://Scripts/Resources/Resource Files/Resources_Sound Libraries/UX Libraries/currency_sounds.tres" id="23_37lcq"]
+
+[sub_resource type="Resource" id="Resource_ov3gu"]
+script = ExtResource("6_2bw2c")
+debug_name = "In-Game UX (Player)"
+metadata/_custom_type_script = "uid://c0gguh8o4ftae"
 
 [sub_resource type="FontVariation" id="FontVariation_5o3k5"]
 base_font = ExtResource("3_4d04n")
@@ -92,6 +96,11 @@ _data = {
 atlas = ExtResource("1_oxfwa")
 region = Rect2(224, 0, 16, 16)
 
+[sub_resource type="Resource" id="Resource_2bw2c"]
+script = ExtResource("6_2bw2c")
+debug_name = "Player Hearts Container"
+metadata/_custom_type_script = "uid://c0gguh8o4ftae"
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_prcqu"]
 bg_color = Color(0.42352942, 0.6627451, 0.5058824, 0.0627451)
 
@@ -121,6 +130,7 @@ action_button_3 = NodePath("PlayerInGameCanvas/PlayerUI_ActionButtons/ActionButt
 action_button_4 = NodePath("PlayerInGameCanvas/PlayerUI_ActionButtons/ActionButton4_Panel/ActionButton4")
 consumable_buttons = NodePath("PlayerInGameCanvas/PlayerUI_ConsumableButtons")
 salve_panels = [NodePath("PlayerInGameCanvas/PlayerUI_ConsumableButtons/salvePanel[restorative]"), NodePath("PlayerInGameCanvas/PlayerUI_ConsumableButtons/salvePanel[arcane]"), NodePath("PlayerInGameCanvas/PlayerUI_ConsumableButtons/salvePanel[energizing]"), NodePath("PlayerInGameCanvas/PlayerUI_ConsumableButtons/salvePanel[blood]")]
+debug = SubResource("Resource_ov3gu")
 
 [node name="PlayerInGameCanvas" type="CanvasLayer" parent="." unique_id=1280888797]
 
@@ -132,7 +142,6 @@ anchor_right = 1.0
 offset_left = -80.0
 offset_bottom = 80.0
 grow_horizontal = 0
-scale = Vector2(2.5, 2.5)
 pivot_offset = Vector2(80, 0)
 mouse_filter = 2
 theme_override_constants/margin_left = 16
@@ -164,7 +173,7 @@ anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
 offset_left = -16.0
-offset_top = -8.000001
+offset_top = -8.0
 offset_right = 0.0
 offset_bottom = 8.000001
 grow_horizontal = 0
@@ -185,7 +194,7 @@ anchor_top = 0.5
 anchor_right = 0.0
 anchor_bottom = 0.5
 offset_left = 0.0
-offset_top = -8.000001
+offset_top = -8.0
 offset_right = 16.0
 offset_bottom = 8.000001
 grow_horizontal = 1
@@ -244,7 +253,6 @@ anchor_bottom = 1.0
 offset_top = -80.0
 offset_right = 79.99994
 grow_vertical = 0
-scale = Vector2(2.5, 2.5)
 pivot_offset = Vector2(0, 80)
 mouse_filter = 2
 theme_override_constants/margin_left = 16
@@ -305,24 +313,25 @@ salve_type = 3
 item_resource = ExtResource("10_ui11g")
 
 [node name="PlayerUI_Hearts" type="MarginContainer" parent="PlayerInGameCanvas" unique_id=1077872179 node_paths=PackedStringArray("root")]
-offset_right = 39.0
-offset_bottom = 98.0
-theme_override_constants/margin_left = 16
-theme_override_constants/margin_top = 16
-theme_override_constants/margin_right = 16
-theme_override_constants/margin_bottom = 16
+offset_right = 264.0
+offset_bottom = 64.0
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
 script = ExtResource("1_icyw3")
 root = NodePath("../..")
 
 [node name="PlayerUI_HeartsContainer" type="GridContainer" parent="PlayerInGameCanvas/PlayerUI_Hearts" unique_id=1648414126 node_paths=PackedStringArray("root")]
 layout_mode = 2
 size_flags_vertical = 0
-theme_override_constants/h_separation = 2
-theme_override_constants/v_separation = 2
+theme_override_constants/h_separation = 1
+theme_override_constants/v_separation = 1
 columns = 10
 script = ExtResource("5_ovlxb")
 heart_gui = ExtResource("5_55krk")
 root = NodePath("../../..")
+debug = SubResource("Resource_2bw2c")
 
 [node name="PlayerUI_Dialogue" type="MarginContainer" parent="PlayerInGameCanvas" unique_id=1508851987]
 custom_minimum_size = Vector2(550, 200)
@@ -336,6 +345,7 @@ offset_top = -200.0
 offset_right = 275.0
 grow_horizontal = 2
 grow_vertical = 0
+scale = Vector2(0.5, 0.5)
 pivot_offset_ratio = Vector2(0.5, 1)
 theme_override_constants/margin_left = 16
 theme_override_constants/margin_top = 16
@@ -343,7 +353,6 @@ theme_override_constants/margin_right = 16
 theme_override_constants/margin_bottom = 16
 
 [node name="PlayerUI_Dialogue_Panel" type="Panel" parent="PlayerInGameCanvas/PlayerUI_Dialogue" unique_id=127341942 node_paths=PackedStringArray("root", "dialogue_label", "char_name", "char_icon")]
-visible = false
 self_modulate = Color(1, 1, 1, 0)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_prcqu")
@@ -534,22 +543,20 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -140.0
-offset_top = -97.0
+offset_left = -99.0
+offset_top = -47.0
 grow_horizontal = 0
 grow_vertical = 0
 pivot_offset_ratio = Vector2(1, 1)
-theme_override_constants/margin_left = 16
-theme_override_constants/margin_top = 16
-theme_override_constants/margin_right = 16
-theme_override_constants/margin_bottom = 16
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
 script = ExtResource("1_icyw3")
 root = NodePath("../..")
 
-[node name="PlayerCurrencyContainer" parent="PlayerInGameCanvas/PlayerUI_Currency" unique_id=2078205985 node_paths=PackedStringArray("root") instance=ExtResource("19_cmm85")]
+[node name="PlayerCurrencyContainer" parent="PlayerInGameCanvas/PlayerUI_Currency" unique_id=2078205985 instance=ExtResource("19_cmm85")]
 layout_mode = 2
-root = NodePath("../../..")
-change_sounds = ExtResource("23_37lcq")
 
 [node name="PlayerUXAudioControl" type="Node" parent="." unique_id=153550245 node_paths=PackedStringArray("parent", "hearts")]
 script = ExtResource("7_ffuv4")
