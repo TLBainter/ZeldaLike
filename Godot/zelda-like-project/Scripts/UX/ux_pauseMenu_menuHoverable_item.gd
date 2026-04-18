@@ -42,12 +42,31 @@ var inventory : InventoryComponent:
 				_slice_item_frames()
 			_update_item_display()
 			_update_quantity()
+##A reference to the player's health component; used for upgrade cap checks.
+var health : PlayerHealthComponent:
+	set(value):
+		health = value
+		if not Engine.is_editor_hint() and inventory:
+			_update_item_display()
 ##Returns whether the player currently owns this item.
 var player_has_item : bool:
 	get:
 		if not inventory or not item_resource or item_resource.item_id.is_empty():
 			return false
 		return inventory.has_item(item_resource.item_id)
+##Casts item_resource to MenuItemUpgradeResource; null if it is not an upgrade resource.
+var _as_upgrade : MenuItemUpgradeResource:
+	get:
+		return item_resource as MenuItemUpgradeResource
+
+##Returns true when the player has reached the effective cap for this upgrade,
+##accounting for base stats already included in max_quantity.
+func _is_upgrade_at_max(upgrade: MenuItemUpgradeResource, qty: int) -> bool:
+	if upgrade.max_quantity <= 0:
+		return false
+	var base_health := health.base_max_health if health else 0
+	var adjusted := upgrade.get_adjusted_max_total(base_health)
+	return adjusted > 0 and qty >= adjusted
 
 #endregion VARIABLES
 
@@ -72,34 +91,44 @@ func _process(delta : float) -> void:
 #region ITEM DISPLAY
 
 ##Slices the item's main AtlasTexture strip into individual frames.
+##For upgrade resources, slices the current part's anim strip instead.
 func _slice_item_frames() -> void:
 	_item_frames.clear()
-	if not item_resource or not item_resource.main or not item_resource.main.atlas:
-		return
-	var strip = item_resource.main
+	var upgrade := _as_upgrade
+	if upgrade:
+		var qty := _get_quantity()
+		var current_parts := upgrade.num_parts if _is_upgrade_at_max(upgrade, qty) else upgrade.get_current_parts(qty)
+		var part := upgrade.get_part_data(current_parts)
+		if not part or not part.part_anim_sprite or not part.part_anim_sprite.atlas:
+			return
+		_slice_strip(part.part_anim_sprite, part.anim_h_frames)
+	else:
+		if not item_resource or not item_resource.main or not item_resource.main.atlas:
+			return
+		_slice_strip(item_resource.main, item_resource.h_frames)
+
+##Slices [param strip] into [param h_frames] individual AtlasTexture frames, appending to _item_frames.
+func _slice_strip(strip : AtlasTexture, h_frames : int) -> void:
 	var base_x : int = int(strip.region.position.x)
 	var base_y : int = int(strip.region.position.y)
-	var strip_width : int = int(strip.region.size.x)
-	var strip_height : int = int(strip.region.size.y)
-	var frame_w : int = int(float(strip_width) / float(item_resource.h_frames))
-	var frame_h : int = strip_height
-	for i in range(item_resource.h_frames):
+	var frame_w : int = int(float(strip.region.size.x) / float(h_frames))
+	var frame_h : int = int(strip.region.size.y)
+	for i in range(h_frames):
 		var frame = AtlasTexture.new()
 		frame.atlas = strip.atlas
-		frame.region = Rect2(
-			base_x + (i * frame_w),
-			base_y,
-			frame_w,
-			frame_h
-		)
+		frame.region = Rect2(base_x + (i * frame_w), base_y, frame_w, frame_h)
 		frame.filter_clip = true
 		_item_frames.append(frame)
 	if debug_me:
-		print(debug_name, ": Sliced ", _item_frames.size(), " item frames.")
+		print(debug_name, ": Sliced ", _item_frames.size(), " frames.")
 
-##Updates the item_rect to show outline or frame 0 based on ownership.
+##Updates the item_rect texture based on ownership and upgrade state.
 func _update_item_display() -> void:
 	if not item_rect or not item_resource:
+		return
+	var upgrade := _as_upgrade
+	if upgrade:
+		_update_upgrade_display(upgrade)
 		return
 	if player_has_item:
 		if not _item_frames.is_empty():
@@ -108,12 +137,38 @@ func _update_item_display() -> void:
 		if item_resource.outline:
 			item_rect.texture = item_resource.outline
 
+##Sets the correct static texture for the current upgrade part state.
+func _update_upgrade_display(upgrade : MenuItemUpgradeResource) -> void:
+	if not item_rect:
+		return
+	if not player_has_item:
+		if upgrade.outline:
+			item_rect.texture = upgrade.outline
+		return
+	var qty := _get_quantity()
+	var target_part : int
+	if _is_upgrade_at_max(upgrade, qty):
+		target_part = upgrade.num_parts
+	else:
+		target_part = upgrade.get_current_parts(qty)
+	var part := upgrade.get_part_data(target_part)
+	if part and part.part_static_sprite:
+		item_rect.texture = part.part_static_sprite
+
 #endregion ITEM DISPLAY
 
 #region ITEM ANIMATION
 
 func _start_item_anim() -> void:
-	if _item_frames.is_empty() or not player_has_item:
+	if not player_has_item:
+		return
+	var upgrade := _as_upgrade
+	if upgrade:
+		var qty := _get_quantity()
+		if qty == 0:
+			return
+		_slice_item_frames()
+	if _item_frames.is_empty():
 		return
 	_anim_frame = 0
 	_anim_time = 0.0
@@ -127,7 +182,10 @@ func _stop_item_anim() -> void:
 	_anim_frame = 0
 	_anim_time = 0.0
 	set_process(false)
-	if item_rect and not _item_frames.is_empty() and player_has_item:
+	var upgrade := _as_upgrade
+	if upgrade:
+		_update_upgrade_display(upgrade)
+	elif item_rect and not _item_frames.is_empty() and player_has_item:
 		item_rect.texture = _item_frames[0]
 	if debug_me:
 		print(debug_name, ": Item animation stopped.")
@@ -163,6 +221,10 @@ func _stop_flash() -> void:
 
 #region QUANTITY
 
+##Returns the player's current quantity of this item, or 0 if inventory is unavailable.
+func _get_quantity() -> int:
+	return inventory.get_quantity(item_resource.item_id) if inventory else 0
+
 func _update_quantity() -> void:
 	if not quantity_label:
 		return
@@ -189,11 +251,22 @@ func _populate_info_box() -> void:
 	if not player_has_item:
 		_clear_info_box()
 		return
-	var data = dialogueDB.get_dialogue_data(item_resource.text_ref_id)
+	var upgrade := _as_upgrade
+	var qty := _get_quantity() if upgrade else 0
+	var at_max := upgrade != null and _is_upgrade_at_max(upgrade, qty)
+	var ref_id : String
+	if at_max and upgrade.full_text_ref_id != "":
+		ref_id = upgrade.full_text_ref_id
+	else:
+		ref_id = item_resource.text_ref_id
+	var data = dialogueDB.get_dialogue_data(ref_id)
 	var lines = data.get("lines", [])
 	var name_text   = lines[0] if lines.size() > 0 else ""
-	var desc_text   = lines[1] if lines.size() > 1 else ""
-	var effect_text = lines[2] if lines.size() > 2 else ""
+	var desc_text   = lines[2] if lines.size() > 2 else ""
+	var effect_text = lines[3] if lines.size() > 3 else ""
+	if upgrade and not at_max:
+		desc_text = upgrade.resolve_remaining_text(desc_text, qty)
+		effect_text = upgrade.resolve_remaining_text(effect_text, qty)
 	var text = ""
 	text += "[color=red][font_size=28]" + name_text + "[/font_size][/color]\n"
 	text += "[color=gray][font_size=16]" + desc_text + "[/font_size][/color]"

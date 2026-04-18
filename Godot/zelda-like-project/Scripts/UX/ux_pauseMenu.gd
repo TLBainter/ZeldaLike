@@ -98,6 +98,8 @@ func _initialize() -> void:
 	if menu_controller:
 		if player and player.inventory:
 			menu_controller.set_inventory(player.inventory)
+		if player and player.health:
+			menu_controller.set_health(player.health)
 		if player and player.currency:
 			menu_controller.set_currency(player.currency)
 		if player and player.equipped_spells:
@@ -254,6 +256,8 @@ func _show_pause_ux() -> void:
 		action_buttons_margin.process_mode = Node.PROCESS_MODE_WHEN_PAUSED
 		action_button_fade_target = action_buttons_margin.modulate.a
 		action_buttons_margin.fade_in(1.0)
+	if ux.context_label:
+		ux.context_label.visible = false
 	if ux.energy_display:
 		ux.energy_display.process_mode = Node.PROCESS_MODE_WHEN_PAUSED
 		ux.energy_display.set_paused(true)
@@ -284,6 +288,8 @@ func _restore_ux() -> void:
 	if action_buttons_margin and action_buttons_margin is InGameMargin:
 		action_buttons_margin.process_mode = Node.PROCESS_MODE_INHERIT
 		action_buttons_margin.fade_out(action_button_fade_target)
+	if ux.context_label:
+		ux.context_label.visible = true
 	if ux.energy_display:
 		ux.energy_display.process_mode = Node.PROCESS_MODE_INHERIT
 		ux.energy_display.set_paused(false)

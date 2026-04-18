@@ -80,6 +80,7 @@ func _ready():
 	heartsContainer.set_max_hearts(hp_component.max_hearts)
 	heartsContainer.update_hearts(hp_component.cur_health)
 	hp_component.health_changed.connect(_on_health_changed)
+	hp_component.max_health_changed.connect(_on_max_health_changed)
 	check_viewport_size.emit()
 	
 	var energy_comp : EnergyComponent = root.energy
@@ -144,6 +145,13 @@ func _on_zoom_changed(is_zoomed : bool):
 	if currency_display:
 		currency_display.force_show(is_zoomed)
 
-func _on_health_changed(new_hp, _max_hp, _change):
+func _on_health_changed(new_hp, max_hp, _change):
+	var new_max_hearts := int(max_hp / 4.0)
+	if new_max_hearts != heartsContainer.get_child_count():
+		heartsContainer.set_max_hearts(new_max_hearts)
 	heartsContainer.update_hearts(new_hp)
+
+func _on_max_health_changed(new_max : int, new_cur : int):
+	heartsContainer.set_max_hearts(int(new_max / 4.0))
+	heartsContainer.update_hearts(new_cur)
 #endregion FUNCTIONS

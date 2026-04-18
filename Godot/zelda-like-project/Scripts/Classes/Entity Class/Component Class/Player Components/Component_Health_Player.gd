@@ -7,6 +7,9 @@ extends HealthComponent
 
 ## Derived from stats resource (max_health / 4). Set at runtime.
 var max_hearts : int = 3
+## Snapshot of max_health taken at _ready(), before any runtime increase_max calls.
+## Used by upgrade cap checks to determine how many skulls the player started with.
+var base_max_health : int = 0
 
 var _pending_hits : Array = []   # Array of {damage: int, position: Vector2}
 var _hit_buffered : bool = false
@@ -30,8 +33,9 @@ func _ready():
 	var stats = _get_entity_stats()
 	max_health = stats.max_health if stats else max_hearts * 4
 	max_hearts = int(max_health / 4.0)
+	base_max_health = max_health
 	if debug_me:
-		print("Player Max Health defined as ", max_health, 
+		print("Player Max Health defined as ", max_health,
 			" with ", max_hearts, " hearts.")
 	cur_health = max_health
 	if debug_me:
@@ -49,6 +53,16 @@ func _debug_health(event):
 	elif debug_me and event.is_action_pressed("healPlayer"):
 		print(debug_name, " is being healed by an input event!")
 		healed(1)
+
+func increase_max(amount: int) -> void:
+	var old_max := max_health
+	var old_cur := cur_health
+	super.increase_max(amount)
+	max_hearts = int(max_health / 4.0)
+	if debug_me_verbose:
+		print(debug_name, ": increase_max(", amount, ") → max_health ", old_max, "→", max_health,
+			" | max_hearts ", int(old_max / 4.0), "→", max_hearts,
+			" | cur_health ", old_cur, "→", cur_health)
 
 func damaged(damage : int, source_position : Vector2 = Vector2.ZERO) -> void:
 	_pending_hits.append({ "damage": damage, "position": source_position })

@@ -25,11 +25,13 @@ extends Panel
 
 #endregion VARIABLEs
 
+var _fill_value : int = 0
+
 #region FUNCTIONS
 ##Updates the value of a heart based on its fill rate
 func update(update_value : int):
-	update_value = clampi(update_value, 0, 4)
-	match update_value:
+	_fill_value = clampi(update_value, 0, 4)
+	match _fill_value:
 		0: sprite.texture = sprite_0_4_heart
 		1: sprite.texture = sprite_1_4_heart
 		2: sprite.texture = sprite_2_4_heart
@@ -44,10 +46,17 @@ func pulse(pulse_state : bool, speed : float = 1.0):
 		if pulse_anim and pulse_anim.current_animation != "heart_pulse":
 			pulse_anim.play("heart_pulse")
 		pulse_anim.speed_scale = speed
-	elif pulse_anim.is_playing or sprite.scale != Vector2.ONE:
+	elif pulse_anim.is_playing() or sprite.scale != Vector2.ONE:
 		sprite.scale = Vector2.ONE
 		pulse_anim.play("RESET")
 		pulse_anim.speed_scale = 1.0
+	z_index = 1 if pulse_state else 0
+	if pulse_state:
+		modulate.a = 1.0
+	elif _fill_value == 0:
+		modulate.a = 0.7
+	else:
+		modulate.a = 0.9
 
 func flash(flash_state : bool):
 	if not flash_anim:

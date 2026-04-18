@@ -17,6 +17,8 @@ var _panel : PanelContainer
 var _is_open : bool = false
 var _inventory : InventoryComponent = null
 var _health : PlayerHealthComponent = null
+var _energy : EnergyComponent = null
+var _magic : MagicComponent = null
 var _currency : CurrencyComponent = null
 
 #endregion VARIABLES
@@ -60,6 +62,14 @@ func _open() -> void:
 		var players = get_tree().get_nodes_in_group("player")
 		if "health" in players[0]:
 			_health = players[0].health
+	if not _energy:
+		var players = get_tree().get_nodes_in_group("player")
+		if "energy" in players[0]:
+			_energy = players[0].energy
+	if not _magic:
+		var players = get_tree().get_nodes_in_group("player")
+		if "magic" in players[0]:
+			_magic = players[0].magic
 
 func _close() -> void:
 	print("CONSOLE: _close() called")
@@ -130,8 +140,20 @@ func _cmd_give(parts : Array) -> void:
 	if not _inventory:
 		_print_output("[color=red]No inventory found on player.[/color]")
 		return
+	var mir_cap : MenuItemResource = ItemID.MENU_ITEM_RESOURCES.get(item_id)
+	var upgrade_cap := mir_cap as MenuItemUpgradeResource
+	if upgrade_cap and upgrade_cap.max_quantity > 0:
+		var max_total : int = upgrade_cap.get_adjusted_max_total(_health.base_max_health if _health else 0)
+		var current_qty : int = _inventory.get_quantity(item_id)
+		quantity = mini(quantity, max_total - current_qty)
+		if quantity <= 0:
+			_print_output("[color=yellow]" + item_id + " is already at max (" + str(upgrade_cap.max_quantity) + " sets).[/color]")
+			return
+	var qty_before : int = _inventory.get_quantity(item_id)
 	_inventory.add_item(item_id, quantity)
-	_print_output("[color=green]Gave " + str(quantity) + "x " + item_id + ". Total: " + str(_inventory.get_quantity(item_id)) + "[/color]")
+	var qty_after : int = _inventory.get_quantity(item_id)
+	_apply_upgrade_permanent_effects(item_id, qty_before, qty_after)
+	_print_output("[color=green]Gave " + str(quantity) + "x " + item_id + ". Total: " + str(qty_after) + "[/color]")
 
 func _cmd_give_all(parts : Array) -> void:
 	if not _inventory:
@@ -234,10 +256,10 @@ func _cmd_upgrade(parts : Array) -> void:
 		_print_output("[color=red]No inventory found on player.[/color]")
 		return
 	var item_id : String = " ".join(parts.slice(1)).replace(" ", "_").to_lower()
-	if not ItemID.UPGRADES.has(item_id):
+	if not ItemID.MOBILITY_UPGRADES.has(item_id):
 		_print_output("[color=red]No upgrade defined for '" + item_id + "'.[/color]")
 		return
-	var upgraded_id : String = ItemID.UPGRADES[item_id]
+	var upgraded_id : String = ItemID.MOBILITY_UPGRADES[item_id]
 	if _inventory.has_item(upgraded_id):
 		_print_output("[color=yellow]'" + item_id + "' is already upgraded to '" + upgraded_id + "'.[/color]")
 		return
@@ -300,6 +322,35 @@ func _cmd_new_game(parts : Array) -> void:
 		_print_output("[color=red]Usage: /new game[/color]")
 
 #endregion COMMANDS
+
+#region PERMANENT EFFECTS
+
+func _apply_upgrade_permanent_effects(item_id: String, qty_before: int, qty_after: int) -> void:
+	var mir : MenuItemResource = ItemID.MENU_ITEM_RESOURCES.get(item_id)
+	var upgrade := mir as MenuItemUpgradeResource
+	if not upgrade or not upgrade.item_function or not upgrade.item_function.has_permanent_effects():
+		return
+	var timing := upgrade.item_function.permanent_effect_timing
+	var sets_to_apply : int = 0
+	if timing == EffectEnums.PermanentEffectTiming.ON_COMPLETE:
+		sets_to_apply = int(float(qty_after) / upgrade.num_parts) - int(float(qty_before) / upgrade.num_parts)
+	else:
+		sets_to_apply = qty_after - qty_before
+	_print_output("[color=gray]Applying " + str(sets_to_apply) + " permanent effect set(s) for " + item_id + ".[/color]")
+	for _i in range(sets_to_apply):
+		for effect in upgrade.item_function.permanent_effects:
+			match effect.target:
+				EffectEnums.PermanentEffectTarget.MAX_HEALTH:
+					if _health:
+						_health.increase_max(effect.amount)
+				EffectEnums.PermanentEffectTarget.MAX_ENERGY:
+					if _energy:
+						_energy.increase_max(effect.amount)
+				EffectEnums.PermanentEffectTarget.MAX_MAGIC:
+					if _magic:
+						_magic.collect_shards(effect.amount)
+
+#endregion PERMANENT EFFECTS
 
 #region VALIDATION
 
@@ -470,6 +521,9 @@ func _on_input_focus_lost() -> void:
 	if _is_open:
 		print("CONSOLE: attempting deferred grab_focus")
 		_input_field.call_deferred("grab_focus")
+
+func log(text : String) -> void:
+	_print_output(text)
 
 func _print_output(text : String) -> void:
 	_output_label.append_text(text + "\n")

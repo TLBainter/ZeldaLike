@@ -76,6 +76,10 @@ func collect_shard() -> void:
 	shard_collected.emit(total_shards)
 	_debug_log(str("Collected shard! Total: ", total_shards, " Max magic: ", max_magic))
 
+func collect_shards(amount: int) -> void:
+	for i in range(amount):
+		collect_shard()
+
 ##Returns the number of complete medallions (6 shards each).
 func get_complete_medallion_count() -> int:
 	return int(total_shards / 6.0)

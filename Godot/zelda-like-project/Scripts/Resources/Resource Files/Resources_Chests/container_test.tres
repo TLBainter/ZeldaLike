@@ -3,9 +3,9 @@
 [ext_resource type="Script" uid="uid://diqdn2225adtk" path="res://Scripts/Resources/Resource Scripts/resource_Container.gd" id="1_iv6yq"]
 [ext_resource type="Script" uid="uid://vdqimlmcg4ql" path="res://Scripts/Resources/Resource Scripts/resource_Sound_Library.gd" id="1_lmf5d"]
 [ext_resource type="AudioStream" uid="uid://clpbpcbciq8pu" path="res://Sound/SFX/Objects/Chests/chest_open_01.wav" id="1_r1xne"]
-[ext_resource type="Texture2D" uid="uid://bkfwo6c63md4q" path="res://Sprites/Object Sprites/Openables/chest1.png" id="2_luqym"]
 [ext_resource type="AudioStream" uid="uid://bwydatsdke36e" path="res://Sound/SFX/Objects/Chests/chest_open_02.wav" id="3_r73mh"]
 [ext_resource type="AudioStream" uid="uid://xyfy3rubb5aa" path="res://Sound/SFX/Objects/Chests/chest_open_03.wav" id="4_ntl4x"]
+[ext_resource type="Texture2D" uid="uid://32qv5f7fwwmn" path="res://Sprites/Object Sprites/Openables/chest4.png" id="6_lmf5d"]
 
 [sub_resource type="Resource" id="Resource_8bsre"]
 script = ExtResource("1_lmf5d")
@@ -14,6 +14,6 @@ metadata/_custom_type_script = "uid://vdqimlmcg4ql"
 
 [resource]
 script = ExtResource("1_iv6yq")
-sprite_sheet = ExtResource("2_luqym")
+sprite_sheet = ExtResource("6_lmf5d")
 frame_count = 3
 open_sound = SubResource("Resource_8bsre")

@@ -74,6 +74,13 @@ func set_currency(currency_comp : CurrencyComponent) -> void:
 		if h is MenuHoverableCurrency:
 			h.set_currency(currency_comp)
 
+##Sets the health component reference on all item hoverables; used for upgrade cap display.
+func set_health(health_comp : PlayerHealthComponent) -> void:
+	var hoverables = _get_all_hoverables(get_parent())
+	for h in hoverables:
+		if h is MenuHoverableItem:
+			h.health = health_comp
+
 ##Sets the spell slots for the player.
 func set_equipped_spells(equipped_spells : EquippedSpellsComponent) -> void:
 	var hoverables = _get_all_hoverables(get_parent())

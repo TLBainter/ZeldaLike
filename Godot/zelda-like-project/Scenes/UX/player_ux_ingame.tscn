@@ -325,8 +325,8 @@ root = NodePath("../..")
 [node name="PlayerUI_HeartsContainer" type="GridContainer" parent="PlayerInGameCanvas/PlayerUI_Hearts" unique_id=1648414126 node_paths=PackedStringArray("root")]
 layout_mode = 2
 size_flags_vertical = 0
-theme_override_constants/h_separation = 1
-theme_override_constants/v_separation = 1
+theme_override_constants/h_separation = 3
+theme_override_constants/v_separation = 3
 columns = 10
 script = ExtResource("5_ovlxb")
 heart_gui = ExtResource("5_55krk")

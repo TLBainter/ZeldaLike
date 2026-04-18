@@ -82,7 +82,7 @@ const CATEGORIES : Dictionary = {
 #region UPGRADES=======#
 ##Maps an item to its upgraded replacement.[br]
 ##Used by the debug console's /upgrade command and future upgrade systems.
-const UPGRADES : Dictionary = {
+const MOBILITY_UPGRADES : Dictionary = {
 	BAT_FORM: BAT_FORM_UPGRADED,
 	ALBEDO_HOOD: ALBEDO_HOOD_UPGRADED,
 	WAVEWALK_BOOTS: WAVEWALK_BOOTS_UPGRADED
@@ -102,3 +102,40 @@ const ITEM_RESOURCES : Dictionary = {
 	CRYSTAL_SHARD: preload("res://Scripts/Resources/Resource Files/Resources_Items/item_magic_shard.tres"),
 }
 #endregion ITEM RESOURCES=======#
+
+#region MENU ITEM RESOURCES=======#
+##Maps each item ID to its [b]MenuItemResource[/b] .tres file.[br]
+##Used by ContainerRewardResource for non-Money chest rewards.
+const MENU_ITEM_RESOURCES : Dictionary = {
+	# Spells
+	SPELL_GRAPPLE:          preload("res://Scripts/Resources/Resource Files/Resources_MenuItems/resource_menuItem_spellGrapple.tres"),
+	SPELL_IGNITE:           preload("res://Scripts/Resources/Resource Files/Resources_MenuItems/resource_menuItem_spellIgnite.tres"),
+	SPELL_HAMMER:           preload("res://Scripts/Resources/Resource Files/Resources_MenuItems/resource_menuItem_spellHammer.tres"),
+	SPELL_SUMMON:           preload("res://Scripts/Resources/Resource Files/Resources_MenuItems/resource_menuItem_spellSummon.tres"),
+	SPELL_HASTE:            preload("res://Scripts/Resources/Resource Files/Resources_MenuItems/resource_menuItem_spellHaste.tres"),
+	# Mobility
+	WAVEWALK_BOOTS:         preload("res://Scripts/Resources/Resource Files/Resources_MenuItems/resource_menuItem_boots.tres"),
+	WAVEWALK_BOOTS_UPGRADED:preload("res://Scripts/Resources/Resource Files/Resources_MenuItems/resource_menuItem_bootsUpgraded.tres"),
+	BAT_FORM:               preload("res://Scripts/Resources/Resource Files/Resources_MenuItems/resource_menuItem_bat.tres"),
+	BAT_FORM_UPGRADED:      preload("res://Scripts/Resources/Resource Files/Resources_MenuItems/resource_menuItem_batUpgraded.tres"),
+	ALBEDO_HOOD:            preload("res://Scripts/Resources/Resource Files/Resources_MenuItems/resource_menuItem_hood.tres"),
+	ALBEDO_HOOD_UPGRADED:   preload("res://Scripts/Resources/Resource Files/Resources_MenuItems/resource_menuItem_hoodUpgraded.tres"),
+	# Ingredients
+	BLOOD_CLOT:             preload("res://Scripts/Resources/Resource Files/Resources_MenuItems/resource_menuItem_bloodClot.tres"),
+	RED_GARNET:             preload("res://Scripts/Resources/Resource Files/Resources_MenuItems/resource_menuItem_redGarnet.tres"),
+	RITUAL_STEEL:           preload("res://Scripts/Resources/Resource Files/Resources_MenuItems/resource_menuItem_ritualSteel.tres"),
+	STARDUST:               preload("res://Scripts/Resources/Resource Files/Resources_MenuItems/resource_menuItem_stardust.tres"),
+	FULGURITE:              preload("res://Scripts/Resources/Resource Files/Resources_MenuItems/resource_menuItem_fulgurite.tres"),
+	HEART:                  preload("res://Scripts/Resources/Resource Files/Resources_MenuItems/resource_menuItem_heart.tres"),
+	KIDNEY:                 preload("res://Scripts/Resources/Resource Files/Resources_MenuItems/resource_menuItem_kidney.tres"),
+	METEORITE:              preload("res://Scripts/Resources/Resource Files/Resources_MenuItems/resource_menuItem_meteorite.tres"),
+	# Concoctions
+	ARCANE_SALVE:           preload("res://Scripts/Resources/Resource Files/Resources_MenuItems/resource_menuItem_arcaneSalve.tres"),
+	BLOOD_SALVE:            preload("res://Scripts/Resources/Resource Files/Resources_MenuItems/resource_menuItem_bloodSalve.tres"),
+	ENERGIZING_SALVE:       preload("res://Scripts/Resources/Resource Files/Resources_MenuItems/resource_menuItem_energizingSalve.tres"),
+	RESTORATIVE_SALVE:      preload("res://Scripts/Resources/Resource Files/Resources_MenuItems/resource_menuItem_restorativeSalve.tres"),
+	# Upgrades
+	BONE_SHARD:             preload("res://Scripts/Resources/Resource Files/Resources_MenuItems/Resources_MenuItems_Upgrades/resource_menuItem_boneShard.tres"),
+	# Dungeon items — add entries here once MenuItemResources are created for KEY, MAP, NOTEBOOK
+}
+#endregion MENU_ITEM RESOURCES=======#

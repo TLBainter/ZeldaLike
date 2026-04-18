@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://dd8asc28rmm0h" path="res://Scripts/Resources/Resource Scripts/resource_itemFunction_Effect_Immediate.gd" id="1_3vx6u"]
 [ext_resource type="Script" uid="uid://xt1isysytx6k" path="res://Scripts/Resources/Resource Scripts/resource_itemFunction_Consumable.gd" id="1_bb7ua"]
 [ext_resource type="Script" uid="uid://de8d77a6k33gy" path="res://Scripts/Resources/Resource Scripts/resource_itemFunction_Effect_Ongoing.gd" id="2_jfay6"]
+[ext_resource type="Script" uid="uid://b8q2v41quf1uf" path="res://Scripts/Resources/Resource Scripts/resource_itemFunction_Effect_Permanent.gd" id="3_jfay6"]
 
 [sub_resource type="Resource" id="Resource_sv6pf"]
 script = ExtResource("1_3vx6u")

@@ -56,6 +56,11 @@ func _ready():
 	_setup_recovery_timers()
 	_debug_log(str("initialized with ", max_bolts, " bolts (", max_energy, " max energy)."))
 
+func increase_max(amount: int) -> void:
+	max_energy += amount
+	max_bolts = int(max_energy / 4.0)
+	self.cur_energy += amount
+
 ##Consumes the specified amount of energy.[br]
 ##Returns [b]true[/b] if there was enough energy, [b]false[/b] if not (does not consume if insufficient).
 func consume(amount : int) -> bool:

@@ -241,6 +241,7 @@ _data = {
 [sub_resource type="Resource" id="Resource_8uivy"]
 script = ExtResource("15_8uivy")
 debug_me = true
+debug_me_verbose = true
 debug_name = "Player Health"
 
 [sub_resource type="Resource" id="Resource_6mdo8"]

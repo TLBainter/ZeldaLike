@@ -73,7 +73,7 @@ func start_dialogue(data : Dictionary, input_comp : PlayerInputComponent = null)
 	if data.is_empty():
 		return
 	
-	_current_lines = data["lines"]
+	_current_lines = Array(data["lines"].filter(func(l : String) -> bool: return not l.is_empty()), TYPE_STRING, "", null)
 	_current_character_res = data["character"]
 	_active_speak_component = data.get("source_component")
 	_current_line_index = 0

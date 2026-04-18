@@ -28,6 +28,7 @@ var debug_name : String:
 
 func set_max_hearts(max_hearts : int):
 	for child in get_children():
+		remove_child(child)
 		child.queue_free()
 	for i in range(max_hearts):
 		var heart = heart_gui.instantiate()

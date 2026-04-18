@@ -39,6 +39,10 @@
 [ext_resource type="Resource" uid="uid://c3nedqqe2nl6y" path="res://Scripts/Resources/Resource Files/Resources_MenuItems/resource_menuItem_bloodSalve.tres" id="25_ibj3f"]
 [ext_resource type="PackedScene" uid="uid://dmxavjnxxgqy8" path="res://Scenes/UX/menu_pause_navigable-currency.tscn" id="25_p8y57"]
 [ext_resource type="Texture2D" uid="uid://dtg58ltoklwwk" path="res://Sprites/UX/Pause Menu Elements/ux_pause-menu_inventory_panel-concoction_selected.png" id="26_sulb2"]
+[ext_resource type="Resource" uid="uid://o54i4m4atcfo" path="res://Scripts/Resources/Resource Files/Resources_MenuItems/Resources_MenuItems_Upgrades/resource_menuItem_boneShard.tres" id="32_qokfi"]
+[ext_resource type="Resource" uid="uid://dd4r0q5rfvm4d" path="res://Scripts/Resources/Resource Files/Resources_MenuItems/resource_menuItem_arcaneSalve.tres" id="38_te1rb"]
+[ext_resource type="Resource" uid="uid://bm0stmr3hatbd" path="res://Scripts/Resources/Resource Files/Resources_MenuItems/resource_menuItem_energizingSalve.tres" id="39_qokfi"]
+[ext_resource type="Resource" uid="uid://cn3x277pcc2wa" path="res://Scripts/Resources/Resource Files/Resources_MenuItems/resource_menuItem_restorativeSalve.tres" id="40_4mseo"]
 
 [sub_resource type="Resource" id="Resource_kso5y"]
 script = ExtResource("10_fs4uv")
@@ -162,7 +166,7 @@ item_resource = ExtResource("6_nj55d")
 down_nav = NodePath("../../../MenuIngredientPanels/MenuIngredientContainer/MenuIngredientPanel1")
 right_nav = NodePath("../MenuSpellPanel2")
 panel_texture_hovered = ExtResource("9_mwiei")
-info_box = NodePath("../../../MenuInfoBoxCont/InfoBoxPanel/RichTextLabel")
+info_box = NodePath("../../../MenuInfoBoxCont/InfoBoxPanel/InfoBoxText")
 debug = SubResource("Resource_kso5y")
 
 [node name="MenuSpellPanel2" parent="PauseMenuCanvas/InventoryMenuMarginCont/MenuBackgroundPanel/MenuBackgroundContainer/MenuSpellPanels/MenuSpellContainer" unique_id=1179492258 node_paths=PackedStringArray("down_nav", "left_nav", "right_nav", "info_box") instance=ExtResource("3_05ck7")]
@@ -174,7 +178,7 @@ down_nav = NodePath("../../../MenuMobilityItemsPanels/MenuMobilityItemsContainer
 left_nav = NodePath("../MenuSpellPanel1")
 right_nav = NodePath("../MenuSpellPanel3")
 panel_texture_hovered = ExtResource("9_mwiei")
-info_box = NodePath("../../../MenuInfoBoxCont/InfoBoxPanel/RichTextLabel")
+info_box = NodePath("../../../MenuInfoBoxCont/InfoBoxPanel/InfoBoxText")
 debug = SubResource("Resource_mcxul")
 
 [node name="MenuSpellPanel3" parent="PauseMenuCanvas/InventoryMenuMarginCont/MenuBackgroundPanel/MenuBackgroundContainer/MenuSpellPanels/MenuSpellContainer" unique_id=1012498377 node_paths=PackedStringArray("down_nav", "left_nav", "right_nav", "info_box") instance=ExtResource("3_05ck7")]
@@ -186,7 +190,7 @@ down_nav = NodePath("../../../MenuResourcesPanels/MenuResourcesContainer/MenuRes
 left_nav = NodePath("../MenuSpellPanel2")
 right_nav = NodePath("../MenuSpellPanel4")
 panel_texture_hovered = ExtResource("9_mwiei")
-info_box = NodePath("../../../MenuInfoBoxCont/InfoBoxPanel/RichTextLabel")
+info_box = NodePath("../../../MenuInfoBoxCont/InfoBoxPanel/InfoBoxText")
 debug = SubResource("Resource_te1rb")
 
 [node name="MenuSpellPanel4" parent="PauseMenuCanvas/InventoryMenuMarginCont/MenuBackgroundPanel/MenuBackgroundContainer/MenuSpellPanels/MenuSpellContainer" unique_id=2013853507 node_paths=PackedStringArray("down_nav", "left_nav", "right_nav", "info_box") instance=ExtResource("3_05ck7")]
@@ -198,7 +202,7 @@ down_nav = NodePath("../../../MenuResourcesPanels/MenuResourcesContainer/MenuRes
 left_nav = NodePath("../MenuSpellPanel3")
 right_nav = NodePath("../MenuSpellPanel5")
 panel_texture_hovered = ExtResource("9_mwiei")
-info_box = NodePath("../../../MenuInfoBoxCont/InfoBoxPanel/RichTextLabel")
+info_box = NodePath("../../../MenuInfoBoxCont/InfoBoxPanel/InfoBoxText")
 debug = SubResource("Resource_qokfi")
 
 [node name="MenuSpellPanel5" parent="PauseMenuCanvas/InventoryMenuMarginCont/MenuBackgroundPanel/MenuBackgroundContainer/MenuSpellPanels/MenuSpellContainer" unique_id=1595214177 node_paths=PackedStringArray("down_nav", "left_nav", "info_box") instance=ExtResource("3_05ck7")]
@@ -209,7 +213,7 @@ item_resource = ExtResource("9_sulb2")
 down_nav = NodePath("../../../MenuConcoctionPanels/GridContainer/MenuConcoctionsPanel1")
 left_nav = NodePath("../MenuSpellPanel4")
 panel_texture_hovered = ExtResource("9_mwiei")
-info_box = NodePath("../../../MenuInfoBoxCont/InfoBoxPanel/RichTextLabel")
+info_box = NodePath("../../../MenuInfoBoxCont/InfoBoxPanel/InfoBoxText")
 debug = SubResource("Resource_4mseo")
 
 [node name="MenuIngredientPanels" type="PanelContainer" parent="PauseMenuCanvas/InventoryMenuMarginCont/MenuBackgroundPanel/MenuBackgroundContainer" unique_id=328296351]
@@ -247,7 +251,7 @@ panel_texture = ExtResource("15_p8y57")
 panel_texture_hovered = ExtResource("16_xtbrc")
 content_pivot_x = 0.0
 content_pivot_y = 0.0
-info_box = NodePath("../../../MenuInfoBoxCont/InfoBoxPanel/RichTextLabel")
+info_box = NodePath("../../../MenuInfoBoxCont/InfoBoxPanel/InfoBoxText")
 cursor_texture = ExtResource("16_nj55d")
 debug = SubResource("Resource_awb6k")
 
@@ -265,7 +269,7 @@ panel_texture = ExtResource("15_p8y57")
 panel_texture_hovered = ExtResource("16_xtbrc")
 content_pivot_x = 0.0
 content_pivot_y = 0.0
-info_box = NodePath("../../../MenuInfoBoxCont/InfoBoxPanel/RichTextLabel")
+info_box = NodePath("../../../MenuInfoBoxCont/InfoBoxPanel/InfoBoxText")
 cursor_texture = ExtResource("16_nj55d")
 debug = SubResource("Resource_awb6k")
 
@@ -282,7 +286,7 @@ panel_texture = ExtResource("15_p8y57")
 panel_texture_hovered = ExtResource("16_xtbrc")
 content_pivot_x = 0.0
 content_pivot_y = 0.0
-info_box = NodePath("../../../MenuInfoBoxCont/InfoBoxPanel/RichTextLabel")
+info_box = NodePath("../../../MenuInfoBoxCont/InfoBoxPanel/InfoBoxText")
 cursor_texture = ExtResource("16_nj55d")
 debug = SubResource("Resource_awb6k")
 
@@ -300,7 +304,7 @@ panel_texture = ExtResource("15_p8y57")
 panel_texture_hovered = ExtResource("16_xtbrc")
 content_pivot_x = 0.0
 content_pivot_y = 0.0
-info_box = NodePath("../../../MenuInfoBoxCont/InfoBoxPanel/RichTextLabel")
+info_box = NodePath("../../../MenuInfoBoxCont/InfoBoxPanel/InfoBoxText")
 cursor_texture = ExtResource("16_nj55d")
 debug = SubResource("Resource_awb6k")
 
@@ -317,7 +321,7 @@ panel_texture = ExtResource("15_p8y57")
 panel_texture_hovered = ExtResource("16_xtbrc")
 content_pivot_x = 0.0
 content_pivot_y = 0.0
-info_box = NodePath("../../../MenuInfoBoxCont/InfoBoxPanel/RichTextLabel")
+info_box = NodePath("../../../MenuInfoBoxCont/InfoBoxPanel/InfoBoxText")
 cursor_texture = ExtResource("16_nj55d")
 debug = SubResource("Resource_awb6k")
 
@@ -335,7 +339,7 @@ panel_texture = ExtResource("15_p8y57")
 panel_texture_hovered = ExtResource("16_xtbrc")
 content_pivot_x = 0.0
 content_pivot_y = 0.0
-info_box = NodePath("../../../MenuInfoBoxCont/InfoBoxPanel/RichTextLabel")
+info_box = NodePath("../../../MenuInfoBoxCont/InfoBoxPanel/InfoBoxText")
 cursor_texture = ExtResource("16_nj55d")
 debug = SubResource("Resource_awb6k")
 
@@ -351,7 +355,7 @@ panel_texture = ExtResource("15_p8y57")
 panel_texture_hovered = ExtResource("16_xtbrc")
 content_pivot_x = 0.0
 content_pivot_y = 0.0
-info_box = NodePath("../../../MenuInfoBoxCont/InfoBoxPanel/RichTextLabel")
+info_box = NodePath("../../../MenuInfoBoxCont/InfoBoxPanel/InfoBoxText")
 cursor_texture = ExtResource("16_nj55d")
 debug = SubResource("Resource_awb6k")
 
@@ -368,7 +372,7 @@ panel_texture = ExtResource("15_p8y57")
 panel_texture_hovered = ExtResource("16_xtbrc")
 content_pivot_x = 0.0
 content_pivot_y = 0.0
-info_box = NodePath("../../../MenuInfoBoxCont/InfoBoxPanel/RichTextLabel")
+info_box = NodePath("../../../MenuInfoBoxCont/InfoBoxPanel/InfoBoxText")
 cursor_texture = ExtResource("16_nj55d")
 debug = SubResource("Resource_awb6k")
 
@@ -400,12 +404,12 @@ item_resource = ExtResource("20_sulb2")
 up_nav = NodePath("../../../MenuSpellPanels/MenuSpellContainer/MenuSpellPanel2")
 down_nav = NodePath("../MenuMobilityItem2")
 left_nav = NodePath("../../../MenuIngredientPanels/MenuIngredientContainer/MenuIngredientPanel2")
-right_nav = NodePath(".")
+right_nav = NodePath("../../../MenuResourcesPanels/MenuResourcesContainer/MenuResource1")
 panel_texture = ExtResource("18_xtbrc")
 panel_texture_hovered = ExtResource("20_2clsk")
 content_pivot_x = 0.0
 content_pivot_y = 0.0
-info_box = NodePath("../../../MenuInfoBoxCont/InfoBoxPanel/RichTextLabel")
+info_box = NodePath("../../../MenuInfoBoxCont/InfoBoxPanel/InfoBoxText")
 cursor_texture = ExtResource("19_2clsk")
 debug = SubResource("Resource_hht70")
 
@@ -423,7 +427,7 @@ panel_texture = ExtResource("18_xtbrc")
 panel_texture_hovered = ExtResource("20_2clsk")
 content_pivot_x = 0.0
 content_pivot_y = 0.0
-info_box = NodePath("../../../MenuInfoBoxCont/InfoBoxPanel/RichTextLabel")
+info_box = NodePath("../../../MenuInfoBoxCont/InfoBoxPanel/InfoBoxText")
 cursor_texture = ExtResource("19_2clsk")
 debug = SubResource("Resource_hht70")
 
@@ -440,7 +444,7 @@ panel_texture = ExtResource("18_xtbrc")
 panel_texture_hovered = ExtResource("20_2clsk")
 content_pivot_x = 0.0
 content_pivot_y = 0.0
-info_box = NodePath("../../../MenuInfoBoxCont/InfoBoxPanel/RichTextLabel")
+info_box = NodePath("../../../MenuInfoBoxCont/InfoBoxPanel/InfoBoxText")
 cursor_texture = ExtResource("19_2clsk")
 debug = SubResource("Resource_hht70")
 
@@ -471,16 +475,16 @@ custom_minimum_size = Vector2(48, 54)
 layout_mode = 2
 size_flags_horizontal = 1
 size_flags_vertical = 1
-item_resource = ExtResource("20_sulb2")
+item_resource = ExtResource("32_qokfi")
 up_nav = NodePath("../../../MenuSpellPanels/MenuSpellContainer/MenuSpellPanel4")
 down_nav = NodePath("../MenuResource2")
 left_nav = NodePath("../../../MenuMobilityItemsPanels/MenuMobilityItemsContainer/MenuMobilityItem1")
-right_nav = NodePath("../../../MenuConcoctionPanels/GridContainer/MenuConcoctionsPanel2")
+right_nav = NodePath("../../../MenuConcoctionPanels/GridContainer/MenuConcoctionsPanel1")
 panel_texture = ExtResource("18_xtbrc")
 panel_texture_hovered = ExtResource("20_2clsk")
 content_pivot_x = 0.0
 content_pivot_y = 0.0
-info_box = NodePath("../../../MenuInfoBoxCont/InfoBoxPanel/RichTextLabel")
+info_box = NodePath("../../../MenuInfoBoxCont/InfoBoxPanel/InfoBoxText")
 cursor_texture = ExtResource("19_2clsk")
 debug = SubResource("Resource_hht70")
 
@@ -498,7 +502,7 @@ panel_texture = ExtResource("18_xtbrc")
 panel_texture_hovered = ExtResource("20_2clsk")
 content_pivot_x = 0.0
 content_pivot_y = 0.0
-info_box = NodePath("../../../MenuInfoBoxCont/InfoBoxPanel/RichTextLabel")
+info_box = NodePath("../../../MenuInfoBoxCont/InfoBoxPanel/InfoBoxText")
 cursor_texture = ExtResource("19_2clsk")
 debug = SubResource("Resource_hht70")
 
@@ -515,7 +519,7 @@ panel_texture = ExtResource("18_xtbrc")
 panel_texture_hovered = ExtResource("20_2clsk")
 content_pivot_x = 0.0
 content_pivot_y = 0.0
-info_box = NodePath("../../../MenuInfoBoxCont/InfoBoxPanel/RichTextLabel")
+info_box = NodePath("../../../MenuInfoBoxCont/InfoBoxPanel/InfoBoxText")
 cursor_texture = ExtResource("19_2clsk")
 debug = SubResource("Resource_hht70")
 
@@ -539,7 +543,7 @@ pivot_offset_ratio = Vector2(0.5, 0.5)
 self_modulate = Color(1, 1, 1, 0)
 layout_mode = 2
 
-[node name="TextureRect" type="TextureRect" parent="PauseMenuCanvas/InventoryMenuMarginCont/MenuBackgroundPanel/MenuBackgroundContainer/MenuInfoBoxCont/InfoBoxPanel" unique_id=1370098033]
+[node name="InfoBoxPanelTexture" type="TextureRect" parent="PauseMenuCanvas/InventoryMenuMarginCont/MenuBackgroundPanel/MenuBackgroundContainer/MenuInfoBoxCont/InfoBoxPanel" unique_id=1370098033]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -549,7 +553,7 @@ grow_vertical = 2
 texture = ExtResource("20_mwiei")
 stretch_mode = 4
 
-[node name="RichTextLabel" type="RichTextLabel" parent="PauseMenuCanvas/InventoryMenuMarginCont/MenuBackgroundPanel/MenuBackgroundContainer/MenuInfoBoxCont/InfoBoxPanel" unique_id=408575077]
+[node name="InfoBoxText" type="RichTextLabel" parent="PauseMenuCanvas/InventoryMenuMarginCont/MenuBackgroundPanel/MenuBackgroundContainer/MenuInfoBoxCont/InfoBoxPanel" unique_id=408575077]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -600,7 +604,7 @@ left_nav = NodePath("../../../MenuResourcesPanels/MenuResourcesContainer/MenuRes
 panel_texture = ExtResource("23_og677")
 panel_texture_hovered = ExtResource("26_sulb2")
 content_pivot_x = 0.0
-info_box = NodePath("../../../MenuInfoBoxCont/InfoBoxPanel/RichTextLabel")
+info_box = NodePath("../../../MenuInfoBoxCont/InfoBoxPanel/InfoBoxText")
 cursor_texture = ExtResource("24_g3vwm")
 debug = SubResource("Resource_57mdv")
 
@@ -608,14 +612,14 @@ debug = SubResource("Resource_57mdv")
 custom_minimum_size = Vector2(64, 36)
 layout_mode = 2
 size_flags_vertical = 1
-item_resource = ExtResource("25_ibj3f")
+item_resource = ExtResource("38_te1rb")
 up_nav = NodePath("../MenuConcoctionsPanel1")
 down_nav = NodePath("../MenuConcoctionsPanel3")
 left_nav = NodePath("../../../MenuResourcesPanels/MenuResourcesContainer/MenuResource2")
 panel_texture = ExtResource("23_og677")
 panel_texture_hovered = ExtResource("26_sulb2")
 content_pivot_x = 0.0
-info_box = NodePath("../../../MenuInfoBoxCont/InfoBoxPanel/RichTextLabel")
+info_box = NodePath("../../../MenuInfoBoxCont/InfoBoxPanel/InfoBoxText")
 cursor_texture = ExtResource("24_g3vwm")
 debug = SubResource("Resource_57mdv")
 
@@ -623,14 +627,14 @@ debug = SubResource("Resource_57mdv")
 custom_minimum_size = Vector2(64, 36)
 layout_mode = 2
 size_flags_vertical = 1
-item_resource = ExtResource("25_ibj3f")
+item_resource = ExtResource("39_qokfi")
 up_nav = NodePath("../MenuConcoctionsPanel2")
 down_nav = NodePath("../MenuConcoctionsPanel4")
 left_nav = NodePath("../../../MenuResourcesPanels/MenuResourcesContainer/MenuResource2")
 panel_texture = ExtResource("23_og677")
 panel_texture_hovered = ExtResource("26_sulb2")
 content_pivot_x = 0.0
-info_box = NodePath("../../../MenuInfoBoxCont/InfoBoxPanel/RichTextLabel")
+info_box = NodePath("../../../MenuInfoBoxCont/InfoBoxPanel/InfoBoxText")
 cursor_texture = ExtResource("24_g3vwm")
 debug = SubResource("Resource_57mdv")
 
@@ -638,14 +642,14 @@ debug = SubResource("Resource_57mdv")
 custom_minimum_size = Vector2(64, 36)
 layout_mode = 2
 size_flags_vertical = 1
-item_resource = ExtResource("25_ibj3f")
+item_resource = ExtResource("40_4mseo")
 up_nav = NodePath("../MenuConcoctionsPanel3")
 down_nav = NodePath("../../../MenuCurrencyPanels/CurrencyPanel")
 left_nav = NodePath("../../../MenuResourcesPanels/MenuResourcesContainer/MenuResource3")
 panel_texture = ExtResource("23_og677")
 panel_texture_hovered = ExtResource("26_sulb2")
 content_pivot_x = 0.0
-info_box = NodePath("../../../MenuInfoBoxCont/InfoBoxPanel/RichTextLabel")
+info_box = NodePath("../../../MenuInfoBoxCont/InfoBoxPanel/InfoBoxText")
 cursor_texture = ExtResource("24_g3vwm")
 debug = SubResource("Resource_57mdv")
 
@@ -670,8 +674,30 @@ size_flags_vertical = 0
 info_effect = "You have [cur.currency] remaining and can store an additional [cur.difference] in your [cur.wallet]."
 up_nav = NodePath("../../MenuConcoctionPanels/GridContainer/MenuConcoctionsPanel4")
 left_nav = NodePath("../../MenuResourcesPanels/MenuResourcesContainer/MenuResource3")
-info_box = NodePath("../../MenuInfoBoxCont/InfoBoxPanel/RichTextLabel")
+info_box = NodePath("../../MenuInfoBoxCont/InfoBoxPanel/InfoBoxText")
 debug = SubResource("Resource_jxkak")
+
+[node name="MenuPageLabel" type="RichTextLabel" parent="PauseMenuCanvas/InventoryMenuMarginCont/MenuBackgroundPanel" unique_id=1241050450]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -111.0
+offset_top = -19.0
+offset_right = 111.0
+offset_bottom = 15.0
+grow_horizontal = 2
+grow_vertical = 0
+theme = SubResource("Theme_buinw")
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_outline_size = 3
+bbcode_enabled = true
+text = "[color=darkgray]Inventory[/color]"
+autowrap_mode = 0
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="MenuInput" type="Node" parent="." unique_id=979124832 node_paths=PackedStringArray("default_hoverable")]
 script = ExtResource("10_6131l")

@@ -56,6 +56,12 @@ const CHEST_ANIM_FPS : float = 8.0
 ##Whether this chest has been opened. Persisted across sessions via [b]containerManager[/b].
 var is_opened : bool = false
 
+# Resolved per interact() call — accounts for upgrade chain logic.
+var _resolved_item_id : String = ""
+var _resolved_item_kind : ContainerRewardResource.ItemKind = ContainerRewardResource.ItemKind.PROGRESSION
+var _resolved_mini_sprite : Texture2D = null
+var _resolved_dialogue_ref : String = ""
+
 #endregion VARIABLES
 
 #region FUNCTIONS
@@ -90,6 +96,8 @@ func interact(user = null) -> void:
 		push_error(name, ": interact() called without a Player reference")
 		return
 
+	_resolve_upgrade(user)
+
 	# Play the chest open sound (random clip from library).
 	if container_data.open_sound and not container_data.open_sound.sl.is_empty() and audioManager:
 		audioManager.play(container_data.open_sound.sl.pick_random(), "Sound Effects")
@@ -117,20 +125,23 @@ func _on_chest_open_done(_anim_name : String, user : Player) -> void:
 func _on_item_get_done(_anim_name : String, user : Player) -> void:
 	# Play the item-get sting for this container's kind.
 	if container_data and audioManager:
-		var sting := _get_item_get_sound(reward.item_kind)
+		var sting := _get_item_get_sound(_resolved_item_kind)
 		if sting:
 			audioManager.play(sting, "UI")
 
-	var item := reward.item_resource if reward else null
-	var ref_id : String = item.first_get_dialogue_ref if item else ""
+	var mini_sprite := _resolved_mini_sprite
+	var ref_id := _resolved_dialogue_ref
 
 	# Show Item Get Sprite.
-	if item and item.mini_sprite:
-		user.show_item_get(item.mini_sprite)
+	if mini_sprite:
+		user.show_item_get(mini_sprite)
 
 	if ref_id != "" and user.player_ux and user.player_ux.dialogue_controller:
 		var data : Dictionary = dialogueDB.get_dialogue_data(ref_id)
 		if not data.is_empty():
+			# Column C is the item name; item-get text starts at Column D, so drop the first line.
+			if data["lines"].size() > 1:
+				data = { "character": data["character"], "lines": data["lines"].slice(1) }
 			var dc = user.player_ux.dialogue_controller
 			dc.start_dialogue(data, user.input)
 			dc.dialogue_closed.connect(_on_dialogue_closed.bind(user), CONNECT_ONE_SHOT)
@@ -165,27 +176,130 @@ func _finish(user : Player) -> void:
 	if user.anim and user.anim is CharacterAnimator:
 		user.anim.can_update_facing = true
 
-	var item := reward.item_resource if reward else null
-
-	# Apply consumable effects (health, energy, magic, currency).
-	if item:
-		if item.recover_health > 0 and user.health:
-			user.health.healed(item.recover_health)
-		if item.recover_energy > 0 and user.energy:
-			user.energy.restore(item.recover_energy)
-		if item.recover_magic > 0 and user.magic:
-			user.magic.restore(item.recover_magic)
-		if item.grant_notes > 0 and user.currency:
-			user.currency.add(item.grant_notes)
+	# Apply consumable effects (health, energy, magic, currency) — Money items only.
+	if _resolved_item_kind == ContainerRewardResource.ItemKind.MONEY:
+		var item_res : ItemResource = ItemID.ITEM_RESOURCES.get(_resolved_item_id)
+		if item_res:
+			if item_res.recover_health > 0 and user.health:
+				user.health.healed(item_res.recover_health)
+			if item_res.recover_energy > 0 and user.energy:
+				user.energy.restore(item_res.recover_energy)
+			if item_res.recover_magic > 0 and user.magic:
+				user.magic.restore(item_res.recover_magic)
+			if item_res.grant_notes > 0 and user.currency:
+				user.currency.add(item_res.grant_notes)
 
 	# Grant the item to inventory.
-	if reward and reward.item_id != "" and user.inventory:
-		user.inventory.add_item(reward.item_id, reward.quantity)
+	if _resolved_item_id != "" and user.inventory:
+		var mir_cap : MenuItemResource = ItemID.MENU_ITEM_RESOURCES.get(_resolved_item_id)
+		var upgrade_cap := mir_cap as MenuItemUpgradeResource
+		var base_health : int = user.health.base_max_health if user.health else 0
+		var at_max := upgrade_cap and upgrade_cap.max_quantity > 0 \
+			and user.inventory.get_quantity(_resolved_item_id) >= upgrade_cap.get_adjusted_max_total(base_health)
+		if not at_max:
+			var qty_before : int = user.inventory.get_quantity(_resolved_item_id)
+			user.inventory.add_item(_resolved_item_id, 1)
+			var qty_after : int = user.inventory.get_quantity(_resolved_item_id)
+			_apply_upgrade_permanent_effects(_resolved_item_id, qty_before, qty_after, user)
 
 	is_opened = true
 	containerManager.mark_opened(_get_chest_id())
 	set_active(false)
 	interaction_finished.emit()
+
+#region UPGRADE HELPERS
+
+func _apply_upgrade_permanent_effects(item_id: String, qty_before: int, qty_after: int, user: Player) -> void:
+	var mir : MenuItemResource = ItemID.MENU_ITEM_RESOURCES.get(item_id)
+	var upgrade := mir as MenuItemUpgradeResource
+	if not upgrade or not upgrade.item_function or not upgrade.item_function.has_permanent_effects():
+		return
+	var timing := upgrade.item_function.permanent_effect_timing
+	var sets_to_apply := 0
+	if timing == EffectEnums.PermanentEffectTiming.ON_COMPLETE:
+		sets_to_apply = int(float(qty_after) / upgrade.num_parts) - int(float(qty_before) / upgrade.num_parts)
+	else:
+		sets_to_apply = qty_after - qty_before
+	for _i in range(sets_to_apply):
+		for effect in upgrade.item_function.permanent_effects:
+			match effect.target:
+				EffectEnums.PermanentEffectTarget.MAX_HEALTH:
+					if user.health:
+						user.health.increase_max(effect.amount)
+				EffectEnums.PermanentEffectTarget.MAX_ENERGY:
+					if user.energy:
+						user.energy.increase_max(effect.amount)
+				EffectEnums.PermanentEffectTarget.MAX_MAGIC:
+					if user.magic:
+						user.magic.collect_shards(effect.amount)
+
+## Resolves which item to actually give, accounting for the mobility upgrade chain.
+## Sets _resolved_item_id/kind/mini_sprite/dialogue_ref before the opening sequence begins.
+func _resolve_upgrade(user : Player) -> void:
+	# Default: give exactly what the reward says.
+	_resolved_item_id = reward.item_id
+	_resolved_item_kind = reward.item_kind
+	_resolved_mini_sprite = reward.reward_mini_sprite
+	_resolved_dialogue_ref = reward.reward_dialogue_ref
+
+	if not ItemID.MOBILITY_UPGRADES.has(reward.item_id):
+		_resolve_part_display(user)
+		return
+
+	var base_id : String = reward.item_id
+	var upgrade_id : String = ItemID.MOBILITY_UPGRADES[base_id]
+	var has_base : bool = user.inventory.has_item(base_id)
+	var has_upgrade : bool = user.inventory.has_item(upgrade_id)
+
+	if not has_base:
+		pass  # Give the base item — defaults already set.
+	elif not has_upgrade:
+		# Give the upgrade instead.
+		_resolved_item_id = upgrade_id
+		var mir : MenuItemResource = ItemID.MENU_ITEM_RESOURCES.get(upgrade_id)
+		if mir:
+			_resolved_mini_sprite = mir.mini_icon
+			_resolved_dialogue_ref = mir.text_ref_id
+	else:
+		# Player has both — give an orange bead and log the error.
+		_resolved_item_id = ItemID.ORANGE_BEAD
+		_resolved_item_kind = ContainerRewardResource.ItemKind.MONEY
+		var item_res : ItemResource = ItemID.ITEM_RESOURCES.get(ItemID.ORANGE_BEAD)
+		if item_res:
+			_resolved_mini_sprite = item_res.mini_sprite
+			_resolved_dialogue_ref = item_res.first_get_dialogue_ref
+		_log_upgrade_error(base_id)
+
+## For [MenuItemUpgradeResource] items, replaces the default mini sprite and dialogue ref
+## with the data for the specific part the player is about to receive.
+func _resolve_part_display(user : Player) -> void:
+	var mir := ItemID.MENU_ITEM_RESOURCES.get(_resolved_item_id) as MenuItemUpgradeResource
+	if not mir or not user.inventory:
+		return
+	var qty_before : int = user.inventory.get_quantity(_resolved_item_id)
+	var qty_after : int = qty_before + 1
+	if qty_after % mir.num_parts == 0:
+		if mir.full_mini_sprite:
+			_resolved_mini_sprite = mir.full_mini_sprite
+		if mir.full_text_ref_id != "":
+			_resolved_dialogue_ref = mir.full_text_ref_id
+	else:
+		var part := mir.get_part_data(mir.get_current_parts(qty_after))
+		if part and part.part_mini_sprite:
+			_resolved_mini_sprite = part.part_mini_sprite
+		if not mir.text_ref_id.is_empty():
+			_resolved_dialogue_ref = mir.text_ref_id
+
+func _log_upgrade_error(base_id : String) -> void:
+	var scene_name := ""
+	if get_tree() and get_tree().current_scene:
+		scene_name = get_tree().current_scene.scene_file_path.get_file().get_basename()
+	var msg := "[b]ERROR[/b]: Player already has [" + base_id + "], but tried to get it again from Chest [" + _get_chest_id() + "] in Scene [" + scene_name + "]!"
+	if debugConsole:
+		debugConsole.log(msg)
+	push_error(msg)
+
+#endregion UPGRADE HELPERS
 
 #region RESOURCE SIGNAL HANDLERS
 
@@ -214,13 +328,23 @@ func _setup_sprite() -> void:
 func _update_item_preview() -> void:
 	if not contained_item_sprite:
 		return
-	if not reward or not reward.item_resource or not reward.item_resource.item_strip:
+	if not reward:
 		contained_item_sprite.texture = null
 		return
-	contained_item_sprite.texture = reward.item_resource.item_strip
-	contained_item_sprite.hframes = 5
-	contained_item_sprite.vframes = 1
-	contained_item_sprite.frame = 0
+	if reward.item_kind == ContainerRewardResource.ItemKind.MONEY:
+		if not reward.item_resource or not reward.item_resource.item_strip:
+			contained_item_sprite.texture = null
+			return
+		contained_item_sprite.texture = reward.item_resource.item_strip
+		contained_item_sprite.hframes = 5
+		contained_item_sprite.vframes = 1
+		contained_item_sprite.frame = 0
+	else:
+		var mini_icon := reward.reward_mini_sprite
+		contained_item_sprite.texture = mini_icon
+		contained_item_sprite.hframes = 1
+		contained_item_sprite.vframes = 1
+		contained_item_sprite.frame = 0
 
 func _last_frame() -> int:
 	if not container_data:

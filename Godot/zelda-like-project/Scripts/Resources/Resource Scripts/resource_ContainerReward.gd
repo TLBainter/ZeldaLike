@@ -56,15 +56,42 @@ var _item : String = "key"
 var item_id : String:
 	get: return _item
 
-##The item resource for this reward, resolved automatically from [b]ItemID.ITEM_RESOURCES[/b].[br]
-##Returns [code]null[/code] if no resource file has been registered for this item yet.
+##The [b]ItemResource[/b] for this reward (Money items only).[br]
+##Returns [code]null[/code] for non-Money kinds.
 var item_resource : ItemResource:
 	get:
+		if item_kind != ItemKind.MONEY:
+			return null
 		var resources = _ITEM_ID_SCRIPT.get_script_constant_map().get("ITEM_RESOURCES", {})
+		return resources.get(_item, null)
+
+##The [b]MenuItemResource[/b] for this reward (non-Money items only).[br]
+##Returns [code]null[/code] for Money kind.
+var menu_item_resource : MenuItemResource:
+	get:
+		if item_kind == ItemKind.MONEY:
+			return null
+		var resources = _ITEM_ID_SCRIPT.get_script_constant_map().get("MENU_ITEM_RESOURCES", {})
 		return resources.get(_item, null)
 
 ##Always [code]1[/code] — containers grant exactly one of the reward item.
 var quantity : int = 1
+
+## The sprite used for the Item Get display, regardless of reward type.
+var reward_mini_sprite : Texture2D:
+	get:
+		if item_kind == ItemKind.MONEY:
+			return item_resource.mini_sprite if item_resource else null
+		var mir := menu_item_resource
+		return mir.mini_icon if mir else null
+
+## The dialogue CSV ref ID used on pickup, regardless of reward type.
+var reward_dialogue_ref : String:
+	get:
+		if item_kind == ItemKind.MONEY:
+			return item_resource.first_get_dialogue_ref if item_resource else ""
+		var mir := menu_item_resource
+		return mir.text_ref_id if mir else ""
 
 #endregion PROPERTIES
 

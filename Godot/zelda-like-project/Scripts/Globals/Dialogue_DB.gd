@@ -56,10 +56,13 @@ func _parse_csv():
 			continue
 		var ref_id = csv_row[0]
 		var char_id = csv_row[1]
+		# Store columns C–H by position so indices are stable (Column C = lines[0], D = lines[1], …).
+		# Trailing empty columns are trimmed; internal empties are preserved for schema-based access.
 		var lines : Array[String] = []
 		for i in range(2, 8):
-			if i < csv_row.size() and not csv_row[i].is_empty():
-				lines.append(csv_row[i])
+			lines.append(csv_row[i] if i < csv_row.size() else "")
+		while not lines.is_empty() and lines.back().is_empty():
+			lines.pop_back()
 		
 		_dialogue_library[ref_id] = {
 			"char_id" : char_id,
