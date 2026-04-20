@@ -86,6 +86,7 @@ func _ready():
 	var energy_comp : EnergyComponent = root.energy
 	if energy_comp and energy_display:
 		energy_display.initialize(energy_comp, player, player_cam)
+		energy_comp.max_energy_changed.connect(_on_max_energy_changed)
 	
 	var magic_comp : MagicComponent = root.magic
 	if magic_comp and magic_display:
@@ -154,4 +155,7 @@ func _on_health_changed(new_hp, max_hp, _change):
 func _on_max_health_changed(new_max : int, new_cur : int):
 	heartsContainer.set_max_hearts(int(new_max / 4.0))
 	heartsContainer.update_hearts(new_cur)
+
+func _on_max_energy_changed(new_max : int, _new_cur : int) -> void:
+	energy_display.set_max_bolts(int(new_max / 4.0))
 #endregion FUNCTIONS

@@ -1,0 +1,107 @@
+[gd_resource type="Resource" script_class="MenuItemUpgradeResource" format=3 uid="uid://jp4jo52x1p0y"]
+
+[ext_resource type="Texture2D" uid="uid://cl8dx1vs47x17" path="res://Sprites/Item Sprites/Resource Upgrades/gland_mini-4.tres" id="1_705rv"]
+[ext_resource type="Script" uid="uid://dd8asc28rmm0h" path="res://Scripts/Resources/Resource Scripts/resource_itemFunction_Effect_Immediate.gd" id="2_pcecd"]
+[ext_resource type="Script" uid="uid://de8d77a6k33gy" path="res://Scripts/Resources/Resource Scripts/resource_itemFunction_Effect_Ongoing.gd" id="3_rau0u"]
+[ext_resource type="Script" uid="uid://b8q2v41quf1uf" path="res://Scripts/Resources/Resource Scripts/resource_itemFunction_Effect_Permanent.gd" id="4_ajvni"]
+[ext_resource type="Script" uid="uid://d04labawd0pac" path="res://Scripts/Resources/Resource Scripts/resource_itemFunction.gd" id="5_0ukxt"]
+[ext_resource type="Texture2D" uid="uid://dpam4wujh6651" path="res://Sprites/Item Sprites/Resource Upgrades/gland_static-0.tres" id="6_pcecd"]
+[ext_resource type="Texture2D" uid="uid://dnu1gn2winhs7" path="res://Sprites/Item Sprites/Resource Upgrades/gland_outline.tres" id="7_rau0u"]
+[ext_resource type="Script" uid="uid://bobqbce4xdihk" path="res://Scripts/Resources/Resource Scripts/resource_upgradePartData.gd" id="8_ibwpr"]
+[ext_resource type="Texture2D" uid="uid://c05kwk758fn7u" path="res://Sprites/Item Sprites/Resource Upgrades/gland_mini-1.tres" id="9_ajvni"]
+[ext_resource type="Texture2D" uid="uid://cv4w4qn7nqawj" path="res://Sprites/Item Sprites/Resource Upgrades/gland_anim-1.tres" id="10_0ukxt"]
+[ext_resource type="Texture2D" uid="uid://cloq35trnr8us" path="res://Sprites/Item Sprites/Resource Upgrades/gland_static-1.tres" id="11_qxkms"]
+[ext_resource type="Texture2D" uid="uid://6reevppi3q2v" path="res://Sprites/Item Sprites/Resource Upgrades/gland_anim-2.tres" id="12_qqn6l"]
+[ext_resource type="Texture2D" uid="uid://xyoety86jrj5" path="res://Sprites/Item Sprites/Resource Upgrades/gland_static-2.tres" id="13_ibwpr"]
+[ext_resource type="Texture2D" uid="uid://bg6s31esevxqu" path="res://Sprites/Item Sprites/Resource Upgrades/gland_anim-3.tres" id="14_hs0fg"]
+[ext_resource type="Texture2D" uid="uid://bpq3pph5gslbj" path="res://Sprites/Item Sprites/Resource Upgrades/gland_static-3.tres" id="15_manrr"]
+[ext_resource type="Texture2D" uid="uid://ct13lt1il42ws" path="res://Sprites/Item Sprites/Resource Upgrades/gland_anim-4.tres" id="16_d7geg"]
+[ext_resource type="Texture2D" uid="uid://yibtge17xt3h" path="res://Sprites/Item Sprites/Resource Upgrades/gland_static-4.tres" id="17_og6le"]
+[ext_resource type="Script" uid="uid://cy6vlnwm7c7hp" path="res://Scripts/Resources/Resource Scripts/resource_menuItemUpgrade.gd" id="18_3ukgo"]
+
+[sub_resource type="Resource" id="Resource_bul5j"]
+script = ExtResource("4_ajvni")
+amount = 4
+target = 2
+timing = 1
+metadata/_custom_type_script = "uid://b8q2v41quf1uf"
+
+[sub_resource type="Resource" id="Resource_cp068"]
+script = ExtResource("5_0ukxt")
+permanent_effects = Array[ExtResource("4_ajvni")]([SubResource("Resource_bul5j")])
+metadata/_custom_type_script = "uid://d04labawd0pac"
+
+[sub_resource type="Resource" id="Resource_v74gn"]
+script = ExtResource("8_ibwpr")
+part_mini_sprite = ExtResource("9_ajvni")
+part_static_sprite = ExtResource("6_pcecd")
+part_anim_sprite = ExtResource("6_pcecd")
+anim_h_frames = 1
+
+[sub_resource type="Resource" id="Resource_dc1qb"]
+script = ExtResource("8_ibwpr")
+part_number = 1
+part_mini_sprite = ExtResource("9_ajvni")
+part_static_sprite = ExtResource("11_qxkms")
+part_anim_sprite = ExtResource("10_0ukxt")
+anim_h_frames = 8
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_tlqym"]
+load_path = "res://.godot/imported/ux_glands_1.png-050de3e4096a1914555a9746b3d85d6a.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_512b2"]
+atlas = SubResource("CompressedTexture2D_tlqym")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="Resource" id="Resource_744qj"]
+script = ExtResource("8_ibwpr")
+part_number = 2
+part_mini_sprite = SubResource("AtlasTexture_512b2")
+part_static_sprite = ExtResource("13_ibwpr")
+part_anim_sprite = ExtResource("12_qqn6l")
+anim_h_frames = 8
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_pqwan"]
+load_path = "res://.godot/imported/ux_glands_1.png-050de3e4096a1914555a9746b3d85d6a.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3ukgo"]
+atlas = SubResource("CompressedTexture2D_pqwan")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="Resource" id="Resource_143ng"]
+script = ExtResource("8_ibwpr")
+part_number = 3
+part_mini_sprite = SubResource("AtlasTexture_3ukgo")
+part_static_sprite = ExtResource("15_manrr")
+part_anim_sprite = ExtResource("14_hs0fg")
+anim_h_frames = 8
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_wgwex"]
+load_path = "res://.godot/imported/ux_glands_1.png-050de3e4096a1914555a9746b3d85d6a.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_frek7"]
+atlas = SubResource("CompressedTexture2D_wgwex")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="Resource" id="Resource_vbdxg"]
+script = ExtResource("8_ibwpr")
+part_number = 4
+part_mini_sprite = SubResource("AtlasTexture_frek7")
+part_static_sprite = ExtResource("17_og6le")
+part_anim_sprite = ExtResource("16_d7geg")
+anim_h_frames = 8
+
+[resource]
+script = ExtResource("18_3ukgo")
+parts = Array[ExtResource("8_ibwpr")]([SubResource("Resource_v74gn"), SubResource("Resource_dc1qb"), SubResource("Resource_744qj"), SubResource("Resource_143ng"), SubResource("Resource_vbdxg")])
+full_mini_sprite = ExtResource("1_705rv")
+full_text_ref_id = "glandFull"
+max_quantity = 4
+item_id = "gland"
+outline = ExtResource("7_rau0u")
+main = ExtResource("6_pcecd")
+mini_icon = ExtResource("1_705rv")
+text_ref_id = "gland"
+flash_color = Color(0.6793445, 0.38052025, 0.057344303, 1)
+h_frames = 0
+item_function = SubResource("Resource_cp068")

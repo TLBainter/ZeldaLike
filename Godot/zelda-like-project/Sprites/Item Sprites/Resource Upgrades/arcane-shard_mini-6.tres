@@ -1,0 +1,7 @@
+[gd_resource type="AtlasTexture" format=3 uid="uid://cr5ytph4k5j73"]
+
+[ext_resource type="Texture2D" uid="uid://cj1bdpv6wgspc" path="res://Sprites/Item Sprites/Resource Upgrades/ux_arcane-shards_1.png" id="1_q3f4n"]
+
+[resource]
+atlas = ExtResource("1_q3f4n")
+region = Rect2(16, 0, 16, 16)

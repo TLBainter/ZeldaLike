@@ -98,8 +98,8 @@ const ITEM_RESOURCES : Dictionary = {
 	BLUE_BEAD:       preload("res://Scripts/Resources/Resource Files/Resources_Items/item_bead_5.tres"),
 	PURPLE_BEAD:     preload("res://Scripts/Resources/Resource Files/Resources_Items/item_bead_10.tres"),
 	ORANGE_BEAD:     preload("res://Scripts/Resources/Resource Files/Resources_Items/item_bead_25.tres"),
-	ENERGY_ORB:     preload("res://Scripts/Resources/Resource Files/Resources_Items/item_energy_orb.tres"),
-	CRYSTAL_SHARD: preload("res://Scripts/Resources/Resource Files/Resources_Items/item_magic_shard.tres"),
+	ENERGY_ORB:      preload("res://Scripts/Resources/Resource Files/Resources_Items/item_energy_orb.tres"),
+	CRYSTAL_SHARD:   preload("res://Scripts/Resources/Resource Files/Resources_Items/item_magic_shard.tres"),
 }
 #endregion ITEM RESOURCES=======#
 
@@ -136,6 +136,8 @@ const MENU_ITEM_RESOURCES : Dictionary = {
 	RESTORATIVE_SALVE:      preload("res://Scripts/Resources/Resource Files/Resources_MenuItems/resource_menuItem_restorativeSalve.tres"),
 	# Upgrades
 	BONE_SHARD:             preload("res://Scripts/Resources/Resource Files/Resources_MenuItems/Resources_MenuItems_Upgrades/resource_menuItem_boneShard.tres"),
+	ARCANE_SHARD:           preload("res://Scripts/Resources/Resource Files/Resources_MenuItems/Resources_MenuItems_Upgrades/resource_menuItem_arcaneShard.tres"),
+	GLAND:                  preload("res://Scripts/Resources/Resource Files/Resources_MenuItems/Resources_MenuItems_Upgrades/resource_menuItem_gland.tres")
 	# Dungeon items — add entries here once MenuItemResources are created for KEY, MAP, NOTEBOOK
 }
 #endregion MENU_ITEM RESOURCES=======#

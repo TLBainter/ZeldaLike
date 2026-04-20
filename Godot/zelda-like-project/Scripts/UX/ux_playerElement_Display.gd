@@ -74,6 +74,7 @@ func _build_gui_elements(count : int) -> void:
 	if not gui_container:
 		return
 	for child in gui_container.get_children():
+		gui_container.remove_child(child)
 		child.queue_free()
 	for i in range(count):
 		var gui = gui_scene.instantiate()

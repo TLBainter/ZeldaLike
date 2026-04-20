@@ -40,6 +40,8 @@
 [ext_resource type="PackedScene" uid="uid://dmxavjnxxgqy8" path="res://Scenes/UX/menu_pause_navigable-currency.tscn" id="25_p8y57"]
 [ext_resource type="Texture2D" uid="uid://dtg58ltoklwwk" path="res://Sprites/UX/Pause Menu Elements/ux_pause-menu_inventory_panel-concoction_selected.png" id="26_sulb2"]
 [ext_resource type="Resource" uid="uid://o54i4m4atcfo" path="res://Scripts/Resources/Resource Files/Resources_MenuItems/Resources_MenuItems_Upgrades/resource_menuItem_boneShard.tres" id="32_qokfi"]
+[ext_resource type="Resource" uid="uid://ppuoovtsr8rp" path="res://Scripts/Resources/Resource Files/Resources_MenuItems/Resources_MenuItems_Upgrades/resource_menuItem_arcaneShard.tres" id="33_4mseo"]
+[ext_resource type="Resource" uid="uid://jp4jo52x1p0y" path="res://Scripts/Resources/Resource Files/Resources_MenuItems/Resources_MenuItems_Upgrades/resource_menuItem_gland.tres" id="34_awb6k"]
 [ext_resource type="Resource" uid="uid://dd4r0q5rfvm4d" path="res://Scripts/Resources/Resource Files/Resources_MenuItems/resource_menuItem_arcaneSalve.tres" id="38_te1rb"]
 [ext_resource type="Resource" uid="uid://bm0stmr3hatbd" path="res://Scripts/Resources/Resource Files/Resources_MenuItems/resource_menuItem_energizingSalve.tres" id="39_qokfi"]
 [ext_resource type="Resource" uid="uid://cn3x277pcc2wa" path="res://Scripts/Resources/Resource Files/Resources_MenuItems/resource_menuItem_restorativeSalve.tres" id="40_4mseo"]
@@ -493,7 +495,7 @@ custom_minimum_size = Vector2(48, 54)
 layout_mode = 2
 size_flags_horizontal = 1
 size_flags_vertical = 1
-item_resource = ExtResource("23_g3vwm")
+item_resource = ExtResource("33_4mseo")
 up_nav = NodePath("../MenuResource1")
 down_nav = NodePath("../MenuResource3")
 left_nav = NodePath("../../../MenuMobilityItemsPanels/MenuMobilityItemsContainer/MenuMobilityItem2")
@@ -511,7 +513,7 @@ custom_minimum_size = Vector2(48, 54)
 layout_mode = 2
 size_flags_horizontal = 1
 size_flags_vertical = 1
-item_resource = ExtResource("24_ibj3f")
+item_resource = ExtResource("34_awb6k")
 up_nav = NodePath("../MenuResource2")
 left_nav = NodePath("../../../MenuMobilityItemsPanels/MenuMobilityItemsContainer/MenuMobilityItem3")
 right_nav = NodePath("../../../MenuConcoctionPanels/GridContainer/MenuConcoctionsPanel4")

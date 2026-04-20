@@ -25,7 +25,7 @@
 [ext_resource type="Texture2D" uid="uid://cwyihga7pftar" path="res://Sprites/Object Sprites/Openables/chest2.png" id="19_t71xk"]
 [ext_resource type="AudioStream" uid="uid://xyfy3rubb5aa" path="res://Sound/SFX/Objects/Chests/chest_open_03.wav" id="21_n42s3"]
 [ext_resource type="Script" uid="uid://tp0m7574selp" path="res://Scripts/Resources/Resource Scripts/resource_ContainerReward.gd" id="21_npqhc"]
-[ext_resource type="Texture2D" uid="uid://bid870fsx00tp" path="res://Sprites/Object Sprites/Openables/chest3.png" id="23_56a0f"]
+[ext_resource type="Texture2D" uid="uid://32qv5f7fwwmn" path="res://Sprites/Object Sprites/Openables/chest4.png" id="25_56a0f"]
 [ext_resource type="PackedScene" uid="uid://dj37dq415c4me" path="res://Scenes/Objects/Doors/transition_door-test.tscn" id="25_pisjv"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_n42s3"]
@@ -1293,7 +1293,7 @@ metadata/_custom_type_script = "uid://vdqimlmcg4ql"
 
 [sub_resource type="Resource" id="Resource_bjnsx"]
 script = ExtResource("18_t71xk")
-sprite_sheet = ExtResource("23_56a0f")
+sprite_sheet = ExtResource("19_t71xk")
 frame_count = 3
 open_sound = SubResource("Resource_8bsre")
 
@@ -1305,6 +1305,24 @@ metadata/_custom_type_script = "uid://tp0m7574selp"
 
 [sub_resource type="Resource" id="Resource_v3by2"]
 script = ExtResource("7_nrk3t")
+
+[sub_resource type="Resource" id="Resource_n42s3"]
+script = ExtResource("21_npqhc")
+item_kind = 2
+item = "gland"
+metadata/_custom_type_script = "uid://tp0m7574selp"
+
+[sub_resource type="Resource" id="Resource_mt8vo"]
+script = ExtResource("18_t71xk")
+sprite_sheet = ExtResource("25_56a0f")
+frame_count = 3
+open_sound = SubResource("Resource_8bsre")
+
+[sub_resource type="Resource" id="Resource_h0b6f"]
+script = ExtResource("21_npqhc")
+item_kind = 2
+item = "arcane_shard"
+metadata/_custom_type_script = "uid://tp0m7574selp"
 
 [sub_resource type="Resource" id="Resource_fe3l3"]
 script = ExtResource("21_npqhc")
@@ -1330,7 +1348,7 @@ item_kind = 0
 item = "bat_form"
 metadata/_custom_type_script = "uid://tp0m7574selp"
 
-[sub_resource type="Curve2D" id="Curve2D_mt8vo"]
+[sub_resource type="Curve2D" id="Curve2D_56a0f"]
 resource_local_to_scene = true
 _data = {
 "points": PackedVector2Array(0, 0, 13.666667, -17, -42, 19, -20.810804, 6.533624, 16.219435, -5.092148, -1, -32, -0.5759404, -16.990242, 0.6261225, 18.470613, 44, -8, 18.245422, 2.94281, -16.07449, -2.5926595, 1, 27, -5.023145, 15.488031, 8.834829, -27.240723, -18, -18, 12.493819, 25.768501, -12.651932, -26.09461, 37, -84, 21.345798, -19.63051, -26.005209, 23.915504, -50, -84, 8.333334, -34.333336, 0, 0, -75, 19)
@@ -1501,25 +1519,85 @@ position = Vector2(55, 24)
 position = Vector2(55, 17)
 
 [node name="testChest-BoneShard" parent="." unique_id=495694602 instance=ExtResource("17_ut0kp")]
-position = Vector2(-383, -86)
+position = Vector2(-416, -86)
 container_data = SubResource("Resource_bjnsx")
 reward = SubResource("Resource_275ag")
 debug = SubResource("Resource_v3by2")
 
+[node name="testChest-Gland" parent="." unique_id=1074806403 instance=ExtResource("17_ut0kp")]
+position = Vector2(-342, -86)
+container_data = SubResource("Resource_bjnsx")
+reward = SubResource("Resource_n42s3")
+debug = SubResource("Resource_v3by2")
+
+[node name="testChest-ArcaneShard" parent="." unique_id=1624500959 instance=ExtResource("17_ut0kp")]
+position = Vector2(-268, -86)
+container_data = SubResource("Resource_mt8vo")
+reward = SubResource("Resource_h0b6f")
+debug = SubResource("Resource_v3by2")
+
+[node name="testChest-ArcaneShard2" parent="." unique_id=2094815120 instance=ExtResource("17_ut0kp")]
+position = Vector2(-251, -86)
+container_data = SubResource("Resource_mt8vo")
+reward = SubResource("Resource_h0b6f")
+debug = SubResource("Resource_v3by2")
+
+[node name="testChest-ArcaneShard3" parent="." unique_id=1020888963 instance=ExtResource("17_ut0kp")]
+position = Vector2(-234, -86)
+container_data = SubResource("Resource_mt8vo")
+reward = SubResource("Resource_h0b6f")
+debug = SubResource("Resource_v3by2")
+
+[node name="testChest-ArcaneShard4" parent="." unique_id=1733755759 instance=ExtResource("17_ut0kp")]
+position = Vector2(-217, -86)
+container_data = SubResource("Resource_mt8vo")
+reward = SubResource("Resource_h0b6f")
+debug = SubResource("Resource_v3by2")
+
+[node name="testChest-ArcaneShard5" parent="." unique_id=1531313483 instance=ExtResource("17_ut0kp")]
+position = Vector2(-200, -86)
+container_data = SubResource("Resource_mt8vo")
+reward = SubResource("Resource_h0b6f")
+debug = SubResource("Resource_v3by2")
+
+[node name="testChest-ArcaneShard6" parent="." unique_id=662239664 instance=ExtResource("17_ut0kp")]
+position = Vector2(-183, -86)
+container_data = SubResource("Resource_mt8vo")
+reward = SubResource("Resource_h0b6f")
+debug = SubResource("Resource_v3by2")
+
+[node name="testChest-Gland2" parent="." unique_id=1799174832 instance=ExtResource("17_ut0kp")]
+position = Vector2(-325, -86)
+container_data = SubResource("Resource_bjnsx")
+reward = SubResource("Resource_n42s3")
+debug = SubResource("Resource_v3by2")
+
+[node name="testChest-Gland3" parent="." unique_id=1457596621 instance=ExtResource("17_ut0kp")]
+position = Vector2(-308, -86)
+container_data = SubResource("Resource_bjnsx")
+reward = SubResource("Resource_n42s3")
+debug = SubResource("Resource_v3by2")
+
+[node name="testChest-Gland4" parent="." unique_id=261128565 instance=ExtResource("17_ut0kp")]
+position = Vector2(-291, -86)
+container_data = SubResource("Resource_bjnsx")
+reward = SubResource("Resource_n42s3")
+debug = SubResource("Resource_v3by2")
+
 [node name="testChest-BoneShard2" parent="." unique_id=1697584334 instance=ExtResource("17_ut0kp")]
-position = Vector2(-332, -86)
+position = Vector2(-365, -86)
 container_data = SubResource("Resource_bjnsx")
 reward = SubResource("Resource_275ag")
 debug = SubResource("Resource_v3by2")
 
 [node name="testChest-BoneShard3" parent="." unique_id=373626476 instance=ExtResource("17_ut0kp")]
-position = Vector2(-349, -86)
+position = Vector2(-382, -86)
 container_data = SubResource("Resource_bjnsx")
 reward = SubResource("Resource_275ag")
 debug = SubResource("Resource_v3by2")
 
 [node name="testChest-BoneShard4" parent="." unique_id=1163474071 instance=ExtResource("17_ut0kp")]
-position = Vector2(-366, -86)
+position = Vector2(-399, -86)
 container_data = SubResource("Resource_bjnsx")
 reward = SubResource("Resource_275ag")
 debug = SubResource("Resource_v3by2")
@@ -1537,7 +1615,7 @@ debug = SubResource("Resource_v3by2")
 
 [node name="BatTravelRoute" parent="." unique_id=1252271372 instance=ExtResource("16_su1sj")]
 position = Vector2(-290, 33)
-curve = SubResource("Curve2D_mt8vo")
+curve = SubResource("Curve2D_56a0f")
 
 [node name="transitionDoor" parent="." unique_id=2055706719 instance=ExtResource("25_pisjv")]
 position = Vector2(-465, -62)

@@ -329,16 +329,17 @@ func _apply_upgrade_permanent_effects(item_id: String, qty_before: int, qty_afte
 	var mir : MenuItemResource = ItemID.MENU_ITEM_RESOURCES.get(item_id)
 	var upgrade := mir as MenuItemUpgradeResource
 	if not upgrade or not upgrade.item_function or not upgrade.item_function.has_permanent_effects():
+		if not upgrade:
+			_print_output("[color=yellow]DEBUG: No MenuItemUpgradeResource found for '" + item_id + "' — permanent effects skipped.[/color]")
 		return
-	var timing := upgrade.item_function.permanent_effect_timing
-	var sets_to_apply : int = 0
-	if timing == EffectEnums.PermanentEffectTiming.ON_COMPLETE:
-		sets_to_apply = int(float(qty_after) / upgrade.num_parts) - int(float(qty_before) / upgrade.num_parts)
-	else:
-		sets_to_apply = qty_after - qty_before
-	_print_output("[color=gray]Applying " + str(sets_to_apply) + " permanent effect set(s) for " + item_id + ".[/color]")
-	for _i in range(sets_to_apply):
-		for effect in upgrade.item_function.permanent_effects:
+	for effect in upgrade.item_function.permanent_effects:
+		var sets_to_apply : int = 0
+		if effect.timing == EffectEnums.PermanentEffectTiming.ON_COMPLETE:
+			sets_to_apply = int(float(qty_after) / upgrade.num_parts) - int(float(qty_before) / upgrade.num_parts)
+		else:
+			sets_to_apply = qty_after - qty_before
+		_print_output("[color=gray]Applying " + str(sets_to_apply) + " set(s) of " + EffectEnums.PermanentEffectTarget.keys()[effect.target] + " for " + item_id + ".[/color]")
+		for _i in range(sets_to_apply):
 			match effect.target:
 				EffectEnums.PermanentEffectTarget.MAX_HEALTH:
 					if _health:
@@ -349,6 +350,9 @@ func _apply_upgrade_permanent_effects(item_id: String, qty_before: int, qty_afte
 				EffectEnums.PermanentEffectTarget.MAX_MAGIC:
 					if _magic:
 						_magic.collect_shards(effect.amount)
+				EffectEnums.PermanentEffectTarget.SPELL_POWER:
+					if _magic:
+						_magic.increase_spell_power(effect.amount)
 
 #endregion PERMANENT EFFECTS
 

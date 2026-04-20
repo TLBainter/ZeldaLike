@@ -1,0 +1,114 @@
+[gd_resource type="Resource" script_class="MenuItemUpgradeResource" format=3 uid="uid://ppuoovtsr8rp"]
+
+[ext_resource type="Texture2D" uid="uid://cr5ytph4k5j73" path="res://Sprites/Item Sprites/Resource Upgrades/arcane-shard_mini-6.tres" id="1_6s0li"]
+[ext_resource type="Script" uid="uid://bobqbce4xdihk" path="res://Scripts/Resources/Resource Scripts/resource_upgradePartData.gd" id="1_vv7yt"]
+[ext_resource type="Script" uid="uid://cy6vlnwm7c7hp" path="res://Scripts/Resources/Resource Scripts/resource_menuItemUpgrade.gd" id="2_aefft"]
+[ext_resource type="Script" uid="uid://dd8asc28rmm0h" path="res://Scripts/Resources/Resource Scripts/resource_itemFunction_Effect_Immediate.gd" id="2_d17uj"]
+[ext_resource type="Script" uid="uid://de8d77a6k33gy" path="res://Scripts/Resources/Resource Scripts/resource_itemFunction_Effect_Ongoing.gd" id="3_yfsid"]
+[ext_resource type="Script" uid="uid://b8q2v41quf1uf" path="res://Scripts/Resources/Resource Scripts/resource_itemFunction_Effect_Permanent.gd" id="4_hrkp8"]
+[ext_resource type="Script" uid="uid://d04labawd0pac" path="res://Scripts/Resources/Resource Scripts/resource_itemFunction.gd" id="5_gdc2t"]
+[ext_resource type="Texture2D" uid="uid://bf8kafepb2fdl" path="res://Sprites/Item Sprites/Resource Upgrades/arcane-shard_static-0.tres" id="6_ah3ek"]
+[ext_resource type="Texture2D" uid="uid://c41vg2u6goljj" path="res://Sprites/Item Sprites/Resource Upgrades/arcane-shard_mini-1.tres" id="7_vkqyi"]
+[ext_resource type="Texture2D" uid="uid://c465wp0q4qbxc" path="res://Sprites/Item Sprites/Resource Upgrades/arcane-shard_outline.tres" id="8_071rr"]
+[ext_resource type="Texture2D" uid="uid://d0pph226rbk5v" path="res://Sprites/Item Sprites/Resource Upgrades/arcane-shard_anim-1.tres" id="10_ddud7"]
+[ext_resource type="Texture2D" uid="uid://60tiykb4k8io" path="res://Sprites/Item Sprites/Resource Upgrades/arcane-shard_static-1.tres" id="11_a247s"]
+[ext_resource type="Texture2D" uid="uid://bn55jpn8t8q0f" path="res://Sprites/Item Sprites/Resource Upgrades/arcane-shard_anim-2.tres" id="12_ofq2h"]
+[ext_resource type="Texture2D" uid="uid://c2lubx6e5hu6" path="res://Sprites/Item Sprites/Resource Upgrades/arcane-shard_static-2.tres" id="13_0lhpj"]
+[ext_resource type="Texture2D" uid="uid://mjckpsgufthg" path="res://Sprites/Item Sprites/Resource Upgrades/arcane-shard_anim-3.tres" id="14_yq14a"]
+[ext_resource type="Texture2D" uid="uid://b5lxvie2xdg6c" path="res://Sprites/Item Sprites/Resource Upgrades/arcane-shard_static-3.tres" id="15_jemg3"]
+[ext_resource type="Texture2D" uid="uid://skn8dgmalmnf" path="res://Sprites/Item Sprites/Resource Upgrades/arcane-shard_anim-4.tres" id="16_tuyny"]
+[ext_resource type="Texture2D" uid="uid://pg2cwb05u6tr" path="res://Sprites/Item Sprites/Resource Upgrades/arcane-shard_static-4.tres" id="17_41qpl"]
+[ext_resource type="Texture2D" uid="uid://i168q3rqgcak" path="res://Sprites/Item Sprites/Resource Upgrades/arcane-shard_anim-5.tres" id="18_ee173"]
+[ext_resource type="Texture2D" uid="uid://clcsjslyst6va" path="res://Sprites/Item Sprites/Resource Upgrades/arcane-shard_static-5.tres" id="19_hsjcf"]
+[ext_resource type="Texture2D" uid="uid://r2wgfcpusko1" path="res://Sprites/Item Sprites/Resource Upgrades/arcane-shard_anim-6.tres" id="20_bqsrf"]
+[ext_resource type="Texture2D" uid="uid://nieaxxbt42wk" path="res://Sprites/Item Sprites/Resource Upgrades/arcane-shard_static-6.tres" id="21_vg6iw"]
+
+[sub_resource type="Resource" id="Resource_6s0li"]
+script = ExtResource("4_hrkp8")
+amount = 1
+target = 1
+metadata/_custom_type_script = "uid://b8q2v41quf1uf"
+
+[sub_resource type="Resource" id="Resource_d17uj"]
+script = ExtResource("4_hrkp8")
+amount = 1
+target = 3
+timing = 1
+metadata/_custom_type_script = "uid://b8q2v41quf1uf"
+
+[sub_resource type="Resource" id="Resource_cqg5o"]
+script = ExtResource("5_gdc2t")
+permanent_effects = Array[ExtResource("4_hrkp8")]([SubResource("Resource_6s0li"), SubResource("Resource_d17uj")])
+metadata/_custom_type_script = "uid://d04labawd0pac"
+
+[sub_resource type="Resource" id="Resource_8rkt1"]
+script = ExtResource("1_vv7yt")
+part_mini_sprite = ExtResource("7_vkqyi")
+part_static_sprite = ExtResource("6_ah3ek")
+part_anim_sprite = ExtResource("6_ah3ek")
+anim_h_frames = 1
+metadata/_custom_type_script = "uid://bobqbce4xdihk"
+
+[sub_resource type="Resource" id="Resource_tub6a"]
+script = ExtResource("1_vv7yt")
+part_number = 1
+part_mini_sprite = ExtResource("7_vkqyi")
+part_static_sprite = ExtResource("11_a247s")
+part_anim_sprite = ExtResource("10_ddud7")
+metadata/_custom_type_script = "uid://bobqbce4xdihk"
+
+[sub_resource type="Resource" id="Resource_qhspj"]
+script = ExtResource("1_vv7yt")
+part_number = 2
+part_mini_sprite = ExtResource("7_vkqyi")
+part_static_sprite = ExtResource("13_0lhpj")
+part_anim_sprite = ExtResource("12_ofq2h")
+metadata/_custom_type_script = "uid://bobqbce4xdihk"
+
+[sub_resource type="Resource" id="Resource_7ldq2"]
+script = ExtResource("1_vv7yt")
+part_number = 3
+part_mini_sprite = ExtResource("7_vkqyi")
+part_static_sprite = ExtResource("15_jemg3")
+part_anim_sprite = ExtResource("14_yq14a")
+metadata/_custom_type_script = "uid://bobqbce4xdihk"
+
+[sub_resource type="Resource" id="Resource_xxbwy"]
+script = ExtResource("1_vv7yt")
+part_number = 4
+part_mini_sprite = ExtResource("7_vkqyi")
+part_static_sprite = ExtResource("17_41qpl")
+part_anim_sprite = ExtResource("16_tuyny")
+metadata/_custom_type_script = "uid://bobqbce4xdihk"
+
+[sub_resource type="Resource" id="Resource_gyt32"]
+script = ExtResource("1_vv7yt")
+part_number = 5
+part_mini_sprite = ExtResource("7_vkqyi")
+part_static_sprite = ExtResource("19_hsjcf")
+part_anim_sprite = ExtResource("18_ee173")
+metadata/_custom_type_script = "uid://bobqbce4xdihk"
+
+[sub_resource type="Resource" id="Resource_ibefh"]
+script = ExtResource("1_vv7yt")
+part_number = 6
+part_mini_sprite = ExtResource("7_vkqyi")
+part_static_sprite = ExtResource("21_vg6iw")
+part_anim_sprite = ExtResource("20_bqsrf")
+metadata/_custom_type_script = "uid://bobqbce4xdihk"
+
+[resource]
+script = ExtResource("2_aefft")
+num_parts = 6
+parts = Array[ExtResource("1_vv7yt")]([SubResource("Resource_8rkt1"), SubResource("Resource_tub6a"), SubResource("Resource_qhspj"), SubResource("Resource_7ldq2"), SubResource("Resource_xxbwy"), SubResource("Resource_gyt32"), SubResource("Resource_ibefh")])
+full_mini_sprite = ExtResource("1_6s0li")
+full_text_ref_id = "arcaneShardFull"
+max_quantity = 5
+item_id = "arcane_shard"
+outline = ExtResource("8_071rr")
+main = ExtResource("6_ah3ek")
+mini_icon = ExtResource("7_vkqyi")
+text_ref_id = "arcaneShard"
+flash_color = Color(0.5756135, 0.7000997, 1, 1)
+item_function = SubResource("Resource_cqg5o")
+metadata/_custom_type_script = "uid://cy6vlnwm7c7hp"

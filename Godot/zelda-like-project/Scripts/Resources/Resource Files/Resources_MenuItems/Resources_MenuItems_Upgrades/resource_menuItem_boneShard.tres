@@ -22,12 +22,12 @@
 [sub_resource type="Resource" id="Resource_bul5j"]
 script = ExtResource("4_8mkth")
 amount = 4
+timing = 1
 metadata/_custom_type_script = "uid://b8q2v41quf1uf"
 
 [sub_resource type="Resource" id="Resource_cp068"]
 script = ExtResource("5_x787t")
 permanent_effects = Array[ExtResource("4_8mkth")]([SubResource("Resource_bul5j")])
-permanent_effect_timing = 1
 metadata/_custom_type_script = "uid://d04labawd0pac"
 
 [sub_resource type="Resource" id="Resource_v74gn"]

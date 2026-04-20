@@ -1,6 +1,6 @@
 ##[b][color=red]PermanentEffect[/color][/b] defines a single permanent stat-maximum increase applied on item collection.[br]
 ##Used within [b]ItemFunction[/b]'s permanent_effects array.[br]
-##When and how it fires is controlled by [b]ItemFunction[/b].permanent_effect_timing.
+##Each effect carries its own timing, allowing mixed ON_GET / ON_COMPLETE effects on the same item.
 class_name PermanentEffect
 extends Resource
 
@@ -8,3 +8,7 @@ extends Resource
 @export var amount: int = 0
 ##Which stat maximum to raise.
 @export var target: EffectEnums.PermanentEffectTarget = EffectEnums.PermanentEffectTarget.MAX_HEALTH
+##When this effect fires.[br]
+##[b]ON_GET[/b]: immediately on pickup.[br]
+##[b]ON_COMPLETE[/b]: only when a full part-set is formed.
+@export var timing: EffectEnums.PermanentEffectTiming = EffectEnums.PermanentEffectTiming.ON_GET

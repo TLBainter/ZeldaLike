@@ -13,6 +13,11 @@ extends RecoverableResourceComponent
 ##[b]change_amount[/b]: How much energy changed (negative = consumed, positive = restored).
 signal energy_changed(cur_energy : int, max_energy : int, change_amount : int)
 
+##Emitted when max energy increases.[br]
+##[b]max_energy[/b]: New maximum energy.[br]
+##[b]cur_energy[/b]: Current energy after the increase.
+signal max_energy_changed(max_energy : int, cur_energy : int)
+
 #endregion SIGNALS
 
 #region VARIABLES
@@ -60,6 +65,7 @@ func increase_max(amount: int) -> void:
 	max_energy += amount
 	max_bolts = int(max_energy / 4.0)
 	self.cur_energy += amount
+	max_energy_changed.emit(max_energy, cur_energy)
 
 ##Consumes the specified amount of energy.[br]
 ##Returns [b]true[/b] if there was enough energy, [b]false[/b] if not (does not consume if insufficient).

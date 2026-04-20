@@ -40,7 +40,7 @@ func get_remaining(quantity: int) -> int:
 
 ##Returns the total number of fully completed upgrades.
 func get_completed_count(quantity: int) -> int:
-	return quantity / num_parts
+	return int(float(quantity) / float(num_parts))
 
 ##Returns true when the player has reached max_quantity completed upgrades.
 func is_at_max(quantity: int) -> bool:

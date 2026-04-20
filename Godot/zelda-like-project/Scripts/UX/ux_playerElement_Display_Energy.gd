@@ -129,6 +129,6 @@ func update_position() -> void:
 func set_max_bolts(max_bolts : int) -> void:
 	_build_gui_elements(max_bolts)
 	if _energy_component:
-		_update_bolts(_energy_component.cur_energy)
+		_update_bolts.call_deferred(_energy_component.cur_energy)
 
 #endregion FUNCTIONS

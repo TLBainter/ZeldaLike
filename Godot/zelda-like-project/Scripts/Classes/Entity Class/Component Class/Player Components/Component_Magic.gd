@@ -29,6 +29,8 @@ var starting_shards : int = 6
 
 ##Total shards collected. Determines medallion layout and max magic.
 var total_shards : int = 6
+##Spell power multiplier. Starts at 1.0; increases by 1.0 per Spell Power upgrade.
+var spell_power : float = 1.0
 ##Maximum magic value (equals total_shards).
 var max_magic : int = 6
 ##Current magic value.
@@ -79,6 +81,11 @@ func collect_shard() -> void:
 func collect_shards(amount: int) -> void:
 	for i in range(amount):
 		collect_shard()
+
+##Increases spell power by [param amount].
+func increase_spell_power(amount: float) -> void:
+	spell_power += amount
+	_debug_log(str("Spell power increased by ", amount, ". Total: ", spell_power))
 
 ##Returns the number of complete medallions (6 shards each).
 func get_complete_medallion_count() -> int:

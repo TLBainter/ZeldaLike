@@ -18,12 +18,9 @@ extends Resource
 @export var ongoing_duration : float = 0.0
 
 @export_category("Permanent Effects")
-##Permanent stat-maximum increases granted by this item.
+##Permanent stat-maximum increases granted by this item.[br]
+##Each [b]PermanentEffect[/b] carries its own timing (ON_GET or ON_COMPLETE).
 @export var permanent_effects : Array[PermanentEffect] = []
-##Controls when permanent effects are applied.[br]
-##[b]ON_GET[/b]: immediately on pickup (e.g. arcane shard → +1 max magic).[br]
-##[b]ON_COMPLETE[/b]: only when a full part-set is formed (e.g. bone shards → +4 max health on skull completion).
-@export var permanent_effect_timing : EffectEnums.PermanentEffectTiming = EffectEnums.PermanentEffectTiming.ON_GET
 
 #endregion VARIABLES
 

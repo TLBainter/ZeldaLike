@@ -20,6 +20,7 @@ enum PermanentEffectTarget {
 	MAX_HEALTH,
 	MAX_MAGIC,
 	MAX_ENERGY,
+	SPELL_POWER,
 }
 
 ##When a permanent effect is applied.[br]

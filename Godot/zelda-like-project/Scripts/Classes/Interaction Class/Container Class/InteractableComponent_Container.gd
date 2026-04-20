@@ -139,6 +139,13 @@ func _on_item_get_done(_anim_name : String, user : Player) -> void:
 	if ref_id != "" and user.player_ux and user.player_ux.dialogue_controller:
 		var data : Dictionary = dialogueDB.get_dialogue_data(ref_id)
 		if not data.is_empty():
+			var mir_u := ItemID.MENU_ITEM_RESOURCES.get(_resolved_item_id) as MenuItemUpgradeResource
+			if mir_u and user.inventory:
+				var qty_after : int = user.inventory.get_quantity(_resolved_item_id) + 1
+				var resolved_lines : Array[String] = []
+				for line in data["lines"]:
+					resolved_lines.append(mir_u.resolve_remaining_text(line, qty_after))
+				data = { "character": data["character"], "lines": resolved_lines }
 			# Column C is the item name; item-get text starts at Column D, so drop the first line.
 			if data["lines"].size() > 1:
 				data = { "character": data["character"], "lines": data["lines"].slice(1) }
@@ -214,14 +221,13 @@ func _apply_upgrade_permanent_effects(item_id: String, qty_before: int, qty_afte
 	var upgrade := mir as MenuItemUpgradeResource
 	if not upgrade or not upgrade.item_function or not upgrade.item_function.has_permanent_effects():
 		return
-	var timing := upgrade.item_function.permanent_effect_timing
-	var sets_to_apply := 0
-	if timing == EffectEnums.PermanentEffectTiming.ON_COMPLETE:
-		sets_to_apply = int(float(qty_after) / upgrade.num_parts) - int(float(qty_before) / upgrade.num_parts)
-	else:
-		sets_to_apply = qty_after - qty_before
-	for _i in range(sets_to_apply):
-		for effect in upgrade.item_function.permanent_effects:
+	for effect in upgrade.item_function.permanent_effects:
+		var sets_to_apply := 0
+		if effect.timing == EffectEnums.PermanentEffectTiming.ON_COMPLETE:
+			sets_to_apply = int(float(qty_after) / upgrade.num_parts) - int(float(qty_before) / upgrade.num_parts)
+		else:
+			sets_to_apply = qty_after - qty_before
+		for _i in range(sets_to_apply):
 			match effect.target:
 				EffectEnums.PermanentEffectTarget.MAX_HEALTH:
 					if user.health:
@@ -232,6 +238,9 @@ func _apply_upgrade_permanent_effects(item_id: String, qty_before: int, qty_afte
 				EffectEnums.PermanentEffectTarget.MAX_MAGIC:
 					if user.magic:
 						user.magic.collect_shards(effect.amount)
+				EffectEnums.PermanentEffectTarget.SPELL_POWER:
+					if user.magic:
+						user.magic.increase_spell_power(effect.amount)
 
 ## Resolves which item to actually give, accounting for the mobility upgrade chain.
 ## Sets _resolved_item_id/kind/mini_sprite/dialogue_ref before the opening sequence begins.
