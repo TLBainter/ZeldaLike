@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="MenuItemResource" format=3 uid="uid://dl07jumtv8gk1"]
+
+[ext_resource type="Script" uid="uid://cs0x7737rheme" path="res://Scripts/Resources/Resource Scripts/resource_menuItem.gd" id="1_pwdd3"]
+
+[resource]
+script = ExtResource("1_pwdd3")
+metadata/_custom_type_script = "uid://cs0x7737rheme"

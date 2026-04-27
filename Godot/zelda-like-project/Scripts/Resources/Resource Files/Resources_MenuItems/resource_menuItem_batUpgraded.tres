@@ -12,5 +12,5 @@ outline = ExtResource("3_hry4t")
 main = ExtResource("1_oxmch")
 mini_icon = ExtResource("2_dm7hb")
 text_ref_id = "mobilityBatFormUpgraded"
-flash_color = Color(1, 0.6346009, 0.61663896, 1)
+flash_color = Color(1, 0, 0, 1)
 metadata/_custom_type_script = "uid://cs0x7737rheme"

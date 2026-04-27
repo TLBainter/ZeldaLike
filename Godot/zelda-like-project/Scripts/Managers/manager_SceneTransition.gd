@@ -133,6 +133,7 @@ func _execute_arrival() -> void:
 	# If the destination scene has its own embedded Player (e.g. it doubles as the main scene),
 	# remove it before adding the carried player so there is never more than one Player at a time.
 	var scene_root := get_tree().current_scene
+	_notify_music(scene_root)
 	for node in scene_root.find_children("*", "Player", true, false):
 		if node != player:
 			node.queue_free()
@@ -188,6 +189,17 @@ func _reset_all_door_triggers() -> void:
 		return
 	for door in root.find_children("*", "TransitionDoor", true, false):
 		door.reset_trigger()
+
+func _notify_music(scene_root: Node) -> void:
+	var level: Level
+	if scene_root is Level:
+		level = scene_root
+	else:
+		var results := scene_root.find_children("*", "Level", true, false)
+		if not results.is_empty():
+			level = results[0] as Level
+	if level:
+		musicManager.request_song(level.default_song)
 
 func _find_door(door_name : String) -> Node:
 	var root := get_tree().current_scene

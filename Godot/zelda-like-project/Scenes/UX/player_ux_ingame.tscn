@@ -5,11 +5,11 @@
 [ext_resource type="Texture2D" uid="uid://pblx7yfuvxfa" path="res://Sprites/UX/InGameUX/icons_Controller.png" id="1_oxfwa"]
 [ext_resource type="FontFile" uid="uid://cp6wfns5q5k5i" path="res://Sprites/UX/Fonts/minishcap__v10.ttf" id="3_4d04n"]
 [ext_resource type="PackedScene" uid="uid://b2o75upopd7yw" path="res://Scenes/UX/player_ux_actionButtons.tscn" id="3_crfdi"]
-[ext_resource type="PackedScene" uid="uid://dwprjilrl8d0p" path="res://Scenes/UX/player_ux_hearts.tscn" id="5_55krk"]
-[ext_resource type="Script" uid="uid://ds30kl7uff5mo" path="res://Scripts/UX/ux_playerHearts.gd" id="5_ovlxb"]
+[ext_resource type="PackedScene" uid="uid://dwprjilrl8d0p" path="res://Scenes/UX/player_ux_skulls.tscn" id="5_55krk"]
+[ext_resource type="Script" uid="uid://ciw4xs482i17p" path="res://Scripts/UX/SkullsDisplay.gd" id="5_ovlxb"]
 [ext_resource type="Script" uid="uid://clldbretb10wu" path="res://Scripts/UX/ux_playerUX_Label_Context.gd" id="5_xjdbq"]
 [ext_resource type="Script" uid="uid://c0gguh8o4ftae" path="res://Scripts/Resources/Resource Scripts/resource_debug_settings.gd" id="6_2bw2c"]
-[ext_resource type="Script" uid="uid://dugks6lyfxa4s" path="res://Scripts/Classes/Audio Class/Audio_Component_UI.gd" id="7_ffuv4"]
+[ext_resource type="Script" uid="uid://ca152vjbw4jvg" path="res://Scripts/Classes/Audio Class/Component_AudioControl_UIAudioControl.gd" id="7_ffuv4"]
 [ext_resource type="PackedScene" uid="uid://gwg5oylu13b4" path="res://Scenes/UX/player_ux_ingame_salvePanel.tscn" id="7_ov3gu"]
 [ext_resource type="Resource" uid="uid://dd4r0q5rfvm4d" path="res://Scripts/Resources/Resource Files/Resources_MenuItems/resource_menuItem_arcaneSalve.tres" id="8_2bw2c"]
 [ext_resource type="AudioStream" uid="uid://beb3rdr8gqvde" path="res://Sound/SFX/Player/Player UX SFX/Status/healthLow.wav" id="8_l8e16"]
@@ -98,7 +98,7 @@ region = Rect2(224, 0, 16, 16)
 
 [sub_resource type="Resource" id="Resource_2bw2c"]
 script = ExtResource("6_2bw2c")
-debug_name = "Player Hearts Container"
+debug_name = "Player Skulls Container"
 metadata/_custom_type_script = "uid://c0gguh8o4ftae"
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_prcqu"]
@@ -108,7 +108,7 @@ bg_color = Color(0.42352942, 0.6627451, 0.5058824, 0.0627451)
 base_font = ExtResource("3_4d04n")
 spacing_glyph = 2
 
-[node name="PlayerUX" type="Control" unique_id=895243336 node_paths=PackedStringArray("currency_display", "heartsContainer", "ui_audio", "context_label", "dialogue_controller", "energy_display", "magic_display", "action_buttons_margin", "action_button_1", "action_button_2", "action_button_3", "action_button_4", "consumable_buttons", "salve_panels")]
+[node name="PlayerUX" type="Control" unique_id=895243336 node_paths=PackedStringArray("currency_display", "skullsContainer", "ui_audio", "context_label", "dialogue_controller", "energy_display", "magic_display", "action_buttons_margin", "action_button_1", "action_button_2", "action_button_3", "action_button_4", "consumable_buttons", "salve_panels")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -117,7 +117,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_5o3k5")
 currency_display = NodePath("PlayerInGameCanvas/PlayerUI_Currency/PlayerCurrencyContainer")
-heartsContainer = NodePath("PlayerInGameCanvas/PlayerUI_Hearts/PlayerUI_HeartsContainer")
+skullsContainer = NodePath("PlayerInGameCanvas/PlayerUI_Skulls/PlayerUI_SkullsContainer")
 ui_audio = NodePath("PlayerUXAudioControl")
 context_label = NodePath("PlayerInGameCanvas/PlayerUI_ActionButtons/ActionButton4_Panel/ActionButton4_Label")
 dialogue_controller = NodePath("PlayerInGameCanvas/PlayerUI_Dialogue/PlayerUI_Dialogue_Panel")
@@ -312,7 +312,7 @@ size_flags_vertical = 1
 salve_type = 3
 item_resource = ExtResource("10_ui11g")
 
-[node name="PlayerUI_Hearts" type="MarginContainer" parent="PlayerInGameCanvas" unique_id=1077872179 node_paths=PackedStringArray("root")]
+[node name="PlayerUI_Skulls" type="MarginContainer" parent="PlayerInGameCanvas" unique_id=1077872179 node_paths=PackedStringArray("root")]
 offset_right = 264.0
 offset_bottom = 64.0
 theme_override_constants/margin_left = 8
@@ -322,14 +322,14 @@ theme_override_constants/margin_bottom = 8
 script = ExtResource("1_icyw3")
 root = NodePath("../..")
 
-[node name="PlayerUI_HeartsContainer" type="GridContainer" parent="PlayerInGameCanvas/PlayerUI_Hearts" unique_id=1648414126 node_paths=PackedStringArray("root")]
+[node name="PlayerUI_SkullsContainer" type="GridContainer" parent="PlayerInGameCanvas/PlayerUI_Skulls" unique_id=1648414126 node_paths=PackedStringArray("root")]
 layout_mode = 2
 size_flags_vertical = 0
 theme_override_constants/h_separation = 3
 theme_override_constants/v_separation = 3
 columns = 10
 script = ExtResource("5_ovlxb")
-heart_gui = ExtResource("5_55krk")
+skull_gui = ExtResource("5_55krk")
 root = NodePath("../../..")
 debug = SubResource("Resource_2bw2c")
 
@@ -558,9 +558,9 @@ root = NodePath("../..")
 [node name="PlayerCurrencyContainer" parent="PlayerInGameCanvas/PlayerUI_Currency" unique_id=2078205985 instance=ExtResource("19_cmm85")]
 layout_mode = 2
 
-[node name="PlayerUXAudioControl" type="Node" parent="." unique_id=153550245 node_paths=PackedStringArray("parent", "hearts")]
+[node name="PlayerUXAudioControl" type="Node" parent="." unique_id=153550245 node_paths=PackedStringArray("parent", "skulls")]
 script = ExtResource("7_ffuv4")
 parent = NodePath("..")
-hearts = NodePath("../PlayerInGameCanvas/PlayerUI_Hearts/PlayerUI_HeartsContainer")
+skulls = NodePath("../PlayerInGameCanvas/PlayerUI_Skulls/PlayerUI_SkullsContainer")
 low_health_sound = ExtResource("8_l8e16")
-metadata/_custom_type_script = "uid://dugks6lyfxa4s"
+metadata/_custom_type_script = "uid://ca152vjbw4jvg"

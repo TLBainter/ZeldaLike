@@ -8,9 +8,9 @@
 [ext_resource type="Texture2D" uid="uid://nrhdy7n5g0w" path="res://TileMaps/Cave/cave_ [bridgeVertical].png" id="4_u5x20"]
 [ext_resource type="PackedScene" uid="uid://domh3e18e0ubj" path="res://Scenes/Characters/Player/player.tscn" id="5_ycnog"]
 [ext_resource type="Script" uid="uid://c0gguh8o4ftae" path="res://Scripts/Resources/Resource Scripts/resource_debug_settings.gd" id="7_nrk3t"]
-[ext_resource type="Script" uid="uid://4sa74tygcvyy" path="res://Scripts/Classes/Entity Class/Characters/NPC/Entity_Character_NPC_StandardNPC.gd" id="7_ycnog"]
-[ext_resource type="Script" uid="uid://bfyasklt76fpw" path="res://Scripts/Classes/Interaction Class/Dialogue Class/InteractableComponent_Dialogue.gd" id="8_3oc0o"]
-[ext_resource type="Script" uid="uid://c54o2iwjc4ysm" path="res://Scripts/Classes/Interaction Class/Dialogue Class/Dialogue_Speak_Component.gd" id="9_g8bl4"]
+[ext_resource type="Script" uid="uid://bm0ha4yjyw0ba" path="res://Scripts/Classes/Entity Class/Characters/NPC/EntityClass_Character_NPC_StandardNPC.gd" id="7_ycnog"]
+[ext_resource type="Script" uid="uid://dxuyye5siiita" path="res://Scripts/Classes/Interaction Class/Dialogue Class/InteractableComponent_InteractableComponentDialogue.gd" id="8_3oc0o"]
+[ext_resource type="Script" uid="uid://maxyjhu818j7" path="res://Scripts/Classes/Interaction Class/Dialogue Class/Component_SpeakComponent.gd" id="9_g8bl4"]
 [ext_resource type="Script" uid="uid://bistbs770jaqo" path="res://Scripts/Resources/Resource Scripts/resource_Dialogue.gd" id="10_oswxe"]
 [ext_resource type="Resource" uid="uid://cjeaecyfwjv0w" path="res://Scripts/Resources/Resource Files/Resources_Dialogues/test_dialogue_seq.tres" id="11_6qfvj"]
 [ext_resource type="PackedScene" uid="uid://ckisejbbaxpl" path="res://Scenes/Objects/Test Objects/grab_lift_test_object.tscn" id="12_6qfvj"]
@@ -26,7 +26,6 @@
 [ext_resource type="AudioStream" uid="uid://xyfy3rubb5aa" path="res://Sound/SFX/Objects/Chests/chest_open_03.wav" id="21_n42s3"]
 [ext_resource type="Script" uid="uid://tp0m7574selp" path="res://Scripts/Resources/Resource Scripts/resource_ContainerReward.gd" id="21_npqhc"]
 [ext_resource type="Texture2D" uid="uid://32qv5f7fwwmn" path="res://Sprites/Object Sprites/Openables/chest4.png" id="25_56a0f"]
-[ext_resource type="PackedScene" uid="uid://dj37dq415c4me" path="res://Scenes/Objects/Doors/transition_door-test.tscn" id="25_pisjv"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_n42s3"]
 texture = ExtResource("1_7ds01")
@@ -1351,7 +1350,7 @@ metadata/_custom_type_script = "uid://tp0m7574selp"
 [sub_resource type="Curve2D" id="Curve2D_56a0f"]
 resource_local_to_scene = true
 _data = {
-"points": PackedVector2Array(0, 0, 13.666667, -17, -42, 19, -20.810804, 6.533624, 16.219435, -5.092148, -1, -32, -0.5759404, -16.990242, 0.6261225, 18.470613, 44, -8, 18.245422, 2.94281, -16.07449, -2.5926595, 1, 27, -5.023145, 15.488031, 8.834829, -27.240723, -18, -18, 12.493819, 25.768501, -12.651932, -26.09461, 37, -84, 21.345798, -19.63051, -26.005209, 23.915504, -50, -84, 8.333334, -34.333336, 0, 0, -75, 19)
+"points": PackedVector2Array(0, 0, 13.666667, -17, -42, 19, -20.810804, 6.533624, 16.219435, -5.092148, -1, -32, -0.5759404, -16.990242, 0.6261225, 18.470613, 44, -8, 18.245422, 2.94281, -16.07449, -2.5926595, 1, 27, -5.023145, 15.488031, 8.834829, -27.240723, -18, -18, 12.493819, 25.768501, -12.651932, -26.09461, 37, -84, 21.612, -19.337051, -26.21089, 23.451849, -50, -84, 9, -34, 0, 0, -77, 18)
 }
 point_count = 8
 
@@ -1391,7 +1390,6 @@ debug = SubResource("Resource_3ubh8")
 z_index = 1
 position = Vector2(-393, -39)
 script = ExtResource("7_ycnog")
-metadata/_custom_type_script = "uid://tahhhchxgem6"
 
 [node name="NPC Interact Area" type="Node2D" parent="Dialogue Test NPC" unique_id=698386632 node_paths=PackedStringArray("speaker")]
 script = ExtResource("8_3oc0o")
@@ -1408,7 +1406,7 @@ shape = SubResource("CircleShape2D_nrk3t")
 [node name="SpeakComponent" type="Node" parent="Dialogue Test NPC" unique_id=473864977]
 script = ExtResource("9_g8bl4")
 dialogue_sequences = Array[ExtResource("10_oswxe")]([ExtResource("11_6qfvj")])
-metadata/_custom_type_script = "uid://c54o2iwjc4ysm"
+metadata/_custom_type_script = "uid://maxyjhu818j7"
 
 [node name="Grab-Lift Test Object" parent="." unique_id=1295838823 instance=ExtResource("12_6qfvj")]
 position = Vector2(-390, 53)
@@ -1616,9 +1614,3 @@ debug = SubResource("Resource_v3by2")
 [node name="BatTravelRoute" parent="." unique_id=1252271372 instance=ExtResource("16_su1sj")]
 position = Vector2(-290, 33)
 curve = SubResource("Curve2D_56a0f")
-
-[node name="transitionDoor" parent="." unique_id=2055706719 instance=ExtResource("25_pisjv")]
-position = Vector2(-465, -62)
-debug = SubResource("Resource_sbtm1")
-target_scene_path = "res://Scenes/Levels/Test/TestTransitionScene.tscn"
-target_door_name = "topLevelDoor"

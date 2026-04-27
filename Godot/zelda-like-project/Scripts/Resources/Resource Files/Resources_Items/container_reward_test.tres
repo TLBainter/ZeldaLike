@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="ContainerRewardResource" format=3 uid="uid://ctk3lr0radb0j"]
 
-[ext_resource type="Resource" uid="uid://bn8ifrtjwyu1s" path="res://Scripts/Resources/Resource Files/Resources_Items/item_small_heart.tres" id="1_1sh8b"]
+[ext_resource type="Resource" uid="uid://bn8ifrtjwyu1s" path="res://Scripts/Resources/Resource Files/Resources_Items/item_small_skull.tres" id="1_1sh8b"]
 [ext_resource type="Script" uid="uid://tp0m7574selp" path="res://Scripts/Resources/Resource Scripts/resource_ContainerReward.gd" id="1_8c4ox"]
 
 [resource]

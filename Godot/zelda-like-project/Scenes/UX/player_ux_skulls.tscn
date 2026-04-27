@@ -1,0 +1,129 @@
+[gd_scene format=3 uid="uid://dwprjilrl8d0p"]
+
+[ext_resource type="Script" uid="uid://dcwil1lo7up0r" path="res://Scripts/UX/SkullGUI.gd" id="1_ab7fi"]
+[ext_resource type="Texture2D" uid="uid://b334ygyrh1suv" path="res://Sprites/UX/InGameUX/PlayerStats/PlayerSkulls/playerFang_4.tres" id="2_uqgch"]
+[ext_resource type="Texture2D" uid="uid://cj8kuuqrnhx01" path="res://Sprites/UX/InGameUX/PlayerStats/PlayerSkulls/playerFang_3.tres" id="3_0i4qs"]
+[ext_resource type="Texture2D" uid="uid://ds743pv10lp1w" path="res://Sprites/UX/InGameUX/PlayerStats/PlayerSkulls/playerFang_2.tres" id="4_m4dit"]
+[ext_resource type="Texture2D" uid="uid://ft5hbc86kgbf" path="res://Sprites/UX/InGameUX/PlayerStats/PlayerSkulls/playerFang_1.tres" id="5_v7aap"]
+[ext_resource type="Texture2D" uid="uid://b1dwvaombpw" path="res://Sprites/UX/InGameUX/PlayerStats/PlayerSkulls/playerFang_0.tres" id="6_v7uj8"]
+[ext_resource type="Script" uid="uid://dpkgf77dlj1p3" path="res://Scripts/UX/SkullGUISprite.gd" id="7_uqgch"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ab7fi"]
+bg_color = Color(0.5686275, 0.5686275, 0.5686275, 0)
+
+[sub_resource type="Animation" id="Animation_0i4qs"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("playerSkullTexture:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_m4dit"]
+resource_name = "skull_pulse"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("playerSkullTexture:scale")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.4, 0.8, 1),
+"transitions": PackedFloat32Array(1, 1e-05, 2.5321507, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(2, 2), Vector2(2, 2), Vector2(1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_v7aap"]
+_data = {
+&"RESET": SubResource("Animation_0i4qs"),
+&"skull_pulse": SubResource("Animation_m4dit")
+}
+
+[sub_resource type="Animation" id="Animation_uqgch"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("playerSkullTexture:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_v7aap"]
+resource_name = "skull_flash_lowHP"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("playerSkullTexture:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5, 1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 0, 0, 1), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_v7uj8"]
+_data = {
+&"RESET": SubResource("Animation_uqgch"),
+&"skull_flash_lowHP": SubResource("Animation_v7aap")
+}
+
+[node name="playerSkullGUI" type="Panel" unique_id=453209667 node_paths=PackedStringArray("sprite", "pulse_anim", "flash_anim")]
+self_modulate = Color(1, 1, 1, 0)
+custom_minimum_size = Vector2(6, 6)
+offset_right = 8.0
+offset_bottom = 8.0
+pivot_offset_ratio = Vector2(0.5, 0.5)
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_ab7fi")
+script = ExtResource("1_ab7fi")
+sprite = NodePath("playerSkullTexture")
+pulse_anim = NodePath("SkullPulseAnim")
+flash_anim = NodePath("SkullFlashAnim")
+sprite_4_4_skull = ExtResource("2_uqgch")
+sprite_3_4_skull = ExtResource("3_0i4qs")
+sprite_2_4_skull = ExtResource("4_m4dit")
+sprite_1_4_skull = ExtResource("5_v7aap")
+sprite_0_4_skull = ExtResource("6_v7uj8")
+
+[node name="playerSkullTexture" type="TextureRect" parent="." unique_id=328674179]
+custom_minimum_size = Vector2(6, 6)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -4.0
+offset_top = -4.0
+offset_right = 4.0
+offset_bottom = 4.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset_ratio = Vector2(0.5, 0.5)
+texture = ExtResource("2_uqgch")
+stretch_mode = 4
+script = ExtResource("7_uqgch")
+
+[node name="SkullPulseAnim" type="AnimationPlayer" parent="." unique_id=519440527]
+libraries/ = SubResource("AnimationLibrary_v7aap")
+
+[node name="SkullFlashAnim" type="AnimationPlayer" parent="." unique_id=1504693110]
+libraries/ = SubResource("AnimationLibrary_v7uj8")

@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://c5x6kbg4wbbhf"]
 
-[ext_resource type="Script" uid="uid://dmmcfbnrvhriy" path="res://Scripts/Classes/Entity Class/Thing Class/Entity_Thing_Static.gd" id="1_2jcs7"]
+[ext_resource type="Script" uid="uid://qexpu4ngwy60" path="res://Scripts/Classes/Entity Class/Thing Class/EntityClass_Thing_StaticThing.gd" id="1_2jcs7"]
 [ext_resource type="Texture2D" uid="uid://c4ltjc5konle8" path="res://Sprites/Decor Sprites/Foliage/Grass/grass_green_1.tres" id="1_gojou"]
 [ext_resource type="Resource" uid="uid://bxp2ac0445yxu" path="res://Scripts/Resources/Resource Files/Resources_Decor/Resources_Foliage/resource_foliage_decor_grass_green_1.tres" id="2_x2w03"]
 [ext_resource type="Script" uid="uid://bo53xn53xy0t6" path="res://Scripts/Classes/Interaction Class/InteractableComponent.gd" id="3_ic01"]

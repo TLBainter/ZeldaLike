@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="ZeldaLikeProject"
-run/main_scene="uid://jqso51haqh2i"
+run/main_scene="uid://by3xtlw077ehp"
 config/features=PackedStringArray("4.6", "Forward Plus")
 config/icon="res://icon.svg"
 
@@ -28,6 +28,8 @@ textResolver="*uid://bqwsqn6f06yrk"
 containerManager="*res://Scripts/Managers/manager_Container.gd"
 SceneTransitionManager="*res://Scripts/Managers/manager_SceneTransition.gd"
 saveManager="*res://Scripts/Managers/manager_Save.gd"
+doorManager="*res://Scripts/Managers/manager_Door.gd"
+musicManager="*res://Scripts/Managers/manager_Music.gd"
 
 [display]
 
@@ -215,6 +217,7 @@ dash={
 2d_physics/layer_3="Grass Layer"
 2d_physics/layer_4="Trap Layer"
 2d_physics/layer_5="Blocking Layer"
+2d_physics/layer_6="Wall Layer"
 
 [physics]
 

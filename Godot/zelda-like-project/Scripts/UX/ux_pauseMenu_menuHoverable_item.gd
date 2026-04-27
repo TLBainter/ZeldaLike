@@ -59,6 +59,17 @@ var _as_upgrade : MenuItemUpgradeResource:
 	get:
 		return item_resource as MenuItemUpgradeResource
 
+##When item_resource is a base mobility item and the player already owns its
+##upgrade, returns the upgrade's MenuItemResource; otherwise returns item_resource.
+var _active_resource : MenuItemResource:
+	get:
+		if not item_resource or not inventory:
+			return item_resource
+		var upgrade_id : String = ItemID.MOBILITY_UPGRADES.get(item_resource.item_id, "")
+		if upgrade_id != "" and inventory.has_item(upgrade_id):
+			return ItemID.MENU_ITEM_RESOURCES.get(upgrade_id, item_resource)
+		return item_resource
+
 ##Returns true when the player has reached the effective cap for this upgrade,
 ##accounting for base stats already included in max_quantity.
 func _is_upgrade_at_max(upgrade: MenuItemUpgradeResource, qty: int) -> bool:
@@ -103,9 +114,10 @@ func _slice_item_frames() -> void:
 			return
 		_slice_strip(part.part_anim_sprite, part.anim_h_frames)
 	else:
-		if not item_resource or not item_resource.main or not item_resource.main.atlas:
+		var res := _active_resource
+		if not res or not res.main or not res.main.atlas:
 			return
-		_slice_strip(item_resource.main, item_resource.h_frames)
+		_slice_strip(res.main, res.h_frames)
 
 ##Slices [param strip] into [param h_frames] individual AtlasTexture frames, appending to _item_frames.
 func _slice_strip(strip : AtlasTexture, h_frames : int) -> void:
@@ -131,11 +143,13 @@ func _update_item_display() -> void:
 		_update_upgrade_display(upgrade)
 		return
 	if player_has_item:
+		_slice_item_frames()
 		if not _item_frames.is_empty():
 			item_rect.texture = _item_frames[0]
 	else:
-		if item_resource.outline:
-			item_rect.texture = item_resource.outline
+		var res := _active_resource
+		if res and res.outline:
+			item_rect.texture = res.outline
 
 ##Sets the correct static texture for the current upgrade part state.
 func _update_upgrade_display(upgrade : MenuItemUpgradeResource) -> void:
@@ -167,7 +181,7 @@ func _start_item_anim() -> void:
 		var qty := _get_quantity()
 		if qty == 0:
 			return
-		_slice_item_frames()
+	_slice_item_frames()
 	if _item_frames.is_empty():
 		return
 	_anim_frame = 0
@@ -195,7 +209,8 @@ func _stop_item_anim() -> void:
 #region FLASH
 
 func _start_flash() -> void:
-	if not item_resource or not item_resource.flash:
+	var res := _active_resource
+	if not res or not res.flash:
 		return
 	if not flash_player:
 		return
@@ -205,7 +220,7 @@ func _start_flash() -> void:
 	for track_idx in range(anim.get_track_count()):
 		var path = anim.track_get_path(track_idx)
 		if ":self_modulate" in str(path) and anim.track_get_key_count(track_idx) >= 2:
-			anim.track_set_key_value(track_idx, 1, item_resource.flash_color)
+			anim.track_set_key_value(track_idx, 1, res.flash_color)
 			break
 	flash_player.play("Flash")
 
@@ -258,7 +273,7 @@ func _populate_info_box() -> void:
 	if at_max and upgrade.full_text_ref_id != "":
 		ref_id = upgrade.full_text_ref_id
 	else:
-		ref_id = item_resource.text_ref_id
+		ref_id = _active_resource.text_ref_id
 	var data = dialogueDB.get_dialogue_data(ref_id)
 	var lines = data.get("lines", [])
 	var name_text   = lines[0] if lines.size() > 0 else ""

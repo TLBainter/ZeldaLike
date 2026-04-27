@@ -1,5 +1,5 @@
 ##[b][color=red]ContainerRewardResource[/color][/b] defines what item a container gives the player.[br]
-##Assign one of these to an [b]InteractableComponent_Container[/b] alongside a [b]ContainerResource[/b].[br]
+##Assign one of these to an [b]InteractableComponentContainer[/b] alongside a [b]ContainerResource[/b].[br]
 ##Set [b]item_kind[/b] first — the [b]item[/b] dropdown will filter to matching items automatically.
 @tool
 class_name ContainerRewardResource

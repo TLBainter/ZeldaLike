@@ -8,6 +8,8 @@ extends Node
 ##Emitted when the context label should be updated.[br]
 ##ContextLabel listens for this to change its display text.
 signal context_changed(context_key : String)
+signal grabbed_object_changed(obj: DynamicThing)
+signal held_object_changed(obj: DynamicThing)
 #endregion SIGNALS
 
 #region ENUMS
@@ -49,11 +51,31 @@ const DODGE_COOLDOWN : float = 0.25
 ##Remaining cooldown time before the next dodge is allowed. Ticked down in _process.
 var _dodge_cooldown_timer : float = 0.0
 ##The DynamicThing currently being grabbed by the relevant entity.
-##Set by StateGrab, read by GrabIdle/Pushing/Pulling States. Null when not grabbing.
+##Set via grab_object()/release_grabbed(), read by GrabIdle/Pushing/Pulling States.
 var grabbed_object : DynamicThing = null
 ##The DynamicThing currently being held by the relevant entity.
-##Set by StateLift, read by HoldingAction/Throw/Drop States. Null when not holding.
+##Set via lift_object()/release_held(), read by HoldingAction/Throw/Drop States.
 var held_object : DynamicThing = null
+
+func grab_object(obj: DynamicThing) -> void:
+	grabbed_object = obj
+	grabbed_object_changed.emit(obj)
+
+func release_grabbed() -> DynamicThing:
+	var obj := grabbed_object
+	grabbed_object = null
+	grabbed_object_changed.emit(null)
+	return obj
+
+func lift_object(obj: DynamicThing) -> void:
+	held_object = obj
+	held_object_changed.emit(obj)
+
+func release_held() -> DynamicThing:
+	var obj := held_object
+	held_object = null
+	held_object_changed.emit(null)
+	return obj
 ##Whether or not context can currently be updated by a given state.
 var context_locked : bool = false
 ##Registry of all State nodes under this coordinator, keyed by script.[br]

@@ -1,0 +1,7 @@
+[gd_resource type="AtlasTexture" format=3 uid="uid://dpgftcm7pc2l"]
+
+[ext_resource type="Texture2D" uid="uid://ba1moes48wafm" path="res://TileMaps/prisonLibrary/dungeon_tileset.png" id="1_fa3jq"]
+
+[resource]
+atlas = ExtResource("1_fa3jq")
+region = Rect2(224, 208, 32, 32)

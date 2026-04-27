@@ -33,7 +33,7 @@ func _ready() -> void:
 		if not curve.changed.is_connected(_on_curve_changed):
 			curve.changed.connect(_on_curve_changed)
 	if Engine.is_editor_hint():
-		
+		_sync_circles()
 		if _circle_a:
 			_last_pos_a = _circle_a.position
 		if _circle_b:

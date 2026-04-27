@@ -103,7 +103,7 @@ func _get_interactable_context_key(character, is_moving: bool = false) -> String
 	if not character or not character.body.current_interactable:
 		return ""
 	var interact_node = character.body.current_interactable
-	var interactable_owner = interact_node.root if "root" in interact_node else null
+	var interactable_owner = interact_node.owner_entity if "owner_entity" in interact_node else null
 	if interactable_owner and "object_data" in interactable_owner and interactable_owner.object_data:
 		var priority = coordinator.resolve_interaction_priority(interactable_owner.object_data, is_moving)
 		match priority:
@@ -158,5 +158,14 @@ func _safe_connect(sig: Signal, cb: Callable) -> void:
 func _safe_disconnect(sig: Signal, cb: Callable) -> void:
 	if sig.is_connected(cb):
 		sig.disconnect(cb)
+
+##Transitions to the state registered under [param key] in the coordinator.[br]
+##Logs a debug message if the key resolves to nothing.
+func _safe_transition(key: String) -> void:
+	var next := coordinator.get_transition(key)
+	if not next:
+		_debug_log("No transition found for key: " + key)
+		return
+	state_machine.change_state(coordinator.try_transition(state_machine, next, key))
 
 #endregion FUNCTIONS

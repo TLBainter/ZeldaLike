@@ -1,5 +1,5 @@
 ##[b][color=red]ContainerResource[/color][/b] defines the visual and audio properties of a chest or container.[br]
-##Assign one of these to an [b]InteractableComponent_Container[/b] to configure the chest's appearance and sound.[br]
+##Assign one of these to an [b]InteractableComponentContainer[/b] to configure the chest's appearance and sound.[br]
 ##[br]
 ##[b]Sprite Layout[/b]: A horizontal strip where the [b]first frame = closed[/b] and the [b]last frame = opened[/b].[br]
 ##If [b]frame_count[/b] is greater than 2, opening the chest will animate through all intermediate frames[br]

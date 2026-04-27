@@ -101,8 +101,8 @@ func _ready() -> void:
 	_area.body_exited.connect(_on_body_exited)
 
 ##Called by states to trigger the interaction.[br]
-##Override in subclasses (e.g., [b]InteractableComponent_Dialogue[/b]).
-func interact(_user = null) -> void:
+##Override in subclasses (e.g., [b]InteractableComponentDialogue[/b]).
+func interact(_user: EntityClass = null) -> void:
 	pass
 
 ##Enable or disable the detect area.[br]

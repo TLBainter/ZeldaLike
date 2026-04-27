@@ -11,7 +11,7 @@ const RED_GARNET = "red_garnet"
 const RITUAL_STEEL = "ritual_steel"
 const STARDUST = "stardust"
 const FULGURITE = "fulgurite"
-const HEART = "heart"
+const SKULL = "skull"
 const KIDNEY = "kidney"
 const METEORITE = "meteorite"
 
@@ -69,7 +69,7 @@ const ORANGE_BEAD = "orange_bead"
 #region CATEGORIES=======#
 const CATEGORIES : Dictionary = {
 	"spell":      [SPELL_GRAPPLE, SPELL_IGNITE, SPELL_HAMMER, SPELL_SUMMON, SPELL_HASTE],
-	"ingredient": [BLOOD_CLOT, RED_GARNET, RITUAL_STEEL, STARDUST, FULGURITE, HEART, KIDNEY, METEORITE],
+	"ingredient": [BLOOD_CLOT, RED_GARNET, RITUAL_STEEL, STARDUST, FULGURITE, SKULL, KIDNEY, METEORITE],
 	"mobility":   [WAVEWALK_BOOTS, BAT_FORM, BAT_FORM_UPGRADED, ALBEDO_HOOD, ALBEDO_HOOD_UPGRADED, WAVEWALK_BOOTS_UPGRADED],
 	"concoction": [ARCANE_SALVE, BLOOD_SALVE, ENERGIZING_SALVE, RESTORATIVE_SALVE],
 	"dungeon":    [KEY, MAP, NOTEBOOK],
@@ -93,7 +93,7 @@ const MOBILITY_UPGRADES : Dictionary = {
 ##Maps each item ID to its [b]ItemResource[/b] .tres file.[br]
 ##Add an entry here whenever a new ItemResource asset is created.
 const ITEM_RESOURCES : Dictionary = {
-	TOOTH:           preload("res://Scripts/Resources/Resource Files/Resources_Items/item_small_heart.tres"),
+	TOOTH:           preload("res://Scripts/Resources/Resource Files/Resources_Items/item_small_skull.tres"),
 	WHITE_BEAD:      preload("res://Scripts/Resources/Resource Files/Resources_Items/item_bead_1.tres"),
 	BLUE_BEAD:       preload("res://Scripts/Resources/Resource Files/Resources_Items/item_bead_5.tres"),
 	PURPLE_BEAD:     preload("res://Scripts/Resources/Resource Files/Resources_Items/item_bead_10.tres"),
@@ -126,7 +126,7 @@ const MENU_ITEM_RESOURCES : Dictionary = {
 	RITUAL_STEEL:           preload("res://Scripts/Resources/Resource Files/Resources_MenuItems/resource_menuItem_ritualSteel.tres"),
 	STARDUST:               preload("res://Scripts/Resources/Resource Files/Resources_MenuItems/resource_menuItem_stardust.tres"),
 	FULGURITE:              preload("res://Scripts/Resources/Resource Files/Resources_MenuItems/resource_menuItem_fulgurite.tres"),
-	HEART:                  preload("res://Scripts/Resources/Resource Files/Resources_MenuItems/resource_menuItem_heart.tres"),
+	SKULL:                  preload("res://Scripts/Resources/Resource Files/Resources_MenuItems/resource_menuItem_skull.tres"),
 	KIDNEY:                 preload("res://Scripts/Resources/Resource Files/Resources_MenuItems/resource_menuItem_kidney.tres"),
 	METEORITE:              preload("res://Scripts/Resources/Resource Files/Resources_MenuItems/resource_menuItem_meteorite.tres"),
 	# Concoctions

@@ -1,15 +1,19 @@
 [gd_scene format=3 uid="uid://ckisejbbaxpl"]
 
-[ext_resource type="Script" uid="uid://dgfi5h24882w" path="res://Scripts/Classes/Entity Class/Thing Class/Entity_Thing_Dynamic.gd" id="1_6o540"]
+[ext_resource type="Script" uid="uid://dkl35pypnyrri" path="res://Scripts/Classes/Entity Class/Thing Class/EntityClass_Thing_DynamicThing.gd" id="1_6o540"]
 [ext_resource type="Resource" uid="uid://cjbf6urjarnj0" path="res://Scripts/Resources/Resource Files/Resources_Interactable Objects/normal_clay_pot.tres" id="2_rvm42"]
 [ext_resource type="Texture2D" uid="uid://csaqjksdow7tj" path="res://Sprites/Object Sprites/Breakables/object_sprite_pot-brown_small.png" id="3_iy02v"]
 [ext_resource type="Script" uid="uid://bo53xn53xy0t6" path="res://Scripts/Classes/Interaction Class/InteractableComponent.gd" id="4_ic01"]
-[ext_resource type="Script" uid="uid://ccyvuto8p13ak" path="res://Scripts/Classes/Entity Class/Component Class/Component_Stats.gd" id="5_iy02v"]
+[ext_resource type="Script" uid="uid://c0gguh8o4ftae" path="res://Scripts/Resources/Resource Scripts/resource_debug_settings.gd" id="5_b0au3"]
+[ext_resource type="Script" uid="uid://bbr13ie0ank53" path="res://Scripts/Classes/Entity Class/Component Class/Component_StatsComponent.gd" id="5_iy02v"]
 [ext_resource type="Script" uid="uid://dw1v2olrhdbdx" path="res://Scripts/Resources/Resource Scripts/resource_stats.gd" id="6_b0au3"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_53jui"]
 radius = 4.0
 height = 8.0
+
+[sub_resource type="Resource" id="Resource_3r2j7"]
+script = ExtResource("5_b0au3")
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_su1sj"]
 radius = 8.0
@@ -74,13 +78,12 @@ shadow = NodePath("ObjectBody/ObjectSprite/ObjectShadow")
 collider = NodePath("ObjectBody/ObjectCollider")
 stats = NodePath("StatsComponent")
 interactable = NodePath("ObjectBody/InteractableComponent")
-debug_me = true
-debug_name = "pot"
 
 [node name="ObjectBody" type="CharacterBody2D" parent="." unique_id=1628527175]
 z_as_relative = false
 position = Vector2(0, -6)
 collision_layer = 2
+collision_mask = 33
 
 [node name="ObjectSprite" type="Sprite2D" parent="ObjectBody" unique_id=1973276313]
 z_as_relative = false
@@ -104,6 +107,7 @@ script = ExtResource("4_ic01")
 interact_type = 10
 context_key = "grab"
 area_offset = Vector2(0, -1)
+debug = SubResource("Resource_3r2j7")
 
 [node name="InteractArea" type="Area2D" parent="ObjectBody/InteractableComponent" unique_id=623847512]
 position = Vector2(0, -1)
@@ -118,4 +122,4 @@ libraries/ = SubResource("AnimationLibrary_ut0kp")
 [node name="StatsComponent" type="Node" parent="." unique_id=975307262]
 script = ExtResource("5_iy02v")
 resource = SubResource("Resource_vpw78")
-metadata/_custom_type_script = "uid://ccyvuto8p13ak"
+metadata/_custom_type_script = "uid://bbr13ie0ank53"

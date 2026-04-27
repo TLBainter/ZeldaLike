@@ -55,8 +55,8 @@ var _fading_out : bool = false
 var _player_ux_canvas : CanvasLayer = null
 ##Reference to this canvas's canvas layer
 var _original_canvas_layer : int = 0
-##Reference to the Hearts Margin's current alpha value.
-var heart_fade_target : float = 1.0
+##Reference to the Skulls Margin's current alpha value.
+var skull_fade_target : float = 1.0
 ##Reference to the Consumable Margin's current alpha value.
 var consumable_fade_target : float = 1.0
 ## Reference to the Action Buttons Margin's current alpha value.
@@ -227,14 +227,14 @@ func _show_pause_ux() -> void:
 	var ux = _find_player_ux()
 	if not ux:
 		return
-	if ux.heartsContainer:
-		var hearts_margin = ux.heartsContainer.get_parent()
-		if hearts_margin and hearts_margin is InGameMargin:
-			hearts_margin.process_mode = Node.PROCESS_MODE_WHEN_PAUSED
-			heart_fade_target = hearts_margin.modulate.a
-			hearts_margin.fade_out(0.0)
-		elif hearts_margin:
-			hearts_margin.visible = false
+	if ux.skullsContainer:
+		var skulls_margin = ux.skullsContainer.get_parent()
+		if skulls_margin and skulls_margin is InGameMargin:
+			skulls_margin.process_mode = Node.PROCESS_MODE_WHEN_PAUSED
+			skull_fade_target = skulls_margin.modulate.a
+			skulls_margin.fade_out(0.0)
+		elif skulls_margin:
+			skulls_margin.visible = false
 	var consumable_buttons = ux.consumable_buttons
 	if debug_me:
 		print("PAUSE UX: consumable_buttons = ", consumable_buttons)
@@ -273,11 +273,11 @@ func _restore_ux() -> void:
 	var ux = _find_player_ux()
 	if not ux:
 		return
-	if ux.heartsContainer:
-		var hearts_margin = ux.heartsContainer.get_parent()
-		if hearts_margin and hearts_margin is InGameMargin:
-			hearts_margin.process_mode = Node.PROCESS_MODE_INHERIT
-			hearts_margin.fade_in(heart_fade_target)
+	if ux.skullsContainer:
+		var skulls_margin = ux.skullsContainer.get_parent()
+		if skulls_margin and skulls_margin is InGameMargin:
+			skulls_margin.process_mode = Node.PROCESS_MODE_INHERIT
+			skulls_margin.fade_in(skull_fade_target)
 	var consumable_buttons = ux.consumable_buttons
 	if ux.consumable_buttons and consumable_buttons is InGameMargin:
 		consumable_buttons.process_mode = Node.PROCESS_MODE_INHERIT

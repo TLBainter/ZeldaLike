@@ -8,7 +8,7 @@
 [ext_resource type="Resource" uid="uid://ihrpencnmhke" path="res://Scripts/Resources/Resource Files/Resources_Pickups/pickup_bead_25.tres" id="5_i0ut5"]
 [ext_resource type="Resource" uid="uid://c710iksygomvs" path="res://Scripts/Resources/Resource Files/Resources_Pickups/pickup_energy_orb.tres" id="6_jmjkb"]
 [ext_resource type="Resource" uid="uid://cg7y317c5bste" path="res://Scripts/Resources/Resource Files/Resources_Pickups/pickup_magic_shard.tres" id="7_tbcuy"]
-[ext_resource type="Resource" uid="uid://bl283us0wn7dk" path="res://Scripts/Resources/Resource Files/Resources_Pickups/pickup_small_heart.tres" id="8_60avi"]
+[ext_resource type="Resource" uid="uid://bl283us0wn7dk" path="res://Scripts/Resources/Resource Files/Resources_Pickups/pickup_small_skull.tres" id="8_60avi"]
 
 [resource]
 script = ExtResource("2_bo3au")

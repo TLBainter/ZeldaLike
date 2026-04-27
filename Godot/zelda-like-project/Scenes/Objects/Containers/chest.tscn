@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://chest00000001"]
 
-[ext_resource type="Script" uid="uid://dul2xrlyh0fnc" path="res://Scripts/Classes/Interaction Class/Container Class/InteractableComponent_Container.gd" id="1_cont"]
+[ext_resource type="Script" uid="uid://bpeeh7jxkhl3q" path="res://Scripts/Classes/Interaction Class/Container Class/InteractableComponent_InteractableComponentContainer.gd" id="1_cont"]
 [ext_resource type="Resource" uid="uid://1w1nq7hvdm5c" path="res://Scripts/Resources/Resource Files/Resources_Chests/container_test.tres" id="2_ilshc"]
 [ext_resource type="Resource" uid="uid://ctk3lr0radb0j" path="res://Scripts/Resources/Resource Files/Resources_Items/container_reward_test.tres" id="3_dnlab"]
 [ext_resource type="Script" uid="uid://c0gguh8o4ftae" path="res://Scripts/Resources/Resource Scripts/resource_debug_settings.gd" id="4_afmbl"]

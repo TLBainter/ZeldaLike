@@ -10,11 +10,4 @@ extends TextureRect
 @onready var input : PlayerInputComponent = root.input
 @export_category("Debug")
 @export var debug : DebugSettings = DebugSettings.new()
-var debug_me : bool:
-	get: return debug.debug_me if debug else false
-var debug_me_verbose : bool:
-	get: return debug.debug_me_verbose if debug else false
-var debug_name : String:
-	get: return debug.debug_name if debug else ""
-	set(v): if debug: debug.debug_name = v
 #endregion VARIABLES

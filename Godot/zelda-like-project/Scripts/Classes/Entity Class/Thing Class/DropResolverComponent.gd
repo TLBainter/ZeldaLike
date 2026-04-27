@@ -57,7 +57,7 @@ func _find_clear_direction(space_state: PhysicsDirectSpaceState2D, origin: Vecto
 		var test_angle = preferred_dir.angle() + (angle_step * i)
 		var test_dir = Vector2(cos(test_angle), sin(test_angle))
 		var query = PhysicsRayQueryParameters2D.create(origin, origin + test_dir * ray_length)
-		query.collision_mask = 1
+		query.collision_mask = (1 << 3) | (1 << 4) | (1 << 5)
 		var result = space_state.intersect_ray(query)
 		if result.is_empty():
 			return test_dir

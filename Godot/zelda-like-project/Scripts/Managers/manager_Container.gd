@@ -9,7 +9,7 @@ extends Node
 signal container_opened(chest_id : String)
 
 ##Emitted after [method restore_opened] replaces the opened-chest dict.[br]
-##All [b]InteractableComponent_Container[/b] nodes listen to this and refresh their visual state.
+##All [b]InteractableComponentContainer[/b] nodes listen to this and refresh their visual state.
 signal containers_restored
 
 #region VARIABLES

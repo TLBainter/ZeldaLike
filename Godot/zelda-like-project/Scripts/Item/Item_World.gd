@@ -301,11 +301,31 @@ func _process_bounce(delta : float) -> void:
 		else:
 			_finish_spawn()
 
+func _push_out_of_walls() -> void:
+	if not collision or not collision.shape:
+		return
+	var space := get_world_2d().direct_space_state
+	var params := PhysicsShapeQueryParameters2D.new()
+	params.shape = collision.shape
+	params.collision_mask = (1 << 3) | (1 << 4) | (1 << 5)
+	params.transform = global_transform
+	if space.collide_shape(params).is_empty():
+		return
+	var dirs := [Vector2.RIGHT, Vector2.LEFT, Vector2.DOWN, Vector2.UP,
+		Vector2(1, 1).normalized(), Vector2(-1, 1).normalized(),
+		Vector2(1, -1).normalized(), Vector2(-1, -1).normalized()]
+	for dir in dirs:
+		params.transform = Transform2D(0.0, global_position + dir * 8.0)
+		if space.collide_shape(params).is_empty():
+			global_position += dir * 8.0
+			return
+
 ##Called when the spawn animation is complete.
 func _finish_spawn() -> void:
 	_is_spawning = false
 	set_physics_process(false)
 	global_position.y = _target_y
+	_push_out_of_walls()
 	_can_pickup = true
 	if collision:
 		collision.set_deferred("disabled", false)

@@ -1,0 +1,56 @@
+##[b][color=red]StateGrab[/color][/b] is the Action layer state for when the character is grabbing a [b]DynamicThing[/b].[br]
+##While in this state, the character holds onto the object. The movement layer switches to [i]GrabIdle[/i],[br]
+##handling transitions to [i]Pushing[/i] or [i]Pulling[/i] based on availability and input.[br]
+##Releasing actionButton4/Context Button while in [b]GrabIdle[/b] releases the grab.[br]
+##[br]
+##[b]Layer[/b]: Action
+class_name StateGrab
+extends State
+
+#region FUNCTIONS
+
+func enter():
+	super()
+	var character = get_character()
+	if not character:
+		push_error(debug_name + ": failed to get a character reference in enter()")
+		_safe_transition(StateKeys.NO_ACTION)
+		return
+	var component: InteractableComponent = character.body.current_interactable
+	var interactable = component.owner_entity if component else null
+	if interactable and interactable is DynamicThing:
+		coordinator.grab_object(interactable)
+	else:
+		push_error(debug_name + ": found no valid DynamicThing to grab in enter()")
+		_safe_transition(StateKeys.NO_ACTION)
+		return
+	if character.anim and character.anim is CharacterAnimator:
+		character.anim.can_update_facing = false
+		character.anim.play_directional_anim(AnimationNames.GRAB)
+	coordinator.freeze_movement()
+	var _grab_idle : State = coordinator.get_transition(StateKeys.GRAB_IDLE)
+	coordinator.request_movement_change(_grab_idle)
+	if debug_me:
+		print_rich(debug_name, ": [color=green][i]grabbed[/i][/color] [b]", interactable.name, "[/b].")
+
+func process_input(event : InputEvent) -> State:
+	if event.is_action_released("actionButton4"):
+		var movement_state = coordinator.movement_layer.current_state
+		if movement_state == coordinator.get_transition(StateKeys.GRAB_IDLE):
+			return coordinator.try_transition(state_machine, coordinator.get_transition(StateKeys.NO_ACTION), "actionButton4+released+at_GrabIdle")
+		input_consumed = true
+	return null
+
+func exit():
+	var character = get_character()
+	if character and character.anim and character.anim is CharacterAnimator:
+		character.anim.can_update_facing = true
+	coordinator.release_grabbed()
+	coordinator.unfreeze_movement()
+	var _idle : State = coordinator.get_transition(StateKeys.IDLE)
+	coordinator.request_movement_change(_idle)
+	if debug_me:
+		print_rich(debug_name, ": [color=red][i]released grab on[/i][/color] [b]", character.body.current_interactable, "[/b]")
+	super()
+
+#endregion FUNCTIONS

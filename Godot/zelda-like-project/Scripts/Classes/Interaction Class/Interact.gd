@@ -39,7 +39,7 @@ func _ready():
 	body_exited.connect(_on_body_exited)
 
 ##This occurs if the interactable has no type; overwrite the Interact function in subclasses to use this.
-func interact(_user = null):
+func interact(_user: EntityClass = null):
 	print("Base Interactable: Nothing happens.")
 
 #region Triggers

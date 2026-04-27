@@ -31,6 +31,7 @@ var _is_loading : bool = false
 func _ready() -> void:
 	SceneTransitionManager.transition_complete.connect(_on_transition_complete)
 	containerManager.container_opened.connect(_on_container_opened)
+	doorManager.door_unlocked.connect(func(_id: String): save())
 
 #endregion READY
 
@@ -80,6 +81,7 @@ func new_game() -> void:
 	_save_pending = false
 	_player = null
 	containerManager.clear()
+	doorManager.clear()
 	if FileAccess.file_exists(SAVE_PATH):
 		var dir := DirAccess.open(SAVE_DIR)
 		if dir:
@@ -165,6 +167,7 @@ func _collect_data() -> Dictionary:
 		},
 		"inventory"   : _player.inventory.get_all_items().duplicate(),
 		"containers"  : containerManager.get_all_opened(),
+		"doors"       : doorManager.get_all_unlocked(),
 	}
 
 #endregion COLLECT DATA
@@ -208,6 +211,9 @@ func _apply_data(data : Dictionary) -> void:
 
 	# --- Containers ---
 	containerManager.restore_opened(data.get("containers", {}))
+
+	# --- Doors ---
+	doorManager.restore_unlocked(data.get("doors", {}))
 
 	# --- Navigate to last door ---
 	var t          : Dictionary = data.get("last_transition", {})

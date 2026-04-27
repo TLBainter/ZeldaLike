@@ -23,8 +23,8 @@ signal check_viewport_size
 @export_group("Player UX Internal Components")
 ## a reference to the player's currency display
 @export var currency_display : CurrencyDisplay
-## a reference to the heart container
-@export var heartsContainer : HeartsDisplay
+## a reference to the skull container
+@export var skullsContainer : SkullsDisplay
 ## a reference to the audio control node for player UI
 @export var ui_audio : UIAudioControl
 ## a reference to the context button's text label (Button 4 Label)
@@ -77,8 +77,8 @@ func _ready():
 		print("ux_check_timer created!")
 	
 	var hp_component : PlayerHealthComponent = root.health
-	heartsContainer.set_max_hearts(hp_component.max_hearts)
-	heartsContainer.update_hearts(hp_component.cur_health)
+	skullsContainer.set_max_skulls(hp_component.max_skulls)
+	skullsContainer.update_skulls(hp_component.cur_health)
 	hp_component.health_changed.connect(_on_health_changed)
 	hp_component.max_health_changed.connect(_on_max_health_changed)
 	check_viewport_size.emit()
@@ -147,14 +147,14 @@ func _on_zoom_changed(is_zoomed : bool):
 		currency_display.force_show(is_zoomed)
 
 func _on_health_changed(new_hp, max_hp, _change):
-	var new_max_hearts := int(max_hp / 4.0)
-	if new_max_hearts != heartsContainer.get_child_count():
-		heartsContainer.set_max_hearts(new_max_hearts)
-	heartsContainer.update_hearts(new_hp)
+	var new_max_skulls := int(max_hp / 4.0)
+	if new_max_skulls != skullsContainer.get_child_count():
+		skullsContainer.set_max_skulls(new_max_skulls)
+	skullsContainer.update_skulls(new_hp)
 
 func _on_max_health_changed(new_max : int, new_cur : int):
-	heartsContainer.set_max_hearts(int(new_max / 4.0))
-	heartsContainer.update_hearts(new_cur)
+	skullsContainer.set_max_skulls(int(new_max / 4.0))
+	skullsContainer.update_skulls(new_cur)
 
 func _on_max_energy_changed(new_max : int, _new_cur : int) -> void:
 	energy_display.set_max_bolts(int(new_max / 4.0))

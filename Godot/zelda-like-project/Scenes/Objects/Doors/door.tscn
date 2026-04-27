@@ -1,0 +1,59 @@
+[gd_scene format=3 uid="uid://bv3kka2wmn2n6"]
+
+[ext_resource type="Script" uid="uid://bbpnpedcy7rhy" path="res://Scripts/Objects/Doors/object_Door.gd" id="1_door"]
+[ext_resource type="Script" uid="uid://c0gguh8o4ftae" path="res://Scripts/Resources/Resource Scripts/resource_debug_settings.gd" id="2_4hu1k"]
+[ext_resource type="Texture2D" uid="uid://bxpb1vnhjvjos" path="res://Editor Tools/Icons/debug_location.svg" id="2_door"]
+[ext_resource type="Texture2D" uid="uid://c6okxd20g8mwx" path="res://TileMaps/prisonLibrary/prisonLibrary_door-transition_up.tres" id="3_fduda"]
+
+[sub_resource type="Resource" id="Resource_h3to2"]
+script = ExtResource("2_4hu1k")
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_block"]
+size = Vector2(24, 19)
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_trans"]
+radius = 1.0
+height = 14.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_interact"]
+radius = 8.0
+
+[node name="Door" type="Node2D" unique_id=1783186270]
+script = ExtResource("1_door")
+target_scene_path = ""
+target_door_rel_path = ""
+interact_type = 5
+context_key = "open"
+debug = SubResource("Resource_h3to2")
+
+[node name="DoorSprite" type="Sprite2D" parent="." unique_id=1171859906]
+position = Vector2(0, -16)
+texture = ExtResource("3_fduda")
+
+[node name="DoorBlock" type="StaticBody2D" parent="." unique_id=699600759]
+position = Vector2(0, -10)
+collision_layer = 2
+
+[node name="DoorBlockShape" type="CollisionShape2D" parent="DoorBlock" unique_id=919642140]
+shape = SubResource("RectangleShape2D_block")
+
+[node name="doorTransCollider" type="Area2D" parent="." unique_id=583267855]
+position = Vector2(0, -8)
+
+[node name="transCollider" type="CollisionShape2D" parent="doorTransCollider" unique_id=679448105]
+shape = SubResource("CapsuleShape2D_trans")
+
+[node name="transitionTarget" type="Node2D" parent="." unique_id=40507992]
+position = Vector2(0, 30)
+
+[node name="transitionTargetDebugIMG" type="Sprite2D" parent="transitionTarget" unique_id=1208363340]
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("2_door")
+offset = Vector2(0, -50)
+metadata/_edit_lock_ = true
+
+[node name="InteractArea" type="Area2D" parent="." unique_id=123046049]
+collision_layer = 2
+
+[node name="InteractCollider" type="CollisionShape2D" parent="InteractArea" unique_id=2104104480]
+shape = SubResource("CircleShape2D_interact")
