@@ -33,7 +33,7 @@ func enter() -> void:
 	coordinator.freeze_movement()
 	if interactable.object_data and interactable.object_data.material and interactable.object_data.material.lift_sounds:
 		if character.audio:
-			character.audio.play_sound(interactable.object_data.material.lift_sounds.sl.pick_random())
+			character.audio.play_sound(interactable.object_data.material.lift_sounds.sounds.pick_random())
 	if character.anim and character.anim is CharacterAnimator:
 		character.anim.can_update_facing = false
 		var played = character.anim.play_directional_anim(AnimationNames.LIFT, true)

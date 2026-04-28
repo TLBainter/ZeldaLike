@@ -22,5 +22,5 @@
 
 [resource]
 script = ExtResource("1_d1hfk")
-sl = Array[AudioStream]([ExtResource("2_dm5s8"), ExtResource("3_8ayds"), ExtResource("4_hi5cw"), ExtResource("5_virda"), ExtResource("6_d7uq1"), ExtResource("7_bk3gj"), ExtResource("8_2o8w0"), ExtResource("9_jiusc"), ExtResource("10_3csm0"), ExtResource("11_tt26u"), ExtResource("12_xucx8"), ExtResource("13_4cvn3"), ExtResource("14_dqfgk"), ExtResource("15_vsfyf"), ExtResource("16_q1cuo"), ExtResource("17_2jemv"), ExtResource("18_77hh6"), ExtResource("19_f8kip")])
+sounds = Array[AudioStream]([ExtResource("2_dm5s8"), ExtResource("3_8ayds"), ExtResource("4_hi5cw"), ExtResource("5_virda"), ExtResource("6_d7uq1"), ExtResource("7_bk3gj"), ExtResource("8_2o8w0"), ExtResource("9_jiusc"), ExtResource("10_3csm0"), ExtResource("11_tt26u"), ExtResource("12_xucx8"), ExtResource("13_4cvn3"), ExtResource("14_dqfgk"), ExtResource("15_vsfyf"), ExtResource("16_q1cuo"), ExtResource("17_2jemv"), ExtResource("18_77hh6"), ExtResource("19_f8kip")])
 metadata/_custom_type_script = "uid://vdqimlmcg4ql"

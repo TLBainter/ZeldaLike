@@ -32,6 +32,7 @@ func _ready() -> void:
 	SceneTransitionManager.transition_complete.connect(_on_transition_complete)
 	containerManager.container_opened.connect(_on_container_opened)
 	doorManager.door_unlocked.connect(func(_id: String): save())
+	destructibleManager.destructible_destroyed.connect(func(_id: String): _queue_save())
 
 #endregion READY
 
@@ -39,7 +40,7 @@ func _ready() -> void:
 
 ##Called by [b]Player._ready()[/b]. Stores the player reference and connects its component signals.[br]
 func register_player(player : Node) -> void:
-	if _is_loading:
+	if _is_loading or SceneTransitionManager.is_transitioning:
 		return
 	_player = player
 	_connect_player_signals(player)
@@ -82,6 +83,7 @@ func new_game() -> void:
 	_player = null
 	containerManager.clear()
 	doorManager.clear()
+	destructibleManager.clear()
 	if FileAccess.file_exists(SAVE_PATH):
 		var dir := DirAccess.open(SAVE_DIR)
 		if dir:
@@ -166,8 +168,9 @@ func _collect_data() -> Dictionary:
 			"max" : _player.currency.max_notes,
 		},
 		"inventory"   : _player.inventory.get_all_items().duplicate(),
-		"containers"  : containerManager.get_all_opened(),
-		"doors"       : doorManager.get_all_unlocked(),
+		"containers"    : containerManager.get_all_opened(),
+		"doors"         : doorManager.get_all_unlocked(),
+		"destructibles" : destructibleManager.get_all_destroyed(),
 	}
 
 #endregion COLLECT DATA
@@ -214,6 +217,9 @@ func _apply_data(data : Dictionary) -> void:
 
 	# --- Doors ---
 	doorManager.restore_unlocked(data.get("doors", {}))
+
+	# --- Destructibles ---
+	destructibleManager.restore_destroyed(data.get("destructibles", {}))
 
 	# --- Navigate to last door ---
 	var t          : Dictionary = data.get("last_transition", {})

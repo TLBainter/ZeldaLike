@@ -130,8 +130,8 @@ func _start_sync_timer() -> void:
 func _trigger() -> void:
 	if _is_animating:
 		return
-	if trap_resource.trigger_sounds and trap_resource.trigger_sounds.sl.size() > 0:
-		audioManager.play(trap_resource.trigger_sounds.sl.pick_random(), "Environment")
+	if trap_resource.trigger_sounds and trap_resource.trigger_sounds.sounds.size() > 0:
+		audioManager.play(trap_resource.trigger_sounds.sounds.pick_random(), "Environment")
 	_is_animating = true
 	_current_frame = 0
 	trap_sprite.frame = 0

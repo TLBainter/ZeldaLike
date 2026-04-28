@@ -1,4 +1,4 @@
-@icon("res://Editor Tools/Icons/icon_chest.svg")
+﻿@icon("res://Editor Tools/Icons/icon_chest.svg")
 ##[b][color=red]InteractableComponentContainer[/color][/b] is a pluggable container interaction zone.[br]
 ##Extends [b]InteractableComponent[/b] with chest-opening logic.[br]
 @tool
@@ -99,8 +99,8 @@ func interact(user: EntityClass = null) -> void:
 	_resolve_upgrade(user)
 
 	# Play the chest open sound (random clip from library).
-	if container_data.open_sound and not container_data.open_sound.sl.is_empty() and audioManager:
-		audioManager.play(container_data.open_sound.sl.pick_random(), "Sound Effects")
+	if container_data.open_sound and not container_data.open_sound.sounds.is_empty() and audioManager:
+		audioManager.play(container_data.open_sound.sounds.pick_random(), "Sound Effects")
 
 	# Face the player up and play the chest-open animation.
 	if user.anim and user.anim is CharacterAnimator:

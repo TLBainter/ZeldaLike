@@ -12,30 +12,19 @@ signal check_viewport_size
 
 #region VARIABLES
 @export_group("PlayerUX External Components")
-## a reference to the main player node.
 @export var root : Player
-## a reference to the player's character body 2D.
 @onready var player : CharacterBody2D = root.body
-## a reference to the player's camera
 @onready var player_cam : PlayerCam = root.player_cam
-## a reference to the player's input component
 @export var input : PlayerInputComponent
 @export_group("Player UX Internal Components")
-## a reference to the player's currency display
 @export var currency_display : CurrencyDisplay
-## a reference to the skull container
+@export var dungeon_item_display : DungeonItemDisplay
 @export var skullsContainer : SkullsDisplay
-## a reference to the audio control node for player UI
 @export var ui_audio : UIAudioControl
-## a reference to the context button's text label (Button 4 Label)
 @export var context_label : ContextLabel
-## a reference to the dialogue controller
 @export var dialogue_controller : DialogueUI
-## a reference to the energy display for the player.
 @export var energy_display : EnergyDisplay
-## a reference to the magic display for the player.
 @export var magic_display : MagicDisplay
-## collection of references to the concoctions
 @export_subgroup("Action Buttons")
 @export var action_buttons_margin : InGameMargin
 @export var action_button_1 : ActionButtonSprite
@@ -93,18 +82,17 @@ func _ready():
 		magic_display.initialize(magic_comp, player, player_cam)
 	
 	var currency_comp : CurrencyComponent = root.currency
-	print("PlayerUX currency check: comp=", currency_comp, " display=", currency_display)
-
 	if currency_comp and currency_display:
 		currency_display.initialize(currency_comp)
+
+	if root.inventory and dungeon_item_display:
+		dungeon_item_display.initialize(root.inventory, self)
 	
 	if root.inventory and input:
 		for panel in salve_panels:
 			if panel:
 				panel.initialize(root.inventory, input, root.concoction_use)
 	
-	print("PlayerUX SPELL WIRE: equipped_spells=", root.equipped_spells)
-	print("PlayerUX SPELL WIRE: btn1=", action_button_1, " btn2=", action_button_2, " btn3=", action_button_3)
 	if debug_me:
 		print("PlayerUX: root.equipped_spells = ", root.equipped_spells)
 		print("PlayerUX: action_button_1 = ", action_button_1)
@@ -145,6 +133,8 @@ func _on_zoom_changed(is_zoomed : bool):
 				magic_display.hide_immediately()
 	if currency_display:
 		currency_display.force_show(is_zoomed)
+	if dungeon_item_display:
+		dungeon_item_display.force_show(is_zoomed)
 
 func _on_health_changed(new_hp, max_hp, _change):
 	var new_max_skulls := int(max_hp / 4.0)

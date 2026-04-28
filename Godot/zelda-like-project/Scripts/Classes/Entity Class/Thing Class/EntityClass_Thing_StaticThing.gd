@@ -47,11 +47,12 @@ func _ready():
 			decor_sprite.vframes = 1
 			decor_sprite.frame = 0
 		_randomize_initial_frame()
+		var _id := _get_destructible_id()
+		if not _id.is_empty() and destructibleManager.is_destroyed(_id):
+			_apply_broken_state_silent()
 
 #region FRAME SLICING
 
-##Slices the atlas strip into individual frame AtlasTextures.[br]
-##Only runs when [b]decor_data[/b] is assigned.
 func _slice_frames() -> void:
 	_frames.clear()
 	if not decor_data or not decor_data.atlas_strip or not decor_data.atlas_strip.atlas:
@@ -109,11 +110,14 @@ func _break() -> void:
 	if _is_broken:
 		return
 	_is_broken = true
+	var _id := _get_destructible_id()
+	if not _id.is_empty():
+		destructibleManager.mark_destroyed(_id)
 	if decor_data and decor_data.destroyed_frame >= 0 and decor_data.destroyed_frame < _frames.size():
 		if decor_sprite:
 			decor_sprite.texture = _frames[decor_data.destroyed_frame]
-	if decor_data and decor_data.break_sounds and not decor_data.break_sounds.sl.is_empty():
-		var clip = decor_data.break_sounds.sl.pick_random()
+	if decor_data and decor_data.break_sounds and not decor_data.break_sounds.sounds.is_empty():
+		var clip = decor_data.break_sounds.sounds.pick_random()
 		if audioManager:
 			audioManager.play(clip, "Environment")
 	_spawn_particles()
@@ -131,7 +135,6 @@ func _break() -> void:
 
 #region PARTICLES
 
-##Spawns a temporary sprite above the break position that plays the particle frames.
 func _spawn_particles() -> void:
 	if not decor_data or decor_data.particle_frames.is_empty() or _frames.is_empty():
 		return
@@ -203,5 +206,27 @@ func _spawn_drops() -> void:
 			print(debug_name, ": Spawned drop '", pickup.item.first_get_dialogue_ref if pickup.item else "unknown", "' at ", item_spawn_pos)
 
 #endregion DROPS
+
+#region PERSISTENCE
+
+func _get_destructible_id() -> String:
+	var level = get_tree().current_scene
+	if not level or level.scene_file_path.is_empty():
+		return ""
+	return level.scene_file_path + "::" + str(level.get_path_to(self))
+
+func _apply_broken_state_silent() -> void:
+	_is_broken = true
+	if decor_data and decor_data.destroyed_frame >= 0 and decor_data.destroyed_frame < _frames.size():
+		if decor_sprite:
+			decor_sprite.texture = _frames[decor_data.destroyed_frame]
+	if interactable:
+		interactable.set_active(false)
+	if body:
+		for child in body.get_children():
+			if child is CollisionShape2D:
+				child.set_deferred("disabled", true)
+
+#endregion PERSISTENCE
 
 #endregion FUNCTIONS

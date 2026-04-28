@@ -166,7 +166,6 @@ func _slice_strips() -> void:
 	if item.shadow_strip:
 		_shadow_frames = _slice_strip(item.shadow_strip)
 
-##Slices a single atlas strip into individual frame AtlasTextures.
 func _slice_strip(strip : AtlasTexture) -> Array[AtlasTexture]:
 	var frames : Array[AtlasTexture] = []
 	if not strip or not strip.atlas:
@@ -232,6 +231,13 @@ func spawn(spawn_pos : Vector2, ground_y : float = -1.0, scatter_direction : Vec
 		_impulse_velocity = scatter_direction.normalized() * impulse_speed
 	if pickup_data and pickup_data.gravity_type == "Float":
 		_impulse_velocity = Vector2.ZERO
+	var nearest_ground := _find_nearest_ground_position(spawn_pos)
+	if nearest_ground != spawn_pos:
+		_scatter_dir = (nearest_ground - spawn_pos).normalized()
+		if pickup_data and pickup_data.gravity_type == "Float":
+			_float_start_x = nearest_ground.x
+		else:
+			_impulse_velocity = _scatter_dir * max(impulse_speed, 80.0)
 	set_physics_process(true)
 	if debug_me:
 		print(debug_name, ": Spawned at ", spawn_pos, " target_y=", _target_y, " gravity=", pickup_data.gravity_type if pickup_data else "none")
@@ -320,6 +326,32 @@ func _push_out_of_walls() -> void:
 			global_position += dir * 8.0
 			return
 
+##BFS outward from [param world_pos] to find the nearest GroundTilemap cell center.
+##Returns [param world_pos] unchanged if already on ground, no tilemap exists, or none found within 15 tiles.
+func _find_nearest_ground_position(world_pos : Vector2) -> Vector2:
+	var ground_nodes := get_tree().current_scene.find_children("*", "GroundTilemap")
+	if ground_nodes.is_empty():
+		return world_pos
+	var ground := ground_nodes.front() as GroundTilemap
+	var start_tile := ground.local_to_map(ground.to_local(world_pos))
+	if ground.get_cell_source_id(start_tile) != -1:
+		return world_pos
+	var visited : Dictionary = { start_tile: true }
+	var queue : Array[Vector2i] = [start_tile]
+	var searched := 0
+	var dirs := [Vector2i(1,0), Vector2i(-1,0), Vector2i(0,1), Vector2i(0,-1)]
+	while not queue.is_empty() and searched < 225:
+		var cur : Vector2i = queue.pop_front()
+		searched += 1
+		if ground.get_cell_source_id(cur) != -1:
+			return ground.to_global(ground.map_to_local(cur))
+		for d in dirs:
+			var nb : Vector2i = cur + d
+			if not visited.has(nb):
+				visited[nb] = true
+				queue.append(nb)
+	return world_pos
+
 ##Called when the spawn animation is complete.
 func _finish_spawn() -> void:
 	_is_spawning = false
@@ -348,7 +380,6 @@ func _process(delta : float) -> void:
 	_update_shadow()
 	_update_sparkle(delta)
 
-##Bobs the item sprite up and down using a sine wave.
 func _update_bob(delta : float) -> void:
 	if not item_sprite:
 		return
@@ -356,7 +387,6 @@ func _update_bob(delta : float) -> void:
 	var bob_offset : float = -abs(sin(_bob_time * bob_speed * PI)) * bob_height
 	item_sprite.position.y = _sprite_rest_y + bob_offset
 
-##Updates the shadow sprite frame to sync with the bob position.
 func _update_shadow() -> void:
 	if not shadow_sprite or _shadow_frames.size() < FRAME_COUNT:
 		return
@@ -403,8 +433,15 @@ func _on_body_entered(body : Node) -> void:
 	if body is PlayerBody:
 		_pickup(body)
 
+##Called externally (e.g. from the attack hit query) to attempt pickup.
+func try_pickup(player_body : PlayerBody) -> void:
+	if not _can_pickup:
+		return
+	_pickup(player_body)
+
 ##Handles the pickup: applies item effects, plays sound, shows dialogue, and cleans up.
 func _pickup(player_body : PlayerBody) -> void:
+	_can_pickup = false
 	if not pickup_data or not pickup_data.item:
 		queue_free()
 		return
@@ -414,8 +451,8 @@ func _pickup(player_body : PlayerBody) -> void:
 		queue_free()
 		return
 	_apply_effects(item, player)
-	if item.use_sounds and not item.use_sounds.sl.is_empty():
-		var clip = item.use_sounds.sl.pick_random()
+	if item.use_sounds and not item.use_sounds.sounds.is_empty():
+		var clip = item.use_sounds.sounds.pick_random()
 		if audioManager:
 			audioManager.play(clip, "UI")
 	var should_show_dialogue : bool = false

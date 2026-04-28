@@ -37,7 +37,7 @@ func enter():
 		character.anim.play_directional_anim("Throw")
 	if held.object_data and held.object_data.material and held.object_data.material.throw_sounds:
 		if character.audio:
-			character.audio.play_sound(held.object_data.material.throw_sounds.sl.pick_random())
+			character.audio.play_sound(held.object_data.material.throw_sounds.sounds.pick_random())
 	_projectile = ProjectileComponent.new()
 	_projectile.debug_me = debug_me
 	_projectile.debug_me_verbose = debug_me_verbose

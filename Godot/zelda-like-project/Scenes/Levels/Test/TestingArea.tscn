@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://dv421a2fe5bph" path="res://Scripts/Level Script/level.gd" id="1_nyjft"]
 [ext_resource type="Texture2D" uid="uid://ba1moes48wafm" path="res://TileMaps/prisonLibrary/dungeon_tileset.png" id="2_2ehmq"]
+[ext_resource type="Resource" uid="uid://b4mhnoipmfyi7" path="res://Scripts/Resources/Resource Files/Resources_SongResources/testAreaThemeSong.tres" id="2_63oom"]
 [ext_resource type="Texture2D" uid="uid://csymqr571da5x" path="res://TileMaps/prisonLibrary/prisonLibrary_door-transition_down.tres" id="2_g0lp7"]
 [ext_resource type="Script" uid="uid://crk47tt7fqojy" path="res://Scripts/Tilemap Scripts/Tilemap_Ground.gd" id="3_5bfcd"]
 [ext_resource type="Texture2D" uid="uid://c67qu3usp70td" path="res://TileMaps/prisonLibrary/prisonLibrary_door-transition_left.tres" id="3_ypn2k"]
@@ -13,6 +14,8 @@
 [ext_resource type="TileSet" uid="uid://bcpa3wnhjiwv6" path="res://TileMaps/prisonLibrary/prisonMapTileset.tres" id="6_afj16"]
 [ext_resource type="Script" uid="uid://c0gguh8o4ftae" path="res://Scripts/Resources/Resource Scripts/resource_debug_settings.gd" id="7_8g1vm"]
 [ext_resource type="PackedScene" uid="uid://bv3kka2wmn2n6" path="res://Scenes/Objects/Doors/door.tscn" id="13_ypn2k"]
+[ext_resource type="PackedScene" uid="uid://chest00000001" path="res://Scenes/Objects/Containers/chest.tscn" id="14_8g1vm"]
+[ext_resource type="Script" uid="uid://tp0m7574selp" path="res://Scripts/Resources/Resource Scripts/resource_ContainerReward.gd" id="15_al3r2"]
 
 [sub_resource type="Resource" id="Resource_wbgxi"]
 script = ExtResource("6_63oom")
@@ -754,11 +757,17 @@ debug_me = true
 debug_me_verbose = true
 debug_name = "testAreaDoor"
 
+[sub_resource type="Resource" id="Resource_63oom"]
+script = ExtResource("15_al3r2")
+item = "key"
+metadata/_custom_type_script = "uid://tp0m7574selp"
+
 [node name="Root" type="Node2D" unique_id=349553434]
 y_sort_enabled = true
 script = ExtResource("1_nyjft")
 level_type = 4
 level_name = "TestDungeon"
+default_song = ExtResource("2_63oom")
 door_resource = SubResource("Resource_wbgxi")
 
 [node name="TileMap" type="Node2D" parent="." unique_id=1834762325]
@@ -796,7 +805,13 @@ position = Vector2(171, 32)
 
 [node name="DoorToDestructibleTestRoom" parent="." unique_id=1783186270 instance=ExtResource("13_ypn2k")]
 position = Vector2(-144, -31)
+locked = true
+boss_door = null
 target_scene_path = "res://Scenes/Levels/Test/TestingArea_Destructibles.tscn"
 target_door_rel_path = "DoorToMainTestingArea"
 target_door_name = "DoorToMainTestingArea"
 debug = SubResource("Resource_h3to2")
+
+[node name="Chest" parent="." unique_id=495694602 instance=ExtResource("14_8g1vm")]
+position = Vector2(-112, -33)
+reward = SubResource("Resource_63oom")

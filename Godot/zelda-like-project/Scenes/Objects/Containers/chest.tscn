@@ -2,10 +2,8 @@
 
 [ext_resource type="Script" uid="uid://bpeeh7jxkhl3q" path="res://Scripts/Classes/Interaction Class/Container Class/InteractableComponent_InteractableComponentContainer.gd" id="1_cont"]
 [ext_resource type="Resource" uid="uid://1w1nq7hvdm5c" path="res://Scripts/Resources/Resource Files/Resources_Chests/container_test.tres" id="2_ilshc"]
-[ext_resource type="Resource" uid="uid://ctk3lr0radb0j" path="res://Scripts/Resources/Resource Files/Resources_Items/container_reward_test.tres" id="3_dnlab"]
 [ext_resource type="Script" uid="uid://c0gguh8o4ftae" path="res://Scripts/Resources/Resource Scripts/resource_debug_settings.gd" id="4_afmbl"]
-[ext_resource type="Texture2D" uid="uid://bkfwo6c63md4q" path="res://Sprites/Object Sprites/Openables/chest1.png" id="5_shvb5"]
-[ext_resource type="Texture2D" uid="uid://ddl7dkwolgta4" path="res://Sprites/Item Sprites/heart_pickup.tres" id="6_shvb5"]
+[ext_resource type="Texture2D" uid="uid://32qv5f7fwwmn" path="res://Sprites/Object Sprites/Openables/chest4.png" id="4_dnlab"]
 
 [sub_resource type="Resource" id="Resource_88lic"]
 script = ExtResource("4_afmbl")
@@ -20,7 +18,6 @@ radius = 8.0
 y_sort_enabled = true
 script = ExtResource("1_cont")
 container_data = ExtResource("2_ilshc")
-reward = ExtResource("3_dnlab")
 chest_sprite = NodePath("ChestBody/ChestSprite")
 contained_item_sprite = NodePath("containedItemSprite")
 interact_type = 6
@@ -35,7 +32,7 @@ collision_layer = 2
 
 [node name="ChestSprite" type="Sprite2D" parent="ChestBody" unique_id=1555313025]
 z_as_relative = false
-texture = ExtResource("5_shvb5")
+texture = ExtResource("4_dnlab")
 hframes = 3
 
 [node name="ChestCollider" type="CollisionShape2D" parent="ChestBody" unique_id=624690326]
@@ -53,6 +50,4 @@ shape = SubResource("CircleShape2D_chest")
 [node name="containedItemSprite" type="Sprite2D" parent="." unique_id=372903511]
 self_modulate = Color(1, 1, 1, 0.5019608)
 scale = Vector2(0.25, 0.25)
-texture = ExtResource("6_shvb5")
 offset = Vector2(30, -30)
-hframes = 5

@@ -1,4 +1,4 @@
-@tool
+﻿@tool
 @icon("res://Editor Tools/Icons/icon_door.svg")
 ##[b][color=yellow]Door[/color][/b] is a unified door: always a scene transition trigger, optionally requiring a key.[br]
 ##Set [b]direction[/b] to orient the door. Enable [b]locked[/b] to require a key before the player can pass.[br]
@@ -30,7 +30,18 @@ enum WallDirection { UP, DOWN, LEFT, RIGHT }
 		_update_visual()
 		if Engine.is_editor_hint() and is_inside_tree() \
 		and not _target_scene_path.is_empty() and not _target_door_name.is_empty():
-			_write_inverse()
+			_sync_partner_door()
+
+##If true, this door requires the boss key and uses the level's boss_door_resource for visuals.
+@export var boss_door: bool = false:
+	set(v):
+		boss_door = v
+		if boss_door:
+			locked = true
+		notify_property_list_changed()
+		if Engine.is_editor_hint() and is_inside_tree() \
+		and not _target_scene_path.is_empty() and not _target_door_name.is_empty():
+			_sync_partner_door()
 
 ##Pixels from the door to the spawn point used on arrival from another scene.
 @export_range(10.0, 60.0) var distance: float = 30.0:
@@ -105,6 +116,9 @@ func _ready() -> void:
 		doorManager.doors_restored.connect(_on_doors_restored)
 		_on_doors_restored()
 	else:
+		_is_locked = false
+		_door_res = door_resource if door_resource else _level_door_resource()
+		_update_visual()
 		set_active(false)
 		if is_instance_valid(_door_block):
 			_door_block.queue_free()
@@ -168,22 +182,28 @@ func interact(user: EntityClass = null) -> void:
 		_show_dialogue(locked_ref_id, user, func(): interaction_finished.emit())
 
 func _get_key_id(level: Level) -> String:
-	if level and level.get_effective_type() == Level.LevelType.DUNGEON:
-		return level.get_effective_name().to_lower() + "_key"
-	return ItemID.KEY
+	var in_dungeon := level and level.get_effective_type() == Level.LevelType.DUNGEON
+	if boss_door:
+		return (level.get_effective_name().to_lower() + "_" + ItemID.BOSS_KEY) if in_dungeon else ItemID.BOSS_KEY
+	return (level.get_effective_name().to_lower() + "_key") if in_dungeon else ItemID.KEY
 
 func _level_door_resource() -> DoorResource:
 	var level := Level.get_level_ancestor(self)
-	return level.get_effective_door_resource() if level else null
+	if not level:
+		return null
+	if boss_door:
+		return level.get_effective_boss_door_resource()
+	return level.get_effective_door_resource()
 
 #endregion INTERACT (LOCKED DOOR)
 
 #region UNLOCK SEQUENCE
 
 func _start_unlock(user: EntityClass, key_id: String) -> void:
-	user.inventory.remove_item(key_id)
-	if _door_res and _door_res.unlock_sound and not _door_res.unlock_sound.sl.is_empty():
-		audioManager.play(_door_res.unlock_sound.sl.pick_random(), "Sound Effects")
+	if not boss_door:
+		user.inventory.remove_item(key_id)
+	if _door_res and _door_res.unlock_sound and not _door_res.unlock_sound.sounds.is_empty():
+		audioManager.play(_door_res.unlock_sound.sounds.pick_random(), "Sound Effects")
 	set_active(false)
 	_animate(
 		_door_res.get_unlocking_strip(direction) if _door_res else null,
@@ -192,8 +212,8 @@ func _start_unlock(user: EntityClass, key_id: String) -> void:
 	)
 
 func _on_unlocking_done(user: EntityClass) -> void:
-	if _door_res and _door_res.opening_sound and not _door_res.opening_sound.sl.is_empty():
-		audioManager.play(_door_res.opening_sound.sl.pick_random(), "Sound Effects")
+	if _door_res and _door_res.opening_sound and not _door_res.opening_sound.sounds.is_empty():
+		audioManager.play(_door_res.opening_sound.sounds.pick_random(), "Sound Effects")
 	_animate(
 		_door_res.get_opening_strip(direction) if _door_res else null,
 		_door_res.opening_frames if _door_res else 1,
@@ -201,8 +221,8 @@ func _on_unlocking_done(user: EntityClass) -> void:
 	)
 
 func _on_opening_done(user: EntityClass) -> void:
-	if _door_res and _door_res.opened_sound and not _door_res.opened_sound.sl.is_empty():
-		audioManager.play(_door_res.opened_sound.sl.pick_random(), "Sound Effects")
+	if _door_res and _door_res.opened_sound and not _door_res.opened_sound.sounds.is_empty():
+		audioManager.play(_door_res.opened_sound.sounds.pick_random(), "Sound Effects")
 	_apply_unlocked_state()
 	doorManager.mark_unlocked(_get_door_id())
 	var partner_id := _get_partner_door_id()
@@ -215,10 +235,12 @@ func _on_opening_done(user: EntityClass) -> void:
 #region ANIMATION
 
 func _animate(strip: Texture2D, frame_count: int, callback: Callable) -> void:
-	if strip:
-		_door_sprite.texture = strip
-		_door_sprite.hframes = maxi(1, frame_count)
-		_door_sprite.vframes = 1
+	if not strip:
+		callback.call()
+		return
+	_door_sprite.texture = strip
+	_door_sprite.hframes = maxi(1, frame_count)
+	_door_sprite.vframes = 1
 	_door_sprite.frame = 0
 	_advance_frame(1, maxi(1, frame_count), callback)
 
@@ -296,10 +318,16 @@ func _update_visual() -> void:
 		return
 	var res := door_resource if door_resource else _level_door_resource()
 	if not res:
+		sprite.visible = false
 		return
 	var show_locked := locked if Engine.is_editor_hint() else _is_locked
-	sprite.texture = res.get_locked_sprite(direction) if show_locked \
+	var tex: Texture2D = res.get_locked_sprite(direction) if show_locked \
 		else res.get_unlocked_sprite(direction)
+	if tex:
+		sprite.texture = tex
+		sprite.visible = true
+	else:
+		sprite.visible = false
 	sprite.hframes = 1
 	sprite.frame = 0
 
@@ -411,7 +439,7 @@ func _set(property: StringName, value: Variant) -> bool:
 			call_deferred("_refresh_door_cache")
 		if Engine.is_editor_hint() and is_inside_tree() \
 		and not _target_scene_path.is_empty() and not _target_door_name.is_empty():
-			_write_inverse()
+			_sync_partner_door()
 		return true
 	if property == "target_scene_path":
 		_target_scene_path = _uid_to_res_path(value)
@@ -422,7 +450,7 @@ func _set(property: StringName, value: Variant) -> bool:
 		_target_door_name = value
 		if Engine.is_editor_hint() and is_inside_tree() \
 		and not str(value).is_empty() and not _target_scene_path.is_empty():
-			_write_inverse()
+			_sync_partner_door()
 		return true
 	if property == "target_door_rel_path":
 		_target_door_rel_path = value
@@ -452,9 +480,9 @@ static func _uid_to_res_path(path: String) -> String:
 
 #endregion EDITOR TOOL — _set / _get
 
-#region EDITOR TOOL — Inverse connection writer
+#region EDITOR TOOL — Partner door sync
 
-func _write_inverse() -> void:
+func _sync_partner_door() -> void:
 	if not is_inside_tree():
 		return
 
@@ -488,6 +516,7 @@ func _write_inverse() -> void:
 	target_door.set("target_door_name", name)
 	target_door.set("target_door_rel_path", my_rel_path)
 	target_door.set("locked", locked)
+	target_door.set("boss_door", boss_door)
 
 	var new_packed := PackedScene.new()
 	if new_packed.pack(target_root) != OK:
@@ -511,7 +540,7 @@ func _write_inverse() -> void:
 		if save_path != active_path:
 			EditorInterface.call_deferred("reload_scene_from_path", save_path)
 
-#endregion EDITOR TOOL — Inverse connection writer
+#endregion EDITOR TOOL — Partner door sync
 
 #region EDITOR TOOL — Dynamic dropdown for target_door_name
 

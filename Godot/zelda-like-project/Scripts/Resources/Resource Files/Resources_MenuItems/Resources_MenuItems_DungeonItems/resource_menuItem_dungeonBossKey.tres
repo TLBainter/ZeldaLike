@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="MenuItemResource" format=3 uid="uid://bp7h0lo02onaf"]
+
+[ext_resource type="Texture2D" uid="uid://cavsf5fcmlsps" path="res://Sprites/Item Sprites/Dungeon/dungeonBossKey_Anim.tres" id="1_vowvj"]
+[ext_resource type="Texture2D" uid="uid://87kltt4jmj3r" path="res://Sprites/Item Sprites/Dungeon/dungeonBossKey_Mini.tres" id="2_hjcqu"]
+[ext_resource type="Texture2D" uid="uid://bywgthodwvlob" path="res://Sprites/Item Sprites/Dungeon/dungeonBossKey_Outline.tres" id="3_t5g7j"]
+[ext_resource type="Script" uid="uid://cs0x7737rheme" path="res://Scripts/Resources/Resource Scripts/resource_menuItem.gd" id="4_aup50"]
+
+[resource]
+script = ExtResource("4_aup50")
+item_id = "boss_key"
+outline = ExtResource("3_t5g7j")
+main = ExtResource("1_vowvj")
+mini_icon = ExtResource("2_hjcqu")
+text_ref_id = "bossKeyGet"
+flash_color = Color(0.85862297, 0.8280926, 0.26450628, 1)
+h_frames = 5
+metadata/_custom_type_script = "uid://cs0x7737rheme"

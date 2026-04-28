@@ -25,7 +25,6 @@ signal snap_move_completed
 
 
 var _hold_character = null
-var _hold_offset : Vector2 = Vector2.ZERO
 var _is_held : bool = false
 
 var _snap_target : Vector2 = Vector2.ZERO
@@ -42,6 +41,11 @@ var _damaged_by_attack : bool = false
 func _ready():
 	super._ready()
 	subtype = "Dynamic"
+	if object_data:
+		var _id := _get_destructible_id()
+		if not _id.is_empty() and destructibleManager.is_destroyed(_id):
+			queue_free()
+			return
 
 func _physics_process(delta : float):
 	if _is_held and _hold_character and body:
@@ -96,7 +100,6 @@ func smooth_snap_move(direction : Vector2, distance : float = 8.0, speed : float
 ##[b]character[/b]: The Character holding this object.
 func hold(offset : Vector2, character):
 	_hold_character = character
-	_hold_offset = offset
 	_is_held = true
 	if shadow:
 		shadow.visible = false
@@ -125,7 +128,6 @@ func release(drop_position : Vector2, restore_collision : bool = true):
 		if shadow:
 			shadow.visible = true
 
-##Disable all CollisionShape2D nodes on the body and stop interaction monitoring.
 func disable_collision():
 	if body:
 		for child in body.get_children():
@@ -134,7 +136,6 @@ func disable_collision():
 	if interactable:
 		interactable.set_active(false)
 
-##Enable all CollisionShape2D nodes on the body and resume interaction monitoring.
 func enable_collision():
 	if body:
 		for child in body.get_children():
@@ -147,10 +148,13 @@ func enable_collision():
 
 ##Breaks this object. Plays break animation, sound, drops loot, and queues free.
 func break_me():
+	var _id := _get_destructible_id()
+	if not _id.is_empty():
+		destructibleManager.mark_destroyed(_id)
 	if debug_me:
 		print(debug_name, " is breaking!")
 	if object_data and object_data.material and object_data.material.break_sounds:
-		var clip = object_data.material.break_sounds.sl.pick_random()
+		var clip = object_data.material.break_sounds.sounds.pick_random()
 		if audioManager:
 			audioManager.play(clip, "Environment")
 	if anim and anim.has_animation("break"):
@@ -199,8 +203,8 @@ func take_damage(amount : int) -> void:
 	if debug_me:
 		print(debug_name, ": Took ", amount, " damage. Durability: ", object_data.durability)
 	if object_data.material and object_data.material.impact_sounds:
-		if not object_data.material.impact_sounds.sl.is_empty():
-			var clip = object_data.material.impact_sounds.sl.pick_random()
+		if not object_data.material.impact_sounds.sounds.is_empty():
+			var clip = object_data.material.impact_sounds.sounds.pick_random()
 			if audioManager:
 				audioManager.play(clip, "Environment")
 	if object_data.durability <= 0:
@@ -209,5 +213,15 @@ func take_damage(amount : int) -> void:
 		break_me()
 
 #endregion DAMAGE
+
+#region PERSISTENCE
+
+func _get_destructible_id() -> String:
+	var level = get_tree().current_scene
+	if not level or level.scene_file_path.is_empty():
+		return ""
+	return level.scene_file_path + "::" + str(level.get_path_to(self))
+
+#endregion PERSISTENCE
 
 #endregion FUNCTIONS

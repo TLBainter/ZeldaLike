@@ -53,7 +53,7 @@ func enter() -> void:
 		character.anim.play_directional_anim("Drop")
 	if held.object_data and held.object_data.material and held.object_data.material.drop_sounds:
 		if character.audio:
-			character.audio.play_sound(held.object_data.material.drop_sounds.sl.pick_random())
+			character.audio.play_sound(held.object_data.material.drop_sounds.sounds.pick_random())
 	coordinator.release_held()
 	_debug_log(str("Dropped object at ", drop_pos))
 	_safe_transition(StateKeys.NO_ACTION)

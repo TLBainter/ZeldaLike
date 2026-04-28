@@ -1,7 +1,17 @@
 [gd_resource type="Resource" script_class="MenuItemResource" format=3 uid="uid://v7gp03usj6jr"]
 
 [ext_resource type="Script" uid="uid://cs0x7737rheme" path="res://Scripts/Resources/Resource Scripts/resource_menuItem.gd" id="1_ir1rk"]
+[ext_resource type="Texture2D" uid="uid://wi0gwadgv8sr" path="res://Sprites/Item Sprites/Dungeon/dungeonJournal_Anim.tres" id="1_ogryl"]
+[ext_resource type="Texture2D" uid="uid://c71bobnobj3ku" path="res://Sprites/Item Sprites/Dungeon/dungeonJournal_mini.tres" id="2_rw8f1"]
+[ext_resource type="Texture2D" uid="uid://bnvuoxxslel8n" path="res://Sprites/Item Sprites/Dungeon/dungeonJournal_Outline.tres" id="3_qb6jn"]
 
 [resource]
 script = ExtResource("1_ir1rk")
+item_id = "journal"
+outline = ExtResource("3_qb6jn")
+main = ExtResource("1_ogryl")
+mini_icon = ExtResource("2_rw8f1")
+text_ref_id = "journalGet"
+flash_color = Color(0.37254903, 0.015686275, 0.015686275, 1)
+h_frames = 5
 metadata/_custom_type_script = "uid://cs0x7737rheme"

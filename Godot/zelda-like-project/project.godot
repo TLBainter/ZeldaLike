@@ -29,6 +29,7 @@ containerManager="*res://Scripts/Managers/manager_Container.gd"
 SceneTransitionManager="*res://Scripts/Managers/manager_SceneTransition.gd"
 saveManager="*res://Scripts/Managers/manager_Save.gd"
 doorManager="*res://Scripts/Managers/manager_Door.gd"
+destructibleManager="*res://Scripts/Managers/manager_Destructible.gd"
 musicManager="*res://Scripts/Managers/manager_Music.gd"
 
 [display]

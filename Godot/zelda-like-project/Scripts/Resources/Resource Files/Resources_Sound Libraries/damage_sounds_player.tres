@@ -9,5 +9,5 @@
 
 [resource]
 script = ExtResource("1_n3pvv")
-sl = Array[AudioStream]([ExtResource("2_x8g1b"), ExtResource("3_33sxd"), ExtResource("6_ourhh"), ExtResource("4_43o7y"), ExtResource("5_xktqt")])
+sounds = Array[AudioStream]([ExtResource("2_x8g1b"), ExtResource("3_33sxd"), ExtResource("6_ourhh"), ExtResource("4_43o7y"), ExtResource("5_xktqt")])
 metadata/_custom_type_script = "uid://vdqimlmcg4ql"

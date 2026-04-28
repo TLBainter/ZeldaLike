@@ -18,5 +18,5 @@
 
 [resource]
 script = ExtResource("1_yt1ye")
-sl = Array[AudioStream]([ExtResource("2_rxtby"), ExtResource("3_4hs1r"), ExtResource("4_bktud"), ExtResource("5_3wadt"), ExtResource("6_xjdjs"), ExtResource("7_qvnmc"), ExtResource("8_ama2q"), ExtResource("9_7tdel"), ExtResource("10_3kioc"), ExtResource("11_rfnvj"), ExtResource("12_wga2i"), ExtResource("13_bft0g"), ExtResource("14_1wqea"), ExtResource("15_7w1kk")])
+sounds = Array[AudioStream]([ExtResource("2_rxtby"), ExtResource("3_4hs1r"), ExtResource("4_bktud"), ExtResource("5_3wadt"), ExtResource("6_xjdjs"), ExtResource("7_qvnmc"), ExtResource("8_ama2q"), ExtResource("9_7tdel"), ExtResource("10_3kioc"), ExtResource("11_rfnvj"), ExtResource("12_wga2i"), ExtResource("13_bft0g"), ExtResource("14_1wqea"), ExtResource("15_7w1kk")])
 metadata/_custom_type_script = "uid://vdqimlmcg4ql"

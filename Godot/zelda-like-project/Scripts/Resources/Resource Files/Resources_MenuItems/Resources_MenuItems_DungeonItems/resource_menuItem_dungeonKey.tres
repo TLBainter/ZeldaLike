@@ -1,7 +1,18 @@
 [gd_resource type="Resource" script_class="MenuItemResource" format=3 uid="uid://dl07jumtv8gk1"]
 
+[ext_resource type="Texture2D" uid="uid://d374e87hpgvi2" path="res://Sprites/Item Sprites/Dungeon/dungeonKey_Anim.tres" id="1_f0f5w"]
 [ext_resource type="Script" uid="uid://cs0x7737rheme" path="res://Scripts/Resources/Resource Scripts/resource_menuItem.gd" id="1_pwdd3"]
+[ext_resource type="Texture2D" uid="uid://caj1w0o86bjwy" path="res://Sprites/Item Sprites/Dungeon/dungeonKey_mini.tres" id="2_mtj00"]
+[ext_resource type="Texture2D" uid="uid://8bjijevnxylq" path="res://Sprites/Item Sprites/Dungeon/dungeonKey_Outline.tres" id="3_1iuqu"]
 
 [resource]
 script = ExtResource("1_pwdd3")
+item_id = "key"
+outline = ExtResource("3_1iuqu")
+main = ExtResource("1_f0f5w")
+mini_icon = ExtResource("2_mtj00")
+text_ref_id = "keyGet"
+flash_color = Color(0.5814675, 0.8447382, 1, 1)
+h_frames = 5
+display_quantity = true
 metadata/_custom_type_script = "uid://cs0x7737rheme"

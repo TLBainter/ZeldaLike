@@ -44,7 +44,8 @@ const RESTORATIVE_SALVE = "restorative_salve"
 #region DUNGEON ITEMS
 const KEY      = "key"
 const MAP      = "map"
-const NOTEBOOK = "notebook"
+const JOURNAL = "journal"
+const BOSS_KEY = "boss_key"
 #endregion DUNGEON ITEMS
 
 #region UPGRADES
@@ -72,7 +73,7 @@ const CATEGORIES : Dictionary = {
 	"ingredient": [BLOOD_CLOT, RED_GARNET, RITUAL_STEEL, STARDUST, FULGURITE, SKULL, KIDNEY, METEORITE],
 	"mobility":   [WAVEWALK_BOOTS, BAT_FORM, BAT_FORM_UPGRADED, ALBEDO_HOOD, ALBEDO_HOOD_UPGRADED, WAVEWALK_BOOTS_UPGRADED],
 	"concoction": [ARCANE_SALVE, BLOOD_SALVE, ENERGIZING_SALVE, RESTORATIVE_SALVE],
-	"dungeon":    [KEY, MAP, NOTEBOOK],
+	"dungeon":    [KEY, MAP, JOURNAL, BOSS_KEY],
 	"upgrade":    [BONE_SHARD, ARCANE_SHARD, GLAND],
 	"recovery":   [ENERGY_ORB, TOOTH, CRYSTAL_SHARD],
 	"money":      [WHITE_BEAD, BLUE_BEAD, PURPLE_BEAD, ORANGE_BEAD],
@@ -137,7 +138,11 @@ const MENU_ITEM_RESOURCES : Dictionary = {
 	# Upgrades
 	BONE_SHARD:             preload("res://Scripts/Resources/Resource Files/Resources_MenuItems/Resources_MenuItems_Upgrades/resource_menuItem_boneShard.tres"),
 	ARCANE_SHARD:           preload("res://Scripts/Resources/Resource Files/Resources_MenuItems/Resources_MenuItems_Upgrades/resource_menuItem_arcaneShard.tres"),
-	GLAND:                  preload("res://Scripts/Resources/Resource Files/Resources_MenuItems/Resources_MenuItems_Upgrades/resource_menuItem_gland.tres")
-	# Dungeon items — add entries here once MenuItemResources are created for KEY, MAP, NOTEBOOK
+	GLAND:                  preload("res://Scripts/Resources/Resource Files/Resources_MenuItems/Resources_MenuItems_Upgrades/resource_menuItem_gland.tres"),
+	# Dungeon items
+	KEY:                    preload("res://Scripts/Resources/Resource Files/Resources_MenuItems/Resources_MenuItems_DungeonItems/resource_menuItem_dungeonKey.tres"),
+	MAP:                    preload("res://Scripts/Resources/Resource Files/Resources_MenuItems/Resources_MenuItems_DungeonItems/resource_menuItem_dungeonMap.tres"),
+	JOURNAL:                preload("res://Scripts/Resources/Resource Files/Resources_MenuItems/Resources_MenuItems_DungeonItems/resource_menuItem_dungeonJournal.tres"),
+	BOSS_KEY:               preload("res://Scripts/Resources/Resource Files/Resources_MenuItems/Resources_MenuItems_DungeonItems/resource_menuItem_dungeonBossKey.tres"),
 }
 #endregion MENU_ITEM RESOURCES=======#

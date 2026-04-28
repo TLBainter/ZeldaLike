@@ -1,4 +1,4 @@
-##[b][color=red]CurrencyDisplay[/color][/b] extends [b]UXElement[/b] for the player's currency (notes) display.[br]
+﻿##[b][color=red]CurrencyDisplay[/color][/b] extends [b]UXElement[/b] for the player's currency (notes) display.[br]
 ##Manages wallet size sprites, leading-zero label formatting, tick-up/down animation,[br]
 ##sound effects, and max-value color change.[br]
 ##[br]
@@ -167,8 +167,8 @@ func _perform_tick() -> void:
 	elif _display_value > _target_value:
 		_display_value -= 1
 	_update_label()
-	if change_sounds and not change_sounds.sl.is_empty():
-		var clip = change_sounds.sl.pick_random()
+	if change_sounds and not change_sounds.sounds.is_empty():
+		var clip = change_sounds.sounds.pick_random()
 		if audioManager:
 			var player_node = audioManager.play(clip, "UI")
 			if player_node and player_node is AudioStreamPlayer:

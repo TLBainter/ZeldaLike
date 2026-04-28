@@ -1,0 +1,69 @@
+[gd_scene format=3 uid="uid://die7hhcftblm"]
+
+[ext_resource type="Script" uid="uid://bxbsoqtonqytd" path="res://Scripts/UX/ux_playerElement_DungeonItem.gd" id="1_sbcfh"]
+[ext_resource type="Texture2D" uid="uid://87kltt4jmj3r" path="res://Sprites/Item Sprites/Dungeon/dungeonBossKey_Mini.tres" id="2_2jy0l"]
+[ext_resource type="Texture2D" uid="uid://c71bobnobj3ku" path="res://Sprites/Item Sprites/Dungeon/dungeonJournal_mini.tres" id="3_y51k7"]
+[ext_resource type="Texture2D" uid="uid://bixfwtn1egwyy" path="res://Sprites/Item Sprites/Dungeon/dungeonMap_mini.tres" id="4_wxvfl"]
+[ext_resource type="Texture2D" uid="uid://caj1w0o86bjwy" path="res://Sprites/Item Sprites/Dungeon/dungeonKey_mini.tres" id="5_77po2"]
+[ext_resource type="FontFile" uid="uid://hmspkjbm2loq" path="res://Sprites/UX/Fonts/GothicPixelNumerics.ttf" id="6_sxpcp"]
+
+[sub_resource type="Theme" id="Theme_lauf7"]
+default_font = ExtResource("6_sxpcp")
+default_font_size = 16
+
+[node name="PlayerDungeonItems" type="Panel" unique_id=673781840 node_paths=PackedStringArray("boss_key_texture", "journal_texture", "map_texture", "key_texture", "key_quantity_display")]
+size_flags_vertical = 0
+script = ExtResource("1_sbcfh")
+boss_key_texture = NodePath("HBoxContainer/BossKeyTexture")
+journal_texture = NodePath("HBoxContainer/JournalTexture")
+map_texture = NodePath("HBoxContainer/MapTexture")
+key_texture = NodePath("HBoxContainer/KeyTexture")
+key_quantity_display = NodePath("HBoxContainer/KeyCount")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=988952688]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -38.0
+offset_top = -16.0
+offset_right = 38.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="BossKeyTexture" type="TextureRect" parent="HBoxContainer" unique_id=1613652540]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+texture = ExtResource("2_2jy0l")
+stretch_mode = 5
+
+[node name="JournalTexture" type="TextureRect" parent="HBoxContainer" unique_id=1637157048]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+texture = ExtResource("3_y51k7")
+stretch_mode = 5
+
+[node name="MapTexture" type="TextureRect" parent="HBoxContainer" unique_id=741618876]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+texture = ExtResource("4_wxvfl")
+stretch_mode = 5
+
+[node name="KeyTexture" type="TextureRect" parent="HBoxContainer" unique_id=2012888536]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+texture = ExtResource("5_77po2")
+stretch_mode = 5
+
+[node name="KeyCount" type="RichTextLabel" parent="HBoxContainer" unique_id=243322029]
+custom_minimum_size = Vector2(20, 17)
+layout_mode = 2
+theme = SubResource("Theme_lauf7")
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_outline_size = 0
+theme_override_constants/outline_size = 2
+text = "00"
+horizontal_alignment = 1
+vertical_alignment = 1

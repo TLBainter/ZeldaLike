@@ -1,3 +1,4 @@
+@icon("res://Editor Tools/Icons/icon_music.svg")
 class_name SongResource
 extends Resource
 

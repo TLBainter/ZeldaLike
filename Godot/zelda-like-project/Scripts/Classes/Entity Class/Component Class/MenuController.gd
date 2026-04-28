@@ -156,9 +156,9 @@ func _navigate_to(target : MenuHoverable, play_sound : bool = true) -> void:
 		_current.unhover()
 	_current = target
 	_current.hover()
-	if play_sound and nav_move_sounds and not nav_move_sounds.sl.is_empty():
+	if play_sound and nav_move_sounds and not nav_move_sounds.sounds.is_empty():
 		if audioManager:
-			audioManager.play(nav_move_sounds.sl.pick_random(), "UI")
+			audioManager.play(nav_move_sounds.sounds.pick_random(), "UI")
 	if debug_me:
 		print(debug_name, ": Navigated to ", _current.debug_name)
 

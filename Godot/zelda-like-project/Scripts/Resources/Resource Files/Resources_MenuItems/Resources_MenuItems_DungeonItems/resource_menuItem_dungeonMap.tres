@@ -1,7 +1,17 @@
 [gd_resource type="Resource" script_class="MenuItemResource" format=3 uid="uid://dbg7clim8b8rd"]
 
 [ext_resource type="Script" uid="uid://cs0x7737rheme" path="res://Scripts/Resources/Resource Scripts/resource_menuItem.gd" id="1_5fb8p"]
+[ext_resource type="Texture2D" uid="uid://bd46q1kga3t8s" path="res://Sprites/Item Sprites/Dungeon/dungeonMap_Anim.tres" id="1_h45cd"]
+[ext_resource type="Texture2D" uid="uid://bixfwtn1egwyy" path="res://Sprites/Item Sprites/Dungeon/dungeonMap_mini.tres" id="2_w0wwf"]
+[ext_resource type="Texture2D" uid="uid://bq011ogasjs5g" path="res://Sprites/Item Sprites/Dungeon/dungeonMap_Outline.tres" id="3_fb22i"]
 
 [resource]
 script = ExtResource("1_5fb8p")
+item_id = "map"
+outline = ExtResource("3_fb22i")
+main = ExtResource("1_h45cd")
+mini_icon = ExtResource("2_w0wwf")
+text_ref_id = "mapGet"
+flash_color = Color(0.7966266, 0.75963753, 0.57660675, 1)
+h_frames = 5
 metadata/_custom_type_script = "uid://cs0x7737rheme"

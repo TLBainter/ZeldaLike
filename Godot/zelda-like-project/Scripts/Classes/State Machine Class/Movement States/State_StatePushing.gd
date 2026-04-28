@@ -123,7 +123,7 @@ func _perform_snap() -> void:
 			character.anim.play_directional_anim("Push")
 		if grabbed.object_data and grabbed.object_data.material and grabbed.object_data.material.move_sounds:
 			if character.audio:
-				character.audio.play_sound(grabbed.object_data.material.move_sounds.sl.pick_random())
+				character.audio.play_sound(grabbed.object_data.material.move_sounds.sounds.pick_random())
 		_debug_log(str("Snapping push ", facing_dir))
 	else:
 		_start_snap_timer(grabbed)

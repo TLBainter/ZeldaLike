@@ -1,4 +1,4 @@
-##[b][color=red]StateDash[/color][/b] is the dash movement state.[br]
+﻿##[b][color=red]StateDash[/color][/b] is the dash movement state.[br]
 ##Entered from StateRun via actionButton4 when the player has >= 1 energy.[br]
 ##The player dashes in their current movement direction at dodge_speed.[br]
 ##Dash distance = 2 * dodge_speed (pixels). Invulnerable while dashing.[br]
@@ -54,10 +54,10 @@ func enter():
 			var lib := cac.bat_squeak_sounds
 			if lib == null:
 				print_rich(debug_name, ": [color=red][i]bat_squeak_sounds: NOT ASSIGNED[/i][/color]")
-			elif lib.sl.is_empty():
+			elif lib.sounds.is_empty():
 				print_rich(debug_name, ": [color=red][i]bat_squeak_sounds: assigned but EMPTY[/i][/color]")
 			else:
-				print_rich(debug_name, ": [color=green][i]bat_squeak_sounds: OK ([/i][/color][i]", lib.sl.size(), "[/i][color=green][i] clips)[/i][/color]")
+				print_rich(debug_name, ": [color=green][i]bat_squeak_sounds: OK ([/i][/color][i]", lib.sounds.size(), "[/i][color=green][i] clips)[/i][/color]")
 	_start_dodge(_dash_dir)
 
 func _physics_process(_delta : float):

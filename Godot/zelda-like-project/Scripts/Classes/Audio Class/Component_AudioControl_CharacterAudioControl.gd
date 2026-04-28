@@ -96,7 +96,7 @@ func _on_health_changed(cur_hp : int, _max_hp : int, change_amount : int):
 	if cur_hp == 0:
 		_play_death_sound()
 		return
-	elif change_amount <= -4 and heavy_damage_sounds != null and heavy_damage_sounds.sl.has(AudioStream):
+	elif change_amount <= -4 and heavy_damage_sounds != null and heavy_damage_sounds.sounds.has(AudioStream):
 		_play_heavy_damage_sound()
 		return
 	elif change_amount < 0:
@@ -109,7 +109,7 @@ func _on_health_changed(cur_hp : int, _max_hp : int, change_amount : int):
 func _play_from_library(library: SoundLibrary) -> void:
 	if library == null:
 		return
-	var clip = library.sl.pick_random()
+	var clip = library.sounds.pick_random()
 	if local_audio != null:
 		_play_local_sound(clip, default_bus)
 	else:
@@ -122,9 +122,9 @@ func _play_death_sound(): _play_from_library(death_sounds)
 
 ##Plays a one-shot dodge sound from a SoundLibrary through the global audio manager (non-positional).
 func _play_one_shot(library : SoundLibrary) -> void:
-	if library == null or library.sl.is_empty():
+	if library == null or library.sounds.is_empty():
 		return
-	play_sound(library.sl.pick_random(), default_bus)
+	play_sound(library.sounds.pick_random(), default_bus)
 
 #region dodge one-shots
 ##Plays a random enter-dash sound.
@@ -164,9 +164,9 @@ func stop_dash_loop() -> void:
 	_bat_squeak_timer.stop()
 
 func _schedule_bat_flap() -> void:
-	if not _dash_loop_active or bat_flap_sounds == null or bat_flap_sounds.sl.is_empty():
+	if not _dash_loop_active or bat_flap_sounds == null or bat_flap_sounds.sounds.is_empty():
 		return
-	var clip : AudioStream = bat_flap_sounds.sl.pick_random()
+	var clip : AudioStream = bat_flap_sounds.sounds.pick_random()
 	if _bat_flap_active_count < 2:
 		_bat_flap_active_count += 1
 		var ap : AudioStreamPlayer = play_sound(clip, default_bus, randf_range(0.9, 1.1))
@@ -185,14 +185,14 @@ func _roll_bat_squeak() -> void:
 	if not _dash_loop_active:
 		if debug_me_verbose: print_rich("[color=#FF69B4][BatSqueak][/color] _roll_bat_squeak called but loop inactive; bailing.")
 		return
-	if bat_squeak_sounds == null or bat_squeak_sounds.sl.is_empty():
+	if bat_squeak_sounds == null or bat_squeak_sounds.sounds.is_empty():
 		if debug_me_verbose: print_rich("[color=#FF69B4][BatSqueak][/color] _roll_bat_squeak bailing; library null or empty.")
 		return
 	var roll := randf()
 	if debug_me_verbose: print_rich("[color=#FF69B4][BatSqueak][/color] rolling: ", snappedf(roll, 0.01), " vs chance ", snappedf(_bat_squeak_chance, 0.01))
 	if roll < _bat_squeak_chance:
 		_bat_squeak_chance = 0.4
-		var clip : AudioStream = bat_squeak_sounds.sl.pick_random()
+		var clip : AudioStream = bat_squeak_sounds.sounds.pick_random()
 		var pitch := randf_range(0.9, 1.1)
 		var ap : AudioStreamPlayer = play_sound(clip, default_bus, pitch)
 		if ap:
@@ -220,7 +220,7 @@ func _on_bat_squeak_timer() -> void:
 func play_attack_sound():
 	if attack_sounds == null:
 		return
-	var clip = attack_sounds.sl.pick_random()
+	var clip = attack_sounds.sounds.pick_random()
 	if local_audio != null:
 		_play_local_sound(clip, default_bus)
 	else:

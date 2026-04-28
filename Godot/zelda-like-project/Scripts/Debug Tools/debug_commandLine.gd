@@ -44,35 +44,24 @@ func _input(event : InputEvent) -> void:
 		_close()
 
 func _open() -> void:
-	print("CONSOLE: _open() called")
 	_is_open = true
 	_panel.visible = true
 	_input_field.text = ""
 	_input_field.grab_focus()
-	print("CONSOLE: after grab_focus. has_focus=", _input_field.has_focus())
-	if not _inventory:
-		var players = get_tree().get_nodes_in_group("player")
-		if not players.is_empty() and "inventory" in players[0]:
-			_inventory = players[0].inventory
-	if not _currency:
-		var players = get_tree().get_nodes_in_group("player")
-		if "currency" in players[0]:
-			_currency = players[0].currency
-	if not _health:
-		var players = get_tree().get_nodes_in_group("player")
-		if "health" in players[0]:
-			_health = players[0].health
-	if not _energy:
-		var players = get_tree().get_nodes_in_group("player")
-		if "energy" in players[0]:
-			_energy = players[0].energy
-	if not _magic:
-		var players = get_tree().get_nodes_in_group("player")
-		if "magic" in players[0]:
-			_magic = players[0].magic
+	_cache_player_components()
+
+func _cache_player_components() -> void:
+	var players = get_tree().get_nodes_in_group("player")
+	if players.is_empty():
+		return
+	var p = players[0]
+	if not _inventory and "inventory" in p: _inventory = p.inventory
+	if not _currency and "currency" in p: _currency = p.currency
+	if not _health and "health" in p: _health = p.health
+	if not _energy and "energy" in p: _energy = p.energy
+	if not _magic and "magic" in p: _magic = p.magic
 
 func _close() -> void:
-	print("CONSOLE: _close() called")
 	_is_open = false
 	_panel.visible = false
 	_input_field.release_focus()
@@ -135,8 +124,17 @@ func _cmd_give(parts : Array) -> void:
 		quantity = int(parts[2])
 		if quantity <= 0:
 			quantity = 1
-	if not _validate_item_id(item_id):
-		_print_output("[color=yellow]Warning: '" + item_id + "' not found in ItemID constants. Giving anyway.[/color]")
+	var base_id : String = item_id
+	var dungeon_display_name : String = ""
+	var dungeon_items : Array = ItemID.CATEGORIES.get("dungeon", [])
+	if item_id in dungeon_items:
+		dungeon_display_name = _get_current_dungeon_name()
+		if dungeon_display_name.is_empty():
+			_print_output("[color=red]ERROR: Not currently in a dungeon; item cannot be given.[/color]")
+			return
+		item_id = dungeon_display_name.to_lower().replace(" ", "_") + "_" + item_id
+	if not _validate_item_id(base_id):
+		_print_output("[color=yellow]Warning: '" + base_id + "' not found in ItemID constants. Giving anyway.[/color]")
 	if not _inventory:
 		_print_output("[color=red]No inventory found on player.[/color]")
 		return
@@ -153,7 +151,10 @@ func _cmd_give(parts : Array) -> void:
 	_inventory.add_item(item_id, quantity)
 	var qty_after : int = _inventory.get_quantity(item_id)
 	_apply_upgrade_permanent_effects(item_id, qty_before, qty_after)
-	_print_output("[color=green]Gave " + str(quantity) + "x " + item_id + ". Total: " + str(qty_after) + "[/color]")
+	if dungeon_display_name.is_empty():
+		_print_output("[color=green]Gave " + str(quantity) + "x " + item_id + ". Total: " + str(qty_after) + "[/color]")
+	else:
+		_print_output('[color=green]"' + base_id + '" for "' + dungeon_display_name + '" given.[/color]')
 
 func _cmd_give_all(parts : Array) -> void:
 	if not _inventory:
@@ -172,6 +173,16 @@ func _cmd_give_all(parts : Array) -> void:
 				quantity = 1
 		if ItemID.CATEGORIES.has(category):
 			var items = ItemID.CATEGORIES[category]
+			if category == "dungeon":
+				var dungeon_display_name := _get_current_dungeon_name()
+				if dungeon_display_name.is_empty():
+					_print_output("[color=red]ERROR: Not currently in a dungeon; item cannot be given.[/color]")
+					return
+				var prefix := dungeon_display_name.to_lower().replace(" ", "_") + "_"
+				for item_id in items:
+					_inventory.add_item(prefix + item_id, quantity)
+				_print_output("[color=green]Gave " + str(quantity) + "x of all " + str(items.size()) + " dungeon items for \"" + dungeon_display_name + "\".[/color]")
+				return
 			for item_id in items:
 				_inventory.add_item(item_id, quantity)
 			_print_output("[color=green]Gave " + str(quantity) + "x of all " + str(items.size()) + " " + category + " items.[/color]")
@@ -182,9 +193,16 @@ func _cmd_give_all(parts : Array) -> void:
 		_give_all_items(quantity)
 
 func _give_all_items(quantity : int = 1) -> void:
-	var all_ids = _get_all_item_ids()
+	var all_ids := _get_all_item_ids()
+	var dungeon_items : Array = ItemID.CATEGORIES.get("dungeon", [])
+	var dungeon_display_name := _get_current_dungeon_name()
+	var dungeon_prefix := dungeon_display_name.to_lower().replace(" ", "_") + "_" if not dungeon_display_name.is_empty() else ""
 	for item_id in all_ids:
-		_inventory.add_item(item_id, quantity)
+		if item_id in dungeon_items:
+			if not dungeon_prefix.is_empty():
+				_inventory.add_item(dungeon_prefix + item_id, quantity)
+		else:
+			_inventory.add_item(item_id, quantity)
 	_print_output("[color=green]Gave " + str(quantity) + "x of all " + str(all_ids.size()) + " items.[/color]")
 
 func _cmd_remove(parts : Array) -> void:
@@ -329,8 +347,6 @@ func _apply_upgrade_permanent_effects(item_id: String, qty_before: int, qty_afte
 	var mir : MenuItemResource = ItemID.MENU_ITEM_RESOURCES.get(item_id)
 	var upgrade := mir as MenuItemUpgradeResource
 	if not upgrade or not upgrade.item_function or not upgrade.item_function.has_permanent_effects():
-		if not upgrade:
-			_print_output("[color=yellow]DEBUG: No MenuItemUpgradeResource found for '" + item_id + "' — permanent effects skipped.[/color]")
 		return
 	for effect in upgrade.item_function.permanent_effects:
 		var sets_to_apply : int = 0
@@ -362,6 +378,15 @@ func _apply_upgrade_permanent_effects(item_id: String, qty_before: int, qty_afte
 func _validate_item_id(item_id : String) -> bool:
 	var constants = _get_all_item_ids()
 	return item_id in constants
+
+func _get_current_dungeon_name() -> String:
+	var players := get_tree().get_nodes_in_group("player")
+	if players.is_empty():
+		return ""
+	var level := Level.get_level_ancestor(players[0])
+	if level and level.get_effective_type() == Level.LevelType.DUNGEON:
+		return level.get_effective_name()
+	return ""
 
 ##Reads all constant values from the ItemID class dynamically.
 func _get_all_item_ids() -> Array[String]:
@@ -521,9 +546,7 @@ func _build_ui() -> void:
 	vbox.add_child(_input_field)
 
 func _on_input_focus_lost() -> void:
-	print("CONSOLE: focus_exited fired. is_open=", _is_open, " panel_visible=", _panel.visible)
 	if _is_open:
-		print("CONSOLE: attempting deferred grab_focus")
 		_input_field.call_deferred("grab_focus")
 
 func log(text : String) -> void:

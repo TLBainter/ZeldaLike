@@ -20,6 +20,8 @@ const OVERLAY_CANVAS_LAYER   : int   = 128  # Renders above all game content
 var _overlay_layer    : CanvasLayer
 var _overlay          : ColorRect
 var _is_transitioning : bool = false
+var is_transitioning  : bool:
+	get: return _is_transitioning
 
 ## Data stored across the scene change
 var _pending_scene     : PackedScene = null
@@ -187,7 +189,7 @@ func _reset_all_door_triggers() -> void:
 	var root := get_tree().current_scene
 	if not root:
 		return
-	for door in root.find_children("*", "TransitionDoor", true, false):
+	for door in root.find_children("*", "Door", true, false):
 		door.reset_trigger()
 
 func _notify_music(scene_root: Node) -> void:

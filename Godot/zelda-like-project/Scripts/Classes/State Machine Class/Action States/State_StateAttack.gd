@@ -13,7 +13,7 @@ extends State
 
 
 var _hit_processed : bool = false
-var _expected_anim : String = ""
+var _attack_anim_name : String = ""
 var _attack_facing : String = ""
 
 #endregion VARIABLES
@@ -24,7 +24,7 @@ func enter() -> void:
 	set_process(false)
 	super()
 	_hit_processed = false
-	_expected_anim = ""
+	_attack_anim_name = ""
 	_attack_facing = ""
 	var character = get_character()
 	if not character:
@@ -42,12 +42,12 @@ func enter() -> void:
 	if character.anim and character.anim is CharacterAnimator:
 		character.anim.can_update_facing = false
 		_attack_facing = character.anim.facing
-		_expected_anim = "Attack1" + _attack_facing.capitalize().replace(" ", "")
+		_attack_anim_name = "Attack1" + _attack_facing.capitalize().replace(" ", "")
 	_rotate_attack_area(character)
 	if character.anim and character.anim is CharacterAnimator:
 		character.anim.play_directional_anim("Attack1", true)
 	set_process(true)
-	_debug_log(str("Attack started. Facing: ", _attack_facing, " Anim: ", _expected_anim))
+	_debug_log(str("Attack started. Facing: ", _attack_facing, " Anim: ", _attack_anim_name))
 
 func exit() -> void:
 	set_process(false)
@@ -63,7 +63,7 @@ func _process(_delta : float) -> void:
 	if not state_machine or state_machine.current_state != self:
 		set_process(false)
 		return
-	if _expected_anim == "":
+	if _attack_anim_name == "":
 		return
 	var character = get_character()
 	if not character or not character.anim:
@@ -71,8 +71,8 @@ func _process(_delta : float) -> void:
 		_exit_to_no_action()
 		return
 	var cur_anim = character.anim.current_animation
-	if cur_anim != _expected_anim and cur_anim != "":
-		_debug_log(str("Animation ended or interrupted. Current: '", cur_anim, "' Expected: '", _expected_anim, "'"))
+	if cur_anim != _attack_anim_name and cur_anim != "":
+		_debug_log(str("Animation ended or interrupted. Current: '", cur_anim, "' Expected: '", _attack_anim_name, "'"))
 		_exit_to_no_action()
 	elif cur_anim == "":
 		_debug_log("Animation finished.")
@@ -129,6 +129,7 @@ func execute_hit() -> void:
 	var shape_rot = deg_to_rad(offset_data["rotation"]) + col_shape.rotation
 	shape_query.transform = Transform2D(shape_rot, shape_pos)
 	shape_query.collision_mask = attack_area.collision_mask
+	shape_query.collide_with_areas = true
 	shape_query.exclude = [character.body.get_rid()]
 	if debug_me_verbose:
 		print_rich("--- [b]ATTACK HIT DEBUG[/b] ---")
@@ -154,6 +155,9 @@ func execute_hit() -> void:
 		if not collider or not is_instance_valid(collider):
 			if debug_me_verbose:
 				print_rich("    [color=red][i]Skipped invalid collider[/i][/color]")
+			continue
+		if collider is WorldItem:
+			collider.try_pickup(character.body)
 			continue
 		var entity = _find_entity(collider)
 		if debug_me_verbose:

@@ -21,9 +21,15 @@ enum LevelType { NONE, OVERWORLD, INTERIOR, CAVE, DUNGEON }
 
 @export_group("Dungeon")
 @export var door_resource: DoorResource
+@export var boss_door_resource: DoorResource
+
+func _ready() -> void:
+	if Engine.is_editor_hint():
+		return
+	musicManager.request_song(default_song)
 
 func _validate_property(property: Dictionary) -> void:
-	if property.name == "door_resource" and level_type != LevelType.DUNGEON:
+	if property.name in ["door_resource", "boss_door_resource"] and level_type != LevelType.DUNGEON:
 		property.usage = PROPERTY_USAGE_NO_EDITOR
 
 func get_effective_type() -> LevelType:
@@ -45,6 +51,17 @@ func get_effective_door_resource() -> DoorResource:
 	var inst := container_level.instantiate()
 	var lvl := _find_level_node(inst)
 	var result := lvl.get_effective_door_resource() if lvl else null
+	inst.free()
+	return result
+
+func get_effective_boss_door_resource() -> DoorResource:
+	if boss_door_resource:
+		return boss_door_resource
+	if not container_level:
+		return null
+	var inst := container_level.instantiate()
+	var lvl := _find_level_node(inst)
+	var result := lvl.get_effective_boss_door_resource() if lvl else null
 	inst.free()
 	return result
 

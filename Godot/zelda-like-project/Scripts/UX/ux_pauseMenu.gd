@@ -356,8 +356,8 @@ func handle_spell_assignment(spell_panel : MenuHoverableSpell, slot : int) -> vo
 			target_button.play_assign_anim()
 
 func _play_sound(library : SoundLibrary) -> void:
-	if library and not library.sl.is_empty() and audioManager:
-		audioManager.play(library.sl.pick_random(), "UI")
+	if library and not library.sounds.is_empty() and audioManager:
+		audioManager.play(library.sounds.pick_random(), "UI")
 
 #endregion Spell Assignment
 
