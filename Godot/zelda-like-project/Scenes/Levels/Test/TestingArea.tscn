@@ -806,7 +806,6 @@ position = Vector2(171, 32)
 [node name="DoorToDestructibleTestRoom" parent="." unique_id=1783186270 instance=ExtResource("13_ypn2k")]
 position = Vector2(-144, -31)
 locked = true
-boss_door = null
 target_scene_path = "res://Scenes/Levels/Test/TestingArea_Destructibles.tscn"
 target_door_rel_path = "DoorToMainTestingArea"
 target_door_name = "DoorToMainTestingArea"

@@ -61,6 +61,7 @@ var _resolved_item_id : String = ""
 var _resolved_item_kind : ContainerRewardResource.ItemKind = ContainerRewardResource.ItemKind.PROGRESSION
 var _resolved_mini_sprite : Texture2D = null
 var _resolved_dialogue_ref : String = ""
+var _resolved_completes_set : bool = false
 
 #endregion VARIABLES
 
@@ -124,10 +125,13 @@ func _on_chest_open_done(_anim_name : String, user : Player) -> void:
 
 func _on_item_get_done(_anim_name : String, user : Player) -> void:
 	# Play the item-get sting for this container's kind.
-	if container_data and audioManager:
-		var sting := _get_item_get_sound(_resolved_item_kind)
-		if sting:
-			audioManager.play(sting, "UI")
+	if container_data and musicManager:
+		var sting: AudioStream
+		if _resolved_completes_set:
+			sting = musicManager.key_item_get_tone
+		else:
+			sting = _get_item_get_sound(_resolved_item_kind)
+		musicManager.play_item_tone(sting)
 
 	var mini_sprite := _resolved_mini_sprite
 	var ref_id := _resolved_dialogue_ref
@@ -158,20 +162,18 @@ func _on_item_get_done(_anim_name : String, user : Player) -> void:
 	user.dismiss_item_get()
 	_finish(user)
 
-## Returns the item-get sting [AudioStream] for the given [enum ContainerRewardResource.ItemKind].[br]
-## Once you have the audio files, replace [code]null[/code] with [code]preload("res://Sound/SFX/UX/Item Get/YourFile.wav")[/code].
-static func _get_item_get_sound(kind : ContainerRewardResource.ItemKind) -> AudioStream:
+func _get_item_get_sound(kind : ContainerRewardResource.ItemKind) -> AudioStream:
+	if not musicManager:
+		return null
 	match kind:
 		ContainerRewardResource.ItemKind.PROGRESSION:
-			return null  # Replace: preload("res://Sound/SFX/UX/Item Get/Progression_Sting.wav")
-		ContainerRewardResource.ItemKind.DUNGEON_ITEM:
-			return null  # Replace: preload("res://Sound/SFX/UX/Item Get/DungeonItem_Sting.wav")
+			return musicManager.key_item_get_tone
+		ContainerRewardResource.ItemKind.DUNGEON_ITEM, \
+		ContainerRewardResource.ItemKind.INGREDIENT, \
 		ContainerRewardResource.ItemKind.UPGRADE:
-			return null  # Replace: preload("res://Sound/SFX/UX/Item Get/Upgrade_Sting.wav")
-		ContainerRewardResource.ItemKind.INGREDIENT:
-			return null  # Replace: preload("res://Sound/SFX/UX/Item Get/Ingredient_Sting.wav")
+			return musicManager.big_item_get_tone
 		ContainerRewardResource.ItemKind.MONEY:
-			return null  # Replace: preload("res://Sound/SFX/UX/Item Get/Money_Sting.wav")
+			return musicManager.small_item_get_tone
 	return null
 
 func _on_dialogue_closed(user : Player) -> void:
@@ -263,6 +265,7 @@ func _resolve_upgrade(user : Player) -> void:
 	_resolved_item_kind = reward.item_kind
 	_resolved_mini_sprite = reward.reward_mini_sprite
 	_resolved_dialogue_ref = reward.reward_dialogue_ref
+	_resolved_completes_set = false
 
 	if not ItemID.MOBILITY_UPGRADES.has(reward.item_id):
 		_resolve_part_display(user)
@@ -301,6 +304,7 @@ func _resolve_part_display(user : Player) -> void:
 	var qty_before : int = user.inventory.get_quantity(_resolved_item_id)
 	var qty_after : int = qty_before + 1
 	if qty_after % mir.num_parts == 0:
+		_resolved_completes_set = true
 		if mir.full_mini_sprite:
 			_resolved_mini_sprite = mir.full_mini_sprite
 		if mir.full_text_ref_id != "":

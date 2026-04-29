@@ -451,10 +451,16 @@ func _pickup(player_body : PlayerBody) -> void:
 		queue_free()
 		return
 	_apply_effects(item, player)
-	if item.use_sounds and not item.use_sounds.sounds.is_empty():
-		var clip = item.use_sounds.sounds.pick_random()
+	var _item_key : String = item.resource_path
+	var _is_first_pickup : bool = not _first_tone_items.has(_item_key)
+	if _is_first_pickup:
+		_first_tone_items[_item_key] = true
+		item_picked_up.emit(pickup_data)
+		_start_item_get_sequence(item, player)
+		return
+	elif item.use_sounds and not item.use_sounds.sounds.is_empty():
 		if audioManager:
-			audioManager.play(clip, "UI")
+			audioManager.play(item.use_sounds.sounds.pick_random(), "UI")
 	var should_show_dialogue : bool = false
 	if item.always_show_dialogue and item.first_get_dialogue_ref != "":
 		should_show_dialogue = true
@@ -505,10 +511,56 @@ func _show_first_get_dialogue(item : ItemResource, player) -> void:
 	if debug_me:
 		print(debug_name, ": Showing first-get dialogue for ", item.first_get_dialogue_ref)
 
+func _start_item_get_sequence(item : ItemResource, player) -> void:
+	if item_sprite:
+		item_sprite.visible = false
+	if shadow_sprite:
+		shadow_sprite.visible = false
+	player.freeze_input(true)
+	if player.anim and player.anim is CharacterAnimator:
+		player.anim.can_update_facing = false
+		player.anim.force_face(Vector2.DOWN)
+		player.anim.play_directional_anim(AnimationNames.ITEM_GET, true)
+		player.anim.animation_finished.connect(_on_world_item_get_done.bind(item, player), CONNECT_ONE_SHOT)
+	else:
+		_on_world_item_get_done("", item, player)
+
+func _on_world_item_get_done(_anim_name : String, item : ItemResource, player) -> void:
+	if musicManager:
+		musicManager.play_item_tone(musicManager.first_item_get_tone)
+	if not _item_frames.is_empty():
+		player.show_item_get(_item_frames[0])
+	var ref := item.first_get_dialogue_ref
+	if ref != "" and player.player_ux and player.player_ux.dialogue_controller:
+		if item.always_show_dialogue or not _has_been_collected(ref):
+			if not item.always_show_dialogue:
+				_mark_collected(ref)
+			var data = dialogueDB.get_dialogue_data(ref)
+			if not data.is_empty():
+				var dc = player.player_ux.dialogue_controller
+				dc.start_dialogue(data, player.input)
+				dc.dialogue_closed.connect(_on_world_item_dialogue_closed.bind(player), CONNECT_ONE_SHOT)
+				return
+	player.dismiss_item_get()
+	_finish_world_item_get(player)
+
+func _on_world_item_dialogue_closed(player) -> void:
+	player.dismiss_item_get()
+	_finish_world_item_get(player)
+
+func _finish_world_item_get(player) -> void:
+	if player.anim and player.anim is CharacterAnimator:
+		player.anim.can_update_facing = true
+	player.freeze_input(false)
+	if debug_me:
+		print(debug_name, ": First-get sequence complete.")
+	queue_free()
+
 #endregion PICKUP
 
 #region COLLECTION TRACKING
 static var _collected_items : Dictionary = {}
+static var _first_tone_items : Dictionary = {}
 
 static func _has_been_collected(item_id : String) -> bool:
 	return _collected_items.has(item_id)
