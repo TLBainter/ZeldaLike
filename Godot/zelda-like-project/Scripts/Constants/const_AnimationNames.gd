@@ -1,7 +1,7 @@
-##[b][color=red]AnimationNames[/color][/b] centralizes all animation name string constants.[br]
+##[b][color=red]AnimationName[/color][/b] centralizes all animation name string constants.[br]
 ##Reference these instead of raw string literals to make renames compiler-detectable
 ##and eliminate silent typo bugs.
-class_name AnimationNames
+class_name AnimationName
 extends RefCounted
 
 const IDLE           : String = "Idle"

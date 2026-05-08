@@ -22,7 +22,7 @@ func enter() -> void:
 	var held = coordinator.held_object
 	if not character or not held:
 		push_error(debug_name + ": missing character or held object in enter()")
-		_safe_transition(StateKeys.NO_ACTION)
+		_safe_transition(StateID.NO_ACTION)
 		return
 	var drop_pos : Vector2 = character.body.global_position
 	match character.anim.facing if character.anim else "down":
@@ -56,6 +56,6 @@ func enter() -> void:
 			character.audio.play_sound(held.object_data.material.drop_sounds.sounds.pick_random())
 	coordinator.release_held()
 	_debug_log(str("Dropped object at ", drop_pos))
-	_safe_transition(StateKeys.NO_ACTION)
+	_safe_transition(StateID.NO_ACTION)
 
 #endregion FUNCTIONS

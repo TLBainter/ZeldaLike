@@ -15,6 +15,8 @@ extends Component
 signal health_changed(cur_hp : int, max_hp : int, chng_amt : int)
 ##Emitted when max_health is increased (e.g. heart container pickup). Does NOT emit health_changed.
 signal max_health_changed(new_max : int, new_cur : int)
+##Emitted after damage is applied. Carries the [b]DamageEffectResource[/b] to play (may be null), the world-space source position, and the damage amount.
+signal damage_taken(effect : DamageEffectResource, position : Vector2, amount : int)
 
 #endregion SIGNALS
 
@@ -56,7 +58,7 @@ func healed(healing : int):
 #endregion HEAL
 
 #region DAMAGE
-func damaged(damage : int, _source_position : Vector2 = Vector2.ZERO):
+func damaged(damage : int, source_position : Vector2 = Vector2.ZERO, effect : DamageEffectResource = null):
 	var entity = _find_entity_parent()
 	if entity and "is_invulnerable" in entity and entity.is_invulnerable:
 		if debug_me:
@@ -65,6 +67,7 @@ func damaged(damage : int, _source_position : Vector2 = Vector2.ZERO):
 	self.cur_health -= damage
 	if debug_me:
 		print_rich(debug_name, ": [color=red][i]took[/i][/color] [i]", damage, "[/i] damage. Now: [i]", cur_health, "[/i]")
+	damage_taken.emit(effect, source_position, damage)
 #endregion DAMAGE
 
 #endregion FUNCTIONS

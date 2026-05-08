@@ -96,7 +96,7 @@ func _on_health_changed(cur_hp : int, _max_hp : int, change_amount : int):
 	if cur_hp == 0:
 		_play_death_sound()
 		return
-	elif change_amount <= -4 and heavy_damage_sounds != null and heavy_damage_sounds.sounds.has(AudioStream):
+	elif change_amount <= -4 and heavy_damage_sounds != null and not heavy_damage_sounds.sounds.is_empty():
 		_play_heavy_damage_sound()
 		return
 	elif change_amount < 0:
@@ -107,7 +107,7 @@ func _on_health_changed(cur_hp : int, _max_hp : int, change_amount : int):
 		return
 
 func _play_from_library(library: SoundLibrary) -> void:
-	if library == null:
+	if library == null or library.sounds.is_empty():
 		return
 	var clip = library.sounds.pick_random()
 	if local_audio != null:

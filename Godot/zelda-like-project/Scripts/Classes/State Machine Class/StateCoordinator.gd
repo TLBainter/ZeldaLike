@@ -122,6 +122,8 @@ func _ready():
 ##No Control always processes first![br]
 ##Once one state layer processes an input, that input is NOT passed to the other layers.
 func _unhandled_input(event : InputEvent):
+	if not no_control_layer or not movement_layer or not action_layer:
+		return
 	if no_control_layer.process_input(event):
 		return
 	if movement_layer.process_input(event):

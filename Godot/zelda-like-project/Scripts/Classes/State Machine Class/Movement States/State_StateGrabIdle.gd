@@ -19,7 +19,7 @@ func enter():
 	root.body.velocity = Vector2.ZERO
 	if root.input: _safe_connect(root.input.on_move, _on_move)
 	coordinator.update_context("grab")
-	var _no_action : State = coordinator.get_transition(StateKeys.NO_ACTION)
+	var _no_action : State = coordinator.get_transition(StateID.NO_ACTION)
 	if root.input and not root.input.is_action_button_held("actionButton4") and _no_action:
 		coordinator.request_action_change(_no_action)
 		return
@@ -55,11 +55,11 @@ func _on_move(move_input : Vector2, move_strength : float):
 	if not grabbed or not grabbed.object_data:
 		return
 	if dot > 0.5 and grabbed.object_data.pushable:
-		var _push : State = coordinator.get_transition(StateKeys.PUSHING)
+		var _push : State = coordinator.get_transition(StateID.PUSHING)
 		if _push:
 			state_machine.change_state(coordinator.try_transition(state_machine, _push, "on_move+dot>0.5+pushable"))
 	if dot < -0.5 and grabbed.object_data.pullable:
-		var _pull : State = coordinator.get_transition(StateKeys.PULLING)
+		var _pull : State = coordinator.get_transition(StateID.PULLING)
 		if _pull:
 			state_machine.change_state(coordinator.try_transition(state_machine, _pull, "on_move+dot<-0.5+pullable"))
 	pass

@@ -520,7 +520,7 @@ func _start_item_get_sequence(item : ItemResource, player) -> void:
 	if player.anim and player.anim is CharacterAnimator:
 		player.anim.can_update_facing = false
 		player.anim.force_face(Vector2.DOWN)
-		player.anim.play_directional_anim(AnimationNames.ITEM_GET, true)
+		player.anim.play_directional_anim(AnimationName.ITEM_GET, true)
 		player.anim.animation_finished.connect(_on_world_item_get_done.bind(item, player), CONNECT_ONE_SHOT)
 	else:
 		_on_world_item_get_done("", item, player)

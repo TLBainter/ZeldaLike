@@ -57,7 +57,7 @@ func _physics_process(delta: float) -> void:
 			var reason := "dist_reached" if _traveled >= _rebound_dist else "collision"
 			print_rich("[color=#FF8C00][", debug_name, "][/color] exit; reason=", reason,
 				"  traveled=", snappedf(_traveled, 0.01), "  target=", snappedf(_rebound_dist, 0.01))
-		_safe_transition(StateKeys.IDLE)
+		_safe_transition(StateID.IDLE)
 		return
 
 func exit() -> void:

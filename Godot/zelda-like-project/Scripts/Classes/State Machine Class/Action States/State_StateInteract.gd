@@ -23,7 +23,7 @@ func enter():
 	var character = get_character()
 	if not character:
 		push_error(debug_name + ": missing character reference in enter()")
-		_safe_transition(StateKeys.NO_ACTION)
+		_safe_transition(StateID.NO_ACTION)
 		return
 	_debug_log(str("Has pulled a character with a value of ", character))
 	if character and character.body.current_interactable:
@@ -37,7 +37,7 @@ func enter():
 		_active_interactable.interact(character)
 	else:
 		_debug_log("No interactable found, returning to NoAction.")
-		_safe_transition(StateKeys.NO_ACTION)
+		_safe_transition(StateID.NO_ACTION)
 
 func exit():
 	var character = get_character()
@@ -50,5 +50,5 @@ func exit():
 	super()
 			
 func _on_interaction_finished():
-	_safe_transition(StateKeys.NO_ACTION)
+	_safe_transition(StateID.NO_ACTION)
 #endregion FUNCTIONS

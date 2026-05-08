@@ -1,4 +1,4 @@
-class_name StateKeys
+class_name StateID
 
 const IDLE           = "idle"
 const MOVE           = "move"
@@ -18,3 +18,16 @@ const LIFT           = "lift"
 const HOLDING_ACTION = "holding_action"
 const THROW          = "throw"
 const DROP           = "drop"
+
+const KNOCKBACK      = "knockback"
+const INITIALIZED    = "initialized"
+
+# Enemy states
+const ROAM           = "roam"
+const CHASE          = "chase"
+const COMBAT         = "combat"
+const DAMAGED        = "damaged"
+const DYING          = "dying"
+const DEAD           = "dead"
+const BLOCK          = "block"
+const ENEMY_ATTACK   = "enemy_attack"

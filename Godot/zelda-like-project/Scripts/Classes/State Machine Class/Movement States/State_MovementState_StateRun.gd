@@ -18,9 +18,9 @@ func enter():
 
 func _on_move(_move_input : Vector2, move_strength : float):
 	if move_strength < GameConstants.JOYSTICK_DEADZONE:
-		_safe_transition(StateKeys.IDLE)
+		_safe_transition(StateID.IDLE)
 	elif move_strength <= GameConstants.RUN_THRESHOLD:
-		_safe_transition(StateKeys.MOVE)
+		_safe_transition(StateID.MOVE)
 
 func get_context_key() -> String:
 	if coordinator.held_object:
@@ -37,13 +37,14 @@ func process_input(event : InputEvent) -> State:
 			return null
 		if coordinator.is_on_dodge_cooldown():
 			return null
-		return coordinator.try_transition(state_machine, coordinator.get_transition(StateKeys.DASH), "dash+running+no_held")
+		return coordinator.try_transition(state_machine, coordinator.get_transition(StateID.DASH), "dash+running+no_held")
 	return null
 
 func _has_bat_form() -> bool:
 	var character = get_character()
-	if not character or not character.inventory:
+	var inv = character.get("inventory") if character else null
+	if not inv:
 		return false
-	return character.inventory.has_item(ItemID.BAT_FORM) or character.inventory.has_item(ItemID.BAT_FORM_UPGRADED)
+	return inv.has_item(ItemID.BAT_FORM) or inv.has_item(ItemID.BAT_FORM_UPGRADED)
 
 #endregion FUNCTIONS

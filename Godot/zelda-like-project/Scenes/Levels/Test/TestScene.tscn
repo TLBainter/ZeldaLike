@@ -18,12 +18,9 @@
 [ext_resource type="PackedScene" uid="uid://cr07kkycqw1o4" path="res://Scenes/Decor/Traps/trap_spikes-small.tscn" id="15_3ubh8"]
 [ext_resource type="PackedScene" uid="uid://du3hahgcedn7o" path="res://Scenes/Bat Travel/BatTravelRoute.tscn" id="16_su1sj"]
 [ext_resource type="PackedScene" uid="uid://chest00000001" path="res://Scenes/Objects/Containers/chest.tscn" id="17_ut0kp"]
-[ext_resource type="AudioStream" uid="uid://bwydatsdke36e" path="res://Sound/SFX/Objects/Chests/chest_open_02.wav" id="18_fe3l3"]
 [ext_resource type="Script" uid="uid://diqdn2225adtk" path="res://Scripts/Resources/Resource Scripts/resource_Container.gd" id="18_t71xk"]
 [ext_resource type="Script" uid="uid://vdqimlmcg4ql" path="res://Scripts/Resources/Resource Scripts/resource_Sound_Library.gd" id="18_tff85"]
-[ext_resource type="AudioStream" uid="uid://clpbpcbciq8pu" path="res://Sound/SFX/Objects/Chests/chest_open_01.wav" id="19_pisjv"]
 [ext_resource type="Texture2D" uid="uid://cwyihga7pftar" path="res://Sprites/Object Sprites/Openables/chest2.png" id="19_t71xk"]
-[ext_resource type="AudioStream" uid="uid://xyfy3rubb5aa" path="res://Sound/SFX/Objects/Chests/chest_open_03.wav" id="21_n42s3"]
 [ext_resource type="Script" uid="uid://tp0m7574selp" path="res://Scripts/Resources/Resource Scripts/resource_ContainerReward.gd" id="21_npqhc"]
 [ext_resource type="Texture2D" uid="uid://32qv5f7fwwmn" path="res://Sprites/Object Sprites/Openables/chest4.png" id="25_56a0f"]
 
@@ -1287,7 +1284,6 @@ metadata/_custom_type_script = "uid://c0gguh8o4ftae"
 
 [sub_resource type="Resource" id="Resource_8bsre"]
 script = ExtResource("18_tff85")
-sl = Array[AudioStream]([ExtResource("19_pisjv"), ExtResource("18_fe3l3"), ExtResource("21_n42s3")])
 metadata/_custom_type_script = "uid://vdqimlmcg4ql"
 
 [sub_resource type="Resource" id="Resource_bjnsx"]
@@ -1331,7 +1327,6 @@ metadata/_custom_type_script = "uid://tp0m7574selp"
 
 [sub_resource type="Resource" id="Resource_56a0f"]
 script = ExtResource("18_tff85")
-sl = Array[AudioStream]([ExtResource("19_pisjv"), ExtResource("18_fe3l3"), ExtResource("21_n42s3")])
 metadata/_custom_type_script = "uid://vdqimlmcg4ql"
 
 [sub_resource type="Resource" id="Resource_npqhc"]
@@ -1347,17 +1342,12 @@ item_kind = 0
 item = "bat_form"
 metadata/_custom_type_script = "uid://tp0m7574selp"
 
-[sub_resource type="Curve2D" id="Curve2D_56a0f"]
+[sub_resource type="Curve2D" id="Curve2D_pww6y"]
 resource_local_to_scene = true
 _data = {
-"points": PackedVector2Array(0, 0, 13.666667, -17, -42, 19, -20.810804, 6.533624, 16.219435, -5.092148, -1, -32, -0.5759404, -16.990242, 0.6261225, 18.470613, 44, -8, 18.245422, 2.94281, -16.07449, -2.5926595, 1, 27, -5.023145, 15.488031, 8.834829, -27.240723, -18, -18, 12.493819, 25.768501, -12.651932, -26.09461, 37, -84, 21.612, -19.337051, -26.21089, 23.451849, -50, -84, 9, -34, 0, 0, -77, 18)
+"points": PackedVector2Array(0, 0, 13.333333, -21.666666, -39, 31, -22.935253, 11.008921, 13.659059, -6.556348, 1, -34, 0, -15.151092, 0, 15.807874, 36, -5, 15.368788, 3.6998935, -15.82997, -3.8109188, 1, 27, -5.023145, 15.488031, 8.834829, -27.240723, -18, -18, 12.493819, 25.768501, -12.651932, -26.09461, 37, -84, 21.612, -19.337051, -26.21089, 23.451849, -50, -84, 9, -34, 0, 0, -77, 18)
 }
 point_count = 8
-
-[sub_resource type="Resource" id="Resource_sbtm1"]
-script = ExtResource("7_nrk3t")
-debug_me = true
-debug_me_verbose = true
 
 [node name="Main" type="Node2D" unique_id=917202910]
 z_as_relative = false
@@ -1612,5 +1602,5 @@ reward = SubResource("Resource_ltvlh")
 debug = SubResource("Resource_v3by2")
 
 [node name="BatTravelRoute" parent="." unique_id=1252271372 instance=ExtResource("16_su1sj")]
-position = Vector2(-290, 33)
-curve = SubResource("Curve2D_56a0f")
+position = Vector2(-285, 35)
+curve = SubResource("Curve2D_pww6y")

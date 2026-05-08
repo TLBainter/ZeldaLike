@@ -66,7 +66,7 @@ func _on_move(move_input : Vector2, move_strength : float) -> void:
 	if move_strength < GameConstants.JOYSTICK_DEADZONE:
 		_input_held = false
 		if not _is_snapping:
-			var _gi : State = coordinator.get_transition(StateKeys.GRAB_IDLE)
+			var _gi : State = coordinator.get_transition(StateID.GRAB_IDLE)
 			if _gi:
 				state_machine.change_state(coordinator.try_transition(state_machine, _gi, "on_move+strength<0.15"))
 		return
@@ -82,17 +82,17 @@ func _on_move(move_input : Vector2, move_strength : float) -> void:
 		if not _is_snapping:
 			var grabbed = coordinator.grabbed_object
 			if grabbed and grabbed.object_data and grabbed.object_data.pushable:
-				var _push : State = coordinator.get_transition(StateKeys.PUSHING)
+				var _push : State = coordinator.get_transition(StateID.PUSHING)
 				if _push:
 					state_machine.change_state(coordinator.try_transition(state_machine, _push, "on_move+dot>0.5+pushable"))
 			else:
-				var _gi2 : State = coordinator.get_transition(StateKeys.GRAB_IDLE)
+				var _gi2 : State = coordinator.get_transition(StateID.GRAB_IDLE)
 				if _gi2:
 					state_machine.change_state(coordinator.try_transition(state_machine, _gi2, "on_move+dot>0.5+not_pushable"))
 	else:
 		_input_held = false
 		if not _is_snapping:
-			var _gi3 : State = coordinator.get_transition(StateKeys.GRAB_IDLE)
+			var _gi3 : State = coordinator.get_transition(StateID.GRAB_IDLE)
 			if _gi3:
 				state_machine.change_state(coordinator.try_transition(state_machine, _gi3, "on_move+perpendicular"))
 
@@ -164,7 +164,7 @@ func _on_snap_completed() -> void:
 		character.body.global_position = _player_snap_target
 	if not root.input or not root.input.is_action_button_held("actionButton4"):
 		_input_held = false
-		var _gi : State = coordinator.get_transition(StateKeys.GRAB_IDLE)
+		var _gi : State = coordinator.get_transition(StateID.GRAB_IDLE)
 		if _gi:
 			state_machine.change_state(coordinator.try_transition(state_machine, _gi, "snap_completed+button_released"))
 		return
@@ -185,7 +185,7 @@ func _on_snap_timer() -> void:
 	_snap_timer_active = false
 	if not root.input or not root.input.is_action_button_held("actionButton4"):
 		_input_held = false
-		var _gi : State = coordinator.get_transition(StateKeys.GRAB_IDLE)
+		var _gi : State = coordinator.get_transition(StateID.GRAB_IDLE)
 		if _gi:
 			state_machine.change_state(coordinator.try_transition(state_machine, _gi, "snap_timer+button_released"))
 		return

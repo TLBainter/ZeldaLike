@@ -53,9 +53,9 @@ func _on_move(_move_input : Vector2, move_strength : float):
 func process_input(event : InputEvent) -> State:
 	if event.is_action_pressed("actionButton4"):
 		if _is_running:
-			return coordinator.try_transition(state_machine, coordinator.get_transition(StateKeys.THROW), "actionButton4+pressed+running")
+			return coordinator.try_transition(state_machine, coordinator.get_transition(StateID.THROW), "actionButton4+pressed+running")
 		else:
-			return coordinator.try_transition(state_machine, coordinator.get_transition(StateKeys.DROP), "actionButton4+pressed+not_running")
+			return coordinator.try_transition(state_machine, coordinator.get_transition(StateID.DROP), "actionButton4+pressed+not_running")
 	return null
 
 func get_context_key() -> String:

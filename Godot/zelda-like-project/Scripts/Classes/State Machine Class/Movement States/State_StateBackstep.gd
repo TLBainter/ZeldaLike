@@ -25,7 +25,7 @@ func enter():
 	var character = get_character()
 	if coordinator.is_exhausted():
 		_debug_log("backstep blocked; exhausted.")
-		_safe_transition(StateKeys.IDLE)
+		_safe_transition(StateID.IDLE)
 		return
 	if character and character.anim:
 		_backstep_dir = -facing_to_vector(character.anim.facing)
@@ -44,7 +44,7 @@ func _physics_process(_delta : float):
 	root.body.move_and_slide()
 	_distance_traveled += _delta * _dodge_speed
 	if _distance_traveled >= _max_dist or root.body.get_slide_collision_count() > 0:
-		_safe_transition(StateKeys.IDLE)
+		_safe_transition(StateID.IDLE)
 
 func _on_dodge_complete() -> void:
 	var character = get_character()

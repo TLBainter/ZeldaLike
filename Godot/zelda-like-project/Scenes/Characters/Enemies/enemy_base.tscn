@@ -1,0 +1,544 @@
+[gd_scene format=3 uid="uid://ctsq21stdug56"]
+
+[ext_resource type="Script" uid="uid://16vaxqldxhhi" path="res://Scripts/Classes/Entity Class/Characters/Enemy/EntityClass_Character_Enemy.gd" id="1_jroqy"]
+[ext_resource type="Script" uid="uid://dkn4fmtx66vbj" path="res://Scripts/Resources/Resource Scripts/resource_Pickup.gd" id="2_aenoy"]
+[ext_resource type="Script" uid="uid://dnjxdytfvi2k6" path="res://Scripts/Classes/Entity Class/Component Class/Component.gd" id="2_c0t5b"]
+[ext_resource type="Texture2D" uid="uid://cqjwm1cr58ymq" path="res://Sprites/Character Sprites/Enemy Sprites/puff.png" id="2_eu8ko"]
+[ext_resource type="Resource" uid="uid://cn5g78mly144w" path="res://Scripts/Resources/Resource Files/Resources_Pickups/pickup_bead_1.tres" id="3_yi82g"]
+[ext_resource type="Script" uid="uid://dciag6ngum61k" path="res://Scripts/Classes/Entity Class/Component Class/Component_HealthComponent.gd" id="4_afeii"]
+[ext_resource type="Resource" uid="uid://cjht7nigofbls" path="res://Scripts/Resources/Resource Files/Resources_Pickups/pickup_bead_5.tres" id="4_f6egu"]
+[ext_resource type="Resource" uid="uid://bl283us0wn7dk" path="res://Scripts/Resources/Resource Files/Resources_Pickups/pickup_small_skull.tres" id="5_yh1us"]
+[ext_resource type="Script" uid="uid://dqij5cdp07vxh" path="res://Scripts/Classes/Entity Class/Component Class/Component_MoveComponent.gd" id="5_yukby"]
+[ext_resource type="Script" uid="uid://bo7f3qlfwmchv" path="res://Scripts/Classes/Audio Class/Component_AudioControl_CharacterAudioControl.gd" id="6_tjdac"]
+[ext_resource type="Resource" uid="uid://c710iksygomvs" path="res://Scripts/Resources/Resource Files/Resources_Pickups/pickup_energy_orb.tres" id="6_wf474"]
+[ext_resource type="Script" uid="uid://bbr13ie0ank53" path="res://Scripts/Classes/Entity Class/Component Class/Component_StatsComponent.gd" id="7_h58bd"]
+[ext_resource type="Script" uid="uid://ck1p1jsh1h2qo" path="res://Scripts/Resources/Resource Scripts/resource_Drop_Table.gd" id="7_r4iot"]
+[ext_resource type="Resource" path="res://Scripts/Resources/Resource Files/Resources_DamageEffects/damage_effect_default_character.tres" id="8_dbap8"]
+[ext_resource type="Script" uid="uid://1h1iqx2yk781" path="res://Scripts/Classes/State Machine Class/StateCoordinator.gd" id="8_ffaod"]
+[ext_resource type="Script" uid="uid://c0gguh8o4ftae" path="res://Scripts/Resources/Resource Scripts/resource_debug_settings.gd" id="8_ynlb1"]
+[ext_resource type="Script" uid="uid://dw1v2olrhdbdx" path="res://Scripts/Resources/Resource Scripts/resource_stats.gd" id="9_4gxar"]
+[ext_resource type="Script" uid="uid://cv00auxwsog0v" path="res://Scripts/Classes/State Machine Class/StateMachineLayer.gd" id="9_avymi"]
+[ext_resource type="Script" uid="uid://2v5yqhsc70l0" path="res://Scripts/Classes/State Machine Class/Movement States/State_MovementState_StateIdling.gd" id="11_4gxar"]
+[ext_resource type="Script" uid="uid://code380uvx454" path="res://Scripts/Classes/State Machine Class/Movement States/State_MovementState_StateMove.gd" id="12_a7nox"]
+[ext_resource type="Script" uid="uid://cmx5j0lkseu2y" path="res://Scripts/Classes/State Machine Class/Movement States/State_MovementState_StateRun.gd" id="13_tpvmj"]
+[ext_resource type="Script" uid="uid://cga8dkedc3mkc" path="res://Scripts/Classes/State Machine Class/Action States/State_StateNoAction.gd" id="16_q1cax"]
+[ext_resource type="Script" uid="uid://bqrb8knsy1vix" path="res://Scripts/Classes/State Machine Class/State.gd" id="17_tfoso"]
+[ext_resource type="Script" uid="uid://17mlvhywt01y" path="res://Scripts/Classes/Entity Class/Component Class/Enemy Components/Component_EnemyAttackComponent.gd" id="17_yu36t"]
+[ext_resource type="Script" uid="uid://dhoyfuqj2rm7v" path="res://Scripts/Resources/Resource Scripts/resource_Attack.gd" id="18_yh1us"]
+[ext_resource type="Script" uid="uid://bla114d73nu7a" path="res://Scripts/Classes/State Machine Class/No Control States/State_StateInitialized.gd" id="18_yy8ab"]
+[ext_resource type="Texture2D" uid="uid://lrqm70rarygw" path="res://Sprites/Projectiles/startcut1.png" id="19_wf474"]
+[ext_resource type="Script" uid="uid://bk4t21f84s6dv" path="res://Scripts/Resources/Resource Scripts/resource_ProjectileAttack.gd" id="20_r4iot"]
+[ext_resource type="Script" uid="uid://djsa87isbp2t2" path="res://Scripts/Classes/Entity Class/Component Class/Enemy Components/Component_InputComponent_EnemyInputComponent.gd" id="21_djsa87"]
+[ext_resource type="Script" uid="uid://b5g42f62r2lkt" path="res://Scripts/Classes/State Machine Class/Action States/State_EnemyAction_StateEnemyAttack.gd" id="22_b5g42f"]
+[ext_resource type="Script" uid="uid://bhdf8xdvdrula" path="res://Scripts/Classes/State Machine Class/No Control States/Enemy States/State_EnemyNoControl_StateRoam.gd" id="23_bhdf8x"]
+[ext_resource type="Script" uid="uid://71h8ermyfvo3" path="res://Scripts/Classes/State Machine Class/No Control States/Enemy States/State_EnemyNoControl_StateChase.gd" id="24_71h8er"]
+[ext_resource type="Script" uid="uid://colgb33eu3llw" path="res://Scripts/Classes/State Machine Class/No Control States/Enemy States/State_EnemyNoControl_StateCombat.gd" id="25_colgb3"]
+[ext_resource type="Script" uid="uid://bx00mm4qv6haq" path="res://Scripts/Classes/State Machine Class/No Control States/Enemy States/State_EnemyNoControl_StateDying.gd" id="26_bx00mm"]
+[ext_resource type="Script" uid="uid://bpmylqcjnrpvl" path="res://Scripts/Classes/State Machine Class/No Control States/Enemy States/State_EnemyNoControl_StateDead.gd" id="27_bpmylq"]
+[ext_resource type="Script" uid="uid://dgkup04tuee81" path="res://Scripts/Classes/Entity Class/Characters/Character Animator/CharacterAnimator.gd" id="28_dgkup0"]
+[ext_resource type="Script" uid="uid://b5n2rl7q3egjo" path="res://Scripts/Classes/State Machine Class/No Control States/Enemy States/State_EnemyNoControl_StateDamaged.gd" id="29_damaged"]
+[ext_resource type="Script" path="res://Scripts/Classes/State Machine Class/No Control States/State_NoControl_StateKnockback.gd" id="30_kbk"]
+
+[sub_resource type="Resource" id="Resource_45opd"]
+script = ExtResource("7_r4iot")
+drop_pool = Dictionary[ExtResource("2_aenoy"), int]({
+ExtResource("3_yi82g"): 50,
+ExtResource("4_f6egu"): 5,
+ExtResource("5_yh1us"): 25,
+ExtResource("6_wf474"): 20
+})
+metadata/_custom_type_script = "uid://ck1p1jsh1h2qo"
+
+[sub_resource type="Resource" id="Resource_qkb4a"]
+script = ExtResource("8_ynlb1")
+debug_me = true
+debug_me_verbose = true
+debug_name = "Shooter Enemy"
+metadata/_custom_type_script = "uid://c0gguh8o4ftae"
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_jroqy"]
+radius = 7.0
+height = 14.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_k81rg"]
+size = Vector2(3.5, 3.5)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_eu8ko"]
+radius = 22.090721
+
+[sub_resource type="Resource" id="Resource_dbap8"]
+script = ExtResource("8_ynlb1")
+debug_me = true
+debug_me_verbose = true
+debug_name = "Shooter Input"
+metadata/_custom_type_script = "uid://c0gguh8o4ftae"
+
+[sub_resource type="Resource" id="Resource_a7nox"]
+script = ExtResource("9_4gxar")
+max_health = 6
+weight = 10
+attack_speed = 0.75
+dodge_speed = 50.0
+walk_speed = 35.0
+run_speed = 65.0
+max_energy = 0
+max_magic = 0
+metadata/_custom_type_script = "uid://dw1v2olrhdbdx"
+
+[sub_resource type="Resource" id="Resource_ynlb1"]
+script = ExtResource("20_r4iot")
+projectile_sprite_strip = ExtResource("19_wf474")
+sprite_strip_frames = 3
+collision_sprite_frames = 0
+metadata/_custom_type_script = "uid://bk4t21f84s6dv"
+
+[sub_resource type="Resource" id="Resource_yu36t"]
+script = ExtResource("18_yh1us")
+attack_type = 1
+damage = 2
+blockable = true
+parryable = false
+interruptable = true
+anim_down = "enemyAttack1Down"
+anim_left = "enemyAttack1Left"
+anim_up = "enemyAttack1Up"
+anim_right = "enemyAttack1Right"
+attack_trigger_frame = 3
+parry_window_start = 0.0
+parry_window_end = 2.99
+attack_area = Object(Area2D,"unique_name_in_owner":false,"process_mode":0,"process_priority":0,"process_physics_priority":0,"process_thread_group":0,"physics_interpolation_mode":0,"auto_translate_mode":0,"editor_description":"","visible":true,"modulate":Color(1, 1, 1, 1),"self_modulate":Color(1, 1, 1, 1),"show_behind_parent":false,"top_level":false,"light_mask":1,"visibility_layer":1,"z_index":0,"z_as_relative":true,"y_sort_enabled":false,"texture_filter":0,"texture_repeat":0,"material":null,"use_parent_material":false,"position":Vector2(0, 0),"rotation":0.0,"scale":Vector2(1, 1),"skew":0.0,"disable_mode":0,"collision_layer":64,"collision_mask":1,"collision_priority":1.0,"input_pickable":true,"monitoring":true,"monitorable":true,"priority":0,"gravity_space_override":0,"gravity_point":false,"gravity_point_unit_distance":0.0,"gravity_point_center":Vector2(0, 1),"gravity_direction":Vector2(0, 1),"gravity":980.0,"linear_damp_space_override":0,"linear_damp":0.1,"angular_damp_space_override":0,"angular_damp":1.0,"audio_bus_override":false,"audio_bus_name":&"Master","script":null)
+
+collision_shape_suffix = ""
+projectile_data = SubResource("Resource_ynlb1")
+metadata/_custom_type_script = "uid://dhoyfuqj2rm7v"
+
+[sub_resource type="Resource" id="Resource_yh1us"]
+script = ExtResource("8_ynlb1")
+debug_me = true
+debug_me_verbose = true
+debug_name = "Shooter Attack Comp"
+metadata/_custom_type_script = "uid://c0gguh8o4ftae"
+
+[sub_resource type="Animation" id="Animation_4gxar"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("enemyBody/enemySprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_a7nox"]
+resource_name = "enemyAttack1Down"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("enemyBody/enemySprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.10415496, 0.20397012, 0.3016154),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [32, 33, 34, 35]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("StateCoordinator")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.3016154),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"attack_hit"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_tpvmj"]
+resource_name = "enemyAttack1Left"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("enemyBody/enemySprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.10415496, 0.20397012, 0.3016154),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [40, 41, 42, 43]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("StateCoordinator")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.3016154),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"attack_hit"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_eu8ko"]
+resource_name = "enemyAttack1Right"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("enemyBody/enemySprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.10415496, 0.20397012, 0.3016154),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [48, 49, 50, 51]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("StateCoordinator")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.3016154),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"attack_hit"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_yy8ab"]
+resource_name = "enemyAttack1Up"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("enemyBody/enemySprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.10415496, 0.20397012, 0.3016154),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [56, 57, 58, 59]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("StateCoordinator")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.3016154),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"attack_hit"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_hs6fd"]
+resource_name = "enemyWalkDown"
+length = 0.8
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("enemyBody/enemySprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.10231729, 0.19991225, 0.30065542, 0.40612093, 0.5131606, 0.6249225, 0.73038805),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5, 6, 7]
+}
+
+[sub_resource type="Animation" id="Animation_0i3m7"]
+resource_name = "enemyWalkLeft"
+length = 0.8
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("enemyBody/enemySprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.10231729, 0.19991225, 0.30065542, 0.40612093, 0.5131606, 0.6249225, 0.73038805),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [8, 9, 10, 11, 12, 13, 14, 15]
+}
+
+[sub_resource type="Animation" id="Animation_q1cax"]
+resource_name = "enemyWalkRight"
+length = 0.8
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("enemyBody/enemySprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.10231729, 0.19991225, 0.30065542, 0.40612093, 0.5131606, 0.6249225, 0.73038805),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [16, 17, 18, 19, 20, 21, 22, 23]
+}
+
+[sub_resource type="Animation" id="Animation_tfoso"]
+resource_name = "enemyWalkUp"
+length = 0.8
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("enemyBody/enemySprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.10231729, 0.19991225, 0.30065542, 0.40612093, 0.5131606, 0.6249225, 0.73038805),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [24, 25, 26, 27, 28, 29, 30, 31]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_yy8ab"]
+_data = {
+&"RESET": SubResource("Animation_4gxar"),
+&"enemyAttack1Down": SubResource("Animation_a7nox"),
+&"enemyAttack1Left": SubResource("Animation_tpvmj"),
+&"enemyAttack1Right": SubResource("Animation_eu8ko"),
+&"enemyAttack1Up": SubResource("Animation_yy8ab"),
+&"enemyWalkDown": SubResource("Animation_hs6fd"),
+&"enemyWalkLeft": SubResource("Animation_0i3m7"),
+&"enemyWalkRight": SubResource("Animation_q1cax"),
+&"enemyWalkUp": SubResource("Animation_tfoso")
+}
+
+[sub_resource type="Resource" id="Resource_ylrv7"]
+script = ExtResource("8_ynlb1")
+debug_me = true
+debug_me_verbose = true
+debug_name = "Shooter Enemy Animator"
+metadata/_custom_type_script = "uid://c0gguh8o4ftae"
+
+[sub_resource type="Resource" id="Resource_ixw1v"]
+script = ExtResource("8_ynlb1")
+debug_me = true
+debug_me_verbose = true
+debug_name = "Shooter State Coord"
+metadata/_custom_type_script = "uid://c0gguh8o4ftae"
+
+[node name="enemy" type="Node2D" unique_id=619697809 node_paths=PackedStringArray("input", "attack_component", "body", "nav_agent", "root", "sprite", "anim", "state_machine", "collider", "audio", "stats", "health", "move")]
+script = ExtResource("1_jroqy")
+input = NodePath("ComponentManager/enemyInputComponent")
+attack_component = NodePath("ComponentManager/EnemyAttackComponent")
+enemy_name = "Shooter"
+drop_table = SubResource("Resource_45opd")
+body = NodePath("enemyBody")
+nav_agent = NodePath("enemyBody/enemyNavAgent")
+default_damage_effect = ExtResource("8_dbap8")
+root = NodePath(".")
+sprite = NodePath("enemyBody/enemySprite")
+anim = NodePath("enemyAnimator")
+state_machine = NodePath("StateCoordinator")
+collider = NodePath("enemyBody/enemyBodyCollider")
+audio = NodePath("ComponentManager/enemyAudioComponent")
+stats = NodePath("ComponentManager/enemyStatsComponent")
+health = NodePath("ComponentManager/enemyHealthComponent")
+move = NodePath("ComponentManager/enemyMoveComponent")
+debug = SubResource("Resource_qkb4a")
+
+[node name="enemyBody" type="CharacterBody2D" parent="." unique_id=2067573121]
+collision_mask = 51
+
+[node name="enemySprite" type="Sprite2D" parent="enemyBody" unique_id=2142106002]
+texture = ExtResource("2_eu8ko")
+hframes = 8
+vframes = 8
+
+[node name="enemyBodyCollider" type="CollisionShape2D" parent="enemyBody" unique_id=1876309405]
+shape = SubResource("CapsuleShape2D_jroqy")
+
+[node name="enemyAttackArea1" type="Area2D" parent="enemyBody" unique_id=2133941548]
+collision_layer = 64
+
+[node name="enemyAttackArea1Down" type="CollisionShape2D" parent="enemyBody/enemyAttackArea1" unique_id=1113973662]
+position = Vector2(0, 8)
+shape = SubResource("RectangleShape2D_k81rg")
+debug_color = Color(0.92603636, 0.2724614, 0, 0.41960785)
+
+[node name="enemyAttackArea1Left" type="CollisionShape2D" parent="enemyBody/enemyAttackArea1" unique_id=930927036]
+position = Vector2(-7, 0)
+shape = SubResource("RectangleShape2D_k81rg")
+debug_color = Color(0.92603636, 0.2724614, 0, 0.41960785)
+
+[node name="enemyAttackArea1Up" type="CollisionShape2D" parent="enemyBody/enemyAttackArea1" unique_id=2089414720]
+position = Vector2(0, -6)
+shape = SubResource("RectangleShape2D_k81rg")
+debug_color = Color(0.92603636, 0.2724614, 0, 0.41960785)
+
+[node name="enemyAttackArea1Right" type="CollisionShape2D" parent="enemyBody/enemyAttackArea1" unique_id=853159255]
+position = Vector2(7, 0)
+shape = SubResource("RectangleShape2D_k81rg")
+debug_color = Color(0.92603636, 0.2724614, 0, 0.41960785)
+
+[node name="playerDetectArea" type="Area2D" parent="enemyBody" unique_id=657150856]
+collision_layer = 0
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="enemyBody/playerDetectArea" unique_id=1317344210]
+polygon = PackedVector2Array(0, 0, -31, 64, 0, 100, 31, 64)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="enemyBody/playerDetectArea" unique_id=1402610147]
+shape = SubResource("CircleShape2D_eu8ko")
+debug_color = Color(0.9033029, 0.30133402, 0.16812512, 0.41960785)
+
+[node name="enemyNavAgent" type="NavigationAgent2D" parent="enemyBody" unique_id=248357136]
+path_desired_distance = 4.0
+target_desired_distance = 8.0
+path_max_distance = 32.0
+path_postprocessing = 1
+
+[node name="ComponentManager" type="Node" parent="." unique_id=1889945273]
+script = ExtResource("2_c0t5b")
+metadata/_custom_type_script = "uid://dnjxdytfvi2k6"
+
+[node name="enemyInputComponent" type="Node" parent="ComponentManager" unique_id=181162053 node_paths=PackedStringArray("player_detect_area")]
+script = ExtResource("21_djsa87")
+player_detect_area = NodePath("../../enemyBody/playerDetectArea")
+default_mode = 1
+debug = SubResource("Resource_dbap8")
+metadata/_custom_type_script = "uid://djsa87isbp2t2"
+
+[node name="enemyHealthComponent" type="Node" parent="ComponentManager" unique_id=154778772]
+script = ExtResource("4_afeii")
+metadata/_custom_type_script = "uid://dciag6ngum61k"
+
+[node name="enemyMoveComponent" type="Node" parent="ComponentManager" unique_id=165278121]
+script = ExtResource("5_yukby")
+phase_through_on_stuck = true
+metadata/_custom_type_script = "uid://dqij5cdp07vxh"
+
+[node name="enemyAudioComponent" type="Node" parent="ComponentManager" unique_id=1233560530 node_paths=PackedStringArray("root")]
+script = ExtResource("6_tjdac")
+root = NodePath("../..")
+metadata/_custom_type_script = "uid://bo7f3qlfwmchv"
+
+[node name="enemyStatsComponent" type="Node" parent="ComponentManager" unique_id=1463792575]
+script = ExtResource("7_h58bd")
+resource = SubResource("Resource_a7nox")
+metadata/_custom_type_script = "uid://bbr13ie0ank53"
+
+[node name="EnemyAttackComponent" type="Node" parent="ComponentManager" unique_id=90373612]
+script = ExtResource("17_yu36t")
+attacks = Array[ExtResource("18_yh1us")]([SubResource("Resource_yu36t")])
+debug = SubResource("Resource_yh1us")
+metadata/_custom_type_script = "uid://17mlvhywt01y"
+
+[node name="enemyAnimator" type="AnimationPlayer" parent="." unique_id=1207005405]
+libraries/ = SubResource("AnimationLibrary_yy8ab")
+script = ExtResource("28_dgkup0")
+debug = SubResource("Resource_ylrv7")
+idle_prefix = "enemyWalk"
+walk_prefix = "enemyWalk"
+metadata/_custom_type_script = "uid://dgkup04tuee81"
+
+[node name="StateCoordinator" type="Node" parent="." unique_id=873781010 node_paths=PackedStringArray("root", "movement_layer", "action_layer", "no_control_layer")]
+script = ExtResource("8_ffaod")
+root = NodePath("..")
+movement_layer = NodePath("MovementLayer")
+action_layer = NodePath("ActionLayer")
+no_control_layer = NodePath("NoControlLayer")
+debug = SubResource("Resource_ixw1v")
+
+[node name="MovementLayer" type="Node" parent="StateCoordinator" unique_id=2037195902 node_paths=PackedStringArray("starting_state")]
+script = ExtResource("9_avymi")
+starting_state = NodePath("StateIdling")
+metadata/_custom_type_script = "uid://cv00auxwsog0v"
+
+[node name="StateIdling" type="Node" parent="StateCoordinator/MovementLayer" unique_id=1001221216]
+script = ExtResource("11_4gxar")
+metadata/_custom_type_script = "uid://2v5yqhsc70l0"
+
+[node name="StateMove" type="Node" parent="StateCoordinator/MovementLayer" unique_id=548571646]
+script = ExtResource("12_a7nox")
+metadata/_custom_type_script = "uid://code380uvx454"
+
+[node name="StateRun" type="Node" parent="StateCoordinator/MovementLayer" unique_id=203160869]
+script = ExtResource("13_tpvmj")
+metadata/_custom_type_script = "uid://cmx5j0lkseu2y"
+
+[node name="ActionLayer" type="Node" parent="StateCoordinator" unique_id=1435585299 node_paths=PackedStringArray("starting_state")]
+script = ExtResource("9_avymi")
+starting_state = NodePath("StateNoAction")
+metadata/_custom_type_script = "uid://cv00auxwsog0v"
+
+[node name="StateEnemyAttack" type="Node" parent="StateCoordinator/ActionLayer" unique_id=20155077 node_paths=PackedStringArray("attack_component", "no_action_state")]
+script = ExtResource("22_b5g42f")
+attack_component = NodePath("../../../ComponentManager/EnemyAttackComponent")
+no_action_state = NodePath("../StateNoAction")
+metadata/_custom_type_script = "uid://b5g42f62r2lkt"
+
+[node name="StateNoAction" type="Node" parent="StateCoordinator/ActionLayer" unique_id=1626903822]
+script = ExtResource("16_q1cax")
+metadata/_custom_type_script = "uid://cga8dkedc3mkc"
+
+[node name="!StateBlock" type="Node" parent="StateCoordinator/ActionLayer" unique_id=793815491]
+script = ExtResource("17_tfoso")
+metadata/_custom_type_script = "uid://bqrb8knsy1vix"
+
+[node name="NoControlLayer" type="Node" parent="StateCoordinator" unique_id=974519290 node_paths=PackedStringArray("starting_state")]
+script = ExtResource("9_avymi")
+starting_state = NodePath("StateInitialized")
+metadata/_custom_type_script = "uid://cv00auxwsog0v"
+
+[node name="StateDying" type="Node" parent="StateCoordinator/NoControlLayer" unique_id=1576709166]
+script = ExtResource("26_bx00mm")
+metadata/_custom_type_script = "uid://bx00mm4qv6haq"
+
+[node name="StateDead" type="Node" parent="StateCoordinator/NoControlLayer" unique_id=1563384804]
+script = ExtResource("27_bpmylq")
+metadata/_custom_type_script = "uid://bpmylqcjnrpvl"
+
+[node name="StateInitialized" type="Node" parent="StateCoordinator/NoControlLayer" unique_id=1138347159]
+script = ExtResource("18_yy8ab")
+metadata/_custom_type_script = "uid://bla114d73nu7a"
+
+[node name="StateRoam" type="Node" parent="StateCoordinator/NoControlLayer" unique_id=269057108]
+script = ExtResource("23_bhdf8x")
+metadata/_custom_type_script = "uid://bhdf8xdvdrula"
+
+[node name="StateChase" type="Node" parent="StateCoordinator/NoControlLayer" unique_id=1200123888]
+script = ExtResource("24_71h8er")
+metadata/_custom_type_script = "uid://71h8ermyfvo3"
+
+[node name="StateCombat" type="Node" parent="StateCoordinator/NoControlLayer" unique_id=612831184 node_paths=PackedStringArray("enemy_attack_state")]
+script = ExtResource("25_colgb3")
+enemy_attack_state = NodePath("../../ActionLayer/StateEnemyAttack")
+metadata/_custom_type_script = "uid://colgb33eu3llw"
+
+[node name="StateDamaged" type="Node" parent="StateCoordinator/NoControlLayer" unique_id=547382019]
+script = ExtResource("29_damaged")
+
+[node name="StateKnockback" type="Node" parent="StateCoordinator/NoControlLayer" unique_id=1732050808]
+script = ExtResource("30_kbk")

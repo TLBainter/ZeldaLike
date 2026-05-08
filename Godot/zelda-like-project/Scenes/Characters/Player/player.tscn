@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://br28s5xm32ls0" path="res://Scripts/Classes/Entity Class/Characters/Player/EntityClass_Character_Player.gd" id="1_27cb7"]
 [ext_resource type="Script" uid="uid://ukng11jt2lj5" path="res://Scripts/Body/Body_Player.gd" id="2_aencf"]
 [ext_resource type="Texture2D" uid="uid://boj2fgnqddhmy" path="res://Sprites/Character Sprites/Player Sprites/player.png" id="2_apx8m"]
+[ext_resource type="Resource" path="res://Scripts/Resources/Resource Files/Resources_DamageEffects/damage_effect_default_character.tres" id="2_ovnlg"]
 [ext_resource type="Script" uid="uid://471hyoig8m0e" path="res://Scripts/Classes/Entity Class/Component Class/Player Components/Component_InputComponent_PlayerInputComponent.gd" id="2_qqvsf"]
 [ext_resource type="Script" uid="uid://dgkup04tuee81" path="res://Scripts/Classes/Entity Class/Characters/Character Animator/CharacterAnimator.gd" id="3_dxcao"]
 [ext_resource type="PackedScene" uid="uid://tgithof7e8op" path="res://Scenes/UX/menu_pause.tscn" id="5_1ujki"]
@@ -107,6 +108,8 @@
 [ext_resource type="AudioStream" uid="uid://dkf4g7yneerno" path="res://Sound/SFX/Player/Player Action SFX/Player Dash SFX/Dash-Bat-Rebound/bat_rebound_13.wav" id="71_g8j83"]
 [ext_resource type="AudioStream" uid="uid://bl3fa0aoyh36c" path="res://Sound/SFX/Player/Player Action SFX/Player Dash SFX/Dash-Bat-Rebound/bat_rebound_14.wav" id="72_g0j35"]
 [ext_resource type="Script" uid="uid://cot33t6uqb8w3" path="res://Scripts/Classes/State Machine Class/Action States/State_StateCastSpell.gd" id="89_bikm2"]
+[ext_resource type="Script" uid="uid://d0mub1c7ufay" path="res://Scripts/Classes/State Machine Class/Action States/State_StateBlock_Player.gd" id="107_23621"]
+[ext_resource type="Script" uid="uid://c5q8ceaqot3x1" path="res://Scripts/Classes/State Machine Class/No Control States/State_NoControl_StateKnockback.gd" id="108_kbk"]
 
 [sub_resource type="Resource" id="Resource_h1onf"]
 script = ExtResource("15_8uivy")
@@ -238,6 +241,15 @@ _data = {
 &"itemDismiss": SubResource("Animation_6byyc")
 }
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_q4102"]
+size = Vector2(19, 14)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_23621"]
+size = Vector2(7, 14)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ovnlg"]
+size = Vector2(6.5, 14)
+
 [sub_resource type="Resource" id="Resource_8uivy"]
 script = ExtResource("15_8uivy")
 debug_me = true
@@ -246,27 +258,27 @@ debug_name = "Player Health"
 
 [sub_resource type="Resource" id="Resource_6mdo8"]
 script = ExtResource("15_ya4ld")
-sl = Array[AudioStream]([ExtResource("16_7en8i"), ExtResource("17_s2pun"), ExtResource("18_4ldlp"), ExtResource("19_3g3ig")])
+sounds = Array[AudioStream]([ExtResource("16_7en8i"), ExtResource("17_s2pun"), ExtResource("18_4ldlp"), ExtResource("19_3g3ig")])
 metadata/_custom_type_script = "uid://vdqimlmcg4ql"
 
 [sub_resource type="Resource" id="Resource_t5tea"]
 script = ExtResource("15_ya4ld")
-sl = Array[AudioStream]([ExtResource("20_1cjpl"), ExtResource("21_u656i"), ExtResource("22_2co4i"), ExtResource("23_q4102")])
+sounds = Array[AudioStream]([ExtResource("20_1cjpl"), ExtResource("21_u656i"), ExtResource("22_2co4i"), ExtResource("23_q4102")])
 metadata/_custom_type_script = "uid://vdqimlmcg4ql"
 
 [sub_resource type="Resource" id="Resource_ynqe8"]
 script = ExtResource("15_ya4ld")
-sl = Array[AudioStream]([ExtResource("24_23621"), ExtResource("25_ovnlg"), ExtResource("26_6byyc"), ExtResource("27_0q3fj"), ExtResource("28_espqb"), ExtResource("29_dmdk8"), ExtResource("30_liw1v"), ExtResource("31_3gsd7"), ExtResource("32_db7j8"), ExtResource("33_2yw8k"), ExtResource("34_nl7rt"), ExtResource("35_g8qw5"), ExtResource("36_g8j83"), ExtResource("37_g0j35"), ExtResource("38_c166g"), ExtResource("39_1w2cp"), ExtResource("40_050eg"), ExtResource("41_irlkp"), ExtResource("42_g3hii"), ExtResource("43_oacby"), ExtResource("44_61rib"), ExtResource("45_g1x12"), ExtResource("46_0mrvf"), ExtResource("47_7iqyn"), ExtResource("48_dildn"), ExtResource("49_4h46n"), ExtResource("50_6oed2"), ExtResource("51_8f7uw"), ExtResource("52_npsu7")])
+sounds = Array[AudioStream]([ExtResource("24_23621"), ExtResource("25_ovnlg"), ExtResource("26_6byyc"), ExtResource("27_0q3fj"), ExtResource("28_espqb"), ExtResource("29_dmdk8"), ExtResource("30_liw1v"), ExtResource("31_3gsd7"), ExtResource("32_db7j8"), ExtResource("33_2yw8k"), ExtResource("34_nl7rt"), ExtResource("35_g8qw5"), ExtResource("36_g8j83"), ExtResource("37_g0j35"), ExtResource("38_c166g"), ExtResource("39_1w2cp"), ExtResource("40_050eg"), ExtResource("41_irlkp"), ExtResource("42_g3hii"), ExtResource("43_oacby"), ExtResource("44_61rib"), ExtResource("45_g1x12"), ExtResource("46_0mrvf"), ExtResource("47_7iqyn"), ExtResource("48_dildn"), ExtResource("49_4h46n"), ExtResource("50_6oed2"), ExtResource("51_8f7uw"), ExtResource("52_npsu7")])
 metadata/_custom_type_script = "uid://vdqimlmcg4ql"
 
 [sub_resource type="Resource" id="Resource_ttmt4"]
 script = ExtResource("15_ya4ld")
-sl = Array[AudioStream]([ExtResource("53_vrgvg"), ExtResource("54_ltuto"), ExtResource("55_xb8ch"), ExtResource("56_3cq7n")])
+sounds = Array[AudioStream]([ExtResource("53_vrgvg"), ExtResource("54_ltuto"), ExtResource("55_xb8ch"), ExtResource("56_3cq7n")])
 metadata/_custom_type_script = "uid://vdqimlmcg4ql"
 
 [sub_resource type="Resource" id="Resource_c166g"]
 script = ExtResource("15_ya4ld")
-sl = Array[AudioStream]([ExtResource("57_2co4i"), ExtResource("58_q4102")])
+sounds = Array[AudioStream]([ExtResource("57_2co4i"), ExtResource("58_q4102")])
 metadata/_custom_type_script = "uid://vdqimlmcg4ql"
 
 [sub_resource type="Resource" id="Resource_1w2cp"]
@@ -275,7 +287,7 @@ metadata/_custom_type_script = "uid://vdqimlmcg4ql"
 
 [sub_resource type="Resource" id="Resource_050eg"]
 script = ExtResource("15_ya4ld")
-sl = Array[AudioStream]([ExtResource("59_23621"), ExtResource("60_ovnlg"), ExtResource("61_6byyc"), ExtResource("62_0q3fj"), ExtResource("63_espqb"), ExtResource("64_dmdk8"), ExtResource("65_liw1v"), ExtResource("66_3gsd7"), ExtResource("67_db7j8"), ExtResource("68_2yw8k"), ExtResource("69_nl7rt"), ExtResource("70_g8qw5"), ExtResource("71_g8j83"), ExtResource("72_g0j35")])
+sounds = Array[AudioStream]([ExtResource("59_23621"), ExtResource("60_ovnlg"), ExtResource("61_6byyc"), ExtResource("62_0q3fj"), ExtResource("63_espqb"), ExtResource("64_dmdk8"), ExtResource("65_liw1v"), ExtResource("66_3gsd7"), ExtResource("67_db7j8"), ExtResource("68_2yw8k"), ExtResource("69_nl7rt"), ExtResource("70_g8qw5"), ExtResource("71_g8j83"), ExtResource("72_g0j35")])
 metadata/_custom_type_script = "uid://vdqimlmcg4ql"
 
 [sub_resource type="Resource" id="Resource_ya4ld"]
@@ -426,6 +438,74 @@ tracks/1/keys = {
 "args": [],
 "method": &"attack_hit"
 }]
+}
+
+[sub_resource type="Animation" id="Animation_0q3fj"]
+resource_name = "BlockDown"
+length = 0.4
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PlayerBody/playerSprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [160, 161, 162, 163]
+}
+
+[sub_resource type="Animation" id="Animation_espqb"]
+resource_name = "BlockLeft"
+length = 0.4
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PlayerBody/playerSprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [170, 171, 172, 173]
+}
+
+[sub_resource type="Animation" id="Animation_dmdk8"]
+resource_name = "BlockRight"
+length = 0.4
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PlayerBody/playerSprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [180, 181, 182, 183]
+}
+
+[sub_resource type="Animation" id="Animation_liw1v"]
+resource_name = "BlockUp"
+length = 0.4
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PlayerBody/playerSprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [190, 191, 192, 193]
 }
 
 [sub_resource type="Animation" id="Animation_2co4i"]
@@ -1616,6 +1696,10 @@ _data = {
 &"Attack1Left": SubResource("Animation_5qakp"),
 &"Attack1Right": SubResource("Animation_j8mah"),
 &"Attack1Up": SubResource("Animation_3spsx"),
+&"BlockDown": SubResource("Animation_0q3fj"),
+&"BlockLeft": SubResource("Animation_espqb"),
+&"BlockRight": SubResource("Animation_dmdk8"),
+&"BlockUp": SubResource("Animation_liw1v"),
 &"ChestOpenUp": SubResource("Animation_2co4i"),
 &"DropDown": SubResource("Animation_j3cns"),
 &"DropLeft": SubResource("Animation_fu5o4"),
@@ -1810,6 +1894,7 @@ inventory = NodePath("Component Manager/InventoryComponent")
 concoction_use = NodePath("Component Manager/ConcoctionItemUse")
 body = NodePath("PlayerBody")
 foot_area = NodePath("PlayerBody/PlayerFootArea")
+default_damage_effect = ExtResource("2_ovnlg")
 root = NodePath(".")
 sprite = NodePath("PlayerBody/playerSprite")
 anim = NodePath("PlayerAnimator")
@@ -1864,6 +1949,34 @@ texture = ExtResource("5_q4102")
 
 [node name="ItemGetSpriteAnimator" type="AnimationPlayer" parent="PlayerBody/ItemGetSprite" unique_id=430755018]
 libraries/ = SubResource("AnimationLibrary_0q3fj")
+
+[node name="BlockArea" type="Area2D" parent="PlayerBody" unique_id=173148212]
+collision_mask = 65
+monitoring = false
+
+[node name="BlockDownArea" type="CollisionShape2D" parent="PlayerBody/BlockArea" unique_id=514591503]
+position = Vector2(-0.5, -5)
+shape = SubResource("RectangleShape2D_q4102")
+disabled = true
+debug_color = Color(0.6889647, 0.4954477, 0.16740623, 0.41960785)
+
+[node name="BlockUpArea" type="CollisionShape2D" parent="PlayerBody/BlockArea" unique_id=491543814]
+position = Vector2(3, -9)
+shape = SubResource("RectangleShape2D_q4102")
+disabled = true
+debug_color = Color(0.6889647, 0.4954477, 0.16740623, 0.41960785)
+
+[node name="BlockLeftArea" type="CollisionShape2D" parent="PlayerBody/BlockArea" unique_id=1679634208]
+position = Vector2(-8.5, -5)
+shape = SubResource("RectangleShape2D_23621")
+disabled = true
+debug_color = Color(0.6889647, 0.4954477, 0.16740623, 0.41960785)
+
+[node name="BlockRightArea" type="CollisionShape2D" parent="PlayerBody/BlockArea" unique_id=224945131]
+position = Vector2(9, -5)
+shape = SubResource("RectangleShape2D_ovnlg")
+disabled = true
+debug_color = Color(0.6889647, 0.4954477, 0.16740623, 0.41960785)
 
 [node name="Component Manager" type="Node" parent="." unique_id=995905587]
 
@@ -2068,6 +2181,14 @@ script = ExtResource("89_bikm2")
 no_action_state = NodePath("../StateNoAction")
 debug = SubResource("Resource_bikm2")
 
+[node name="StateBlock" type="Node" parent="StateCoordinator/Action Layer" unique_id=1757142136 node_paths=PackedStringArray("block_area", "block_shape_up", "block_shape_down", "block_shape_left", "block_shape_right")]
+script = ExtResource("107_23621")
+block_area = NodePath("../../../PlayerBody/BlockArea")
+block_shape_up = NodePath("../../../PlayerBody/BlockArea/BlockUpArea")
+block_shape_down = NodePath("../../../PlayerBody/BlockArea/BlockDownArea")
+block_shape_left = NodePath("../../../PlayerBody/BlockArea/BlockLeftArea")
+block_shape_right = NodePath("../../../PlayerBody/BlockArea/BlockRightArea")
+
 [node name="No Control Layer" type="Node" parent="StateCoordinator" unique_id=762655186 node_paths=PackedStringArray("starting_state")]
 script = ExtResource("18_a7o8c")
 starting_state = NodePath("StateInitialized")
@@ -2077,3 +2198,6 @@ metadata/_custom_type_script = "uid://cv00auxwsog0v"
 script = ExtResource("23_23420")
 debug = SubResource("Resource_8xw4w")
 metadata/_custom_type_script = "uid://bla114d73nu7a"
+
+[node name="StateKnockback" type="Node" parent="StateCoordinator/No Control Layer" unique_id=1414213562]
+script = ExtResource("108_kbk")

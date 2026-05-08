@@ -107,7 +107,7 @@ func interact(user: EntityClass = null) -> void:
 	if user.anim and user.anim is CharacterAnimator:
 		user.anim.can_update_facing = false
 		user.anim.force_face(Vector2.UP)
-		user.anim.play_directional_anim(AnimationNames.CHEST_OPEN, true)
+		user.anim.play_directional_anim(AnimationName.CHEST_OPEN, true)
 		user.anim.animation_finished.connect(_on_chest_open_done.bind(user), CONNECT_ONE_SHOT)
 	else:
 		_on_chest_open_done("", user)
@@ -118,7 +118,7 @@ func interact(user: EntityClass = null) -> void:
 func _on_chest_open_done(_anim_name : String, user : Player) -> void:
 	if user.anim and user.anim is CharacterAnimator:
 		user.anim.force_face(Vector2.DOWN)
-		user.anim.play_directional_anim(AnimationNames.ITEM_GET, true)
+		user.anim.play_directional_anim(AnimationName.ITEM_GET, true)
 		user.anim.animation_finished.connect(_on_item_get_done.bind(user), CONNECT_ONE_SHOT)
 	else:
 		_on_item_get_done("", user)

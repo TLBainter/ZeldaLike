@@ -62,7 +62,7 @@ func enter() -> void:
 	super()
 	if not _route or not _route.curve or _route.curve.point_count < 2:
 		_debug_log("invalid route; returning to idle.")
-		var _idle: State = coordinator.get_transition(StateKeys.IDLE)
+		var _idle: State = coordinator.get_transition(StateID.IDLE)
 		if _idle:
 			state_machine.change_state(coordinator.try_transition(state_machine, _idle, "bat_travel+invalid_route"))
 		return
@@ -179,7 +179,7 @@ func _finish() -> void:
 		print("[BatTravel] === FINISH ===")
 		print("[BatTravel]   final player pos:  ", root.body.global_position)
 	set_physics_process(false)
-	var _idle: State = coordinator.get_transition(StateKeys.IDLE)
+	var _idle: State = coordinator.get_transition(StateID.IDLE)
 	if _idle:
 		state_machine.change_state(coordinator.try_transition(state_machine, _idle, "bat_travel+complete"))
 

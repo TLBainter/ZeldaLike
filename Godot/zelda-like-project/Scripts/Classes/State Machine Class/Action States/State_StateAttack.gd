@@ -192,5 +192,43 @@ func _try_damage_entity(entity) -> void:
 	if entity.has_method("take_damage"):
 		entity.take_damage(1)
 		_debug_log(str("Damaged ", entity, " for 1."))
+		_apply_melee_knockback(entity)
+
+func _apply_melee_knockback(entity) -> void:
+	var character : Character = get_character() as Character
+	if not character or not character.body:
+		return
+	var attacker_pos : Vector2 = character.body.global_position
+	var target_pos : Vector2
+	if "body" in entity and entity.body:
+		target_pos = entity.body.global_position
+	elif entity is Node2D:
+		target_pos = (entity as Node2D).global_position
+	else:
+		return
+	var dir : Vector2 = (target_pos - attacker_pos).normalized()
+	if dir == Vector2.ZERO:
+		dir = Vector2.DOWN
+	var a_class : int = character.get_weight_class()
+	var t_class : int = entity.get_weight_class() if entity.has_method("get_weight_class") else 2
+	if entity.has_method("receive_knockback"):
+		var t_dist : float = _melee_kb_dist(t_class, a_class)
+		entity.receive_knockback(dir, t_dist)
+	var a_dist : float = _melee_kb_dist(a_class, t_class) * 0.25
+	character.receive_knockback(-dir, a_dist)
+
+static func _melee_kb_dist(attacker_class: int, target_class: int) -> float:
+	match target_class - attacker_class:
+		2:  return 24.0
+		1:  return 12.0
+		0:  return 6.0
+		-1: return 3.0
+		_:  return 6.0
+
+static func _proj_kb_dist(weight_class: int) -> float:
+	match weight_class:
+		1: return 12.0
+		2: return 6.0
+		_: return 3.0
 
 #endregion FUNCTIONS

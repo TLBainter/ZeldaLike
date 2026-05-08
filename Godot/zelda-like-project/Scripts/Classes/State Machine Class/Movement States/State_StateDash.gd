@@ -32,7 +32,7 @@ func enter():
 	var character = get_character()
 	if not coordinator.consume_energy(DASH_COST):
 		_debug_log("not enough energy to dash.")
-		_safe_transition(StateKeys.IDLE)
+		_safe_transition(StateID.IDLE)
 		return
 	if root.body.velocity.length() > 10.0:
 		_dash_dir = root.body.velocity.normalized()
@@ -66,7 +66,7 @@ func _physics_process(_delta : float):
 	_distance_traveled += _delta * DASH_SPEED_MULTIPLIER * _dodge_speed
 	if root.body.get_slide_collision_count() > 0:
 		var rebound_dist : float = REBOUND_BASE_DIST + _distance_traveled * REBOUND_TRAVEL_FACTOR
-		var _rebound : StateDashRebound = coordinator.get_transition(StateKeys.DASH_REBOUND) as StateDashRebound
+		var _rebound : StateDashRebound = coordinator.get_transition(StateID.DASH_REBOUND) as StateDashRebound
 		if debug_me:
 			var normal : Vector2 = root.body.get_slide_collision(0).get_normal()
 			print_rich(debug_name, ": [color=red][i]wall hit[/i][/color]: dist_traveled=[i]",
@@ -77,10 +77,10 @@ func _physics_process(_delta : float):
 			_rebound.setup(-_dash_dir, rebound_dist, _dodge_speed)
 			state_machine.change_state(coordinator.try_transition(state_machine, _rebound, "dash+wall_hit_rebound"))
 		else:
-			_safe_transition(StateKeys.IDLE)
+			_safe_transition(StateID.IDLE)
 		return
 	if _distance_traveled >= _max_dist:
-		var _rebound2 : StateDashRebound = coordinator.get_transition(StateKeys.DASH_REBOUND) as StateDashRebound
+		var _rebound2 : StateDashRebound = coordinator.get_transition(StateID.DASH_REBOUND) as StateDashRebound
 		if _clearance_clipped and _rebound2:
 			var rebound_dist : float = REBOUND_BASE_DIST + _distance_traveled * REBOUND_TRAVEL_FACTOR
 			if debug_me:
@@ -89,7 +89,7 @@ func _physics_process(_delta : float):
 			_rebound2.setup(-_dash_dir, rebound_dist, _dodge_speed)
 			state_machine.change_state(coordinator.try_transition(state_machine, _rebound2, "dash+object_hit_rebound"))
 		else:
-			_safe_transition(StateKeys.IDLE)
+			_safe_transition(StateID.IDLE)
 
 func _on_dodge_complete() -> void:
 	var character = get_character()

@@ -21,13 +21,13 @@ func enter() -> void:
 	var character = get_character()
 	if not character:
 		push_error(debug_name + ": missing character reference in enter()")
-		_safe_transition(StateKeys.NO_ACTION)
+		_safe_transition(StateID.NO_ACTION)
 		return
 	var component: InteractableComponent = character.body.current_interactable
 	var interactable = component.owner_entity if component else null
 	if not interactable or not interactable is DynamicThing:
 		push_error(debug_name + ": no valid DynamicThing to lift in enter()")
-		_safe_transition(StateKeys.NO_ACTION)
+		_safe_transition(StateID.NO_ACTION)
 		return
 	coordinator.lift_object(interactable)
 	coordinator.freeze_movement()
@@ -36,7 +36,7 @@ func enter() -> void:
 			character.audio.play_sound(interactable.object_data.material.lift_sounds.sounds.pick_random())
 	if character.anim and character.anim is CharacterAnimator:
 		character.anim.can_update_facing = false
-		var played = character.anim.play_directional_anim(AnimationNames.LIFT, true)
+		var played = character.anim.play_directional_anim(AnimationName.LIFT, true)
 		_debug_log(str("Lift anim played: ", played, ", current animation: ", character.anim.current_animation))
 		###===SIGNAL CONNECTION: wait for lift animation to finish===###
 		if not character.anim.animation_finished.is_connected(_on_lift_finished):
@@ -60,12 +60,12 @@ func exit() -> void:
 
 ##Called when the lift animation finishes. Transitions to HoldingAction.
 func _on_lift_finished(anim_name : String) -> void:
-	if not AnimationNames.LIFT in anim_name:
+	if not AnimationName.LIFT in anim_name:
 		var character = get_character()
 		if character and character.anim:
 			if not character.anim.animation_finished.is_connected(_on_lift_finished):
 				character.anim.animation_finished.connect(_on_lift_finished, CONNECT_ONE_SHOT)
 		return
-	_safe_transition(StateKeys.HOLDING_ACTION)
+	_safe_transition(StateID.HOLDING_ACTION)
 
 #endregion FUNCTIONS

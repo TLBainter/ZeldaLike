@@ -734,11 +734,8 @@ texture = ExtResource("2_phwl1")
 [sub_resource type="TileSet" id="TileSet_dwulq"]
 sources/0 = SubResource("TileSetAtlasSource_5xgvy")
 
-[sub_resource type="Resource" id="Resource_16yht"]
+[sub_resource type="Resource" id="Resource_h3to2"]
 script = ExtResource("10_mo6fr")
-debug_me = true
-debug_me_verbose = true
-debug_name = "destructibleAreaDoor"
 
 [node name="Root" type="Node2D" unique_id=349553434]
 y_sort_enabled = true
@@ -1191,15 +1188,14 @@ collider = NodePath("ObjectBody/ObjectCollider")
 stats = NodePath("StatsComponent")
 interactable = NodePath("ObjectBody/InteractableComponent")
 
-[node name="DoorToMainTestingArea" type="Node2D" parent="." unique_id=2003551628 instance=ExtResource("9_jyf3g")]
-position = Vector2(0, 95)
+[node name="Door" type="Node2D" parent="Pots" unique_id=1783186270 instance=ExtResource("9_jyf3g")]
+position = Vector2(0, 96)
 script = ExtResource("13_8vnxc")
 direction = 1
 locked = true
-distance = 15.0
 target_scene_path = "res://Scenes/Levels/Test/TestingArea.tscn"
-target_door_rel_path = "DoorToDestructibleTestRoom"
-target_door_name = "DoorToDestructibleTestRoom"
+target_door_rel_path = "Door"
+target_door_name = "Door"
 interact_type = 5
 context_key = "open"
-debug = SubResource("Resource_16yht")
+debug = SubResource("Resource_h3to2")

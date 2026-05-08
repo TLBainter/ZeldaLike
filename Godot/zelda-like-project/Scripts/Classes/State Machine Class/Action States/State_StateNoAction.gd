@@ -15,9 +15,15 @@ func enter():
 
 ##Listens for action button presses to transition to action states.
 func process_input(event : InputEvent) -> State:
+	if event.is_action_pressed("block"):
+		var character = get_character()
+		var energy = character.get("energy") if character else null
+		if energy and energy.is_exhausted_state:
+			return null
+		return coordinator.try_transition(state_machine, coordinator.get_transition(StateID.BLOCK), "block+pressed")
 	#region Light Attack
 	if event.is_action_pressed("attackLight"):
-		return coordinator.try_transition(state_machine, coordinator.get_transition(StateKeys.ATTACK), "attackLight+pressed")
+		return coordinator.try_transition(state_machine, coordinator.get_transition(StateID.ATTACK), "attackLight+pressed")
 	#endregion Light Attack
 	#region Context Button
 	if event.is_action_pressed("actionButton4"):
@@ -37,11 +43,11 @@ func process_input(event : InputEvent) -> State:
 				print("  pushable=", data.pushable, " pullable=", data.pullable, " liftable=", data.liftable)
 			var priority = coordinator.resolve_interaction_priority(data, is_moving)
 			if priority == StateCoordinator.InteractionPriority.GRAB:
-				return coordinator.try_transition(state_machine, coordinator.get_transition(StateKeys.GRAB), "actionButton4+DynamicThing+grab")
+				return coordinator.try_transition(state_machine, coordinator.get_transition(StateID.GRAB), "actionButton4+DynamicThing+grab")
 			elif priority == StateCoordinator.InteractionPriority.LIFT:
-				return coordinator.try_transition(state_machine, coordinator.get_transition(StateKeys.LIFT), "actionButton4+DynamicThing+lift")
+				return coordinator.try_transition(state_machine, coordinator.get_transition(StateID.LIFT), "actionButton4+DynamicThing+lift")
 		elif interactable.interact_type != InteractableComponent.InteractType.NONE:
-			return coordinator.try_transition(state_machine, coordinator.get_transition(StateKeys.INTERACT), "actionButton4+not_DynamicThing")
+			return coordinator.try_transition(state_machine, coordinator.get_transition(StateID.INTERACT), "actionButton4+not_DynamicThing")
 	#endregion Context Button
 	return null
 

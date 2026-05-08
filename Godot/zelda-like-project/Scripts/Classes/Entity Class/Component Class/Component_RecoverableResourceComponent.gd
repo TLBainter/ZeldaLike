@@ -74,4 +74,16 @@ func _restore_one_tick() -> void:
 func _on_recovery_complete() -> void:
 	pass
 
+##Pauses both recovery timers mid-countdown without resetting them.[br]
+##Call on entering a state that should suppress energy regeneration (e.g. blocking).
+func pause_recovery() -> void:
+	_recovery_delay_timer.paused = true
+	_recovery_tick_timer.paused  = true
+
+##Resumes both recovery timers from where they were paused.[br]
+##Call when the suppressing state ends.
+func resume_recovery() -> void:
+	_recovery_delay_timer.paused = false
+	_recovery_tick_timer.paused  = false
+
 #endregion FUNCTIONS

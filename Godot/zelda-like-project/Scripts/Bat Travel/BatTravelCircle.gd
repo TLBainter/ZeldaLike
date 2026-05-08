@@ -176,7 +176,7 @@ func interact(user: EntityClass = null) -> void:
 	if not (character.inventory and character.inventory.has_item(ItemID.BAT_FORM_UPGRADED)):
 		interaction_finished.emit()
 		return
-	var bat_state := character.state_machine.get_transition(StateKeys.BAT_TRAVEL) as StateBatTravel
+	var bat_state := character.state_machine.get_transition(StateID.BAT_TRAVEL) as StateBatTravel
 	if not bat_state:
 		push_error("BatTravelCircle: 'bat_travel' state not found on player. Add StateBatTravel to the Movement Layer.")
 		interaction_finished.emit()
@@ -206,7 +206,7 @@ func _is_traveling() -> bool:
 	var player = players[0]
 	if not "state_machine" in player:
 		return false
-	var bat_state = player.state_machine.get_transition(StateKeys.BAT_TRAVEL) as StateBatTravel
+	var bat_state = player.state_machine.get_transition(StateID.BAT_TRAVEL) as StateBatTravel
 	return bat_state != null and bat_state.is_traveling_on(route)
 
 #endregion HELPERS

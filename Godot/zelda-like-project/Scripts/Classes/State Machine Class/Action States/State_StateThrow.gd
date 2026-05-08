@@ -21,12 +21,12 @@ func enter():
 	var held = coordinator.held_object
 	if not character or not held:
 		push_error(debug_name + ": missing character or held object in enter()")
-		_safe_transition(StateKeys.NO_ACTION)
+		_safe_transition(StateID.NO_ACTION)
 		return
 	if character.energy:
 		if not character.energy.consume(1):
 			_debug_log("Not enough energy to throw, dropping instead.")
-			_safe_transition(StateKeys.NO_ACTION)
+			_safe_transition(StateID.NO_ACTION)
 			return
 	coordinator.freeze_movement()
 	coordinator.update_context("")
@@ -74,7 +74,7 @@ func _on_projectile_landed(broke : bool):
 	if _projectile and is_instance_valid(_projectile):
 		_projectile.queue_free()
 		_projectile = null
-	_safe_transition(StateKeys.NO_ACTION)
+	_safe_transition(StateID.NO_ACTION)
 
 ##Calculates throw distance based on object weight.[br]
 ##Light (10): full distance. Medium (30): ~66%. Heavy (60): ~33%.

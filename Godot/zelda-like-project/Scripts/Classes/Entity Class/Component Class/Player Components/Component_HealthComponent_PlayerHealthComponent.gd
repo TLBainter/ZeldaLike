@@ -3,6 +3,8 @@
 class_name PlayerHealthComponent
 extends HealthComponent
 
+signal block_succeeded
+
 #region VARIABLES
 
 ## Derived from stats resource (max_health / 4). Set at runtime.
@@ -11,14 +13,24 @@ var max_skulls : int = 3
 ## Used by upgrade cap checks to determine how many skulls the player started with.
 var base_max_health : int = 0
 
-var _pending_hits : Array = []   # Array of {damage: int, position: Vector2}
+var _pending_hits : Array = []   # Array of {damage: int, position: Vector2, effect: DamageEffectResource}
 var _hit_buffered : bool = false
+
+const IFRAMES_DURATION: float = 0.25
+var _iframes_active: bool = false
+var _iframes_timer: Timer
 
 #endregion VARIABLES
 
 #region FUNCTIONS
 
 func _ready():
+	_iframes_timer = Timer.new()
+	_iframes_timer.one_shot = true
+	_iframes_timer.wait_time = IFRAMES_DURATION
+	_iframes_timer.timeout.connect(_on_iframes_expired)
+	add_child(_iframes_timer)
+
 	#region DEBUG HEALTH NOTIF
 	var debug_health_notice : bool = false
 	if debug_me:
@@ -64,8 +76,10 @@ func increase_max(amount: int) -> void:
 			" | max_skulls ", int(old_max / 4.0), "→", max_skulls,
 			" | cur_health ", old_cur, "→", cur_health)
 
-func damaged(damage : int, source_position : Vector2 = Vector2.ZERO) -> void:
-	_pending_hits.append({ "damage": damage, "position": source_position })
+func damaged(damage : int, source_position : Vector2 = Vector2.ZERO, effect : DamageEffectResource = null) -> void:
+	if _iframes_active:
+		return
+	_pending_hits.append({ "damage": damage, "position": source_position, "effect": effect })
 	if not _hit_buffered:
 		_hit_buffered = true
 		_apply_best_hit.call_deferred()
@@ -78,7 +92,8 @@ func _apply_best_hit() -> void:
 	if entity and "is_invulnerable" in entity and entity.is_invulnerable:
 		_pending_hits.clear()
 		return
-	var player_pos : Vector2 = entity.global_position if entity else Vector2.ZERO
+	var _body = entity.get("body") if entity else null
+	var player_pos : Vector2 = _body.global_position if _body else (entity.global_position if entity else Vector2.ZERO)
 	_pending_hits.sort_custom(func(a, b) -> bool:
 		if a["damage"] != b["damage"]:
 			return a["damage"] > b["damage"]
@@ -86,6 +101,30 @@ func _apply_best_hit() -> void:
 	)
 	var best : Dictionary = _pending_hits[0]
 	_pending_hits.clear()
+	if entity and entity.get("is_blocking") and entity.is_blocking:
+		var source_pos : Vector2 = best["position"]
+		if source_pos != Vector2.ZERO:
+			var damage_dir := (source_pos - player_pos).normalized()
+			var block_vec  := _facing_to_vec(entity.block_facing)
+			if damage_dir.dot(block_vec) > 0.5:
+				if entity.energy and entity.energy.consume(1):
+					block_succeeded.emit()
+					return
+				# Energy = 0: fall through — damage applied, health_changed fires, StateBlock exits
 	cur_health -= int(best["damage"])
+	_iframes_active = true
+	_iframes_timer.start()
+	damage_taken.emit(best.get("effect"), best["position"], int(best["damage"]))
+
+func _on_iframes_expired() -> void:
+	_iframes_active = false
+
+func _facing_to_vec(f: String) -> Vector2:
+	match f:
+		"up":    return Vector2(0, -1)
+		"down":  return Vector2(0,  1)
+		"left":  return Vector2(-1, 0)
+		"right": return Vector2(1,  0)
+	return Vector2.ZERO
 
 #endregion FUNCTIONS

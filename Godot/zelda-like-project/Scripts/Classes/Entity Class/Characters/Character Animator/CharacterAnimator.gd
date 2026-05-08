@@ -28,11 +28,13 @@ var debug_name : String:
 ##The direction the character is facing.
 var facing : String = "down"
 ##The current prefix for idle animations. Set by states.
-var idle_prefix : String = AnimationNames.IDLE
+@export var idle_prefix : String = AnimationName.IDLE
 ##The current prefix for walk animations. Set by stats.
-var walk_prefix : String = AnimationNames.WALK
+@export var walk_prefix : String = AnimationName.WALK
 ##Whether the character's facing direction can be changed.
 var can_update_facing : bool = true
+##When non-empty, face() plays this prefix's directional animation instead of walk/idle.
+var anim_override_prefix : String = ""
 ##whether or not the character is currently moving.
 var is_moving : bool = false
 #endregion Internal Variables
@@ -50,6 +52,7 @@ func set_facing(face_dir : Vector2):
 		if facing == "":
 			facing = "down"
 		return
+	var _prev_facing := facing
 	#region face variables
 	##whether the character is looking down
 	var down : bool = false
@@ -61,7 +64,17 @@ func set_facing(face_dir : Vector2):
 	var left : bool = false
 	#endregion face variables
 	#region set facing direction
-	if abs(face_dir.x) > abs(face_dir.y):
+	# Hysteresis: require 1.4× axis dominance before switching, preventing oscillation near 45°.
+	const AXIS_HYSTERESIS : float = 1.4
+	var ax : float = abs(face_dir.x)
+	var ay : float = abs(face_dir.y)
+	var currently_horizontal : bool = facing == "left" or facing == "right"
+	var use_horizontal : bool
+	if currently_horizontal:
+		use_horizontal = not (ay > ax * AXIS_HYSTERESIS)
+	else:
+		use_horizontal = ax > ay * AXIS_HYSTERESIS
+	if use_horizontal:
 		if face_dir.x < 0:
 			facing = "left"
 			left = true
@@ -91,7 +104,9 @@ func set_facing(face_dir : Vector2):
 		elif down and right:
 			facing = "down_right"
 	#endregion diagonal facing directions
-	
+	if debug_me_verbose and facing != _prev_facing:
+		print_rich(debug_name, ": facing [i]", _prev_facing, "[/i] → [i]", facing, "[/i]")
+
 ##Plays the animation dictated by the prefix combined with the current facing direction.[br]
 ##For example, [b]play_directional_anim("Lift")[/b] with facing [i]down[/i] plays "LiftDown".[br]
 ##Returns [b]true[/b] if the animation was found and played, [b]false[/b] otherwise (for debugging).[br]
@@ -109,22 +124,36 @@ func play_directional_anim(prefix : String, force : bool = false) -> bool:
 ##Sets the player's facing direction and plays their Walk Animation and Idle animation based on input.
 func face(face_dir : Vector2, _delta : float):
 	if not can_update_facing:
+		if debug_me_verbose:
+			print_rich(debug_name, " [face] blocked — can_update_facing=false  dir=", face_dir)
 		return
 	set_facing(face_dir)
-	if face_dir != Vector2.ZERO:
+	var coord := root.state_machine as StateCoordinator
+	var movement_active : bool = coord != null \
+		and coord.movement_layer != null \
+		and (coord.movement_layer as StateMachineLayer).is_active
+	if anim_override_prefix != "":
+		play_directional_anim(anim_override_prefix)
+	elif face_dir != Vector2.ZERO and movement_active:
 		play_directional_anim(walk_prefix)
 	else:
+		if debug_me_verbose and face_dir != Vector2.ZERO:
+			var _layer_str : String = str((coord.movement_layer as StateMachineLayer).is_active) if coord and coord.movement_layer else "N/A"
+			print_rich(debug_name, " [face] playing IDLE despite non-zero dir=", face_dir,
+				"  movement_active=", movement_active,
+				"  layer_active=", _layer_str,
+				"  current_anim=", current_animation)
 		play_directional_anim(idle_prefix)
 
 ##Sets idle and walk prefixes based on exhaustion state.[br]
 ##Call this in any state that needs to reflect exhaustion; play the resulting animation separately.
 func set_exhaustion_state(is_exhausted: bool) -> void:
 	if is_exhausted:
-		idle_prefix = AnimationNames.EXHAUSTED_IDLE
-		walk_prefix = AnimationNames.EXHAUSTED_WALK
+		idle_prefix = AnimationName.EXHAUSTED_IDLE
+		walk_prefix = AnimationName.EXHAUSTED_WALK
 	else:
-		idle_prefix = AnimationNames.IDLE
-		walk_prefix = AnimationNames.WALK
+		idle_prefix = AnimationName.IDLE
+		walk_prefix = AnimationName.WALK
 
 ##Forces the character to face a given direction, bypassing input and state machine checks.[br]
 ##Used for interactions, cutscenes, and other scripted moments.[br]
@@ -133,7 +162,7 @@ func force_face(face_dir : Vector2):
 	if face_dir == Vector2.ZERO:
 		return
 	set_facing(face_dir)
-	play_directional_anim(AnimationNames.IDLE)
+	play_directional_anim(AnimationName.IDLE)
 	if debug_me:
 		print(debug_name, " forced to face ", facing)
 
