@@ -8,14 +8,12 @@ extends State
 const FADE_DURATION : float = 1.5
 
 func enter() -> void:
-	print("[DBG] StatePlayerDead.enter called")
 	super()
 	coordinator.freeze_all()
 	root.freeze_input(true)
 	_start_death_sequence()
 
 func _start_death_sequence() -> void:
-	print("[DBG] StatePlayerDead._start_death_sequence begin")
 	var canvas := CanvasLayer.new()
 	canvas.layer = 128
 	var rect := ColorRect.new()
@@ -29,7 +27,8 @@ func _start_death_sequence() -> void:
 	tween.tween_property(rect, "color:a", 1.0, FADE_DURATION)
 	await tween.finished
 
-	print("[DBG] StatePlayerDead: tween done, calling load_game")
 	# TODO: Add Game Over Screen
 	# This is Temporary
 	saveManager.load_game()
+	# Exit dead state so the next death can re-enter it (carried player retains state machine).
+	coordinator.request_no_control_change(coordinator.get_transition(StateID.INITIALIZED))

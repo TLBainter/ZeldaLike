@@ -167,6 +167,7 @@ func _execute_arrival() -> void:
 
 	remove_child(player)
 	scene_root.add_child(player)
+	saveManager.on_player_carried(player)
 	player.body.global_position = target_door.get_spawn_position()
 
 	if player.get("player_cam") != null:

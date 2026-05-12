@@ -134,7 +134,6 @@ func read_save_data(slot: int) -> Dictionary:
 ##Works from any context, including the main menu (no player in scene).[br]
 ##Returns [b]false[/b] if no save exists or the file is corrupted.
 func load_game(slot: int = -1) -> bool:
-	print("[DBG] load_game: slot=%d _active_slot=%d _player_valid=%s" % [slot, _active_slot, is_instance_valid(_player)])
 	var s : int = slot if slot >= 0 else _active_slot
 	if s < 0:
 		return false
@@ -189,6 +188,13 @@ func start_new_game(slot: int, char_name: String, difficulty: String) -> void:
 	enemyManager.clear()
 	SceneTransitionManager.reset()
 	get_tree().change_scene_to_file(GAME_START_SCENE)
+
+##Called by [b]SceneTransitionManager[/b] after a carried player is placed in the new scene.[br]
+##Updates the tracked player reference without triggering load or save logic.[br]
+##Necessary because the new scene may have an embedded Player whose [b]_ready[/b] fires first,[br]
+##overwriting [member _player] with a node that is immediately [b]queue_free[/b]d.
+func on_player_carried(player: Node) -> void:
+	_player = player
 
 ##Deletes the save file for [param slot].
 func delete_save(slot: int) -> void:

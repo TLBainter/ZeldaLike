@@ -69,11 +69,8 @@ func _ready():
 
 func _on_player_died() -> void:
 	if not state_coordinator:
-		print("[DBG] Player._on_player_died: state_coordinator is null!")
 		return
-	var dead_state = state_coordinator.get_transition(StateID.PLAYER_DEAD)
-	print("[DBG] Player._on_player_died: dead_state=", dead_state, " coordinator=", state_coordinator)
-	state_coordinator.request_no_control_change(dead_state)
+	state_coordinator.request_no_control_change(state_coordinator.get_transition(StateID.PLAYER_DEAD))
 
 func _resolve_text(key : String):
 	match key:
