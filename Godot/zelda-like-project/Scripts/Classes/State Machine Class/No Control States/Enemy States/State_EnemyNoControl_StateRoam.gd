@@ -32,6 +32,8 @@ func resume() -> void:
 	var input := _get_input()
 	if input:
 		_safe_connect(input.player_detected, _on_player_detected)
+		if input.get_player() != null:
+			_safe_transition.call_deferred(StateID.CHASE)
 	super()
 
 func _on_player_detected(_player_body : Node2D) -> void:

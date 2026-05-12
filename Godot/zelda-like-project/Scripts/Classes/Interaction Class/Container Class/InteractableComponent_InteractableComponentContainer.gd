@@ -98,6 +98,7 @@ func interact(user: EntityClass = null) -> void:
 		return
 
 	_resolve_upgrade(user)
+	user.freeze_input(true)
 
 	# Play the chest open sound (random clip from library).
 	if container_data.open_sound and not container_data.open_sound.sounds.is_empty() and audioManager:
@@ -105,7 +106,6 @@ func interact(user: EntityClass = null) -> void:
 
 	# Face the player up and play the chest-open animation.
 	if user.anim and user.anim is CharacterAnimator:
-		user.anim.can_update_facing = false
 		user.anim.force_face(Vector2.UP)
 		user.anim.play_directional_anim(AnimationName.CHEST_OPEN, true)
 		user.anim.animation_finished.connect(_on_chest_open_done.bind(user), CONNECT_ONE_SHOT)
@@ -181,9 +181,7 @@ func _on_dialogue_closed(user : Player) -> void:
 	_finish(user)
 
 func _finish(user : Player) -> void:
-	# Re-enable facing updates before handing control back.
-	if user.anim and user.anim is CharacterAnimator:
-		user.anim.can_update_facing = true
+	user.freeze_input(false)
 
 	# Apply consumable effects (health, energy, magic, currency) — Money items only.
 	if _resolved_item_kind == ContainerRewardResource.ItemKind.MONEY:

@@ -57,6 +57,11 @@ func exit() -> void:
 	var character = get_character()
 	if character and character.anim and character.anim is CharacterAnimator:
 		character.anim.can_update_facing = true
+	if no_action_state is StateNoAction:
+		var speed: float = 0.0
+		if character and character.stats and character.stats.resource:
+			speed = character.stats.resource.attack_speed
+		(no_action_state as StateNoAction).mark_attack_used(speed)
 	super()
 
 func _process(_delta : float) -> void:

@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="ZeldaLikeProject"
-run/main_scene="uid://by3xtlw077ehp"
+run/main_scene="uid://dbul4543yg6p3"
 config/features=PackedStringArray("4.6", "Forward Plus")
 config/icon="res://icon.svg"
 
@@ -30,6 +30,7 @@ SceneTransitionManager="*res://Scripts/Managers/manager_SceneTransition.gd"
 saveManager="*res://Scripts/Managers/manager_Save.gd"
 doorManager="*res://Scripts/Managers/manager_Door.gd"
 destructibleManager="*res://Scripts/Managers/manager_Destructible.gd"
+enemyManager="*res://Scripts/Managers/manager_Enemy.gd"
 musicManager="*res://Scripts/Managers/manager_Music.gd"
 
 [display]

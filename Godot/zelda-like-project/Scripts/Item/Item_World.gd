@@ -236,6 +236,7 @@ func spawn(spawn_pos : Vector2, ground_y : float = -1.0, scatter_direction : Vec
 		_scatter_dir = (nearest_ground - spawn_pos).normalized()
 		if pickup_data and pickup_data.gravity_type == "Float":
 			_float_start_x = nearest_ground.x
+			_target_y = nearest_ground.y
 		else:
 			_impulse_velocity = _scatter_dir * max(impulse_speed, 80.0)
 	set_physics_process(true)

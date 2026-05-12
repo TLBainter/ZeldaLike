@@ -1,0 +1,762 @@
+[gd_scene format=3 uid="uid://dbul4543yg6p3"]
+
+[ext_resource type="FontFile" uid="uid://bsube4x6p1pws" path="res://Sprites/UX/Fonts/GothicPixelSerif.ttf" id="1_ikajw"]
+[ext_resource type="FontFile" uid="uid://c7dx1gflvghhh" path="res://Sprites/UX/Fonts/GothicPixelScript.ttf" id="2_ofor1"]
+[ext_resource type="FontFile" uid="uid://m1c0i2aa4cyp" path="res://Sprites/UX/Fonts/GothicPixelBody.ttf" id="3_ofor1"]
+[ext_resource type="PackedScene" uid="uid://s2q8lqoa7xfe" path="res://Scenes/UX/file_select_panel.tscn" id="4_ajrud"]
+[ext_resource type="Script" uid="uid://dxigkys24u637" path="res://Scripts/Menus/menu_MainMenu.gd" id="5_mmain"]
+[ext_resource type="Script" uid="uid://bxtsa1060fkck" path="res://Scripts/Menus/menu_FileSelect.gd" id="6_mfile"]
+[ext_resource type="Script" uid="uid://b1wg3t0aequww" path="res://Scripts/Menus/menu_NewGameFlow.gd" id="7_mflow"]
+
+[sub_resource type="Theme" id="Theme_ajrud"]
+default_font = ExtResource("1_ikajw")
+
+[sub_resource type="Theme" id="Theme_hi4l6"]
+default_font = ExtResource("2_ofor1")
+
+[sub_resource type="Theme" id="Theme_4escx"]
+default_font = ExtResource("1_ikajw")
+
+[sub_resource type="FontVariation" id="FontVariation_ajrud"]
+base_font = ExtResource("3_ofor1")
+spacing_glyph = 2
+
+[sub_resource type="Theme" id="Theme_dyrqb"]
+default_font = SubResource("FontVariation_ajrud")
+
+[sub_resource type="Animation" id="Animation_ikajw"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CanvasLayer/MainMenu/Title Card:size")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(640, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CanvasLayer/MainMenu/Title Card:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 180)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("CanvasLayer/MainMenu/Press to Start Panel:size")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(640, 146)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("CanvasLayer/MainMenu/Press to Start Panel:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 214)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("CanvasLayer/MainMenu/Press to Start Panel:modulate")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("CanvasLayer/MainMenu/Title Card:scale")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0.75, 0.75)]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("CanvasLayer/MainMenu/Main Menu Buttons Container:modulate")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_ofor1"]
+resource_name = "TileScreen"
+length = 0.999
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CanvasLayer/MainMenu/Title Card:size")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(640, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CanvasLayer/MainMenu/Title Card:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 180)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("CanvasLayer/MainMenu/Press to Start Panel:size")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(640, 146), Vector2(640, 146)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("CanvasLayer/MainMenu/Press to Start Panel:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 214), Vector2(0, 214)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("CanvasLayer/MainMenu/Title Card:scale")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_2hy4w"]
+resource_name = "TitleMove"
+length = 1.5
+loop_mode = 2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CanvasLayer/MainMenu/Title Card:size")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(640, 0), Vector2(640, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CanvasLayer/MainMenu/Title Card:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 180), Vector2(0, 64)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("CanvasLayer/MainMenu/Press to Start Panel:size")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(640, 146), Vector2(640, 146)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("CanvasLayer/MainMenu/Press to Start Panel:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 214), Vector2(0, 360)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("CanvasLayer/MainMenu/Press to Start Panel:modulate")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 0.13333333, 0.26666665, 0.4, 0.5333333, 0.6666667, 0.8, 0.9, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(0.39, 0.39, 0.39, 0.58431375), Color(1, 1, 1, 1), Color(0.39, 0.39, 0.39, 0.58431375), Color(1, 1, 1, 1), Color(0.39, 0.39, 0.39, 0.58431375), Color(1, 1, 1, 1), Color(0.39, 0.39, 0.39, 0.58431375), Color(0.46, 0.46, 0.46, 0)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("CanvasLayer/MainMenu/Title Card:scale")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(0.75, 0.75)]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("CanvasLayer/MainMenu/Main Menu Buttons Container:modulate")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0.85, 1.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ajrud"]
+_data = {
+&"RESET": SubResource("Animation_ikajw"),
+&"TileScreen": SubResource("Animation_ofor1"),
+&"TitleMove": SubResource("Animation_2hy4w")
+}
+
+[node name="MenuStart" type="Control" unique_id=99437177]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("5_mmain")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1612775089]
+follow_viewport_enabled = true
+
+[node name="MainMenu" type="Control" parent="CanvasLayer" unique_id=1735948720]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Title Card" type="Panel" parent="CanvasLayer/MainMenu" unique_id=1049791979]
+self_modulate = Color(1, 1, 1, 0)
+custom_minimum_size = Vector2(640, 0)
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = 160.0
+offset_right = 600.0
+offset_bottom = 160.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.75, 0.75)
+pivot_offset_ratio = Vector2(0.5, 0)
+size_flags_vertical = 4
+
+[node name="TitleCard-Intro" type="RichTextLabel" parent="CanvasLayer/MainMenu/Title Card" unique_id=714944013]
+layout_mode = 0
+offset_left = 178.575
+offset_top = -49.115
+offset_right = 411.5748
+offset_bottom = -13.115002
+pivot_offset_ratio = Vector2(0.5, 0)
+theme = SubResource("Theme_ajrud")
+text = "the Epic of"
+horizontal_alignment = 2
+
+[node name="TitleCard-Title" type="RichTextLabel" parent="CanvasLayer/MainMenu/Title Card" unique_id=1167267771]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -170.0
+offset_top = -45.5
+offset_right = 170.0
+offset_bottom = 45.5
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset_ratio = Vector2(0.5, 0)
+theme = SubResource("Theme_hi4l6")
+theme_override_colors/default_color = Color(1, 0.7666667, 0, 1)
+theme_override_font_sizes/normal_font_size = 64
+text = "Sogard"
+horizontal_alignment = 1
+
+[node name="Press to Start Panel" type="Panel" parent="CanvasLayer/MainMenu" unique_id=118743758]
+self_modulate = Color(1, 1, 1, 0)
+modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = 174.0
+offset_right = 640.0
+offset_bottom = 320.0
+grow_vertical = 0
+pivot_offset_ratio = Vector2(0, 1)
+
+[node name="Press to Start" type="RichTextLabel" parent="CanvasLayer/MainMenu/Press to Start Panel" unique_id=952381035]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_4escx")
+text = "Press START to Begin"
+horizontal_alignment = 1
+
+[node name="Main Menu Buttons Container" type="VBoxContainer" parent="CanvasLayer/MainMenu" unique_id=224476747]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 140.0
+offset_top = 76.0
+offset_right = 460.0
+offset_bottom = 216.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset_ratio = Vector2(0.5, 0)
+mouse_filter = 2
+
+[node name="Continue Button" type="Panel" parent="CanvasLayer/MainMenu/Main Menu Buttons Container" unique_id=574105639]
+custom_minimum_size = Vector2(0, 32)
+layout_mode = 2
+mouse_filter = 1
+mouse_default_cursor_shape = 2
+
+[node name="Main Menu Button Label 1" type="RichTextLabel" parent="CanvasLayer/MainMenu/Main Menu Buttons Container/Continue Button" unique_id=1850304453]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_dyrqb")
+theme_override_font_sizes/normal_font_size = 24
+text = "Continue"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="New Game Button" type="Panel" parent="CanvasLayer/MainMenu/Main Menu Buttons Container" unique_id=30683147]
+custom_minimum_size = Vector2(0, 32)
+layout_mode = 2
+mouse_filter = 1
+mouse_behavior_recursive = 2
+mouse_default_cursor_shape = 2
+
+[node name="Main Menu Button Label 1" type="RichTextLabel" parent="CanvasLayer/MainMenu/Main Menu Buttons Container/New Game Button" unique_id=1031604031]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_dyrqb")
+theme_override_font_sizes/normal_font_size = 24
+text = "New Game"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Settings Button" type="Panel" parent="CanvasLayer/MainMenu/Main Menu Buttons Container" unique_id=804010104]
+custom_minimum_size = Vector2(0, 32)
+layout_mode = 2
+mouse_filter = 1
+mouse_behavior_recursive = 2
+mouse_default_cursor_shape = 2
+
+[node name="Main Menu Button Label 1" type="RichTextLabel" parent="CanvasLayer/MainMenu/Main Menu Buttons Container/Settings Button" unique_id=87583504]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_dyrqb")
+theme_override_font_sizes/normal_font_size = 24
+text = "Settings"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Quit Button" type="Panel" parent="CanvasLayer/MainMenu/Main Menu Buttons Container" unique_id=236958735]
+custom_minimum_size = Vector2(0, 32)
+layout_mode = 2
+mouse_filter = 1
+mouse_behavior_recursive = 2
+mouse_default_cursor_shape = 2
+
+[node name="Main Menu Button Label 1" type="RichTextLabel" parent="CanvasLayer/MainMenu/Main Menu Buttons Container/Quit Button" unique_id=1293055695]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_dyrqb")
+theme_override_font_sizes/normal_font_size = 24
+text = "Quit"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TitleAnimPlayer" type="AnimationPlayer" parent="CanvasLayer/MainMenu" unique_id=1580630874]
+root_node = NodePath("../../..")
+libraries/ = SubResource("AnimationLibrary_ajrud")
+
+[node name="FileSelect" type="Control" parent="CanvasLayer" unique_id=1286100943]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("6_mfile")
+
+[node name="GridContainer" type="GridContainer" parent="CanvasLayer/FileSelect" unique_id=1283319601]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -112.0
+offset_right = 112.0
+offset_bottom = 112.0
+grow_horizontal = 2
+theme_override_constants/h_separation = 164
+theme_override_constants/v_separation = 8
+columns = 2
+
+[node name="File Select Panel" parent="CanvasLayer/FileSelect/GridContainer" unique_id=187275303 instance=ExtResource("4_ajrud")]
+layout_mode = 2
+
+[node name="File Select Panel2" parent="CanvasLayer/FileSelect/GridContainer" unique_id=1726660700 instance=ExtResource("4_ajrud")]
+layout_mode = 2
+
+[node name="File Select Panel3" parent="CanvasLayer/FileSelect/GridContainer" unique_id=144309753 instance=ExtResource("4_ajrud")]
+layout_mode = 2
+
+[node name="File Select Panel4" parent="CanvasLayer/FileSelect/GridContainer" unique_id=155524779 instance=ExtResource("4_ajrud")]
+layout_mode = 2
+
+[node name="File Select Panel5" parent="CanvasLayer/FileSelect/GridContainer" unique_id=296884323 instance=ExtResource("4_ajrud")]
+layout_mode = 2
+
+[node name="File Select Panel6" parent="CanvasLayer/FileSelect/GridContainer" unique_id=1766392425 instance=ExtResource("4_ajrud")]
+layout_mode = 2
+
+[node name="NewGameFlow" type="Control" parent="CanvasLayer" unique_id=2000000001]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("7_mflow")
+
+[node name="NameInputPanel" type="Panel" parent="CanvasLayer/NewGameFlow" unique_id=2000000002]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -140.0
+offset_top = -50.0
+offset_right = 140.0
+offset_bottom = 50.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/NewGameFlow/NameInputPanel" unique_id=2000000003]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 4
+
+[node name="NameLabel" type="RichTextLabel" parent="CanvasLayer/NewGameFlow/NameInputPanel/VBoxContainer" unique_id=2000000004]
+custom_minimum_size = Vector2(0, 24)
+layout_mode = 2
+theme = SubResource("Theme_4escx")
+text = "What is your name?"
+horizontal_alignment = 1
+
+[node name="NameInput" type="LineEdit" parent="CanvasLayer/NewGameFlow/NameInputPanel/VBoxContainer" unique_id=2000000005]
+custom_minimum_size = Vector2(0, 24)
+layout_mode = 2
+alignment = 1
+max_length = 11
+
+[node name="ButtonRow" type="HBoxContainer" parent="CanvasLayer/NewGameFlow/NameInputPanel/VBoxContainer" unique_id=2000000006]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="BackButton" type="Panel" parent="CanvasLayer/NewGameFlow/NameInputPanel/VBoxContainer/ButtonRow" unique_id=2000000007]
+custom_minimum_size = Vector2(0, 24)
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 1
+mouse_default_cursor_shape = 2
+
+[node name="BackLabel" type="RichTextLabel" parent="CanvasLayer/NewGameFlow/NameInputPanel/VBoxContainer/ButtonRow/BackButton" unique_id=2000000008]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_dyrqb")
+text = "Back"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ConfirmButton" type="Panel" parent="CanvasLayer/NewGameFlow/NameInputPanel/VBoxContainer/ButtonRow" unique_id=2000000009]
+custom_minimum_size = Vector2(0, 24)
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 1
+mouse_default_cursor_shape = 2
+
+[node name="ConfirmLabel" type="RichTextLabel" parent="CanvasLayer/NewGameFlow/NameInputPanel/VBoxContainer/ButtonRow/ConfirmButton" unique_id=2000000010]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_dyrqb")
+text = "Confirm"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="DifficultyPanel" type="Panel" parent="CanvasLayer/NewGameFlow" unique_id=2000000011]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -140.0
+offset_top = -80.0
+offset_right = 140.0
+offset_bottom = 80.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/NewGameFlow/DifficultyPanel" unique_id=2000000012]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 4
+
+[node name="DifficultyLabel" type="RichTextLabel" parent="CanvasLayer/NewGameFlow/DifficultyPanel/VBoxContainer" unique_id=2000000013]
+custom_minimum_size = Vector2(0, 24)
+layout_mode = 2
+theme = SubResource("Theme_4escx")
+text = "Choose Your Difficulty"
+horizontal_alignment = 1
+
+[node name="StoryButton" type="Panel" parent="CanvasLayer/NewGameFlow/DifficultyPanel/VBoxContainer" unique_id=2000000014]
+custom_minimum_size = Vector2(0, 24)
+layout_mode = 2
+mouse_filter = 1
+mouse_default_cursor_shape = 2
+
+[node name="StoryLabel" type="RichTextLabel" parent="CanvasLayer/NewGameFlow/DifficultyPanel/VBoxContainer/StoryButton" unique_id=2000000015]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_dyrqb")
+text = "Story"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="StandardButton" type="Panel" parent="CanvasLayer/NewGameFlow/DifficultyPanel/VBoxContainer" unique_id=2000000016]
+custom_minimum_size = Vector2(0, 24)
+layout_mode = 2
+mouse_filter = 1
+mouse_default_cursor_shape = 2
+
+[node name="StandardLabel" type="RichTextLabel" parent="CanvasLayer/NewGameFlow/DifficultyPanel/VBoxContainer/StandardButton" unique_id=2000000017]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_dyrqb")
+text = "Standard"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="EpicButton" type="Panel" parent="CanvasLayer/NewGameFlow/DifficultyPanel/VBoxContainer" unique_id=2000000018]
+custom_minimum_size = Vector2(0, 24)
+layout_mode = 2
+mouse_filter = 1
+mouse_default_cursor_shape = 2
+
+[node name="EpicLabel" type="RichTextLabel" parent="CanvasLayer/NewGameFlow/DifficultyPanel/VBoxContainer/EpicButton" unique_id=2000000019]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_dyrqb")
+text = "Epic"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BackButton" type="Panel" parent="CanvasLayer/NewGameFlow/DifficultyPanel/VBoxContainer" unique_id=2000000020]
+custom_minimum_size = Vector2(0, 24)
+layout_mode = 2
+mouse_filter = 1
+mouse_default_cursor_shape = 2
+
+[node name="BackLabel" type="RichTextLabel" parent="CanvasLayer/NewGameFlow/DifficultyPanel/VBoxContainer/BackButton" unique_id=2000000021]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_dyrqb")
+text = "Back"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ConfirmPanel" type="Panel" parent="CanvasLayer/NewGameFlow" unique_id=2000000022]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -150.0
+offset_top = -42.0
+offset_right = 150.0
+offset_bottom = 42.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/NewGameFlow/ConfirmPanel" unique_id=2000000023]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 4
+
+[node name="ConfirmLabel" type="RichTextLabel" parent="CanvasLayer/NewGameFlow/ConfirmPanel/VBoxContainer" unique_id=2000000024]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+theme = SubResource("Theme_4escx")
+horizontal_alignment = 1
+
+[node name="ButtonRow" type="HBoxContainer" parent="CanvasLayer/NewGameFlow/ConfirmPanel/VBoxContainer" unique_id=2000000025]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="NoButton" type="Panel" parent="CanvasLayer/NewGameFlow/ConfirmPanel/VBoxContainer/ButtonRow" unique_id=2000000026]
+custom_minimum_size = Vector2(0, 24)
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 1
+mouse_default_cursor_shape = 2
+
+[node name="NoLabel" type="RichTextLabel" parent="CanvasLayer/NewGameFlow/ConfirmPanel/VBoxContainer/ButtonRow/NoButton" unique_id=2000000027]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_dyrqb")
+text = "No"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="YesButton" type="Panel" parent="CanvasLayer/NewGameFlow/ConfirmPanel/VBoxContainer/ButtonRow" unique_id=2000000028]
+custom_minimum_size = Vector2(0, 24)
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 1
+mouse_default_cursor_shape = 2
+
+[node name="YesLabel" type="RichTextLabel" parent="CanvasLayer/NewGameFlow/ConfirmPanel/VBoxContainer/ButtonRow/YesButton" unique_id=2000000029]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_dyrqb")
+text = "Yes"
+horizontal_alignment = 1
+vertical_alignment = 1

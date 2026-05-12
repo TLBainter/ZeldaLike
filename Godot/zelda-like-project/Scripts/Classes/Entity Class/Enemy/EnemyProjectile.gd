@@ -30,6 +30,7 @@ func setup(res : ProjectileAttackResource, dir : Vector2, damage : int) -> void:
 				sprite.hframes = res.sprite_strip_frames
 
 func _ready() -> void:
+	add_to_group("enemy_projectiles")
 	body_entered.connect(_on_body_entered)
 
 func _process(delta : float) -> void:

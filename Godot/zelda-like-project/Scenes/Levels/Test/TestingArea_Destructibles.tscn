@@ -1192,7 +1192,6 @@ interactable = NodePath("ObjectBody/InteractableComponent")
 position = Vector2(0, 96)
 script = ExtResource("13_8vnxc")
 direction = 1
-locked = true
 target_scene_path = "res://Scenes/Levels/Test/TestingArea.tscn"
 target_door_rel_path = "Door"
 target_door_name = "Door"

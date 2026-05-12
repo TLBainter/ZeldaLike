@@ -8,15 +8,26 @@ func enter() -> void:
 	var enemy := root as Enemy
 	if not enemy:
 		return
-	_resolve_drops(enemy)
+	var enemy_id := enemy.get_enemy_id()
+	var drop_table := _get_drop_table(enemy, enemy_id)
+	enemyManager.mark_killed(enemy_id, enemy.get_effective_respawn())
+	_resolve_drops(enemy, drop_table)
 	await get_tree().process_frame
 	enemy.queue_free()
 
-func _resolve_drops(enemy : Enemy) -> void:
-	if not enemy.drop_table:
+##Returns [member Enemy.alt_drop_table] if the enemy has been killed before and alt drop is configured;
+##otherwise returns the standard [member Enemy.drop_table].
+func _get_drop_table(enemy: Enemy, enemy_id: String) -> DropTable:
+	if enemy.use_alt_drop_table and enemy.alt_drop_table != null \
+			and enemyManager.has_been_killed_once(enemy_id):
+		return enemy.alt_drop_table
+	return enemy.drop_table
+
+func _resolve_drops(enemy: Enemy, drop_table: DropTable) -> void:
+	if not drop_table:
 		return
 	var player_node = get_tree().get_first_node_in_group("player")
-	var drops : Array[PickupResource] = enemy.drop_table.resolve(player_node)
+	var drops : Array[PickupResource] = drop_table.resolve(player_node)
 	if drops.is_empty():
 		return
 	var spawn_pos : Vector2 = enemy.body.global_position if enemy.body else enemy.global_position
@@ -31,7 +42,7 @@ func _resolve_drops(enemy : Enemy) -> void:
 		var scatter_dir := Vector2(cos(scatter_angle), sin(scatter_angle))
 		scatter_dir = _find_clear_direction(space_state, spawn_pos, scatter_dir)
 		var item_spawn_pos := spawn_pos + scatter_dir * 12.0 + Vector2(0, -8)
-		world_item.spawn(item_spawn_pos, spawn_pos.y + scatter_dir.y * 12.0, scatter_dir, 60.0)
+		world_item.spawn(item_spawn_pos, spawn_pos.y, scatter_dir, 60.0)
 
 func _create_world_item(pickup_res : PickupResource) -> WorldItem:
 	var item := WorldItem.new()

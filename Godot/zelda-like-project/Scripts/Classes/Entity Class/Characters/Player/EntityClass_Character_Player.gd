@@ -38,8 +38,6 @@ extends Character
 @export_category("Player Flags")
 ##Whether or not the player can currently dash
 var can_dash : bool = true
-##Whether or not the player can currently move
-var can_move : bool = true
 ##The display name for the player
 var display_name : String = "Count"
 #endregion
@@ -66,6 +64,16 @@ func _ready():
 	input.spell_cast_requested.connect(_on_spell_cast_requested)
 	if saveManager:
 		saveManager.register_player(self)
+	if health:
+		health.died.connect(_on_player_died)
+
+func _on_player_died() -> void:
+	if not state_coordinator:
+		print("[DBG] Player._on_player_died: state_coordinator is null!")
+		return
+	var dead_state = state_coordinator.get_transition(StateID.PLAYER_DEAD)
+	print("[DBG] Player._on_player_died: dead_state=", dead_state, " coordinator=", state_coordinator)
+	state_coordinator.request_no_control_change(dead_state)
 
 func _resolve_text(key : String):
 	match key:
@@ -130,23 +138,30 @@ func _on_igs_dismiss_done(_anim_name : String) -> void:
 #endregion ACTION BUTTON 4
 
 #region INTERACTIVITY CONTROL
-##Prevent the character from moving at all
-func freeze_input(should_freeze : bool):
-	input.set_process(not should_freeze)
+func freeze_input(should_freeze : bool) -> void:
+	super.freeze_input(should_freeze)
 	if should_freeze:
-		body.velocity = Vector2.ZERO
 		if anim and anim is CharacterAnimator:
 			anim.can_update_facing = false
 			anim.play_directional_anim(anim.idle_prefix)
 		elif anim:
 			anim.stop()
-		if state_machine:
-			state_machine.freeze_all()
+		if energy:
+			energy.pause_recovery()
+		if magic:
+			magic.pause_recovery()
+		if concoction_use:
+			concoction_use.pause_effects()
 	else:
 		if anim and anim is CharacterAnimator:
 			anim.can_update_facing = true
-		if state_machine:
-			state_machine.unfreeze_all()
-	can_move = (not should_freeze)
-		
+		if energy:
+			energy.resume_recovery()
+		if magic:
+			magic.resume_recovery()
+		if concoction_use:
+			concoction_use.resume_effects()
+	get_tree().call_group("enemies", "freeze_input", should_freeze)
+	get_tree().call_group("enemy_projectiles", "set_process", not should_freeze)
+
 #endregion INTERACTIVITY CONTROL

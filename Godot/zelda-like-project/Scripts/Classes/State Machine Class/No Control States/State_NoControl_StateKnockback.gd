@@ -1,7 +1,7 @@
 ##[b][color=red]StateKnockback[/color][/b] — entity is launched away from a hit source.[br]
 ##Phase 1: entity travels in [member _knockback_dir] at [constant KNOCKBACK_SPEED].[br]
-##Phase 2 (rebound): triggered by wall or body collision during phase 1; entity bounces back
-##using the same formula as StateDashRebound.[br]
+##Phase 2 (rebound): triggered by wall collision during phase 1; entity bounces back
+##a fraction of the remaining travel distance (not a fixed base like StateDash).[br]
 ##Invulnerability is active for the entire duration.[br]
 ##[br]
 ##[b]LAYER[/b]: No Control
@@ -10,9 +10,7 @@ extends State
 
 ##Travel speed in pixels/second during knockback and rebound.
 const KNOCKBACK_SPEED : float = 200.0
-##Fixed base added to the rebound distance (mirrors StateDash.REBOUND_BASE_DIST).
-const REBOUND_BASE_DIST : float = 16.0
-##Fraction of knockback distance traveled that is added to rebound distance.
+##Fraction of remaining knockback distance used as rebound distance on wall hit.
 const REBOUND_TRAVEL_FACTOR : float = 0.25
 
 var _knockback_dir : Vector2 = Vector2.ZERO
@@ -45,8 +43,16 @@ func enter() -> void:
 	_rebound_traveled = 0.0
 	coordinator.freeze_all()
 	var character = get_character()
+	if root and root.get("subtype") == "Player":
+		print("[KB enter] character=%s  dir=%s  dist=%s" % [character, _knockback_dir, _knockback_dist])
 	if character:
 		character.is_invulnerable = true
+		character.is_knocked_back = true
+		character.is_in_knockback = true
+		if character.get("subtype") == "Player":
+			print("[KB enter] is_knocked_back SET to true")
+	elif root and root.get("subtype") == "Player":
+		print("[KB enter] WARNING: get_character() returned null for Player root (type=%s)" % root.get("type"))
 	if root and root.body:
 		root.body.velocity = _knockback_dir * KNOCKBACK_SPEED
 	set_physics_process(true)
@@ -69,6 +75,14 @@ func exit() -> void:
 	var character = get_character()
 	if character:
 		character.is_invulnerable = false
+		character.is_in_knockback = false
+		if character.get("subtype") == "Player":
+			print("[KB exit] is_knocked_back cleared after grace timer  traveled=%s/%s  rebounding=%s" % [_traveled, _knockback_dist, _is_rebounding])
+		var char_ref = character
+		get_tree().create_timer(0.15).timeout.connect(func():
+			if is_instance_valid(char_ref):
+				char_ref.is_knocked_back = false
+		)
 	coordinator.unfreeze_all()
 	super()
 
@@ -93,7 +107,8 @@ func _tick_knockback(delta: float) -> void:
 func _start_rebound() -> void:
 	_is_rebounding = true
 	_rebound_traveled = 0.0
-	_rebound_dist = REBOUND_BASE_DIST + _traveled * REBOUND_TRAVEL_FACTOR
+	var remaining := maxf(0.0, _knockback_dist - _traveled)
+	_rebound_dist = remaining * REBOUND_TRAVEL_FACTOR
 	root.body.velocity = -_knockback_dir * KNOCKBACK_SPEED
 
 func _tick_rebound(delta: float) -> void:
@@ -109,5 +124,12 @@ func _tick_rebound(delta: float) -> void:
 
 func _finish() -> void:
 	_safe_transition(StateID.INITIALIZED)
+
+##Forces this knockback into the rebound phase, as if the entity struck a wall.[br]
+##No-ops if already rebounding.
+func force_rebound() -> void:
+	if _is_rebounding:
+		return
+	_start_rebound()
 
 #endregion PHASES

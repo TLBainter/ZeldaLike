@@ -22,6 +22,10 @@ var move_speed : float = 50.0
 var is_dashing : bool = false
 ## True while the character is invulnerable and cannot receive damage.
 var is_invulnerable : bool = false
+## True while the character is in the knockback state.
+var is_knocked_back : bool = false
+## True only while StateKnockback is the active no-control state (cleared immediately on exit, before the grace timer).
+var is_in_knockback : bool = false
 ## True while the character is holding block, zeroing MoveComponent velocity.
 var is_blocking  : bool   = false
 ## The facing direction held during block; used by PlayerHealthComponent for directional check.
@@ -30,6 +34,8 @@ var block_facing : String = ""
 #region INTERNAL VARIABLES
 ##the character's subtype; this is defined by its next subclass.
 var subtype : String
+## Whether this character can currently move; set false during freeze_input.
+var can_move : bool = true
 #endregion
 #region DAMAGE EFFECT EXPORTS
 @export_group("Damage Effects")
@@ -188,4 +194,31 @@ func receive_knockback(direction: Vector2, distance: float) -> void:
 	knockback_state.setup(direction, distance)
 	state_machine.request_no_control_change(knockback_state)
 
+##Forces the active knockback to rebound, as if the player struck a wall.[br]
+##Called by door triggers to prevent knockback from crossing a transition collider.
+func bounce_knockback() -> void:
+	var knockback_state = state_machine.get_transition(StateID.KNOCKBACK)
+	if knockback_state is StateKnockback:
+		knockback_state.force_rebound()
+
 #endregion KNOCKBACK
+
+#region FREEZE INPUT
+##Freezes or unfreezes this character's input and movement.[br]
+##[Player] overrides this to add animation handling and propagate to all enemies.
+func freeze_input(should_freeze : bool) -> void:
+	var input_component = get("input")
+	if input_component:
+		input_component.set_process(not should_freeze)
+	if should_freeze:
+		if body:
+			body.velocity = Vector2.ZERO
+		if state_machine:
+			state_machine.freeze_all()
+			state_machine.freeze_no_control()
+	else:
+		if state_machine:
+			state_machine.unfreeze_no_control()
+			state_machine.unfreeze_all()
+	can_move = not should_freeze
+#endregion FREEZE INPUT

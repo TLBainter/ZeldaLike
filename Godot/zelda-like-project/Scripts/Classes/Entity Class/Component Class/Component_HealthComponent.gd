@@ -17,6 +17,8 @@ signal health_changed(cur_hp : int, max_hp : int, chng_amt : int)
 signal max_health_changed(new_max : int, new_cur : int)
 ##Emitted after damage is applied. Carries the [b]DamageEffectResource[/b] to play (may be null), the world-space source position, and the damage amount.
 signal damage_taken(effect : DamageEffectResource, position : Vector2, amount : int)
+##Emitted when [member cur_health] reaches zero.
+signal died
 
 #endregion SIGNALS
 
@@ -33,6 +35,8 @@ var cur_health : int = 4:
 		cur_health = new_health
 		if chng_amt != 0 and not _expanding_max:
 			health_changed.emit(cur_health, max_health, chng_amt)
+			if cur_health == 0:
+				died.emit()
 	
 #endregion VARIBALES
 

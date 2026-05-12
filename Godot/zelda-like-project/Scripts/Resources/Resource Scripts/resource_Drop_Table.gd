@@ -1,9 +1,9 @@
 ﻿##[b][color=red]DropTable[/color][/b] defines what items an entity can drop and how they are selected.[br]
 ##Used by breakable jars, enemies, cut grass, and any other entity with loot.[br]
 ##[br]
-##[b]Guaranteed[/b]: Drops every item in the drop pool (skipping maxed-out items).[br]
+##[b]Guaranteed[/b]: Drops every item in the drop pool, always — ignores player need.[br]
 ##[b]Random[/b]: Rolls [b]drop_count[/b] times, each roll picking one item weighted by rarity.[br]
-##Items the player doesn't need (at max health, energy, magic, or notes) are skipped.[br]
+##For Random drops, items the player doesn't need (at max health, energy, magic, or notes) are skipped.[br]
 ##[br]
 ##[b]Pity system[/b]: each consecutive miss (non-empty table, nothing dropped) increments[br]
 ##[b]player.drop_pity[/b] by 1 (max 25). Items with base weight < 25 receive[br]
@@ -15,8 +15,8 @@ extends Resource
 
 @export_category("Drop Table Settings")
 ##How items are selected from this table.[br]
-##[b]Guaranteed[/b]: All items in the pool are dropped.[br]
-##[b]Random[/b]: Items are selected via weighted random rolls.
+##[b]Guaranteed[/b]: All items in the pool are dropped, regardless of player need.[br]
+##[b]Random[/b]: Items are selected via weighted random rolls, skipping items the player doesn't need.
 @export_enum("Guaranteed", "Random") var drop_type : String = "Random"
 ##The percentage chance (0-100) that this drop table is checked at all.[br]
 ##100 = always drops. 50 = 50% chance to skip entirely and drop nothing.
@@ -47,8 +47,8 @@ var debug_name : String:
 #region FUNCTIONS
 
 ##Resolves the drop table and returns an array of [b]PickupResource[/b] to spawn.[br]
-##[b]player[/b]: The player node, used to check if items are needed and to apply/update pity.[br]
-##For Guaranteed: returns all eligible pickups in the pool.[br]
+##[b]player[/b]: The player node, used to apply/update pity (and need-check for Random drops).[br]
+##For Guaranteed: returns all items in the pool unconditionally (no need check).[br]
 ##For Random: rolls drop_count times using weighted rarity selection, skipping maxed items.[br]
 ##Pity: if nothing drops from a non-empty table, player.drop_pity increments (max 25).[br]
 ##If any item drops, player.drop_pity resets to 0.
@@ -65,10 +65,16 @@ func resolve(player = null) -> Array[PickupResource]:
 			return results
 		elif debug_me:
 			print("DropTable: Chance roll passed (", roll, " <= ", drop_chance, "%).")
+	# Guaranteed drops ignore player need; Random drops filter by need.
 	var eligible_pickups : Array[PickupResource] = []
-	for pickup in drop_pool.keys():
-		if pickup and _is_item_needed(pickup, player):
-			eligible_pickups.append(pickup)
+	if drop_type == "Guaranteed":
+		for pickup in drop_pool.keys():
+			if pickup:
+				eligible_pickups.append(pickup)
+	else:
+		for pickup in drop_pool.keys():
+			if pickup and _is_item_needed(pickup, player):
+				eligible_pickups.append(pickup)
 	if eligible_pickups.is_empty():
 		_apply_pity_miss(player)
 		return results
@@ -80,7 +86,7 @@ func resolve(player = null) -> Array[PickupResource]:
 			for pickup in eligible_pickups:
 				if debug_me_verbose:
 					var item_name = pickup.item.first_get_dialogue_ref if pickup.item else "Unknown"
-					print("DropTable: Guaranteed drop: ", item_name, " (100%)")
+					print("DropTable: Guaranteed drop: ", item_name, " (always)")
 				results.append(pickup)
 		"Random":
 			for i in range(drop_count):

@@ -13,6 +13,7 @@
 [ext_resource type="Resource" uid="uid://c710iksygomvs" path="res://Scripts/Resources/Resource Files/Resources_Pickups/pickup_energy_orb.tres" id="12_afxyn"]
 [ext_resource type="PackedScene" uid="uid://bv3kka2wmn2n6" path="res://Scenes/Objects/Doors/door.tscn" id="12_pw5td"]
 [ext_resource type="Script" uid="uid://ck1p1jsh1h2qo" path="res://Scripts/Resources/Resource Scripts/resource_Drop_Table.gd" id="13_hdw7m"]
+[ext_resource type="Resource" uid="uid://cg7y317c5bste" path="res://Scripts/Resources/Resource Files/Resources_Pickups/pickup_magic_shard.tres" id="14_ljp46"]
 [ext_resource type="Script" uid="uid://c0gguh8o4ftae" path="res://Scripts/Resources/Resource Scripts/resource_debug_settings.gd" id="14_pyea4"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_5xgvy"]
@@ -744,12 +745,28 @@ ExtResource("12_afxyn"): 20
 })
 metadata/_custom_type_script = "uid://ck1p1jsh1h2qo"
 
+[sub_resource type="Resource" id="Resource_2xpos"]
+script = ExtResource("13_hdw7m")
+drop_type = "Guaranteed"
+drop_pool = Dictionary[ExtResource("8_u3h1n"), int]({
+ExtResource("12_afxyn"): 100
+})
+metadata/_custom_type_script = "uid://ck1p1jsh1h2qo"
+
 [sub_resource type="Resource" id="Resource_qkb4a"]
 script = ExtResource("14_pyea4")
 debug_me = true
 debug_me_verbose = true
 debug_name = "Shooter Enemy"
 metadata/_custom_type_script = "uid://c0gguh8o4ftae"
+
+[sub_resource type="Resource" id="Resource_ljp46"]
+script = ExtResource("13_hdw7m")
+drop_type = "Guaranteed"
+drop_pool = Dictionary[ExtResource("8_u3h1n"), int]({
+ExtResource("14_ljp46"): 100
+})
+metadata/_custom_type_script = "uid://ck1p1jsh1h2qo"
 
 [sub_resource type="Resource" id="Resource_h3to2"]
 script = ExtResource("14_pyea4")
@@ -760,6 +777,7 @@ script = ExtResource("1_2xpos")
 level_type = 4
 level_name = "TestDungeon_Desctructibles"
 container_level = ExtResource("2_ljp46")
+enemy_respawn = 1
 
 [node name="TileMap" type="Node2D" parent="." unique_id=1834762325]
 z_index = -1
@@ -785,17 +803,22 @@ tile_set = SubResource("TileSet_dwulq")
 [node name="enemy" parent="." unique_id=619697809 instance=ExtResource("6_f2rwy")]
 position = Vector2(-103, -73)
 drop_table = SubResource("Resource_45opd")
+use_alt_drop_table = true
+alt_drop_table = SubResource("Resource_2xpos")
 debug = SubResource("Resource_qkb4a")
 
 [node name="enemy2" parent="." unique_id=1622610553 instance=ExtResource("6_f2rwy")]
-position = Vector2(105, -74)
+position = Vector2(-1, 5)
 drop_table = SubResource("Resource_45opd")
+use_alt_drop_table = true
+alt_drop_table = SubResource("Resource_ljp46")
 debug = SubResource("Resource_qkb4a")
 
 [node name="Door-to-TestingArea" parent="." unique_id=1783186270 instance=ExtResource("12_pw5td")]
 position = Vector2(0, 95)
 direction = 1
+distance = 16.259999999999998
 target_scene_path = "res://Scenes/Levels/Test/TestingArea.tscn"
-target_door_rel_path = "Door2"
-target_door_name = "Door2"
+target_door_rel_path = "ToShooterEnemyTest"
+target_door_name = "ToShooterEnemyTest"
 debug = SubResource("Resource_h3to2")

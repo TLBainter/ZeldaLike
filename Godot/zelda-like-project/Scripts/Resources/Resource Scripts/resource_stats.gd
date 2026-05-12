@@ -18,7 +18,7 @@ extends Resource
 
 @export_category("Character")
 @export_group("Speed")
-## The speed used when attacking. Reserved for future use.
+## Cooldown in seconds between allowed attacks. Prevents repeated attacks for both player and enemies.
 @export var attack_speed : float = 1.0
 ## The speed used when dodging/rolling. Reserved for future use.
 @export var dodge_speed : float = 100.0

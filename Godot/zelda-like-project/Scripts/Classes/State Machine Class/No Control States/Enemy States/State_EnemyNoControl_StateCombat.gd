@@ -91,6 +91,11 @@ func _start_delay() -> void:
 	var enemy := root as Enemy
 	var min_d : float = enemy.min_delay_between_attacks if enemy else 0.5
 	var max_d : float = enemy.max_delay_between_attacks if enemy else 2.0
+	var attack_speed_floor : float = 0.0
+	if enemy and enemy.stats and enemy.stats.resource:
+		attack_speed_floor = enemy.stats.resource.attack_speed
+	min_d = max(min_d, attack_speed_floor)
+	max_d = max(max_d, attack_speed_floor)
 	if min_d > max_d:
 		min_d = max_d
 	_delay_timer = randf_range(min_d, max_d)

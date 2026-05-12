@@ -36,6 +36,7 @@ func _init() -> void:
 		StateID.DROP:           preload("res://Scripts/Classes/State Machine Class/Action States/State_StateDrop.gd"),
 		StateID.KNOCKBACK:      preload("res://Scripts/Classes/State Machine Class/No Control States/State_NoControl_StateKnockback.gd"),
 		StateID.INITIALIZED:    preload("res://Scripts/Classes/State Machine Class/No Control States/State_StateInitialized.gd"),
+		StateID.PLAYER_DEAD:    preload("res://Scripts/Classes/State Machine Class/No Control States/State_PlayerNoControl_StateDead.gd"),
 		# Enemy states — player coordinator ignores these (no matching state nodes)
 		StateID.ROAM:           preload("res://Scripts/Classes/State Machine Class/No Control States/Enemy States/State_EnemyNoControl_StateRoam.gd"),
 		StateID.CHASE:          preload("res://Scripts/Classes/State Machine Class/No Control States/Enemy States/State_EnemyNoControl_StateChase.gd"),

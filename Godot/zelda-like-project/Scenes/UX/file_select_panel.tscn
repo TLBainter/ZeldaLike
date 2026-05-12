@@ -1,0 +1,350 @@
+[gd_scene format=3 uid="uid://s2q8lqoa7xfe"]
+
+[ext_resource type="FontFile" uid="uid://m1c0i2aa4cyp" path="res://Sprites/UX/Fonts/GothicPixelBody.ttf" id="1_3gvyc"]
+[ext_resource type="Texture2D" uid="uid://b334ygyrh1suv" path="res://Sprites/UX/InGameUX/PlayerStats/PlayerSkulls/playerFang_4.tres" id="2_3s3wl"]
+[ext_resource type="Texture2D" uid="uid://nq8sovsfyoc1" path="res://Sprites/Item Sprites/Resource Upgrades/bone-shard_static-3.tres" id="3_7ksmp"]
+[ext_resource type="FontFile" uid="uid://bsube4x6p1pws" path="res://Sprites/UX/Fonts/GothicPixelSerif.ttf" id="3_hiyug"]
+[ext_resource type="Texture2D" uid="uid://clcsjslyst6va" path="res://Sprites/Item Sprites/Resource Upgrades/arcane-shard_static-5.tres" id="4_hiyug"]
+[ext_resource type="Texture2D" uid="uid://bpq3pph5gslbj" path="res://Sprites/Item Sprites/Resource Upgrades/gland_static-3.tres" id="5_dyqhv"]
+[ext_resource type="Texture2D" uid="uid://d0vlb0u47hn4x" path="res://Sprites/UX/InGameUX/PlayerStats/playerEnergy_4-4.tres" id="6_pl8p4"]
+[ext_resource type="Texture2D" uid="uid://nessfmy0dvif" path="res://Sprites/UX/InGameUX/PlayerStats/playerMagic_6-6.tres" id="7_pilwx"]
+[ext_resource type="Texture2D" uid="uid://dsyilaykfy1av" path="res://Sprites/Item Sprites/Spells/spell_menuMini_grapple.tres" id="8_xda3v"]
+[ext_resource type="Texture2D" uid="uid://dylwfoqh8cii7" path="res://Sprites/Item Sprites/Spells/spell_menuMini_hammer.tres" id="9_oyawd"]
+[ext_resource type="Texture2D" uid="uid://cpeowp2y72lie" path="res://Sprites/Item Sprites/Spells/spell_menuMini_haste.tres" id="10_wgxc2"]
+[ext_resource type="Texture2D" uid="uid://btmg7catdvdvm" path="res://Sprites/Item Sprites/Spells/spell_menuMini_ignite.tres" id="11_cdnav"]
+[ext_resource type="Texture2D" uid="uid://b3cgf6dgo33mq" path="res://Sprites/Item Sprites/Spells/spell_menuMini_summon.tres" id="12_0vc86"]
+[ext_resource type="Texture2D" uid="uid://j8fe2amr00d5" path="res://Sprites/Item Sprites/Mobility/mobility_menu_bat-Static.tres" id="13_hc5c6"]
+[ext_resource type="Texture2D" uid="uid://k8m08dksjsjh" path="res://Sprites/Item Sprites/Mobility/mobility_menu_bootStatic.tres" id="14_f1rma"]
+[ext_resource type="Texture2D" uid="uid://5cj1bm6o7x48" path="res://Sprites/Item Sprites/Mobility/mobility_menu_hoodStatic.tres" id="15_8s2wn"]
+[ext_resource type="Script" uid="uid://dep2nundsorlm" path="res://Scripts/Menus/menu_FileSelectPanel.gd" id="16_mpan"]
+
+[sub_resource type="FontVariation" id="FontVariation_3le72"]
+base_font = ExtResource("1_3gvyc")
+
+[sub_resource type="Theme" id="Theme_7cj1n"]
+default_font = SubResource("FontVariation_3le72")
+
+[sub_resource type="FontVariation" id="FontVariation_bj4bm"]
+base_font = ExtResource("3_hiyug")
+
+[sub_resource type="Theme" id="Theme_cq0gw"]
+default_font = SubResource("FontVariation_bj4bm")
+
+[node name="File Select Panel" type="Panel" unique_id=187275303]
+custom_minimum_size = Vector2(224, 112)
+script = ExtResource("16_mpan")
+
+[node name="Header Panel" type="Panel" parent="." unique_id=846682580]
+self_modulate = Color(1, 0, 0, 1)
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 24.0
+grow_horizontal = 2
+
+[node name="File Name" type="RichTextLabel" parent="Header Panel" unique_id=1358873160]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_7cj1n")
+text = "[File Name]"
+horizontal_alignment = 1
+
+[node name="Time n Place" type="HBoxContainer" parent="." unique_id=465657528]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -32.0
+offset_bottom = -14.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset_ratio = Vector2(0.5, 0.5)
+theme_override_constants/separation = 0
+
+[node name="Play Time" type="RichTextLabel" parent="Time n Place" unique_id=1633993201]
+custom_minimum_size = Vector2(112, 0)
+layout_mode = 2
+theme = SubResource("Theme_cq0gw")
+theme_override_font_sizes/normal_font_size = 8
+text = "--:--:--"
+horizontal_alignment = 1
+
+[node name="Location" type="RichTextLabel" parent="Time n Place" unique_id=529926309]
+custom_minimum_size = Vector2(112, 0)
+layout_mode = 2
+theme = SubResource("Theme_cq0gw")
+theme_override_font_sizes/normal_font_size = 8
+text = "Location"
+horizontal_alignment = 1
+
+[node name="Resources" type="GridContainer" parent="." unique_id=481854958]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.060000002
+anchor_top = 0.411
+anchor_right = 0.5
+anchor_bottom = 0.69600004
+offset_left = -0.44000053
+offset_top = -7.0320015
+offset_right = 98.0
+offset_bottom = -6.9520035
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset_ratio = Vector2(0.5, 0.5)
+columns = 4
+
+[node name="Skulls" type="GridContainer" parent="Resources" unique_id=1071020424]
+layout_mode = 2
+theme_override_constants/h_separation = 1
+theme_override_constants/v_separation = 1
+columns = 10
+
+[node name="SingleSkull1" type="TextureRect" parent="Resources/Skulls" unique_id=225164783]
+custom_minimum_size = Vector2(8, 8)
+layout_mode = 2
+texture = ExtResource("2_3s3wl")
+stretch_mode = 4
+
+[node name="SingleSkull2" type="TextureRect" parent="Resources/Skulls" unique_id=87978408]
+custom_minimum_size = Vector2(8, 8)
+layout_mode = 2
+texture = ExtResource("2_3s3wl")
+stretch_mode = 4
+
+[node name="SingleSkull3" type="TextureRect" parent="Resources/Skulls" unique_id=1003413477]
+custom_minimum_size = Vector2(8, 8)
+layout_mode = 2
+texture = ExtResource("2_3s3wl")
+stretch_mode = 4
+
+[node name="SingleSkull4" type="TextureRect" parent="Resources/Skulls" unique_id=2104057951]
+custom_minimum_size = Vector2(8, 8)
+layout_mode = 2
+texture = ExtResource("2_3s3wl")
+stretch_mode = 4
+
+[node name="SingleSkull5" type="TextureRect" parent="Resources/Skulls" unique_id=1631905145]
+custom_minimum_size = Vector2(8, 8)
+layout_mode = 2
+texture = ExtResource("2_3s3wl")
+stretch_mode = 4
+
+[node name="SingleSkull6" type="TextureRect" parent="Resources/Skulls" unique_id=847983722]
+custom_minimum_size = Vector2(8, 8)
+layout_mode = 2
+texture = ExtResource("2_3s3wl")
+stretch_mode = 4
+
+[node name="SingleSkull7" type="TextureRect" parent="Resources/Skulls" unique_id=1092480444]
+custom_minimum_size = Vector2(8, 8)
+layout_mode = 2
+texture = ExtResource("2_3s3wl")
+stretch_mode = 4
+
+[node name="SingleSkull8" type="TextureRect" parent="Resources/Skulls" unique_id=1937173064]
+custom_minimum_size = Vector2(8, 8)
+layout_mode = 2
+texture = ExtResource("2_3s3wl")
+stretch_mode = 4
+
+[node name="SingleSkull9" type="TextureRect" parent="Resources/Skulls" unique_id=2021632126]
+custom_minimum_size = Vector2(8, 8)
+layout_mode = 2
+texture = ExtResource("2_3s3wl")
+stretch_mode = 4
+
+[node name="SingleSkull10" type="TextureRect" parent="Resources/Skulls" unique_id=617245581]
+custom_minimum_size = Vector2(8, 8)
+layout_mode = 2
+texture = ExtResource("2_3s3wl")
+stretch_mode = 4
+
+[node name="SingleSkull11" type="TextureRect" parent="Resources/Skulls" unique_id=207147921]
+custom_minimum_size = Vector2(8, 8)
+layout_mode = 2
+texture = ExtResource("2_3s3wl")
+stretch_mode = 4
+
+[node name="SingleSkull12" type="TextureRect" parent="Resources/Skulls" unique_id=1971037364]
+custom_minimum_size = Vector2(8, 8)
+layout_mode = 2
+texture = ExtResource("2_3s3wl")
+stretch_mode = 4
+
+[node name="SingleSkull13" type="TextureRect" parent="Resources/Skulls" unique_id=1449767605]
+custom_minimum_size = Vector2(8, 8)
+layout_mode = 2
+texture = ExtResource("2_3s3wl")
+stretch_mode = 4
+
+[node name="SingleSkull14" type="TextureRect" parent="Resources/Skulls" unique_id=1771542517]
+custom_minimum_size = Vector2(8, 8)
+layout_mode = 2
+texture = ExtResource("2_3s3wl")
+stretch_mode = 4
+
+[node name="SingleSkull15" type="TextureRect" parent="Resources/Skulls" unique_id=53772004]
+custom_minimum_size = Vector2(8, 8)
+layout_mode = 2
+texture = ExtResource("2_3s3wl")
+stretch_mode = 4
+
+[node name="SingleSkull16" type="TextureRect" parent="Resources/Skulls" unique_id=1505544470]
+custom_minimum_size = Vector2(8, 8)
+layout_mode = 2
+texture = ExtResource("2_3s3wl")
+stretch_mode = 4
+
+[node name="SingleSkull17" type="TextureRect" parent="Resources/Skulls" unique_id=1233271686]
+custom_minimum_size = Vector2(8, 8)
+layout_mode = 2
+texture = ExtResource("2_3s3wl")
+stretch_mode = 4
+
+[node name="SingleSkull18" type="TextureRect" parent="Resources/Skulls" unique_id=105520078]
+custom_minimum_size = Vector2(8, 8)
+layout_mode = 2
+texture = ExtResource("2_3s3wl")
+stretch_mode = 4
+
+[node name="SingleSkull19" type="TextureRect" parent="Resources/Skulls" unique_id=436563102]
+custom_minimum_size = Vector2(8, 8)
+layout_mode = 2
+texture = ExtResource("2_3s3wl")
+stretch_mode = 4
+
+[node name="SingleSkull20" type="TextureRect" parent="Resources/Skulls" unique_id=863308338]
+custom_minimum_size = Vector2(8, 8)
+layout_mode = 2
+texture = ExtResource("2_3s3wl")
+stretch_mode = 4
+
+[node name="Bones" type="TextureRect" parent="Resources" unique_id=662855595]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+texture = ExtResource("3_7ksmp")
+
+[node name="Medallion" type="TextureRect" parent="Resources" unique_id=632005945]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+texture = ExtResource("4_hiyug")
+
+[node name="Glands" type="TextureRect" parent="Resources" unique_id=1719180576]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+texture = ExtResource("5_dyqhv")
+
+[node name="Collection" type="GridContainer" parent="." unique_id=1799784210]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 13.0
+offset_top = -55.0
+offset_right = 97.0
+offset_bottom = -5.0
+grow_vertical = 0
+theme_override_constants/h_separation = 0
+theme_override_constants/v_separation = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Collection" unique_id=648338629]
+layout_mode = 2
+theme_override_constants/separation = 1
+
+[node name="Energy" type="TextureRect" parent="Collection/HBoxContainer" unique_id=482865371]
+layout_mode = 2
+texture = ExtResource("6_pl8p4")
+
+[node name="Energy2" type="TextureRect" parent="Collection/HBoxContainer" unique_id=815459586]
+layout_mode = 2
+texture = ExtResource("6_pl8p4")
+
+[node name="Energy3" type="TextureRect" parent="Collection/HBoxContainer" unique_id=564054997]
+layout_mode = 2
+texture = ExtResource("6_pl8p4")
+
+[node name="Energy4" type="TextureRect" parent="Collection/HBoxContainer" unique_id=641690586]
+layout_mode = 2
+texture = ExtResource("6_pl8p4")
+
+[node name="Energy5" type="TextureRect" parent="Collection/HBoxContainer" unique_id=1879391673]
+layout_mode = 2
+texture = ExtResource("6_pl8p4")
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="Collection" unique_id=473691654]
+layout_mode = 2
+theme_override_constants/separation = 1
+
+[node name="Magic" type="TextureRect" parent="Collection/HBoxContainer2" unique_id=387609101]
+layout_mode = 2
+texture = ExtResource("7_pilwx")
+
+[node name="Magic2" type="TextureRect" parent="Collection/HBoxContainer2" unique_id=1633910391]
+layout_mode = 2
+texture = ExtResource("7_pilwx")
+
+[node name="Magic3" type="TextureRect" parent="Collection/HBoxContainer2" unique_id=1710334799]
+layout_mode = 2
+texture = ExtResource("7_pilwx")
+
+[node name="Magic4" type="TextureRect" parent="Collection/HBoxContainer2" unique_id=84789298]
+layout_mode = 2
+texture = ExtResource("7_pilwx")
+
+[node name="Magic5" type="TextureRect" parent="Collection/HBoxContainer2" unique_id=987742318]
+layout_mode = 2
+texture = ExtResource("7_pilwx")
+
+[node name="Progression" type="HBoxContainer" parent="Collection" unique_id=84650944]
+layout_mode = 2
+theme_override_constants/separation = 1
+
+[node name="Spell1" type="TextureRect" parent="Collection/Progression" unique_id=1064268441]
+layout_mode = 2
+texture = ExtResource("8_xda3v")
+
+[node name="Spell2" type="TextureRect" parent="Collection/Progression" unique_id=65096637]
+layout_mode = 2
+texture = ExtResource("9_oyawd")
+
+[node name="Spell3" type="TextureRect" parent="Collection/Progression" unique_id=1205921559]
+layout_mode = 2
+texture = ExtResource("10_wgxc2")
+
+[node name="Spell4" type="TextureRect" parent="Collection/Progression" unique_id=1191615514]
+layout_mode = 2
+texture = ExtResource("11_cdnav")
+
+[node name="Spell5" type="TextureRect" parent="Collection/Progression" unique_id=1815580774]
+layout_mode = 2
+texture = ExtResource("12_0vc86")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=1519861500]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -118.0
+offset_top = -39.0
+offset_bottom = -4.0
+grow_horizontal = 0
+grow_vertical = 0
+
+[node name="MobilityItem1" type="TextureRect" parent="HBoxContainer" unique_id=1369642327]
+layout_mode = 2
+texture = ExtResource("13_hc5c6")
+
+[node name="MobilityItem2" type="TextureRect" parent="HBoxContainer" unique_id=980652947]
+layout_mode = 2
+texture = ExtResource("14_f1rma")
+
+[node name="MobilityItem3" type="TextureRect" parent="HBoxContainer" unique_id=1384790629]
+layout_mode = 2
+texture = ExtResource("15_8s2wn")

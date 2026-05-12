@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://br28s5xm32ls0" path="res://Scripts/Classes/Entity Class/Characters/Player/EntityClass_Character_Player.gd" id="1_27cb7"]
 [ext_resource type="Script" uid="uid://ukng11jt2lj5" path="res://Scripts/Body/Body_Player.gd" id="2_aencf"]
 [ext_resource type="Texture2D" uid="uid://boj2fgnqddhmy" path="res://Sprites/Character Sprites/Player Sprites/player.png" id="2_apx8m"]
-[ext_resource type="Resource" path="res://Scripts/Resources/Resource Files/Resources_DamageEffects/damage_effect_default_character.tres" id="2_ovnlg"]
+[ext_resource type="Resource" uid="uid://b5wecj8ji7qfc" path="res://Scripts/Resources/Resource Files/Resources_DamageEffects/damage_effect_default_character.tres" id="2_ovnlg"]
 [ext_resource type="Script" uid="uid://471hyoig8m0e" path="res://Scripts/Classes/Entity Class/Component Class/Player Components/Component_InputComponent_PlayerInputComponent.gd" id="2_qqvsf"]
 [ext_resource type="Script" uid="uid://dgkup04tuee81" path="res://Scripts/Classes/Entity Class/Characters/Character Animator/CharacterAnimator.gd" id="3_dxcao"]
 [ext_resource type="PackedScene" uid="uid://tgithof7e8op" path="res://Scenes/UX/menu_pause.tscn" id="5_1ujki"]
@@ -110,6 +110,7 @@
 [ext_resource type="Script" uid="uid://cot33t6uqb8w3" path="res://Scripts/Classes/State Machine Class/Action States/State_StateCastSpell.gd" id="89_bikm2"]
 [ext_resource type="Script" uid="uid://d0mub1c7ufay" path="res://Scripts/Classes/State Machine Class/Action States/State_StateBlock_Player.gd" id="107_23621"]
 [ext_resource type="Script" uid="uid://c5q8ceaqot3x1" path="res://Scripts/Classes/State Machine Class/No Control States/State_NoControl_StateKnockback.gd" id="108_kbk"]
+[ext_resource type="Script" path="res://Scripts/Classes/State Machine Class/No Control States/State_PlayerNoControl_StateDead.gd" id="109_plrdead"]
 
 [sub_resource type="Resource" id="Resource_h1onf"]
 script = ExtResource("15_8uivy")
@@ -309,7 +310,7 @@ debug_name = "Player Magic"
 [sub_resource type="Resource" id="Resource_yfcdn"]
 script = ExtResource("20_8uivy")
 max_health = 12
-weight = 10
+attack_speed = 0.35
 max_energy = 8
 metadata/_custom_type_script = "uid://dw1v2olrhdbdx"
 
@@ -2201,3 +2202,6 @@ metadata/_custom_type_script = "uid://bla114d73nu7a"
 
 [node name="StateKnockback" type="Node" parent="StateCoordinator/No Control Layer" unique_id=1414213562]
 script = ExtResource("108_kbk")
+
+[node name="StatePlayerDead" type="Node" parent="StateCoordinator/No Control Layer" unique_id=2718281828]
+script = ExtResource("109_plrdead")

@@ -89,6 +89,20 @@ func reset() -> void:
 	_pending_door_name = ""
 	_exit_walk_dir     = Vector2.DOWN
 	_is_transitioning  = false
+
+## Starts with the screen already black, carries [param player] to [param target_scene],
+## and plays the arrival sequence at [param door_name].[br]
+## Used when loading a save from the main menu — player boots in GAME_START_SCENE,
+## is carried here, and arrives through the saved door.[br]
+## TODO: revisit — music/camera setup may need further polish for non-standard scenes.
+func load_transition(player: Node, target_scene: PackedScene, door_name: String) -> void:
+	if _is_transitioning:
+		return
+	_is_transitioning  = true
+	_pending_scene     = target_scene
+	_pending_door_name = door_name
+	_overlay.color.a   = 1.0
+	_execute_load_transition(player)
 #endregion PUBLIC API
 
 #region EXIT SEQUENCE
@@ -118,6 +132,17 @@ func _execute_exit(player : Node) -> void:
 #endregion EXIT SEQUENCE
 
 #region ARRIVAL SEQUENCE
+func _execute_load_transition(player: Node) -> void:
+	player.get_parent().remove_child(player)
+	add_child(player)
+	_carried_player = player
+
+	get_tree().change_scene_to_packed(_pending_scene)
+	await get_tree().process_frame
+	await get_tree().process_frame
+
+	_execute_arrival()
+
 func _execute_arrival() -> void:
 	var player    : Node = _carried_player
 	_carried_player = null

@@ -171,6 +171,26 @@ func _stop_ongoing_effects(item_id : String) -> void:
 func has_active_effect(item_id : String) -> bool:
 	return _active_effects.has(item_id)
 
+##Pauses all active ongoing-effect timers mid-countdown without resetting them.
+func pause_effects() -> void:
+	for item_id in _active_effects:
+		var data = _active_effects[item_id]
+		if is_instance_valid(data["timer"]):
+			data["timer"].paused = true
+		for ticker in data["tickers"]:
+			if is_instance_valid(ticker):
+				ticker.paused = true
+
+##Resumes all active ongoing-effect timers from where they were paused.
+func resume_effects() -> void:
+	for item_id in _active_effects:
+		var data = _active_effects[item_id]
+		if is_instance_valid(data["timer"]):
+			data["timer"].paused = false
+		for ticker in data["tickers"]:
+			if is_instance_valid(ticker):
+				ticker.paused = false
+
 #endregion ONGOING EFFECTS
 
 #endregion FUNCTIONS

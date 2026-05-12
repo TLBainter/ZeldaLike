@@ -21,6 +21,7 @@ const DROP           = "drop"
 
 const KNOCKBACK      = "knockback"
 const INITIALIZED    = "initialized"
+const PLAYER_DEAD    = "player_dead"
 
 # Enemy states
 const ROAM           = "roam"

@@ -64,6 +64,8 @@ func init():
 ##Calls [b]exit()[/b] on the outgoing state and [b]enter()[/b] on the incoming state.[br]
 ##States disconnect their signals in exit() and connect new ones in enter().
 func change_state(new_state : State):
+	if not new_state:
+		return
 	if new_state == current_state:
 		return
 	if current_state:

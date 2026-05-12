@@ -67,6 +67,7 @@ var _progress_check_pos : Vector2 = Vector2.ZERO
 ## Last position given to nav.target_position — only update when player moves > threshold.
 var _last_nav_target : Vector2 = Vector2.ZERO
 const _NAV_TARGET_UPDATE_THRESHOLD : float = 24.0
+var _last_facing : String = ""
 
 #endregion INTERNAL
 
@@ -81,6 +82,7 @@ func _ready() -> void:
 		player_detect_area.body_entered.connect(_on_detect_area_body_entered)
 		player_detect_area.body_exited.connect(_on_detect_area_body_exited)
 	_current_mode = default_mode
+	set_process(default_mode != AIMode.IDLE)
 
 func _process(delta : float) -> void:
 	if _hurt_retreat_timer > 0.0:
@@ -92,8 +94,6 @@ func _process(delta : float) -> void:
 			_hurt_retreat_base_speed = 0.0
 	_update_detect_area_rotation()
 	match _current_mode:
-		AIMode.IDLE:
-			on_move.emit(Vector2.ZERO, 0.0)
 		AIMode.ROAM:
 			_process_roam(delta)
 		AIMode.CHASE:
@@ -106,6 +106,9 @@ func _update_detect_area_rotation() -> void:
 	if not entity or not entity.get("anim"):
 		return
 	var facing : String = entity.anim.facing if entity.anim else "down"
+	if facing == _last_facing:
+		return
+	_last_facing = facing
 	match facing:
 		"down":  player_detect_area.rotation = 0.0
 		"left":  player_detect_area.rotation = PI / 2.0
@@ -278,6 +281,12 @@ func set_mode(mode : AIMode) -> void:
 		_roam_target = Vector2.ZERO
 	if mode != AIMode.CHASE:
 		_retreating = false
+	if mode == AIMode.IDLE:
+		on_move.emit(Vector2.ZERO, 0.0)
+		_update_detect_area_rotation()
+		set_process(false)
+	else:
+		set_process(true)
 
 ##Called by the room manager when the player enters the room.[br]
 ##Only activates the enemy if [member detect_trigger] is set to [constant DetectTrigger.PLAYER_ENTERS_ROOM].
@@ -299,6 +308,7 @@ func begin_hurt_retreat(duration : float, speed_mult : float) -> void:
 		_hurt_retreat_base_speed = character.move_speed
 	character.move_speed = _hurt_retreat_base_speed * speed_mult
 	_hurt_retreat_timer = duration
+	set_process(true)
 
 ##Returns the currently tracked player node, or null if not tracking.
 func get_player() -> Node2D:

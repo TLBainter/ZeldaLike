@@ -100,9 +100,10 @@ func get_character():
 ##Delegates to [b]StateCoordinator.resolve_interaction_priority()[/b] for consistent resolution.[br]
 ##[b]is_moving[/b]: pass true when the character is in motion (affects grab vs lift priority).
 func _get_interactable_context_key(character, is_moving: bool = false) -> String:
-	if not character or not character.body.current_interactable:
+	var _body_interactable = character.body.get("current_interactable") if character else null
+	if not character or not _body_interactable:
 		return ""
-	var interact_node = character.body.current_interactable
+	var interact_node = _body_interactable
 	var interactable_owner = interact_node.owner_entity if "owner_entity" in interact_node else null
 	if interactable_owner and "object_data" in interactable_owner and interactable_owner.object_data:
 		var priority = coordinator.resolve_interaction_priority(interactable_owner.object_data, is_moving)

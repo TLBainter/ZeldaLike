@@ -13,7 +13,7 @@
 [ext_resource type="Resource" uid="uid://c710iksygomvs" path="res://Scripts/Resources/Resource Files/Resources_Pickups/pickup_energy_orb.tres" id="6_wf474"]
 [ext_resource type="Script" uid="uid://bbr13ie0ank53" path="res://Scripts/Classes/Entity Class/Component Class/Component_StatsComponent.gd" id="7_h58bd"]
 [ext_resource type="Script" uid="uid://ck1p1jsh1h2qo" path="res://Scripts/Resources/Resource Scripts/resource_Drop_Table.gd" id="7_r4iot"]
-[ext_resource type="Resource" path="res://Scripts/Resources/Resource Files/Resources_DamageEffects/damage_effect_default_character.tres" id="8_dbap8"]
+[ext_resource type="Resource" uid="uid://b5wecj8ji7qfc" path="res://Scripts/Resources/Resource Files/Resources_DamageEffects/damage_effect_default_character.tres" id="8_dbap8"]
 [ext_resource type="Script" uid="uid://1h1iqx2yk781" path="res://Scripts/Classes/State Machine Class/StateCoordinator.gd" id="8_ffaod"]
 [ext_resource type="Script" uid="uid://c0gguh8o4ftae" path="res://Scripts/Resources/Resource Scripts/resource_debug_settings.gd" id="8_ynlb1"]
 [ext_resource type="Script" uid="uid://dw1v2olrhdbdx" path="res://Scripts/Resources/Resource Scripts/resource_stats.gd" id="9_4gxar"]
@@ -37,7 +37,7 @@
 [ext_resource type="Script" uid="uid://bpmylqcjnrpvl" path="res://Scripts/Classes/State Machine Class/No Control States/Enemy States/State_EnemyNoControl_StateDead.gd" id="27_bpmylq"]
 [ext_resource type="Script" uid="uid://dgkup04tuee81" path="res://Scripts/Classes/Entity Class/Characters/Character Animator/CharacterAnimator.gd" id="28_dgkup0"]
 [ext_resource type="Script" uid="uid://b5n2rl7q3egjo" path="res://Scripts/Classes/State Machine Class/No Control States/Enemy States/State_EnemyNoControl_StateDamaged.gd" id="29_damaged"]
-[ext_resource type="Script" path="res://Scripts/Classes/State Machine Class/No Control States/State_NoControl_StateKnockback.gd" id="30_kbk"]
+[ext_resource type="Script" uid="uid://c5q8ceaqot3x1" path="res://Scripts/Classes/State Machine Class/No Control States/State_NoControl_StateKnockback.gd" id="30_kbk"]
 
 [sub_resource type="Resource" id="Resource_45opd"]
 script = ExtResource("7_r4iot")
@@ -75,12 +75,12 @@ metadata/_custom_type_script = "uid://c0gguh8o4ftae"
 
 [sub_resource type="Resource" id="Resource_a7nox"]
 script = ExtResource("9_4gxar")
-max_health = 6
+max_health = 3
 weight = 10
-attack_speed = 0.75
+attack_speed = 1.25
 dodge_speed = 50.0
-walk_speed = 35.0
-run_speed = 65.0
+walk_speed = 17.0
+run_speed = 32.0
 max_energy = 0
 max_magic = 0
 metadata/_custom_type_script = "uid://dw1v2olrhdbdx"

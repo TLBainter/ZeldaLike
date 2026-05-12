@@ -267,6 +267,13 @@ func _on_trans_collider_body_entered(body: Node2D) -> void:
 	var player: Node = body.get_parent()
 	if not player.is_in_group("player"):
 		return
+	var _kb = player.get("is_knocked_back")
+	var _active_kb = player.get("is_in_knockback")
+	print("[Door] '%s' body_entered — is_knocked_back=%s  is_in_knockback=%s  _triggered=%s" % [name, _kb, _active_kb, _triggered])
+	if _kb:
+		if _active_kb:
+			player.bounce_knockback()
+		return
 	if _triggered:
 		return
 	_triggered = true
@@ -283,6 +290,14 @@ func _on_trans_collider_body_entered(body: Node2D) -> void:
 	call_deferred("_begin_transition", player, get_exit_direction())
 
 func _begin_transition(player: Node, exit_dir: Vector2) -> void:
+	var _kb2 = player.get("is_knocked_back")
+	var _active_kb2 = player.get("is_in_knockback")
+	print("[Door] '%s' _begin_transition — is_knocked_back=%s  is_in_knockback=%s" % [name, _kb2, _active_kb2])
+	if _kb2:
+		_triggered = false
+		if _active_kb2:
+			player.bounce_knockback()
+		return
 	var packed := load(_target_scene_path) as PackedScene
 	if not packed:
 		push_error("Door '%s': could not load scene '%s'." % [name, _target_scene_path])

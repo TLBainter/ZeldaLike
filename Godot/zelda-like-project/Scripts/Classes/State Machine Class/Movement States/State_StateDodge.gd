@@ -16,6 +16,7 @@ var _dodge_executed    : bool           = false
 var _smoke_vfx         : GPUParticles2D = null
 var _dodge_speed       : float          = 100.0
 var _original_mask     : int            = -1
+var _original_layer    : int            = -1
 
 #endregion VARIABLES
 
@@ -35,7 +36,9 @@ func _start_dodge(direction: Vector2) -> void:
 	coordinator.update_context("", true)
 	root.body.velocity = direction * _dodge_speed
 	_original_mask = root.body.collision_mask
-	root.body.collision_mask = 1
+	root.body.collision_mask = 32  # Wall Layer only — walls always rebound; enemies/interactables handled by clearance check
+	_original_layer = root.body.collision_layer
+	root.body.collision_layer = 0  # invisible to enemy physics during dash; player is invulnerable anyway
 	if root.sprite:
 		root.sprite.modulate = Color(0.3, 0.3, 0.3, 0.5)
 	_smoke_vfx = SMOKE_VFX_SCENE.instantiate() as GPUParticles2D
@@ -49,8 +52,10 @@ func exit():
 	if root.sprite:
 		root.sprite.modulate = Color.WHITE
 	if _original_mask != -1:
-		root.body.collision_mask = _original_mask
-		_original_mask = -1
+		root.body.collision_mask  = _original_mask
+		root.body.collision_layer = _original_layer
+		_original_mask  = -1
+		_original_layer = -1
 	root.is_dashing = false
 	root.is_invulnerable = false
 	unlock_facing()
@@ -67,10 +72,10 @@ func _on_dodge_complete() -> void:
 	pass
 
 ##Returns the safe dodge distance in pixels.[br]
-##Binary-searches on collision mask 2 (interactable layer) to find the farthest clear position.
+##Binary-searches on Character + Interactable layers to find the farthest clear position.
 func _clearance_adjusted_dist(direction: Vector2, proposed_max: float) -> float:
 	var saved_mask : int = root.body.collision_mask
-	root.body.collision_mask = 2
+	root.body.collision_mask = 1 | 2  # Character Layer + Interactable Layer — enemies and objects both affect clearance
 	if not root.body.test_move(root.body.global_transform, direction * proposed_max):
 		root.body.collision_mask = saved_mask
 		return proposed_max
