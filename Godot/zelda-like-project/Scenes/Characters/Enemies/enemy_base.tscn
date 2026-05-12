@@ -16,10 +16,13 @@
 [ext_resource type="Resource" uid="uid://b5wecj8ji7qfc" path="res://Scripts/Resources/Resource Files/Resources_DamageEffects/damage_effect_default_character.tres" id="8_dbap8"]
 [ext_resource type="Script" uid="uid://1h1iqx2yk781" path="res://Scripts/Classes/State Machine Class/StateCoordinator.gd" id="8_ffaod"]
 [ext_resource type="Script" uid="uid://c0gguh8o4ftae" path="res://Scripts/Resources/Resource Scripts/resource_debug_settings.gd" id="8_ynlb1"]
+[ext_resource type="Script" uid="uid://c43s0qqjj8q20" path="res://Scripts/Resources/Resource Scripts/resource_CharacterSprite.gd" id="9_3em4b"]
 [ext_resource type="Script" uid="uid://dw1v2olrhdbdx" path="res://Scripts/Resources/Resource Scripts/resource_stats.gd" id="9_4gxar"]
 [ext_resource type="Script" uid="uid://cv00auxwsog0v" path="res://Scripts/Classes/State Machine Class/StateMachineLayer.gd" id="9_avymi"]
 [ext_resource type="Script" uid="uid://2v5yqhsc70l0" path="res://Scripts/Classes/State Machine Class/Movement States/State_MovementState_StateIdling.gd" id="11_4gxar"]
+[ext_resource type="Script" uid="uid://b1r0wwukdeubg" path="res://Scripts/Resources/Resource Scripts/resource_CharacterAnimation.gd" id="11_wtjvx"]
 [ext_resource type="Script" uid="uid://code380uvx454" path="res://Scripts/Classes/State Machine Class/Movement States/State_MovementState_StateMove.gd" id="12_a7nox"]
+[ext_resource type="Script" uid="uid://b85jxlpe0jnth" path="res://Scripts/Resources/Resource Scripts/resource_CharacterAnimationDirection.gd" id="12_xlxhy"]
 [ext_resource type="Script" uid="uid://cmx5j0lkseu2y" path="res://Scripts/Classes/State Machine Class/Movement States/State_MovementState_StateRun.gd" id="13_tpvmj"]
 [ext_resource type="Script" uid="uid://cga8dkedc3mkc" path="res://Scripts/Classes/State Machine Class/Action States/State_StateNoAction.gd" id="16_q1cax"]
 [ext_resource type="Script" uid="uid://bqrb8knsy1vix" path="res://Scripts/Classes/State Machine Class/State.gd" id="17_tfoso"]
@@ -48,6 +51,64 @@ ExtResource("5_yh1us"): 25,
 ExtResource("6_wf474"): 20
 })
 metadata/_custom_type_script = "uid://ck1p1jsh1h2qo"
+
+[sub_resource type="Resource" id="Resource_vorfc"]
+script = ExtResource("9_3em4b")
+texture = ExtResource("2_eu8ko")
+sheet_name = "Puff Test"
+sprite_size = 32
+metadata/_custom_type_script = "uid://c43s0qqjj8q20"
+
+[sub_resource type="Resource" id="Resource_3em4b"]
+script = ExtResource("12_xlxhy")
+
+[sub_resource type="Resource" id="Resource_wtjvx"]
+script = ExtResource("12_xlxhy")
+row = 1
+direction = 2
+
+[sub_resource type="Resource" id="Resource_xlxhy"]
+script = ExtResource("12_xlxhy")
+row = 3
+direction = 6
+
+[sub_resource type="Resource" id="Resource_6re8q"]
+script = ExtResource("12_xlxhy")
+row = 2
+direction = 4
+
+[sub_resource type="Resource" id="Resource_c1g7c"]
+script = ExtResource("11_wtjvx")
+sprite_sheet_name = "Puff Test"
+animation_name = "Walk"
+directions = Array[ExtResource("12_xlxhy")]([SubResource("Resource_3em4b"), SubResource("Resource_wtjvx"), SubResource("Resource_xlxhy"), SubResource("Resource_6re8q")])
+metadata/_custom_type_script = "uid://b1r0wwukdeubg"
+
+[sub_resource type="Resource" id="Resource_j1w0n"]
+script = ExtResource("12_xlxhy")
+row = 4
+
+[sub_resource type="Resource" id="Resource_7s1g0"]
+script = ExtResource("12_xlxhy")
+row = 5
+direction = 2
+
+[sub_resource type="Resource" id="Resource_dx5oi"]
+script = ExtResource("12_xlxhy")
+row = 7
+direction = 6
+
+[sub_resource type="Resource" id="Resource_egeu7"]
+script = ExtResource("12_xlxhy")
+row = 6
+direction = 4
+
+[sub_resource type="Resource" id="Resource_p2gsv"]
+script = ExtResource("11_wtjvx")
+sprite_sheet_name = "Puff Test"
+animation_name = "Attack1"
+directions = Array[ExtResource("12_xlxhy")]([SubResource("Resource_j1w0n"), SubResource("Resource_7s1g0"), SubResource("Resource_dx5oi"), SubResource("Resource_egeu7")])
+metadata/_custom_type_script = "uid://b1r0wwukdeubg"
 
 [sub_resource type="Resource" id="Resource_qkb4a"]
 script = ExtResource("8_ynlb1")
@@ -358,6 +419,8 @@ drop_table = SubResource("Resource_45opd")
 body = NodePath("enemyBody")
 nav_agent = NodePath("enemyBody/enemyNavAgent")
 default_damage_effect = ExtResource("8_dbap8")
+visual_sprite_sheets = Array[ExtResource("9_3em4b")]([SubResource("Resource_vorfc")])
+visual_animations = Array[ExtResource("11_wtjvx")]([SubResource("Resource_c1g7c"), SubResource("Resource_p2gsv")])
 root = NodePath(".")
 sprite = NodePath("enemyBody/enemySprite")
 anim = NodePath("enemyAnimator")

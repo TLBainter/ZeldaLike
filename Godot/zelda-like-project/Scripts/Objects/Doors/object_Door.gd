@@ -269,7 +269,6 @@ func _on_trans_collider_body_entered(body: Node2D) -> void:
 		return
 	var _kb = player.get("is_knocked_back")
 	var _active_kb = player.get("is_in_knockback")
-	print("[Door] '%s' body_entered — is_knocked_back=%s  is_in_knockback=%s  _triggered=%s" % [name, _kb, _active_kb, _triggered])
 	if _kb:
 		if _active_kb:
 			player.bounce_knockback()
@@ -290,9 +289,10 @@ func _on_trans_collider_body_entered(body: Node2D) -> void:
 	call_deferred("_begin_transition", player, get_exit_direction())
 
 func _begin_transition(player: Node, exit_dir: Vector2) -> void:
+	if not is_inside_tree():
+		return
 	var _kb2 = player.get("is_knocked_back")
 	var _active_kb2 = player.get("is_in_knockback")
-	print("[Door] '%s' _begin_transition — is_knocked_back=%s  is_in_knockback=%s" % [name, _kb2, _active_kb2])
 	if _kb2:
 		_triggered = false
 		if _active_kb2:
@@ -434,7 +434,11 @@ func _show_dialogue(ref_id: String, user: EntityClass, on_closed: Callable) -> v
 	if user is Player and user.player_ux and user.player_ux.dialogue_controller:
 		var dc: DialogueUI = user.player_ux.dialogue_controller
 		dc.start_dialogue(data, user.input)
-		dc.dialogue_closed.connect(func(): on_closed.call(), CONNECT_ONE_SHOT)
+		var _on_dlg_closed := func():
+			if debug_me:
+				print("[Door lambda] dialogue_closed cb firing")
+			on_closed.call()
+		dc.dialogue_closed.connect(_on_dlg_closed, CONNECT_ONE_SHOT)
 	else:
 		on_closed.call()
 

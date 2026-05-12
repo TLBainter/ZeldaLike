@@ -43,16 +43,9 @@ func enter() -> void:
 	_rebound_traveled = 0.0
 	coordinator.freeze_all()
 	var character = get_character()
-	if root and root.get("subtype") == "Player":
-		print("[KB enter] character=%s  dir=%s  dist=%s" % [character, _knockback_dir, _knockback_dist])
 	if character:
 		character.is_invulnerable = true
-		character.is_knocked_back = true
 		character.is_in_knockback = true
-		if character.get("subtype") == "Player":
-			print("[KB enter] is_knocked_back SET to true")
-	elif root and root.get("subtype") == "Player":
-		print("[KB enter] WARNING: get_character() returned null for Player root (type=%s)" % root.get("type"))
 	if root and root.body:
 		root.body.velocity = _knockback_dir * KNOCKBACK_SPEED
 	set_physics_process(true)
@@ -76,13 +69,7 @@ func exit() -> void:
 	if character:
 		character.is_invulnerable = false
 		character.is_in_knockback = false
-		if character.get("subtype") == "Player":
-			print("[KB exit] is_knocked_back cleared after grace timer  traveled=%s/%s  rebounding=%s" % [_traveled, _knockback_dist, _is_rebounding])
-		var char_ref = character
-		get_tree().create_timer(0.15).timeout.connect(func():
-			if is_instance_valid(char_ref):
-				char_ref.is_knocked_back = false
-		)
+		character.knockback_end_frame = Engine.get_physics_frames()
 	coordinator.unfreeze_all()
 	super()
 

@@ -1,5 +1,8 @@
 ﻿##[b][color=red]CharacterAnimator[/color][/b] is used to play the animations of a Character-type [b]Entity[/b] if they have an Animnation Player.[br]
-##It uses signals from the character's Input Component to play the animations.
+##It uses signals from the character's Input Component to play the animations.[br]
+##If the character has [b]Visual → Sprite Sheets[/b] and [b]Visual → Animations[/b] resources defined, this node
+##generates AnimationPlayer animations from them automatically at [code]_ready()[/code].
+@tool
 class_name CharacterAnimator
 extends AnimationPlayer
 
@@ -11,6 +14,13 @@ extends AnimationPlayer
 @export var has_diagonal_movement : bool = false
 @export_group("Debug")
 @export var debug : DebugSettings = DebugSettings.new()
+##Toggle this in the editor to immediately regenerate animations from the character's Visual resources.[br]
+##Useful for previewing auto-generated animations without running the game.
+@export var _rebuild_animations : bool = false:
+	set(v):
+		if Engine.is_editor_hint() and v and is_node_ready():
+			build_animations_from_resources()
+		_rebuild_animations = false
 var debug_me : bool:
 	get: return debug.debug_me if debug else false
 var debug_me_verbose : bool:
@@ -42,7 +52,99 @@ var is_moving : bool = false
 
 #region FUNCTIONS
 func _ready():
+	if Engine.is_editor_hint():
+		return
 	input.on_move.connect(face)
+	build_animations_from_resources()
+
+##Reads the character's [b]Visual → Sprite Sheets[/b] and [b]Visual → Animations[/b] resources and
+##generates AnimationPlayer animations from them.[br]
+##Already-existing animations (manually defined in the scene) are never overwritten.[br]
+##Called automatically at [code]_ready()[/code]; also triggerable in the editor via the [i]Rebuild Animations[/i] toggle.
+func build_animations_from_resources() -> void:
+	if not root or root.visual_sprite_sheets.is_empty():
+		return
+
+	# Build sheet lookup: name → CharacterSpriteResource
+	var sheet_map : Dictionary = {}
+	for sheet : CharacterSpriteResource in root.visual_sprite_sheets:
+		if sheet and sheet.sheet_name != "" and sheet.texture:
+			sheet_map[sheet.sheet_name] = sheet
+
+	# Apply the first sheet as the default texture on the sprite node.
+	var default_sheet : CharacterSpriteResource = root.visual_sprite_sheets[0]
+	if default_sheet and default_sheet.texture and root.sprite:
+		root.sprite.texture  = default_sheet.texture
+		root.sprite.hframes  = default_sheet.get_hframes()
+		root.sprite.vframes  = default_sheet.get_vframes()
+
+	# Ensure a default AnimationLibrary exists.
+	if not has_animation_library(""):
+		add_animation_library("", AnimationLibrary.new())
+	var lib : AnimationLibrary = get_animation_library("")
+
+	for anim_res : CharacterAnimationResource in root.visual_animations:
+		if not anim_res or anim_res.animation_name == "" or anim_res.directions.is_empty():
+			continue
+
+		var sheet : CharacterSpriteResource = sheet_map.get(anim_res.sprite_sheet_name)
+		if not sheet:
+			if debug_me:
+				printerr(debug_name, ": CharacterAnimationResource '", anim_res.animation_name,
+					"' references unknown sprite sheet '", anim_res.sprite_sheet_name, "' — skipped.")
+			continue
+
+		var hframes    : int   = sheet.get_hframes()
+		var frame_count : int  = anim_res.frame_count if anim_res.frame_count > 0 else hframes
+		var frame_dur  : float = 1.0 / anim_res.frame_rate
+		var is_default_sheet : bool = (sheet == default_sheet)
+
+		for dir_entry : CharacterAnimationDirectionEntry in anim_res.directions:
+			var anim_name : String = anim_res.animation_name + dir_entry.get_anim_suffix()
+
+			if lib.has_animation(anim_name):
+				continue  # Non-destructive: never overwrite manually-defined animations.
+
+			var built : Animation = Animation.new()
+			built.loop_mode = Animation.LOOP_LINEAR if anim_res.loops else Animation.LOOP_NONE
+			built.length    = frame_count * frame_dur
+
+			# Sprite frame track.
+			# Track paths are relative to root_node (".." = root), NOT to self (the AnimationPlayer).
+			var sprite_path : String = str(root.get_path_to(root.sprite))
+			if debug_me:
+				print(debug_name, ": track path = '", sprite_path, ":frame'")
+			var frame_track : int = built.add_track(Animation.TYPE_VALUE)
+			built.track_set_path(frame_track, NodePath(sprite_path + ":frame"))
+			built.track_set_interpolation_type(frame_track, Animation.INTERPOLATION_NEAREST)
+			built.value_track_set_update_mode(frame_track, Animation.UPDATE_DISCRETE)
+			for f : int in frame_count:
+				built.track_insert_key(frame_track, f * frame_dur, dir_entry.row * hframes + f)
+
+			# If this animation uses a non-default sprite sheet, add texture/hframes/vframes
+			# tracks at time 0 so the sprite switches automatically when the animation starts.
+			if not is_default_sheet:
+				var tex_track : int = built.add_track(Animation.TYPE_VALUE)
+				built.track_set_path(tex_track, NodePath(sprite_path + ":texture"))
+				built.track_set_interpolation_type(tex_track, Animation.INTERPOLATION_NEAREST)
+				built.value_track_set_update_mode(tex_track, Animation.UPDATE_DISCRETE)
+				built.track_insert_key(tex_track, 0.0, sheet.texture)
+
+				var hf_track : int = built.add_track(Animation.TYPE_VALUE)
+				built.track_set_path(hf_track, NodePath(sprite_path + ":hframes"))
+				built.track_set_interpolation_type(hf_track, Animation.INTERPOLATION_NEAREST)
+				built.value_track_set_update_mode(hf_track, Animation.UPDATE_DISCRETE)
+				built.track_insert_key(hf_track, 0.0, hframes)
+
+				var vf_track : int = built.add_track(Animation.TYPE_VALUE)
+				built.track_set_path(vf_track, NodePath(sprite_path + ":vframes"))
+				built.track_set_interpolation_type(vf_track, Animation.INTERPOLATION_NEAREST)
+				built.value_track_set_update_mode(vf_track, Animation.UPDATE_DISCRETE)
+				built.track_insert_key(vf_track, 0.0, sheet.get_vframes())
+
+			lib.add_animation(anim_name, built)
+			if debug_me:
+				print(debug_name, ": generated animation '", anim_name, "' (", frame_count, " frames @ ", anim_res.frame_rate, " fps)")
 
 ##Sets the facing direction of the relevant character's sprite.[br]
 ##Has functionality for diagonal animations if required for the entity.

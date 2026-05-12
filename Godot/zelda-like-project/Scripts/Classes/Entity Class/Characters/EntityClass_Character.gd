@@ -22,8 +22,11 @@ var move_speed : float = 50.0
 var is_dashing : bool = false
 ## True while the character is invulnerable and cannot receive damage.
 var is_invulnerable : bool = false
-## True while the character is in the knockback state.
-var is_knocked_back : bool = false
+## Physics frame when the last knockback ended; used to compute is_knocked_back.
+var knockback_end_frame : int = -100
+## True for 3 physics frames after knockback ends, covering the deferred body_entered window.
+var is_knocked_back : bool:
+	get: return Engine.get_physics_frames() - knockback_end_frame <= 3
 ## True only while StateKnockback is the active no-control state (cleared immediately on exit, before the grace timer).
 var is_in_knockback : bool = false
 ## True while the character is holding block, zeroing MoveComponent velocity.
@@ -41,6 +44,17 @@ var can_move : bool = true
 @export_group("Damage Effects")
 ##Fallback visual/audio response played when a damage source carries no [b]DamageEffectResource[/b] of its own.
 @export var default_damage_effect : DamageEffectResource
+#endregion
+#region VISUAL EXPORTS
+@export_category("Visual")
+@export_group("Sprite Sheets")
+##One [b]CharacterSpriteResource[/b] per texture used by this character's animations.[br]
+##The first entry is applied as the default sprite sheet at runtime.
+@export var visual_sprite_sheets : Array[CharacterSpriteResource] = []
+@export_group("Animations")
+##One [b]CharacterAnimationResource[/b] per logical animation (e.g. Idle, Walk, Run).[br]
+##[b]CharacterAnimator[/b] reads these at [code]_ready()[/code] and generates the AnimationPlayer animations automatically.
+@export var visual_animations : Array[CharacterAnimationResource] = []
 #endregion
 #endregion
 
