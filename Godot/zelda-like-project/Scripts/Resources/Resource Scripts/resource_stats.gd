@@ -1,4 +1,4 @@
-﻿##[b][color=red]StatsResource[/color][/b] defines the base stats for an entity.[br]
+##[b][color=red]StatsResource[/color][/b] defines the base stats for an entity.[br]
 ##Attach to any entity to configure health, defense, weight, speed, and player resources.[br]
 ##Shared across instances of the same entity type.
 class_name StatsResource

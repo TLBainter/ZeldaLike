@@ -1,14 +1,11 @@
-﻿##[b][color=red]Miniboss[/color][/b] is a character class stemming from [b]Entity[/b]/[b]Character[/b]/[b]Enemy[/b].[br]
-##Minibosses have a death trigger, such as dropping an item or unlocking a door. They also display a health bar on the screen.
+##Miniboss character with death trigger and health bar display.
 class_name Miniboss
 extends Enemy
 
 #region VARIABLES
 #region COMPONENTS
 @export_group("Miniboss Components")
-##the miniboss's health bar; refers to a panel. Should be in the player UI.
 @export var health_bar : Panel
-##the death trigger signal sent to the scene.
 @export var death_trigger : String
 
 #region FUNCTIONS

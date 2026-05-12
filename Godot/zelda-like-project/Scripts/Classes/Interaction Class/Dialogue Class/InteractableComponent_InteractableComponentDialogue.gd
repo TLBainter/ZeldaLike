@@ -20,7 +20,7 @@ func _ready() -> void:
 	super._ready()
 
 ##Starts dialogue with [param user] (expected to be a [Player]).[br]
-##Connects [b]dialogue_closed[/b] → [b]interaction_finished[/b] via ONE_SHOT.
+##Connects [b]dialogue_closed[/b] -> [b]interaction_finished[/b] via ONE_SHOT.
 func interact(user: EntityClass = null) -> void:
 	if not speaker:
 		push_error(name + ": no SpeakComponent assigned")

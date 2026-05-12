@@ -1,5 +1,4 @@
-﻿##[b][color=red]DialogueSequence[/color][/b] is an array of dialogue strings based on the Dialogue CSV.[br]
-##This feature is used to create strings of dialogue chained together by varying events.
+##Array of dialogue strings from CSV, chained together by events.
 class_name DialogueSequence
 extends Resource
 
@@ -31,7 +30,6 @@ var _current_index : int = 0
 
 #region FUNCTIONS
 
-##Used to determine what the next dialogue ref should be once this ref is exhausted.
 func get_next_ref_id() -> String:
 	if dialogue_refs.is_empty():
 		return ""
@@ -44,7 +42,6 @@ func get_next_ref_id() -> String:
 			_current_index += 1
 	return ref_id
 
-##Checks if we have seen the last line in a sequential list
 func is_exhausted() -> bool:
 	if sequence_type == "Random":
 		return false

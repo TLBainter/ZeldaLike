@@ -1,10 +1,9 @@
-﻿##[b][color=red]PlayerInputComponent[/color][/b] handles all input from the player character, sending signals based on input.
+##Handles all input from the player character, sends signals based on input.
 class_name PlayerInputComponent
 extends InputComponent
 
 #region CONSTANTS
 const DPAD_BUTTONS : Array[String] = ["dPadUp", "dPadRight", "dPadDown", "dPadLeft"]
-##Maps spell action button names to their corresponding spell slot index (1–3).
 const SPELL_BUTTON_SLOTS : Dictionary = {
 	"actionButton1": 1,
 	"actionButton2": 2,
@@ -14,31 +13,20 @@ const SPELL_BUTTON_SLOTS : Dictionary = {
 
 #region SIGNALS
 #region Button Signals
-##Signal for when one of the four action buttons is pressed (actionButton 1 - 4)
 signal action_button_pressed(button : String)
-##Signal for when one of the four DPad Directions is pressed (Up, Right, Down, or Left)
 signal d_pad_pressed(index : int)
-##Emitted when an action button mapped to a spell slot (1–3) is pressed and a spell is equipped.[br]
-##[b]slot[/b]: The spell slot index (1, 2, or 3).[br]
-##[b]spell[/b]: The [MenuItemResource] assigned to that slot.
 signal spell_cast_requested(slot : int, spell : MenuItemResource)
 #endregion Button Signals
 #region Cam Signals
-##Signal when the cam up input is given
 signal on_cam_move(cam_move_input : Vector2, cam_move_strength : float)
-
-
 #endregion Cam Signals
 #endregion SIGNALS
 
 #region VARIABLES
 
 @export_group("External Components")
-##A reference to the pause menu's scene file.
 @export var pause_menu_scene : PackedScene
 @export_group("Spell Integration")
-##A reference to the player's equipped spells component.[br]
-##Used to look up which spell is assigned to each action button slot before emitting [signal spell_cast_requested].
 @export var equipped_spells : EquippedSpellsComponent
 
 #region Internal Variables
@@ -50,27 +38,20 @@ const ACTION_BUTTONS = ["actionButton1", "actionButton2", "actionButton3", "acti
 #endregion VARIABLES
 
 func _process(_delta):
-	#region Move Input
-	##handler for move input reception
 	var move_input : Vector2 = Input.get_vector("moveLeft", "moveRight", "moveUp", "moveDown")
 	if move_input.length() < 0.15:
 		move_input = Vector2.ZERO
-	##determines the strength of the move input
 	var move_strength : float = move_input.length()
 	on_move.emit(move_input, move_strength)
 	if debug_me:
 		print_rich(debug_name, ": [color=green][i]move emitted[/i][/color] input=[i]", move_input, "[/i] strength=[i]", move_strength, "[/i]")
-	#endregion
-	#region Cam Input
-	##handler for camera move input reception
+
 	var cam_move_input : Vector2 = Input.get_vector("camLeft", "camRight", "camUp", "camDown")
-	##determines the strength of the camera move input
 	var cam_move_strength : float = move_input.length()
 	if cam_move_input != null and cam_move_input != Vector2(0.0, 0.0):
 		on_cam_move.emit(cam_move_input, cam_move_strength)
 		if debug_me:
 			print_rich(debug_name, ": [color=green][i]cam_move emitted[/i][/color] input=[i]", cam_move_input, "[/i] strength=[i]", cam_move_strength, "[/i]")
-	#endregion
 
 func _unhandled_input(event : InputEvent):
 	if event.is_action_pressed("pause"):
@@ -101,19 +82,16 @@ func _open_pause_menu():
 #endregion PauseMenu
 
 #region Button Press
-#region Action Button handler
 func _action_button_press(btn : String) -> void:
 	if SPELL_BUTTON_SLOTS.has(btn) and equipped_spells:
 		var slot : int = SPELL_BUTTON_SLOTS[btn]
 		var spell : MenuItemResource = equipped_spells.get_spell(slot)
 		if spell:
 			spell_cast_requested.emit(slot, spell)
-			return  # Input fully handled; skip the generic signal.
+			return
 	action_button_pressed.emit(btn)
 
-## Returns true if the given action button is currently held down.
 func is_action_button_held(button: String) -> bool:
 	return Input.is_action_pressed(button)
 
-#endregion Action Button handler
 #endregion Button Press

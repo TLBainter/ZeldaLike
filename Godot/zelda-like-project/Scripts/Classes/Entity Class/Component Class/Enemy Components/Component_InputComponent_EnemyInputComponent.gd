@@ -64,7 +64,7 @@ var is_retreating : bool:
 	get: return _retreating
 var _nav_debug_timer : float = 0.0
 var _progress_check_pos : Vector2 = Vector2.ZERO
-## Last position given to nav.target_position — only update when player moves > threshold.
+## Last position given to nav.target_position - only update when player moves > threshold.
 var _last_nav_target : Vector2 = Vector2.ZERO
 const _NAV_TARGET_UPDATE_THRESHOLD : float = 24.0
 var _last_facing : String = ""
@@ -167,7 +167,7 @@ func _process_chase(delta : float) -> void:
 	if lose_trigger == LoseTrigger.PLAYER_IS_X_DISTANCE:
 		var dist : float = character.body.global_position.distance_to(player_pos)
 		if dist > lose_distance:
-			_debug_log(str("Player lost — out of range (", snapped(dist, 0.1), "px > ", lose_distance, "px)."))
+			_debug_log(str("Player lost - out of range (", snapped(dist, 0.1), "px > ", lose_distance, "px)."))
 			_player = null
 			set_mode(default_mode)
 			player_lost.emit()
@@ -218,7 +218,7 @@ func _process_chase(delta : float) -> void:
 				print_rich("[color=yellow]", debug_name, " NO-PROGRESS[/color]",
 					"  body=", character.body.global_position,
 					"  nav_next=", next_dbg,
-					"  moved=", snapped(moved_px, 0.1), "px — unfrozen but not advancing")
+					"  moved=", snapped(moved_px, 0.1), "px - unfrozen but not advancing")
 			_progress_check_pos = character.body.global_position
 	if nav.is_navigation_finished():
 		if debug_me:
@@ -296,10 +296,10 @@ func notify_player_entered_room(player : Node2D) -> void:
 	_player = player
 	player_detected.emit(player)
 	set_mode(AIMode.CHASE)
-	_debug_log("Player entered room — chase activated.")
+	_debug_log("Player entered room - chase activated.")
 
 ##Temporarily boosts the character's move speed by [param speed_mult] for [param duration] seconds.[br]
-##Safe to call while a boost is already active — extends duration without stacking multipliers.
+##Safe to call while a boost is already active - extends duration without stacking multipliers.
 func begin_hurt_retreat(duration : float, speed_mult : float) -> void:
 	var character := _find_entity_parent() as Character
 	if not character:

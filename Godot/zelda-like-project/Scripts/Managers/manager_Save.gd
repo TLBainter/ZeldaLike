@@ -76,7 +76,7 @@ func register_player(player : Node) -> void:
 			SceneTransitionManager.load_transition.call_deferred(player, load(scene_path) as PackedScene, door_name)
 			return
 
-		# Tier 2: no parent entrance saved — use the current level's default_entrance.
+		# Tier 2: no parent entrance saved - use the current level's default_entrance.
 		var root  := get_tree().current_scene
 		var level := _find_level_in_scene(root)
 		if level and not level.default_entrance.is_empty():
@@ -224,7 +224,7 @@ func has_any_save() -> bool:
 func is_loading() -> bool:
 	return _is_loading
 
-##Debug console alias — starts a new game on slot 0 with default settings.
+##Debug console alias - starts a new game on slot 0 with default settings.
 func new_game() -> void:
 	start_new_game(0, "Debug", "Standard")
 

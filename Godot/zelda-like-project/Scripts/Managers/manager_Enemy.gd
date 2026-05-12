@@ -14,9 +14,9 @@ signal enemy_killed(id: String)
 var _killed_once: Dictionary = {}
 ##Subset of [b]_killed_once[/b] for NEVER-respawn enemies. Saved to file. Suppresses enemy on scene load.
 var _permanently_dead: Dictionary = {}
-##ON_RELOAD enemies killed this game session. Runtime only — cleared on load_game / new_game.
+##ON_RELOAD enemies killed this game session. Runtime only - cleared on load_game / new_game.
 var _session_dead: Dictionary = {}
-##ON_RE_ENTER enemies killed this area visit. Runtime only — cleared when the area context changes.
+##ON_RE_ENTER enemies killed this area visit. Runtime only - cleared when the area context changes.
 var _area_dead: Dictionary = {}
 ##Path of the current area (parent level or standalone scene). Set by Level._enter_tree().
 var _current_area_path: String = ""

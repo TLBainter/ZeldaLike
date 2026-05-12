@@ -1,4 +1,4 @@
-##[b][color=red]StateKnockback[/color][/b] — entity is launched away from a hit source.[br]
+##[b][color=red]StateKnockback[/color][/b] - entity is launched away from a hit source.[br]
 ##Phase 1: entity travels in [member _knockback_dir] at [constant KNOCKBACK_SPEED].[br]
 ##Phase 2 (rebound): triggered by wall collision during phase 1; entity bounces back
 ##a fraction of the remaining travel distance (not a fixed base like StateDash).[br]

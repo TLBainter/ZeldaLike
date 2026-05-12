@@ -1,4 +1,4 @@
-##[b][color=red]StateDying[/color][/b] — placeholder stub for enemy death animation.[br]
+##[b][color=red]StateDying[/color][/b] - placeholder stub for enemy death animation.[br]
 ##When implemented, this state will play the dying animation and then transition to [b]StateDead[/b].
 class_name StateDying
 extends State

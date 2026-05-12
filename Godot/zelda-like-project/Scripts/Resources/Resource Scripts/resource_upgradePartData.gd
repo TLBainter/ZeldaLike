@@ -16,7 +16,7 @@ extends Resource
 ##Static image shown in the menu when the panel is [b]not[/b] hovered.
 @export var part_static_sprite: AtlasTexture
 ##Animation strip played in the menu when the panel [b]is[/b] hovered.[br]
-##Same format as [MenuItemResource].main — a horizontal sprite strip.
+##Same format as [MenuItemResource].main - a horizontal sprite strip.
 @export var part_anim_sprite: AtlasTexture
 
 @export_group("Anim Config")

@@ -1,4 +1,4 @@
-﻿##[b][color=red]StateDash[/color][/b] is the dash movement state.[br]
+##[b][color=red]StateDash[/color][/b] is the dash movement state.[br]
 ##Entered from StateRun via actionButton4 when the player has >= 1 energy.[br]
 ##The player dashes in their current movement direction at dodge_speed.[br]
 ##Dash distance = 2 * dodge_speed (pixels). Invulnerable while dashing.[br]

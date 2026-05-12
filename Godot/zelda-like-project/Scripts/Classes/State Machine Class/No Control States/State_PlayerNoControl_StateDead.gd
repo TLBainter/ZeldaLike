@@ -1,4 +1,4 @@
-##[b][color=red]StatePlayerDead[/color][/b] — player has died.[br]
+##[b][color=red]StatePlayerDead[/color][/b] - player has died.[br]
 ##Freezes all input and enemies, fades the screen to black, then loads the last save.[br]
 ##[br]
 ##[b]LAYER[/b]: No Control

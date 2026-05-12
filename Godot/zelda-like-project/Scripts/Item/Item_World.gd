@@ -1,4 +1,4 @@
-﻿##[b][color=red]WorldItem[/color][/b] is the scene script for items that exist in the game world.[br]
+##[b][color=red]WorldItem[/color][/b] is the scene script for items that exist in the game world.[br]
 ##Handles spawn animation (Float/Drop/Bounce gravity), bob animation, shadow sync,[br]
 ##sparkle animation, auto-pickup on player contact, item application, and first-get dialogue.[br]
 ##[br]

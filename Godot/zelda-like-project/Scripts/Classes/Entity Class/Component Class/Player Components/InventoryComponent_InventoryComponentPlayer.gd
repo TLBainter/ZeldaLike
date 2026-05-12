@@ -1,32 +1,20 @@
-﻿##[b][color=red]InventoryComponent[/color][/b] tracks which items the player has and how many.[br]
-##Attach as a child of the Player node.[br]
-##[br]
-##Items are identified by their [b]ItemID[/b] string constants.[br]
-##Quantity-based items (ingredients, concoctions) track count.[br]
-##Non-quantity items (spells, dungeon items) are simply owned or not owned.
+##Tracks player items and quantities. Attach as child of Player node.
+##Items identified by ItemID string constants. Quantity-based items track count.
+##
+##This class implements the [IInventory] contract, providing standard inventory operations.
 class_name InventoryComponentPlayer
 extends InventoryComponent
 
 #region SIGNALS
 
-##Emitted when any item's ownership or quantity changes.[br]
-##[b]item_id[/b]: The ItemID constant.[br]
-##[b]quantity[/b]: The new quantity (1 for non-quantity items when owned, 0 when removed).
 signal inventory_changed(item_id : String, quantity : int)
 
 #endregion SIGNALS
 
 #region VARIABLES
 
-
-##Items the player owns at the start of the game.[br]
-##Populated once in [method _ready]. Add item IDs here to grant them from the beginning.
 @export var start_items : PackedStringArray = []
 
-
-##Stores all item data.[br]
-##Format: { "item_id" : int quantity }[br]
-##An item not in the dictionary means the player doesn't have it.
 var _items : Dictionary = {}
 
 #endregion VARIABLES
@@ -39,11 +27,9 @@ func _ready() -> void:
 
 #region QUERY
 
-##Returns whether the player has the given item (quantity > 0).
 func has_item(item_id : String) -> bool:
 	return _items.has(item_id) and _items[item_id] > 0
 
-##Returns the quantity of the given item. Returns 0 if not owned.
 func get_quantity(item_id : String) -> int:
 	if _items.has(item_id):
 		return _items[item_id]
@@ -53,8 +39,10 @@ func get_quantity(item_id : String) -> int:
 
 #region ADD / REMOVE
 
-##Adds a quantity of an item. For non-quantity items, use amount = 1.
 func add_item(item_id : String, amount : int = 1) -> void:
+	if item_id.is_empty() or item_id == null:
+		push_warning("InventoryComponentPlayer.add_item: item_id is null or empty, skipping.")
+		return
 	if _items.has(item_id):
 		_items[item_id] += amount
 	else:
@@ -63,9 +51,10 @@ func add_item(item_id : String, amount : int = 1) -> void:
 	if debug_me:
 		print(debug_name, ": Added ", amount, "x ", item_id, ". Total: ", _items[item_id])
 
-##Removes a quantity of an item. Clamps to 0.[br]
-##Returns the actual amount removed.
 func remove_item(item_id : String, amount : int = 1) -> int:
+	if item_id.is_empty() or item_id == null:
+		push_warning("InventoryComponentPlayer.remove_item: item_id is null or empty, skipping.")
+		return 0
 	if not _items.has(item_id):
 		return 0
 	var current = _items[item_id]
@@ -78,8 +67,10 @@ func remove_item(item_id : String, amount : int = 1) -> int:
 		print(debug_name, ": Removed ", removed, "x ", item_id, ". Remaining: ", get_quantity(item_id))
 	return removed
 
-##Sets the quantity of an item directly. Use 0 to remove it.
 func set_quantity(item_id : String, quantity : int) -> void:
+	if item_id.is_empty() or item_id == null:
+		push_warning("InventoryComponentPlayer.set_quantity: item_id is null or empty, skipping.")
+		return
 	if quantity <= 0:
 		_items.erase(item_id)
 	else:
@@ -92,11 +83,9 @@ func set_quantity(item_id : String, quantity : int) -> void:
 
 #region UTILITY
 
-##Returns a copy of the full inventory dictionary.
 func get_all_items() -> Dictionary:
 	return _items.duplicate()
 
-##Clears the entire inventory.
 func clear_inventory() -> void:
 	_items.clear()
 	if debug_me:

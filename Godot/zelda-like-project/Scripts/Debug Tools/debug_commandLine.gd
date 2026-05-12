@@ -1,4 +1,4 @@
-﻿##[b][color=red]DebugConsole[/color][/b] is a simple in-game text prompt for debug commands.[br]
+##[b][color=red]DebugConsole[/color][/b] is a simple in-game text prompt for debug commands.[br]
 ##Press TAB to open/close. Type commands and press Enter to execute.[br]
 ##[br]
 ##[b]Commands:[/b][br]
@@ -285,7 +285,7 @@ func _cmd_upgrade(parts : Array) -> void:
 		_print_output("[color=yellow]Player does not have '" + item_id + "'. Granting upgrade directly.[/color]")
 	_inventory.remove_item(item_id, 1)
 	_inventory.add_item(upgraded_id, 1)
-	_print_output("[color=green]Upgraded '" + item_id + "' → '" + upgraded_id + "'.[/color]")
+	_print_output("[color=green]Upgraded '" + item_id + "' -> '" + upgraded_id + "'.[/color]")
 
 func _cmd_enable(parts : Array) -> void:
 	if parts.size() >= 3 and parts[1].to_lower() == "verbose" and parts[2].to_lower() == "debug":

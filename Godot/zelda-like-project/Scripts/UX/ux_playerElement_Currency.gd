@@ -1,10 +1,10 @@
-﻿##[b][color=red]CurrencyDisplay[/color][/b] extends [b]UXElement[/b] for the player's currency (notes) display.[br]
+##[b][color=red]CurrencyDisplay[/color][/b] extends [b]ComponentDisplay[/b] for the player's currency (notes) display.[br]
 ##Manages wallet size sprites, leading-zero label formatting, tick-up/down animation,[br]
 ##sound effects, and max-value color change.[br]
 ##[br]
 ##[b]Wallet Sizes[/b]: Pocket (99), Wallet (999), Big Wallet (9999).
 class_name CurrencyDisplay
-extends UXElement
+extends "res://Scripts/UX/ux_playerElement_ComponentDisplay.gd"
 
 #region VARIABLES
 
@@ -67,16 +67,20 @@ var digit_count : int = 2
 ##Initializes the currency display with the currency component reference.
 func initialize(currency_comp : CurrencyComponent) -> void:
 	_currency_component = currency_comp
-	if _currency_component:
-		if not _currency_component.notes_changed.is_connected(_on_notes_changed):
-			_currency_component.notes_changed.connect(_on_notes_changed)
+	initialize_component_display(currency_comp)
+	if debug_me:
+		print_rich(debug_name, ": [color=green][i]initialized[/i][/color].")
 
+func _connect_component_signals(_component: Node) -> void:
+	if _currency_component:
+		SignalUtil.safe_connect(_currency_component, "notes_changed", Callable(self, "_on_notes_changed"))
+
+func _refresh_display() -> void:
+	if _currency_component:
 		_display_value = _currency_component.cur_notes
 		_target_value = _display_value
 		_update_wallet_size()
 		_update_label()
-	if debug_me:
-		print_rich(debug_name, ": [color=green][i]initialized[/i][/color].")
 
 func _can_fade_out() -> bool:
 	return not _is_ticking
@@ -138,7 +142,7 @@ func _on_notes_changed(cur_notes : int, max_notes : int, change_amount : int):
 
 	_target_value = cur_notes
 
-	# Snap instantly during save-load restore — no tick animation or sounds.
+	# Snap instantly during save-load restore - no tick animation or sounds.
 	if saveManager and saveManager.is_loading():
 		_display_value = cur_notes
 		_is_ticking = false

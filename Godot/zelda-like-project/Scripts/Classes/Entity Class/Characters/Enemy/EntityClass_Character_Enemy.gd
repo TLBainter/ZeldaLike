@@ -98,7 +98,7 @@ func take_damage(amount : int, effect : DamageEffectResource = null) -> void:
 		return
 	health.damaged(amount, Vector2.ZERO, effect)
 	if debug_me:
-		print_rich(debug_name, ": took [b]", amount, "[/b] damage — health now [b]", health.cur_health, "/", health.max_health, "[/b].")
+		print_rich(debug_name, ": took [b]", amount, "[/b] damage - health now [b]", health.cur_health, "/", health.max_health, "[/b].")
 	if health.cur_health <= 0:
 		var dying_state = state_machine.get_transition(StateID.DYING) if state_machine else null
 		if dying_state:

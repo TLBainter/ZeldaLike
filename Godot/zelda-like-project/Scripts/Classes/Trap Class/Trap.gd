@@ -1,4 +1,4 @@
-﻿@icon("res://Editor Tools/Icons/icon_trap.svg")
+@icon("res://Editor Tools/Icons/icon_trap.svg")
 ##[b][color=red]Trap[/color][/b] drives a data-driven hazard that animates and deals damage to the player.[br]
 ##Reads all configuration from an assigned [b][color=yellow]TrapResource[/color][/b].[br]
 ##[br]
@@ -15,7 +15,7 @@ extends Node2D
 ##The resource that defines this trap's sprite, behavior, and damage.
 @export var trap_resource : TrapResource
 ##Extra delay before the very first trigger after the trap enters camera bounds.[br]
-##E.g. interval_seconds=3, first_trigger_delay=2 → first trigger at 5s, all subsequent at 3s.[br]
+##E.g. interval_seconds=3, first_trigger_delay=2 -> first trigger at 5s, all subsequent at 3s.[br]
 ##Two traps with identical [member first_trigger_delay] and [member TrapResource.interval_seconds] stay phase-locked.
 @export var first_trigger_delay : float = 0.0
 

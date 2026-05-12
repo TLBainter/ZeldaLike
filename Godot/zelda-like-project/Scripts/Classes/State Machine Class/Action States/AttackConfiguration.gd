@@ -1,9 +1,8 @@
 class_name AttackConfiguration
 extends Resource
 
-##Defines per-direction hitbox offsets and rotations for an attack.
-##Assign a custom resource to State_Attack to create attack variants
-##(e.g., ranged, magic) with different geometry without modifying state logic.
+##Per-direction hitbox offsets and rotations for attacks.
+##Allows attack variants (ranged, magic) without modifying state logic.
 
 @export var offsets: Dictionary = {
 	"down":  { "position": Vector2(0, 6),   "rotation": 0.0   },

@@ -1,12 +1,12 @@
-##[b][color=red]StateDamaged[/color][/b] — brief stagger after the enemy takes a non-lethal hit.[br]
+##[b][color=red]StateDamaged[/color][/b] - brief stagger after the enemy takes a non-lethal hit.[br]
 ##After the stagger, the enemy either counter-attacks ([constant ATTACK_CHANCE]) or retreats
-##at boosted speed ([constant HURT_RETREAT_SPEED_MULT] × normal) for [constant HURT_RETREAT_DURATION] seconds.
+##at boosted speed ([constant HURT_RETREAT_SPEED_MULT] x normal) for [constant HURT_RETREAT_DURATION] seconds.
 class_name StateDamaged
 extends State
 
 ##Seconds the enemy is frozen in a stagger before acting.
 const STAGGER_DURATION : float = 0.25
-##Probability (0–1) the enemy immediately counter-attacks instead of retreating.
+##Probability (0-1) the enemy immediately counter-attacks instead of retreating.
 const ATTACK_CHANCE : float = 0.45
 ##How much faster the enemy moves during the post-damage retreat burst.
 const HURT_RETREAT_SPEED_MULT : float = 1.6

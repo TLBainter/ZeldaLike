@@ -1,4 +1,4 @@
-﻿##[b][color=red]Entity Class[/color][/b] is the [i]Parent Class[/i] of all entities in the game.[br]
+##[b][color=red]Entity Class[/color][/b] is the [i]Parent Class[/i] of all entities in the game.[br]
 ##Subclasses include [b][color=yellow]Character[/color][/b] and [b][color=yellow]Object[/color][/b]
 class_name EntityClass
 extends Node2D

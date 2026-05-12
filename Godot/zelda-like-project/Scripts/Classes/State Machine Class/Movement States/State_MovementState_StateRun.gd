@@ -1,4 +1,4 @@
-﻿##[b][color=red]StateRun[/color][/b] is a movement state for moving at high speeds.[br]
+##[b][color=red]StateRun[/color][/b] is a movement state for moving at high speeds.[br]
 ##While running, you can activate the dash context action.[br]
 ##There are things you can't do while running, though, like grabbing things or speaking.
 ##[br]

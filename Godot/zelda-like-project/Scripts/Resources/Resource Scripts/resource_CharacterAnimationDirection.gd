@@ -1,5 +1,5 @@
 ##[b][color=red]CharacterAnimationDirectionEntry[/color][/b] maps one sprite sheet row to a compass direction.[br]
-##Add these inside a [b]CharacterAnimationResource[/b]'s [b]directions[/b] array — one entry per direction the animation supports.[br]
+##Add these inside a [b]CharacterAnimationResource[/b]'s [b]directions[/b] array - one entry per direction the animation supports.[br]
 ##The [b]direction[/b] property is displayed as a compass-rose grid in the Inspector (requires the [i]Character Visual Editor[/i] plugin to be enabled).
 @tool
 class_name CharacterAnimationDirectionEntry

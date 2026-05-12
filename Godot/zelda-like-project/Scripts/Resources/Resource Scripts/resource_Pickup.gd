@@ -1,6 +1,5 @@
-##[b][color=red]PickupResource[/color][/b] wraps an [b]ItemResource[/b] with world-behavior data.[br]
-##Defines how the item behaves when dropped into the world (gravity, rarity).[br]
-##Referenced by [b]DropTable[/b] entries and spawned as [b]WorldItem[/b] scenes.
+##Wraps ItemResource with world-behavior data (gravity, rarity).
+##Referenced by DropTable entries and spawned as WorldItem scenes.
 class_name PickupResource
 extends Resource
 

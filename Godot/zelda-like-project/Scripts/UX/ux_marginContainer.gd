@@ -1,21 +1,13 @@
-﻿##[b][color=red]InGameMargin[/color][/b] is a script designed to automatically scale each side of the viewport margin in game.[br]
-##By default, a margin of 16 pixels is used for the in-game margin container.[br]
-##This script overrides that to allow the screen to be easily scaled and responsive!
+##Auto-scales viewport margin to allow responsive screen scaling.
 class_name InGameMargin
 extends MarginContainer
 
 #region VARIABLES
-##a reference to the player.
 @export_group("Margin Container Components")
-##a reference to the UX control node.
 @export var root : PlayerUX
-##a reference to the player.
 @onready var player : CharacterBody2D = root.player
-##how fast this entity will fade out when the player is beneath it.
 @onready var fade_out_speed : float = root.player_detection_fadeout_speed
-##the target alpha when fading out.
 @onready var ux_fade_target : float = root.ux_min_alpha
-##current goal alpha value for UX elements. Changes throughout the script.
 var target_alpha : float = 1.0
 var is_player_under_ui : bool = false
 

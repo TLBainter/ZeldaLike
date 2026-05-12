@@ -1,5 +1,4 @@
-##[b][color=red]InteractableObject[/color][/b] is a resource defining the properties of a [b]DynamicInteractable[/b].[br]
-##This allows the same configuration to be shared across multiple instances of similar objects (e.g., jars, crates, etc).
+##Defines DynamicInteractable properties; allows sharing config across similar objects.
 class_name InteractableObject
 extends Resource
 

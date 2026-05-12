@@ -1,4 +1,4 @@
-﻿##[b][color=red]MenuHoverableItem[/color][/b] extends [b]MenuHoverable[/b] for inventory item panels.[br]
+##[b][color=red]MenuHoverableItem[/color][/b] extends [b]MenuHoverable[/b] for inventory item panels.[br]
 ##Handles item sprite display (outline/owned), frame animation on hover,[br]
 ##flash effects, quantity labels, and inventory integration.
 @tool

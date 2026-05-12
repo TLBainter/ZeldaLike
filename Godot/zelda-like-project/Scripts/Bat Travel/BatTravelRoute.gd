@@ -1,4 +1,4 @@
-﻿@icon("res://Editor Tools/Icons/icon_batTravelRoute.svg")
+@icon("res://Editor Tools/Icons/icon_batTravelRoute.svg")
 ##[b][color=red]BatTravelRoute[/color][/b] is the editor tool that defines a bat travel path.[br]
 ##Drop [b]BatTravelRoute.tscn[/b] into a level.[br]
 @tool

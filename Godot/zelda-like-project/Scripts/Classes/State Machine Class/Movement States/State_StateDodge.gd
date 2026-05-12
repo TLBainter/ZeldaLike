@@ -36,7 +36,7 @@ func _start_dodge(direction: Vector2) -> void:
 	coordinator.update_context("", true)
 	root.body.velocity = direction * _dodge_speed
 	_original_mask = root.body.collision_mask
-	root.body.collision_mask = 32  # Wall Layer only — walls always rebound; enemies/interactables handled by clearance check
+	root.body.collision_mask = 32  # Wall Layer only - walls always rebound; enemies/interactables handled by clearance check
 	_original_layer = root.body.collision_layer
 	root.body.collision_layer = 0  # invisible to enemy physics during dash; player is invulnerable anyway
 	if root.sprite:
@@ -75,7 +75,7 @@ func _on_dodge_complete() -> void:
 ##Binary-searches on Character + Interactable layers to find the farthest clear position.
 func _clearance_adjusted_dist(direction: Vector2, proposed_max: float) -> float:
 	var saved_mask : int = root.body.collision_mask
-	root.body.collision_mask = 1 | 2  # Character Layer + Interactable Layer — enemies and objects both affect clearance
+	root.body.collision_mask = 1 | 2  # Character Layer + Interactable Layer - enemies and objects both affect clearance
 	if not root.body.test_move(root.body.global_transform, direction * proposed_max):
 		root.body.collision_mask = saved_mask
 		return proposed_max

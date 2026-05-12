@@ -54,10 +54,10 @@ func _build_overlay() -> void:
 
 #region PUBLIC API
 ##Called by a [TransitionDoor] when the player enters its trigger.[br]
-##[param player] — the Player node (parent of CharacterBody2D).[br]
-##[param target_scene] — the packed scene to load.[br]
-##[param target_door_name] — the name of the door node in [param target_scene] to arrive at.[br]
-##[param exit_walk_dir] — normalised direction the player should walk when exiting (away from transition target).
+##[param player] - the Player node (parent of CharacterBody2D).[br]
+##[param target_scene] - the packed scene to load.[br]
+##[param target_door_name] - the name of the door node in [param target_scene] to arrive at.[br]
+##[param exit_walk_dir] - normalised direction the player should walk when exiting (away from transition target).
 func request_transition(player        : Node,
 						target_scene  : PackedScene,
 						target_door_name : String,
@@ -92,9 +92,9 @@ func reset() -> void:
 
 ## Starts with the screen already black, carries [param player] to [param target_scene],
 ## and plays the arrival sequence at [param door_name].[br]
-## Used when loading a save from the main menu — player boots in GAME_START_SCENE,
+## Used when loading a save from the main menu - player boots in GAME_START_SCENE,
 ## is carried here, and arrives through the saved door.[br]
-## TODO: revisit — music/camera setup may need further polish for non-standard scenes.
+## TODO: revisit - music/camera setup may need further polish for non-standard scenes.
 func load_transition(player: Node, target_scene: PackedScene, door_name: String) -> void:
 	if _is_transitioning:
 		return

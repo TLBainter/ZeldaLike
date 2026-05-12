@@ -1,36 +1,30 @@
-##[b][color=red]EnergyDisplay[/color][/b] extends [b]UXDisplayElement[/b] for the player's energy bolt display.[br]
+##[b][color=red]EnergyDisplay[/color][/b] extends [b]RecoverableResourceDisplay[/b] for the player's energy bolt display.[br]
 ##Manages bolt fill states, exhausted flashing, and positions relative to the player.
 class_name EnergyDisplay
-extends UXDisplayElement
+extends RecoverableResourceDisplay
 
 #region VARIABLES
-
-@export_category("Energy Components")
-##The maximum number of bolts. Each bolt holds 4 energy.
-var _energy_component : EnergyComponent
 
 ##Whether the player is currently exhausted (0 energy).
 var _is_exhausted : bool = false
 
 #endregion VARIABLES
 
-#region FUNCTIONS
+#region VIRTUAL METHOD OVERRIDES
 
-##Initializes the energy display with the energy component and player references.
-func initialize(energy_comp : EnergyComponent, player_body : CharacterBody2D, player_cam : CamClass) -> void:
-	_energy_component = energy_comp
-	if _energy_component and not _energy_component.energy_changed.is_connected(_on_energy_changed):
-		_energy_component.energy_changed.connect(_on_energy_changed)
-	initialize_display(player_body, player_cam)
+func _get_change_signal_name() -> String:
+	return "energy_changed"
 
-func _on_display_initialized() -> void:
-	_build_gui_elements(_energy_component.max_bolts)
-	_update_bolts(_energy_component.cur_energy)
+func _get_element_count() -> int:
+	return _component.max_bolts if _component else 0
+
+func _on_additional_initialization() -> void:
 	if debug_me:
-		print_rich(debug_name, ": [color=green][i]initialized[/i][/color] with [i]", _energy_component.max_bolts, "[/i] bolts.")
+		print_rich(debug_name, ": [color=green][i]initialized[/i][/color] with [i]", _component.max_bolts, "[/i] bolts.")
 
-func _can_fade_out() -> bool:
-	return _energy_component and _energy_component.is_full()
+#endregion VIRTUAL METHOD OVERRIDES
+
+#region FUNCTIONS
 
 #region BOLT MANAGEMENT
 
@@ -53,9 +47,9 @@ func _update_bolts(cur_energy : int) -> void:
 
 #region ENERGY CHANGE HANDLER
 
-func _on_energy_changed(cur_energy : int, max_energy : int, change_amount : int) -> void:
+func _on_component_changed(cur_energy : int, max_energy : int, change_amount : int) -> void:
 	var was_exhausted = _is_exhausted
-	_is_exhausted = _energy_component.is_exhausted_state
+	_is_exhausted = _component.is_exhausted_state
 	if change_amount < 0:
 		var bolts = gui_container.get_children()
 		var flash_idx = clampi(int(ceil(float(cur_energy) / 4.0)) - 1, 0, bolts.size() - 1)
@@ -128,7 +122,7 @@ func update_position() -> void:
 ##Sets the maximum number of bolts and rebuilds the display.
 func set_max_bolts(max_bolts : int) -> void:
 	_build_gui_elements(max_bolts)
-	if _energy_component:
-		_update_bolts.call_deferred(_energy_component.cur_energy)
+	if _component:
+		_update_bolts.call_deferred(_component.cur_energy)
 
 #endregion FUNCTIONS

@@ -1,4 +1,4 @@
-﻿##[b][color=red]ClassName[/color][/b] __
+##[b][color=red]ClassName[/color][/b] __
 class_name ClassName
 extends Node
 

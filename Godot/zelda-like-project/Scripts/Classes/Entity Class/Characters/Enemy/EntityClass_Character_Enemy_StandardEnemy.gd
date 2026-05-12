@@ -1,4 +1,4 @@
-﻿##[b][color=red]StandardEnemy[/color][/b] is a character class stemming from [b]Entity[/b]/[b]Character[/b]/[b]Enemy[/b].[br]
+##[b][color=red]StandardEnemy[/color][/b] is a character class stemming from [b]Entity[/b]/[b]Character[/b]/[b]Enemy[/b].[br]
 ##Standard Enemies are the most common enemy type. They patrol, chase, and attack the player.
 class_name StandardEnemy
 extends Enemy

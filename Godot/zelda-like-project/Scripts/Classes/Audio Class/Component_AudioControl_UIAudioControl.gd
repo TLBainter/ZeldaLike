@@ -1,4 +1,4 @@
-﻿##[b][color=red]UIAudioControl[/color][/b] controls the audio that plays from the UX.
+##[b][color=red]UIAudioControl[/color][/b] controls the audio that plays from the UX.
 class_name UIAudioControl
 extends AudioControl
 

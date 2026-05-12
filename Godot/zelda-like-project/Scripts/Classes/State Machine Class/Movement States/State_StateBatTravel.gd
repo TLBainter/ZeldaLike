@@ -1,4 +1,4 @@
-﻿##[b][color=red]StateBatTravel[/color][/b] is the bat travel movement state.[br]
+##[b][color=red]StateBatTravel[/color][/b] is the bat travel movement state.[br]
 ##Entered when the player interacts with a [BatTravelCircle] inside a [BatTravelRoute].[br]
 ##[br]
 ##Travel has two phases:[br]
@@ -48,7 +48,7 @@ func _ready() -> void:
 	super()
 
 ##Called by [BatTravelCircle] before requesting the state change.[br]
-##[param is_start]: true if the player entered Circle A (travels A→B), false for B→A.
+##[param is_start]: true if the player entered Circle A (travels A->B), false for B->A.
 func setup(route: BatTravelRoute, is_start: bool) -> void:
 	_route = route
 	_forward = is_start

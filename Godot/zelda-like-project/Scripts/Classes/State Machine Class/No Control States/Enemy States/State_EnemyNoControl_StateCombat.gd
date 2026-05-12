@@ -1,4 +1,4 @@
-##[b][color=red]StateCombat[/color][/b] — freezes movement and triggers the enemy attack on the Action layer.[br]
+##[b][color=red]StateCombat[/color][/b] - freezes movement and triggers the enemy attack on the Action layer.[br]
 ##After the attack finishes, movement is unfrozen during the inter-attack delay so the enemy repositions.[br]
 ##After the delay, evaluates: re-attack (player in range/aligned, cap not hit), chase, or default (Roam/Idle).
 class_name StateCombat
@@ -74,7 +74,7 @@ func _process(delta : float) -> void:
 	var action_current = coordinator.action_layer.current_state
 	if action_current == enemy_attack_state:
 		return
-	# Attack finished or was interrupted — begin delay before next decision.
+	# Attack finished or was interrupted - begin delay before next decision.
 	_start_delay()
 
 func _trigger_attack() -> void:
@@ -83,7 +83,7 @@ func _trigger_attack() -> void:
 		coordinator.request_action_change(enemy_attack_state as State)
 
 func _on_player_lost() -> void:
-	_debug_log("Player lost during combat — returning to default.")
+	_debug_log("Player lost during combat - returning to default.")
 	_go_to_default()
 
 func _start_delay() -> void:
@@ -105,9 +105,9 @@ func _start_delay() -> void:
 		)
 	# Unfreeze movement so the enemy can reposition during the inter-attack delay.
 	coordinator.unfreeze_movement()
-	_debug_log(str("unfreeze_movement — pos=",
+	_debug_log(str("unfreeze_movement - pos=",
 		snapped(enemy.body.global_position, Vector2(0.1, 0.1)) if enemy and enemy.body else "?",
-		" — waiting ", snapped(_delay_timer, 0.01), "s"))
+		" - waiting ", snapped(_delay_timer, 0.01), "s"))
 
 ##Computes the cardinal facing string toward [param player_pos] from the enemy body.
 static func _facing_toward(enemy : Enemy, player_pos : Vector2) -> String:
@@ -135,7 +135,7 @@ func _evaluate_next_action() -> void:
 	var player_pos : Vector2 = player_body.global_position if player_body else player.global_position
 	var dist_to_player := enemy.body.global_position.distance_to(player_pos)
 	if dist_to_player > input.lose_distance:
-		_debug_log("Re-evaluating: player out of chase range — returning to default.")
+		_debug_log("Re-evaluating: player out of chase range - returning to default.")
 		_go_to_default()
 		return
 	# Compute fresh cardinal facing toward the player's current position.
@@ -144,14 +144,14 @@ func _evaluate_next_action() -> void:
 	# Re-attack if player is in melee range.
 	var melee_res := enemy.attack_component.find_melee_attack()
 	if melee_res and enemy.attack_component.is_player_near_attack_area(melee_res, facing, player_pos):
-		_debug_log("Re-evaluating: melee range met — re-attacking.")
+		_debug_log("Re-evaluating: melee range met - re-attacking.")
 		if enemy.anim is CharacterAnimator:
 			(enemy.anim as CharacterAnimator).set_facing(to_player_vec)
 		_trigger_attack()
 		return
-	# Too close for a ranged-only enemy — go to Chase so retreat can begin.
+	# Too close for a ranged-only enemy - go to Chase so retreat can begin.
 	if dist_to_player < EnemyInputComponent.MIN_COMBAT_RANGE and not melee_res:
-		_debug_log("Re-evaluating: too close for ranged attack — transitioning to Chase.")
+		_debug_log("Re-evaluating: too close for ranged attack - transitioning to Chase.")
 		_safe_transition(StateID.CHASE)
 		return
 	# Re-attack only if a projectile in the cardinal facing direction would hit the player.
@@ -162,21 +162,21 @@ func _evaluate_next_action() -> void:
 		if dist <= max_dist and StateChase._is_shot_on_target(enemy, facing, max_dist, player_pos):
 			if _ranged_reattack_count < MAX_RANGED_REATTACKS:
 				_ranged_reattack_count += 1
-				_debug_log(str("Re-evaluating: shot on target — re-attacking (", _ranged_reattack_count, "/", MAX_RANGED_REATTACKS, ")."))
+				_debug_log(str("Re-evaluating: shot on target - re-attacking (", _ranged_reattack_count, "/", MAX_RANGED_REATTACKS, ")."))
 				if enemy.anim is CharacterAnimator:
 					(enemy.anim as CharacterAnimator).set_facing(to_player_vec)
 				_trigger_attack()
 				return
 			else:
-				_debug_log("Re-evaluating: ranged re-attack cap reached — transitioning to Chase.")
+				_debug_log("Re-evaluating: ranged re-attack cap reached - transitioning to Chase.")
 				_safe_transition(StateID.CHASE)
 				return
-	# Point-blank with no available attack — return to Chase to reposition safely.
+	# Point-blank with no available attack - return to Chase to reposition safely.
 	if dist_to_player <= StateChase.MIN_ENGAGEMENT_DIST and not melee_res:
-		_debug_log("Re-evaluating: point-blank, no melee — transitioning to Chase.")
+		_debug_log("Re-evaluating: point-blank, no melee - transitioning to Chase.")
 		_safe_transition(StateID.CHASE)
 		return
-	_debug_log("Re-evaluating: no clear shot — transitioning to Chase.")
+	_debug_log("Re-evaluating: no clear shot - transitioning to Chase.")
 	_safe_transition(StateID.CHASE)
 
 func _go_to_default() -> void:

@@ -1,4 +1,4 @@
-﻿##[b][color=red]MenuHoverable[/color][/b] is the base class for navigable panel elements in a menu.[br]
+##[b][color=red]MenuHoverable[/color][/b] is the base class for navigable panel elements in a menu.[br]
 ##Handles navigation links, panel TextureRect, cursor display, and info box basics.[br]
 @tool
 class_name MenuHoverable

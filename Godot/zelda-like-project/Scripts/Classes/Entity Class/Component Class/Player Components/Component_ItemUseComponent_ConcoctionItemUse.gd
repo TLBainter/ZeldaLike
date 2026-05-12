@@ -1,4 +1,4 @@
-﻿@icon("res://Editor Tools/Icons/icon_concoctionUse.svg")
+@icon("res://Editor Tools/Icons/icon_concoctionUse.svg")
 ##[b][color=red]ConcoctionItemUse[/color][/b] extends [b]ItemUseComponent[/b] for concoctions/salves.[br]
 ##Receives use requests, validates inventory and stacking rules,[br]
 ##then applies the concoction's immediate and ongoing effects to the player.[br]

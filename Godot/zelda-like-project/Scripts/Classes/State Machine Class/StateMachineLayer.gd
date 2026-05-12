@@ -1,4 +1,4 @@
-﻿##[b][color=red]StateMachineLayer[/color][/b] manages a single layer of multiple states.[br]
+##[b][color=red]StateMachineLayer[/color][/b] manages a single layer of multiple states.[br]
 ##A State Machine Layer can be Movement, Action, or No Control.[br]
 ##Within this layer are multiple [b]State[/b] nodes to which it may delegate inputs to the active state.[br]
 ##This state machine layer can bused for cross functional control and is frozen/unfrozen by the [b]StateCoordinator[/b] for its entity.

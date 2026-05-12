@@ -1,5 +1,4 @@
-##[b][color=red]Menu Item Resource[/color][/b] is a class for gathering data pertaining to a single menu item to display.[br]
-##This is how the menu item's outline, animated sprite, and text data is provided.
+##Gathers data for a single menu item: outline, animated sprite, and text.
 class_name MenuItemResource
 extends Resource
 

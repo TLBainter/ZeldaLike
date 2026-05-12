@@ -1,5 +1,5 @@
 ##[b][color=red]MenuItemUpgradeResource[/color][/b] extends [MenuItemResource] for collectible upgrades made of parts.[br]
-##E.g. 4 bone shards → 1 skull (heart container). Tracks per-part display data and completion state.
+##E.g. 4 bone shards -> 1 skull (heart container). Tracks per-part display data and completion state.
 class_name MenuItemUpgradeResource
 extends MenuItemResource
 
@@ -25,10 +25,10 @@ extends MenuItemResource
 ##E.g. 20 means the player can earn at most 20 skulls (= 20 * num_parts total parts).
 @export var max_quantity: int = 0
 
-# ── Helpers ──────────────────────────────────────────────────────────────────
+# -- Helpers ------------------------------------------------------------------
 
 ##Returns how many parts have been collected toward the [b]current[/b] (incomplete) set.[br]
-##E.g. 6 total shards with num_parts=4 → 2.
+##E.g. 6 total shards with num_parts=4 -> 2.
 func get_current_parts(quantity: int) -> int:
 	return quantity % num_parts
 
@@ -55,7 +55,7 @@ func get_part_data(part_num: int) -> UpgradePartData:
 
 ##Replaces [code][remaining][/code] in a dialogue string with the live count of parts still needed.[br]
 ##Call this when populating the info-box description or effect text for in-progress states.[br]
-##Example: [code]"Collect [remaining] more to get a new skull!"[/code] → [code]"Collect 1 more to get a new skull!"[/code]
+##Example: [code]"Collect [remaining] more to get a new skull!"[/code] -> [code]"Collect 1 more to get a new skull!"[/code]
 func resolve_remaining_text(text: String, quantity: int) -> String:
 	return text.replace("[remaining]", str(get_remaining(quantity)))
 

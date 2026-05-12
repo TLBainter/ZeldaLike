@@ -1,4 +1,4 @@
-﻿##[b][color=red]PauseMenu[/color][/b] controls the pause menu overlay.[br]
+##[b][color=red]PauseMenu[/color][/b] controls the pause menu overlay.[br]
 ##Instantiated when the player pauses. Fades in a dark overlay, displays the menu,[br]
 ##and handles unpause input. Runs while the game is paused.[br]
 class_name PauseMenu

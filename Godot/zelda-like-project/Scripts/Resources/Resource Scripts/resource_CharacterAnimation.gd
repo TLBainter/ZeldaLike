@@ -1,7 +1,7 @@
 ##[b][color=red]CharacterAnimationResource[/color][/b] defines one logical animation (e.g. "Idle", "Walk") and all its directional rows.[br]
-##Add these inside a Character's [b]Visual → Animations[/b] export group.[br]
+##Add these inside a Character's [b]Visual -> Animations[/b] export group.[br]
 ##At runtime, [b]CharacterAnimator[/b] reads this data and generates AnimationPlayer animations named [b]{animation_name}{Direction}[/b][br]
-##(e.g. animation_name="Walk" → "WalkDown", "WalkUp", "WalkLeft", "WalkRight").
+##(e.g. animation_name="Walk" -> "WalkDown", "WalkUp", "WalkLeft", "WalkRight").
 @tool
 class_name CharacterAnimationResource
 extends Resource
@@ -12,7 +12,7 @@ extends Resource
 
 @export_group("Animation")
 ##Name prefix used by CharacterAnimator.play_directional_anim(). Spaces are removed automatically.[br]
-##Example: "Idle" → generates "IdleDown", "IdleUp", "IdleLeft", "IdleRight".
+##Example: "Idle" -> generates "IdleDown", "IdleUp", "IdleLeft", "IdleRight".
 @export var animation_name: String = "":
 	set(v): animation_name = v.replace(" ", "")
 ##Frames played per second.

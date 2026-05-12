@@ -1,4 +1,4 @@
-##[b][color=red]StateChase[/color][/b] — the enemy follows the player and enters Combat when in melee range.[br]
+##[b][color=red]StateChase[/color][/b] - the enemy follows the player and enters Combat when in melee range.[br]
 ##Uses [b]EnemyInputComponent[/b] to drive movement via the shared on_move signal pipeline.
 class_name StateChase
 extends State
@@ -7,7 +7,7 @@ extends State
 ##Below this distance the enemy forces Combat to freeze movement and break sticky-collision tracking.
 const MIN_ENGAGEMENT_DIST : float = 20.0
 ##Seconds after entering Chase before combat re-evaluation is allowed.
-##Prevents the frame-perfect Combat→Chase→Combat loop when the enemy is inside the nav
+##Prevents the frame-perfect Combat->Chase->Combat loop when the enemy is inside the nav
 ##agent's target_desired_distance zone and StateChase would otherwise immediately retrigger Combat.
 const COMBAT_REENTRY_COOLDOWN : float = 0.35
 ##How long (seconds) the enemy must be retreating without adequate progress before giving up.
@@ -82,7 +82,7 @@ func _physics_process(delta : float) -> void:
 			_retreat_check_pos = enemy.body.global_position
 			_retreat_stuck_timer = 0.0
 			if moved < RETREAT_STUCK_MIN_DIST:
-				_debug_log("Retreat stuck — forcing COMBAT.")
+				_debug_log("Retreat stuck - forcing COMBAT.")
 				_safe_transition(StateID.COMBAT)
 				return
 	else:
@@ -91,14 +91,14 @@ func _physics_process(delta : float) -> void:
 	var facing : String = StateCombat._facing_toward(enemy, player_pos)
 	var melee_res := enemy.attack_component.find_melee_attack()
 	if melee_res and enemy.attack_component.is_player_near_attack_area(melee_res, facing, player_pos):
-		_debug_log("Melee range met — transitioning to COMBAT.")
+		_debug_log("Melee range met - transitioning to COMBAT.")
 		_safe_transition(StateID.COMBAT)
 		return
 	var proj_res := enemy.attack_component.find_projectile_attack()
 	if proj_res and proj_res.projectile_data:
 		var max_dist : float = (proj_res.projectile_data as ProjectileAttackResource).max_distance
 		if _is_shot_on_target(enemy, facing, max_dist, player_pos):
-			_debug_log("Shot on target — transitioning to COMBAT.")
+			_debug_log("Shot on target - transitioning to COMBAT.")
 			_safe_transition(StateID.COMBAT)
 
 func _on_player_lost() -> void:

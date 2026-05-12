@@ -1,4 +1,4 @@
-﻿@icon("res://Editor Tools/Icons/icon_player.svg")
+@icon("res://Editor Tools/Icons/icon_player.svg")
 ##[b][color=red]Player[/color][/b] is the player character class stemming from [b]Entity[/b]/[b]Character[/b].[br]
 ##This class holds holds the control data for the player.
 class_name Player

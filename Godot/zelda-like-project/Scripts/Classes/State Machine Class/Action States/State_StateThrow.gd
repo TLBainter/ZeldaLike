@@ -1,4 +1,4 @@
-﻿##[b][color=red]StateThrow[/color][/b] is the Action layer state for throwing a held object.[br]
+##[b][color=red]StateThrow[/color][/b] is the Action layer state for throwing a held object.[br]
 ##Launches the object as a projectile in the facing direction. Distance is affected by weight.[br]
 ##Waits for the projectile to land, then transitions to NoAction.[br]
 ##[br]

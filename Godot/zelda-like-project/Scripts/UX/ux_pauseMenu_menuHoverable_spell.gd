@@ -1,4 +1,4 @@
-﻿##[b][color=red]MenuHoverableSpell[/color][/b] extends [b]MenuHoverableItem[/b] for spell inventory panels.[br]
+##[b][color=red]MenuHoverableSpell[/color][/b] extends [b]MenuHoverableItem[/b] for spell inventory panels.[br]
 ##Instead of quantity, displays the assigned action button's sprite.[br]
 ##While hovered, pressing action buttons 1-3 assigns/swaps spells.[br]
 @tool
@@ -18,8 +18,8 @@ var _equipped_spells : EquippedSpellsComponent = null
 ##Sets the spell slot manager reference and updates display.
 func set_equipped_spells(equipped_spells : EquippedSpellsComponent) -> void:
 	_equipped_spells = equipped_spells
-	if _equipped_spells and not _equipped_spells.spell_equip_changed.is_connected(_on_spell_equip_changed):
-		_equipped_spells.spell_equip_changed.connect(_on_spell_equip_changed)
+	if _equipped_spells:
+		SignalUtil.safe_connect(_equipped_spells, "spell_equip_changed", Callable(self, "_on_spell_equip_changed"))
 	_update_assignment_display()
 
 #region ASSIGNMENT DISPLAY

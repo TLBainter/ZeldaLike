@@ -1,4 +1,4 @@
-﻿##[b][color=red]MagicMedallionGUI[/color][/b] controls the display of a single magic medallion in the player's magic UI.[br]
+##[b][color=red]MagicMedallionGUI[/color][/b] controls the display of a single magic medallion in the player's magic UI.[br]
 ##Computes the correct sprite from a 17x17 sprite sheet based on shard count and current fill.[br]
 ##Updated by [b]MagicDisplay[/b] based on the character's current magic.
 class_name MagicMedallionGUI
@@ -78,7 +78,7 @@ func _get_sprite_position(shards : int, fill : int) -> Vector2i:
 	else:
 		row = 7 - shards
 	var result = Vector2i(col, row)
-	print("SPRITE LOOKUP: shards=", shards, " fill=", fill, " → col=", col, " row=", row)
+	print("SPRITE LOOKUP: shards=", shards, " fill=", fill, " -> col=", col, " row=", row)
 	return result
 	
 #region animations

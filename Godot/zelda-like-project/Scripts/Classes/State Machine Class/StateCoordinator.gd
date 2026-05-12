@@ -43,7 +43,7 @@ var debug_name : String:
 	get: return debug.debug_name if debug else ""
 	set(v): if debug: debug.debug_name = v
 ##When true, every state transition is logged to Output with the triggering reason.[br]
-##Format: [SM] FromState → ToState | reason
+##Format: [SM] FromState -> ToState | reason
 @export var debug_transitions : bool = false
 
 ##Shared cooldown duration (seconds) after any dodge (dash or backstep).
@@ -169,19 +169,19 @@ func unfreeze_all():
 func request_movement_change(new_state : State):
 	movement_layer.change_state(new_state)
 	if debug_me_verbose:
-		print_rich(root.debug_name, " ", debug_name, " [color=green][i]requested Movement →[/i][/color] [i]", new_state.debug_name.trim_prefix("State"), "[/i]")
+		print_rich(root.debug_name, " ", debug_name, " [color=green][i]requested Movement ->[/i][/color] [i]", new_state.debug_name.trim_prefix("State"), "[/i]")
 
 ##Requests a state change on the No Control layer.
 func request_no_control_change(new_state : State):
 	no_control_layer.change_state(new_state)
 	if debug_me_verbose:
-		print_rich(root.debug_name, " ", debug_name, " [color=green][i]requested No Control →[/i][/color] [i]", new_state.debug_name.trim_prefix("State"), "[/i]")
+		print_rich(root.debug_name, " ", debug_name, " [color=green][i]requested No Control ->[/i][/color] [i]", new_state.debug_name.trim_prefix("State"), "[/i]")
 		
 ##Requests a state change on the Action layer.
 func request_action_change(new_state : State):
 	action_layer.change_state(new_state)
 	if debug_me_verbose:
-		print_rich(root.debug_name, " ", debug_name, " [color=green][i]requested Action →[/i][/color] [i]", new_state.debug_name.trim_prefix("State"), "[/i]")
+		print_rich(root.debug_name, " ", debug_name, " [color=green][i]requested Action ->[/i][/color] [i]", new_state.debug_name.trim_prefix("State"), "[/i]")
 
 ##Prevents movement states from updating the context label.
 func lock_context():
@@ -249,7 +249,7 @@ func try_transition(layer: Node, to_state: State, reason: String = "") -> State:
 		return null
 	if debug_transitions:
 		var from_name: String = layer.current_state.debug_name if layer.current_state else "none"
-		print_rich("[b][SM][/b] ", from_name, " → [i]", to_state.debug_name, "[/i] | ", reason)
+		print_rich("[b][SM][/b] ", from_name, " -> [i]", to_state.debug_name, "[/i] | ", reason)
 	return to_state
 
 	#region shared entity helpers

@@ -1,4 +1,4 @@
-﻿##[b][color=red]DialogueUI[/color][/b] is used to control the display of text, audio playing, button advancement, and more.
+##[b][color=red]DialogueUI[/color][/b] is used to control the display of text, audio playing, button advancement, and more.
 class_name DialogueUI
 extends Control
 
@@ -82,8 +82,7 @@ func start_dialogue(data : Dictionary, input_comp : PlayerInputComponent = null)
 		char_icon.texture = _current_character_res.icon
 	if input_comp:
 		_connected_input = input_comp
-		if not _connected_input.action_button_pressed.is_connected(_on_input_received):
-			_connected_input.action_button_pressed.connect(_on_input_received)
+		SignalUtil.safe_connect(_connected_input, "action_button_pressed", Callable(self, "_on_input_received"))
 	initialize(true)
 	_show_next_line()
 

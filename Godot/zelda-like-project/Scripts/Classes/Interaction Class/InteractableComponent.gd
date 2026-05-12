@@ -1,4 +1,4 @@
-﻿##[b][color=red]InteractableComponent[/color][/b] is a pluggable interaction zone that can be added to any [b]EntityClass[/b] entity.[br]
+##[b][color=red]InteractableComponent[/color][/b] is a pluggable interaction zone that can be added to any [b]EntityClass[/b] entity.[br]
 ##Place as a child of the entity's [b]body[/b] node ([b]CharacterBody2D[/b]) for objects that move,[br]
 ##or directly under the entity root for static entities.[br]
 ##[br]
@@ -86,6 +86,11 @@ var debug_name : String:
 #region INTERNALS
 @onready var _area: Area2D = $InteractArea
 @onready var _collider: CollisionShape2D = $InteractArea/InteractCollider
+
+##Cache of the last-built shape parameters to avoid redundant rebuilds.
+var _last_shape_type: int = -1
+var _last_shape_radius: float = -1.0
+var _last_shape_height: float = -1.0
 #endregion
 
 #region FUNCTIONS
@@ -150,6 +155,10 @@ func _rebuild_shape() -> void:
 		return
 	if not _collider:
 		return
+	# Check if shape parameters have actually changed
+	if _last_shape_type == shape_type and _last_shape_radius == shape_radius and _last_shape_height == shape_height:
+		return
+	# Parameters changed, rebuild the shape
 	if shape_type == 0:  # Circle
 		if not _collider.shape is CircleShape2D:
 			_collider.shape = CircleShape2D.new()
@@ -159,6 +168,10 @@ func _rebuild_shape() -> void:
 			_collider.shape = CapsuleShape2D.new()
 		_collider.shape.radius = shape_radius
 		_collider.shape.height = shape_height
+	# Update cache
+	_last_shape_type = shape_type
+	_last_shape_radius = shape_radius
+	_last_shape_height = shape_height
 
 func _apply_offset() -> void:
 	if not is_node_ready():

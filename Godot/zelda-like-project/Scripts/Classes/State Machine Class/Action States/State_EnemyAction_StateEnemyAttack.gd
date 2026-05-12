@@ -1,4 +1,4 @@
-##[b][color=red]StateEnemyAttack[/color][/b] — enemy version of the attack state.[br]
+##[b][color=red]StateEnemyAttack[/color][/b] - enemy version of the attack state.[br]
 ##Extends [b]StateAttack[/b] and overrides damage targeting so enemies hit the player (not other enemies).[br]
 ##Does NOT call super() in enter() to avoid playing the player's "Attack1" animation.[br]
 ##Uses [b]EnemyAttackComponent[/b] to select the per-attack Area2D and collision shape.

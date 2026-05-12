@@ -1,5 +1,5 @@
-##[b][color=red]ObjectMaterial[/color][/b] is a reusable resource that defines the sounds associated with a material type.[br]
-##Assign this to an [b]InteractableObject[/b] so all objects of the same material share the same libraries without duplicating data unnecessarily.
+##Reusable resource defining sounds for a material type (break, open, close, impact, etc.).
+##Assign to InteractableObjects to share sound libraries across same-material objects.
 class_name ObjectMaterial
 extends Resource
 

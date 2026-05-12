@@ -1,4 +1,4 @@
-﻿##[b][color=red]PlayerCam[/color][/b] is the camera class responsible for the player; it handles room transitions, zoom, etc.[br]
+##[b][color=red]PlayerCam[/color][/b] is the camera class responsible for the player; it handles room transitions, zoom, etc.[br]
 ##If you want to have cutscenes that, for example, transfer to other spots on the map, use a different camera class.
 class_name PlayerCam
 extends CamClass

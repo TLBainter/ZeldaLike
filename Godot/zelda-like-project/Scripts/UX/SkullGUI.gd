@@ -1,4 +1,4 @@
-﻿##[b][color=red]SkullGUI[/color][/b] is a class that defines the overall appearance and control for individual skulls.[br]
+##[b][color=red]SkullGUI[/color][/b] is a class that defines the overall appearance and control for individual skulls.[br]
 ##[i]Skulls[/i] here refers to the player's visual skull display for their hit points.
 class_name SkullGUI
 extends Panel

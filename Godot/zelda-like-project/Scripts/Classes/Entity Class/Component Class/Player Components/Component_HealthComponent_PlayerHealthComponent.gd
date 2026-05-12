@@ -1,4 +1,4 @@
-﻿##[b][color=red]HealthComponentPlayer[/color][/b] is the manager for the player's health bar (represented by skulls).[br]
+##[b][color=red]HealthComponentPlayer[/color][/b] is the manager for the player's health bar (represented by skulls).[br]
 ##This utilizes a 4-part heart system, configures maximum health automatically, and also addreses damage.
 class_name PlayerHealthComponent
 extends HealthComponent
@@ -72,9 +72,9 @@ func increase_max(amount: int) -> void:
 	super.increase_max(amount)
 	max_skulls = int(max_health / 4.0)
 	if debug_me_verbose:
-		print(debug_name, ": increase_max(", amount, ") → max_health ", old_max, "→", max_health,
-			" | max_skulls ", int(old_max / 4.0), "→", max_skulls,
-			" | cur_health ", old_cur, "→", cur_health)
+		print(debug_name, ": increase_max(", amount, ") -> max_health ", old_max, "->", max_health,
+			" | max_skulls ", int(old_max / 4.0), "->", max_skulls,
+			" | cur_health ", old_cur, "->", cur_health)
 
 func damaged(damage : int, source_position : Vector2 = Vector2.ZERO, effect : DamageEffectResource = null) -> void:
 	if _iframes_active:
@@ -110,7 +110,7 @@ func _apply_best_hit() -> void:
 				if entity.energy and entity.energy.consume(1):
 					block_succeeded.emit()
 					return
-				# Energy = 0: fall through — damage applied, health_changed fires, StateBlock exits
+				# Energy = 0: fall through - damage applied, health_changed fires, StateBlock exits
 	cur_health -= int(best["damage"])
 	_iframes_active = true
 	_iframes_timer.start()

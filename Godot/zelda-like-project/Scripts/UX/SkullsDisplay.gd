@@ -1,4 +1,4 @@
-﻿##[b][color=red]SkullsDisplay[/color][/b] is a script used to control the overall skull display in the player GUI.[br]
+##[b][color=red]SkullsDisplay[/color][/b] is a script used to control the overall skull display in the player GUI.[br]
 ##Note that this [i]does not[/i] control things like individual skull state changes, player health, etc.
 class_name SkullsDisplay
 extends GridContainer

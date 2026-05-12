@@ -1,4 +1,4 @@
-﻿##[b][color=red]SpeakComponent[/color][/b] is the component used to set an entity's speech.[br]
+##[b][color=red]SpeakComponent[/color][/b] is the component used to set an entity's speech.[br]
 ##This determines what they say, what dialogues they have access to, how those dialogues switch, etc.
 class_name SpeakComponent
 extends Component

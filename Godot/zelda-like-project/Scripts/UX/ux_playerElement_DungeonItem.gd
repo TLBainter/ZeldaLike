@@ -1,10 +1,17 @@
 class_name DungeonItemDisplay
-extends UXElement
+extends "res://Scripts/UX/ux_playerElement_ComponentDisplay.gd"
+
+#region CONSTANTS
+
+const DUNGEON_ITEMS: Array = [ItemID.KEY, ItemID.MAP, ItemID.JOURNAL, ItemID.BOSS_KEY]
+
+#endregion CONSTANTS
 
 #region VARIABLES
 
 @export_category("Components")
 @export var root : PlayerUX
+@export var dungeon_registry : DungeonRegistry
 @export_group("Textures")
 @export var boss_key_texture : TextureRect
 @export var journal_texture : TextureRect
@@ -17,7 +24,7 @@ extends UXElement
 @export var key_color_zero : Color = Color(0.35, 0.35, 0.35, 1.0)
 @export var key_color_positive : Color = Color.WHITE
 
-var _inventory : InventoryComponentPlayer
+var _inventory
 var _in_dungeon : bool = false
 var _dungeon_name : String = ""
 
@@ -25,13 +32,17 @@ var _dungeon_name : String = ""
 
 #region FUNCTIONS
 
-func initialize(inventory : InventoryComponentPlayer, root_ux : PlayerUX) -> void:
+func initialize(inventory, root_ux : PlayerUX) -> void:
 	_inventory = inventory
 	root = root_ux
-	if _inventory and not _inventory.inventory_changed.is_connected(_on_inventory_changed):
-		_inventory.inventory_changed.connect(_on_inventory_changed)
-	if SceneTransitionManager and not SceneTransitionManager.transition_complete.is_connected(_on_transition_complete):
-		SceneTransitionManager.transition_complete.connect(_on_transition_complete)
+	initialize_component_display(inventory)
+	SignalUtil.safe_connect(SceneTransitionManager, "transition_complete", Callable(self, "_on_transition_complete"))
+	_refresh_dungeon_state()
+
+func _connect_component_signals(_component: Node) -> void:
+	SignalUtil.safe_connect(_inventory, "inventory_changed", Callable(self, "_on_inventory_changed"))
+
+func _refresh_display() -> void:
 	_refresh_dungeon_state()
 
 #region DUNGEON STATE
@@ -52,7 +63,13 @@ func _get_current_level() -> Level:
 	return null
 
 func _get_item_id(base_id : String) -> String:
-	return _dungeon_name + "_" + base_id
+	if _dungeon_name.is_empty():
+		push_warning("DungeonItemDisplay: _dungeon_name is empty, item ID will be invalid.")
+		return ""
+	var prefix := _dungeon_name
+	if dungeon_registry:
+		prefix = dungeon_registry.get_prefix(_dungeon_name)
+	return prefix + "_" + base_id
 
 #endregion DUNGEON STATE
 
@@ -66,12 +83,9 @@ func _on_transition_complete() -> void:
 func _on_inventory_changed(item_id : String, _quantity : int) -> void:
 	if not _in_dungeon:
 		return
-	var relevant := [
-		_get_item_id(ItemID.KEY),
-		_get_item_id(ItemID.MAP),
-		_get_item_id(ItemID.JOURNAL),
-		_get_item_id(ItemID.BOSS_KEY),
-	]
+	var relevant := []
+	for base_id in DUNGEON_ITEMS:
+		relevant.append(_get_item_id(base_id))
 	if item_id in relevant:
 		_update_display()
 		show_element()
@@ -88,7 +102,7 @@ func _update_display() -> void:
 	if key_texture:
 		key_texture.visible = true
 	if key_quantity_display:
-		var qty := _inventory.get_quantity(_get_item_id(ItemID.KEY))
+		var qty: int = _inventory.get_quantity(_get_item_id(ItemID.KEY))
 		key_quantity_display.text = str(qty)
 		key_quantity_display.add_theme_color_override("default_color", key_color_positive if qty > 0 else key_color_zero)
 

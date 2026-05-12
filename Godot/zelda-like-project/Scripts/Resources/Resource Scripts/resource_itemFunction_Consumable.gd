@@ -1,4 +1,4 @@
-##[b][color=red]ItemFunctionConsumable[/color][/b] extends [b]ItemFunction[/b] for consumable, single-use items.[br]
+##Extends ItemFunction for consumable, single-use items.
 class_name ItemFunctionConsumable
 extends ItemFunction
 

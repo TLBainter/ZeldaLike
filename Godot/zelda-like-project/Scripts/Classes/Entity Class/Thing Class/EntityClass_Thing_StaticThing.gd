@@ -1,4 +1,4 @@
-﻿@icon("res://Editor Tools/Icons/icon_grass.svg")
+@icon("res://Editor Tools/Icons/icon_grass.svg")
 ##[b][color=red]StaticThing[/color][/b] is a [b]Thing[/b] that does not move.[br]
 ##[br]
 ##Behavior is data-driven:[br]

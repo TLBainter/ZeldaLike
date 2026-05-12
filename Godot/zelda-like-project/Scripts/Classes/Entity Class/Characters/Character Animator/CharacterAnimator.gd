@@ -1,6 +1,6 @@
-﻿##[b][color=red]CharacterAnimator[/color][/b] is used to play the animations of a Character-type [b]Entity[/b] if they have an Animnation Player.[br]
+##[b][color=red]CharacterAnimator[/color][/b] is used to play the animations of a Character-type [b]Entity[/b] if they have an Animnation Player.[br]
 ##It uses signals from the character's Input Component to play the animations.[br]
-##If the character has [b]Visual → Sprite Sheets[/b] and [b]Visual → Animations[/b] resources defined, this node
+##If the character has [b]Visual -> Sprite Sheets[/b] and [b]Visual -> Animations[/b] resources defined, this node
 ##generates AnimationPlayer animations from them automatically at [code]_ready()[/code].
 @tool
 class_name CharacterAnimator
@@ -57,7 +57,7 @@ func _ready():
 	input.on_move.connect(face)
 	build_animations_from_resources()
 
-##Reads the character's [b]Visual → Sprite Sheets[/b] and [b]Visual → Animations[/b] resources and
+##Reads the character's [b]Visual -> Sprite Sheets[/b] and [b]Visual -> Animations[/b] resources and
 ##generates AnimationPlayer animations from them.[br]
 ##Already-existing animations (manually defined in the scene) are never overwritten.[br]
 ##Called automatically at [code]_ready()[/code]; also triggerable in the editor via the [i]Rebuild Animations[/i] toggle.
@@ -65,7 +65,7 @@ func build_animations_from_resources() -> void:
 	if not root or root.visual_sprite_sheets.is_empty():
 		return
 
-	# Build sheet lookup: name → CharacterSpriteResource
+	# Build sheet lookup: name -> CharacterSpriteResource
 	var sheet_map : Dictionary = {}
 	for sheet : CharacterSpriteResource in root.visual_sprite_sheets:
 		if sheet and sheet.sheet_name != "" and sheet.texture:
@@ -91,7 +91,7 @@ func build_animations_from_resources() -> void:
 		if not sheet:
 			if debug_me:
 				printerr(debug_name, ": CharacterAnimationResource '", anim_res.animation_name,
-					"' references unknown sprite sheet '", anim_res.sprite_sheet_name, "' — skipped.")
+					"' references unknown sprite sheet '", anim_res.sprite_sheet_name, "' - skipped.")
 			continue
 
 		var hframes    : int   = sheet.get_hframes()
@@ -166,7 +166,7 @@ func set_facing(face_dir : Vector2):
 	var left : bool = false
 	#endregion face variables
 	#region set facing direction
-	# Hysteresis: require 1.4× axis dominance before switching, preventing oscillation near 45°.
+	# Hysteresis: require 1.4 axis dominance before switching, preventing oscillation near 45.
 	const AXIS_HYSTERESIS : float = 1.4
 	var ax : float = abs(face_dir.x)
 	var ay : float = abs(face_dir.y)
@@ -207,7 +207,7 @@ func set_facing(face_dir : Vector2):
 			facing = "down_right"
 	#endregion diagonal facing directions
 	if debug_me_verbose and facing != _prev_facing:
-		print_rich(debug_name, ": facing [i]", _prev_facing, "[/i] → [i]", facing, "[/i]")
+		print_rich(debug_name, ": facing [i]", _prev_facing, "[/i] -> [i]", facing, "[/i]")
 
 ##Plays the animation dictated by the prefix combined with the current facing direction.[br]
 ##For example, [b]play_directional_anim("Lift")[/b] with facing [i]down[/i] plays "LiftDown".[br]
@@ -227,7 +227,7 @@ func play_directional_anim(prefix : String, force : bool = false) -> bool:
 func face(face_dir : Vector2, _delta : float):
 	if not can_update_facing:
 		if debug_me_verbose:
-			print_rich(debug_name, " [face] blocked — can_update_facing=false  dir=", face_dir)
+			print_rich(debug_name, " [face] blocked - can_update_facing=false  dir=", face_dir)
 		return
 	set_facing(face_dir)
 	var coord := root.state_machine as StateCoordinator

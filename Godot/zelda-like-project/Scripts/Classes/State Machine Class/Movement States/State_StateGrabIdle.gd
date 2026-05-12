@@ -1,4 +1,4 @@
-﻿##[b][color=red]StateGrabIdle[/color][/b] is the [b]Movement layer[/b] state for the character's grabbing of an object while not moving.[br]
+##[b][color=red]StateGrabIdle[/color][/b] is the [b]Movement layer[/b] state for the character's grabbing of an object while not moving.[br]
 ##Listens for directional input along the locked axis to transition to [i]Pushing[/i] or [i]Pulling[/i].[br]
 ##The character cannot turn (change facing) or move freely in this state.[br]
 ##[br]

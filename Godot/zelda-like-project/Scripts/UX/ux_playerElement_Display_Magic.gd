@@ -1,7 +1,6 @@
-##[b][color=red]MagicDisplay[/color][/b] extends [b]UXDisplayElement[/b] for the player's magic medallion display.[br]
-##Manages medallion shard/fill states and positions relative to the energy display.
+##Manages player's magic medallion display: shard/fill states and positioning.
 class_name MagicDisplay
-extends UXDisplayElement
+extends RecoverableResourceDisplay
 
 #region VARIABLES
 
@@ -15,42 +14,35 @@ extends UXDisplayElement
 ##The pixel offset from the player's screen position (used if energy display is not available).
 @export var fallback_offset_distance : float = 56.0
 
-var _magic_component : MagicComponent
-
 #endregion VARIABLES
+
+#region VIRTUAL METHOD OVERRIDES
+
+func _get_change_signal_name() -> String:
+	return "magic_changed"
+
+func _get_element_count() -> int:
+	return _component.get_medallion_count() if _component else 0
+
+func _on_additional_initialization() -> void:
+	if _component:
+		SignalUtil.safe_connect(_component, "shard_collected", Callable(self, "_on_shard_collected"))
+	if debug_me:
+		print_rich(debug_name, ": [color=green][i]initialized[/i][/color] with [i]", _component.get_medallion_count(), "[/i] medallions.")
+
+#endregion VIRTUAL METHOD OVERRIDES
 
 #region FUNCTIONS
 
-##Initializes the magic display with the magic component and player references.
-func initialize(magic_comp : MagicComponent, player_body : CharacterBody2D, player_cam : CamClass) -> void:
-	_magic_component = magic_comp
-	if _magic_component:
-		if not _magic_component.magic_changed.is_connected(_on_magic_changed):
-			_magic_component.magic_changed.connect(_on_magic_changed)
-		if not _magic_component.shard_collected.is_connected(_on_shard_collected):
-			_magic_component.shard_collected.connect(_on_shard_collected)
-	initialize_display(player_body, player_cam)
-
-func _on_display_initialized() -> void:
-	_rebuild_medallions()
-	_update_medallions()
-	if debug_me:
-		print_rich(debug_name, ": [color=green][i]initialized[/i][/color] with [i]", _magic_component.get_medallion_count(), "[/i] medallions.")
-
-func _can_fade_out() -> bool:
-	return _magic_component and _magic_component.is_full()
-
 #region MEDALLION MANAGEMENT
 
-##Rebuilds the medallion GUI instances based on current shard count.
 func _rebuild_medallions() -> void:
-	if not _magic_component:
+	if not _component:
 		return
-	_build_gui_elements(_magic_component.get_medallion_count())
+	_build_gui_elements(_component.get_medallion_count())
 
-##Updates all medallion displays based on current magic.
 func _update_medallions() -> void:
-	if not gui_container or not _magic_component:
+	if not gui_container or not _component:
 		return
 	var medallions_data : Array = _calculate_medallion_data()
 	var gui_children = gui_container.get_children()
@@ -69,12 +61,11 @@ func _update_medallions() -> void:
 				gui.stop_active_anim()
 	_apply_active_styling(active_idx)
 
-##Calculates the shard count and fill for each medallion in fill order.
 func _calculate_medallion_data() -> Array:
 	var result : Array = []
-	var cur_magic = _magic_component.cur_magic
-	var complete_count = _magic_component.get_complete_medallion_count()
-	var partial_shards = _magic_component.get_partial_medallion_shards()
+	var cur_magic = _component.cur_magic
+	var complete_count = _component.get_complete_medallion_count()
+	var partial_shards = _component.get_partial_medallion_shards()
 	var remaining_magic = cur_magic
 	for i in range(complete_count):
 		var fill = clampi(remaining_magic, 0, 6)
@@ -89,7 +80,7 @@ func _calculate_medallion_data() -> Array:
 
 #region MAGIC CHANGE HANDLER
 
-func _on_magic_changed(cur_magic : int, max_magic : int, change_amount : int) -> void:
+func _on_component_changed(cur_magic : int, max_magic : int, change_amount : int) -> void:
 	if change_amount < 0:
 		var gui_children = gui_container.get_children()
 		var medallions_data = _calculate_medallion_data()
@@ -139,11 +130,10 @@ func update_position() -> void:
 
 #endregion POSITIONING
 
-##Sets the maximum shards and rebuilds the display.
 func set_total_shards(shards : int) -> void:
-	if _magic_component:
-		_magic_component.total_shards = shards
-		_magic_component.max_magic = shards
+	if _component:
+		_component.total_shards = shards
+		_component.max_magic = shards
 	_rebuild_medallions()
 	_update_medallions()
 

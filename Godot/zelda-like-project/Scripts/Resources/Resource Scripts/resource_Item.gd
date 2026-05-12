@@ -1,10 +1,6 @@
-##[b][color=red]ItemResource[/color][/b] defines the properties of an item.[br]
-##This includes its visual, sound, dialogue for first pickup, and what it does when used.[br]
-##Used by [b]PickupResource[/b] to define world-droppable items.[br]
-##[br]
-##[b]Sprite Layout[/b]: Each strip is 5 frames at 16x16.[br]
-##Frame 0 = static (default). Frames 1-4 = one-shot sparkle animation.[br]
-##The shadow strip follows the same layout.
+##Defines item properties: visuals, sound, first-pickup dialogue, and effects.
+##Used by PickupResource to define world-droppable items.
+##Sprite layout: 5 frames at 16x16. Frame 0=static, 1-4=sparkle animation. Shadow follows same layout.
 class_name ItemResource
 extends Resource
 

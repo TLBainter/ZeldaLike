@@ -1,5 +1,5 @@
-##[b][color=red]DialogueCharacter[/color][/b] contains all the data for a single character. This is used to pull information to various places throughout an entity.[br]
-##For example, it gets the character's icon to display it in the dialogue panel.
+##Contains data for a single character, used to populate character info throughout entities.
+##Includes display name, dialogue ID, icon, and voice sounds.
 class_name CharacterResource
 extends Resource
 

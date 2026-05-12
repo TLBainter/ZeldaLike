@@ -1,43 +1,27 @@
-﻿##[b][color=red]ActionButtonSprite[/color][/b] handles the visuals of a button in the UI.[br]
-##Used for the action buttons (A/B/X/Y, Up, Down, Right, Left, etc.)
+##Handles visuals of action buttons (A/B/X/Y, directional, etc.).
 class_name ActionButtonSprite
 extends Panel
 
 #region VARIABLES
 @export_category("Components")
-##A reference to the UI control node
 @export var root : PlayerUX
-##A reference to the player's input component
 @onready var input : PlayerInputComponent = root.input
-## The TextureRect displaying the button image.
 @export var button_rect : TextureRect
-##A reference to this button's animation player
 @export var anim_player : AnimationPlayer
-##The AnimationPlayer for spell assignment flash effects (glow/tint).
 @export var flash_anim : AnimationPlayer
-##The AnimationPlayer for spell assignment motion effects (slide/bounce).
 @export var motion_anim : AnimationPlayer
 
 @export_category("Button Textures")
-## Texture to use when action_name is "actionButton1"
 @export var button_1_texture : Texture2D
-## Texture to use when action_name is "actionButton2"
 @export var button_2_texture : Texture2D
-## Texture to use when action_name is "actionButton3"
 @export var button_3_texture : Texture2D
-## Texture to use when action_name is "actionButton4"
 @export var button_4_texture : Texture2D
 
 @export_category("Settings")
-##The action name this sprite represents
 @export_enum("actionButton1", "actionButton2", "actionButton3", "actionButton4", "dPadUp", "dPadDown", "dPadRight", "dPadLeft") var action_name : String = "choose a button"
-##The tint to show the button as when available
 @export var available_tint : Color = Color(1, 1, 1, 1)
-##the tint and visibility to apply when the button is unavailable
 @export var unavailable_tint : Color = Color(0.5, 0.5, 0.5, 0.5)
-##The TextureRect for displaying the assigned spell's mini icon.
 @export var spell_texture_rect : TextureRect
-##Flips the spell icon to the left side of the button instead of the right.
 @export var flip_spell_pos : bool = false:
 	set(value):
 		flip_spell_pos = value
@@ -63,8 +47,7 @@ func _ready():
 	if input:
 		if debug_me:
 			print_rich(debug_name, ": [color=green][i]got input component[/i][/color] for button [b]", action_name, "[/b]")
-		if not input.action_button_pressed.is_connected(_on_action_button_pressed):
-			input.action_button_pressed.connect(_on_action_button_pressed)
+		SignalUtil.safe_connect(input, "action_button_pressed", Callable(self, "_on_action_button_pressed"))
 		set_available(true)
 	else:
 		if debug_me:
@@ -104,12 +87,11 @@ func _assign_button_texture() -> void:
 		"actionButton3": button_rect.texture = button_3_texture
 		"actionButton4": button_rect.texture = button_4_texture
 
-#region Spell Setting===========#
 func set_equipped_spells(equipped_spells : EquippedSpellsComponent, slot_index : int) -> void:
 	_equipped_spells = equipped_spells
 	_my_slot = slot_index
-	if _equipped_spells and not _equipped_spells.spell_equip_changed.is_connected(_on_spell_equip_changed):
-		_equipped_spells.spell_equip_changed.connect(_on_spell_equip_changed)
+	if _equipped_spells:
+		SignalUtil.safe_connect(_equipped_spells, "spell_equip_changed", Callable(self, "_on_spell_equip_changed"))
 	_current_spell = _equipped_spells.get_spell(_my_slot) if _equipped_spells else null
 	if debug_me:
 		print_rich(debug_name, ": [b]", action_name, "[/b] set_equipped_spells called. slot=[i]", _my_slot, "[/i] _current_spell=[i]", _current_spell, "[/i]")
@@ -185,15 +167,12 @@ func get_unassign_duration() -> float:
 		return motion_anim.get_animation("unassign_motion").length
 	return 0.0
 
-##Resets both animation players to their default state.
 func reset_anims() -> void:
 	if motion_anim and motion_anim.is_playing():
 		motion_anim.stop()
 	if flash_anim and flash_anim.is_playing():
 		flash_anim.stop()
-#endregion Animator================#
 
-#region Position===============#
 func _apply_spell_position() -> void:
 	if not spell_texture_rect:
 		return
@@ -203,6 +182,5 @@ func _apply_spell_position() -> void:
 		spell_texture_rect.position = Vector2(0, 10)
 	else:
 		spell_texture_rect.position = Vector2(7, 10)
-#endregion Position============#
 
 #endregion FUNCTIONS

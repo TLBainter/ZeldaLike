@@ -1,4 +1,4 @@
-﻿##[b][color=red]UXElement[/color][/b] is the base class for player UI elements that fade in/out.[br]
+##[b][color=red]UXElement[/color][/b] is the base class for player UI elements that fade in/out.[br]
 ##Provides common visibility management, fade animation, force-show, and timer logic.[br]
 ##Subclasses override [b]_on_element_ready()[/b], [b]_on_element_process()[/b], and [b]_can_fade_out()[/b].
 class_name UXElement

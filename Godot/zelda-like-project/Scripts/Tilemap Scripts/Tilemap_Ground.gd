@@ -61,5 +61,5 @@ func _build_navigation() -> void:
 	# Force synchronous map processing so the first frame's NavigationAgent2D
 	# queries (including map_get_closest_point in roam) see a populated map.
 	NavigationServer2D.map_force_update(nav_map)
-	print_rich("[color=cyan]GroundTilemap[/color]: nav built — ", registered,
+	print_rich("[color=cyan]GroundTilemap[/color]: nav built - ", registered,
 		" tile regions (skipped ", used.size() - registered, " wall cells) on map ", nav_map)

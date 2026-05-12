@@ -1,4 +1,4 @@
-﻿@icon("res://Editor Tools/Icons/icon_move.svg")
+@icon("res://Editor Tools/Icons/icon_move.svg")
 ##[b][color=red]MoveComponent[/color][/b] is the handler for all movement a Character entity can take, regardless of their type.[br]
 class_name MoveComponent
 extends Component

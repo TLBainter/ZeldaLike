@@ -1,4 +1,4 @@
-﻿##[b][color=red]ContextLabel[/color][/b] controls the text that appears over Action Button 4 (Context Button).[br]
+##[b][color=red]ContextLabel[/color][/b] controls the text that appears over Action Button 4 (Context Button).[br]
 ##Use this to display things like 'Roll' or 'Speak' in set contexts.
 class_name ContextLabel
 extends PlayerUXLabel
@@ -41,10 +41,10 @@ func _ready():
 	text = default_context_text
 	reset()
 	var coordinator = player.root.state_machine
-	if coordinator and not coordinator.context_changed.is_connected(_on_context_changed):
-		coordinator.context_changed.connect(_on_context_changed)
-	if anim_player and not anim_player.animation_finished.is_connected(_on_animation_finished):
-		anim_player.animation_finished.connect(_on_animation_finished)
+	if coordinator:
+		SignalUtil.safe_connect(coordinator, "context_changed", Callable(self, "_on_context_changed"))
+	if anim_player:
+		SignalUtil.safe_connect(anim_player, "animation_finished", Callable(self, "_on_animation_finished"))
 
 func _on_context_changed(context_key : String):
 	set_context(context_key)
@@ -56,7 +56,7 @@ func set_context(context_key : String):
 	else:
 		display_text = context_key.capitalize()
 	if debug_me:
-		print(debug_name, ": set_context('", context_key, "') → display='", display_text, "'")
+		print(debug_name, ": set_context('", context_key, "') -> display='", display_text, "'")
 	update_label(display_text)
 
 func update_label(new_text : String):
@@ -88,7 +88,7 @@ func swap_text():
 func _on_animation_finished(_anim_name : StringName):
 	if text != _pending_text:
 		if debug_me:
-			print(debug_name, ": _on_animation_finished; queuing flip '", text, "' → '", _pending_text, "'")
+			print(debug_name, ": _on_animation_finished; queuing flip '", text, "' -> '", _pending_text, "'")
 		anim_player.play("flip")
 
 func reset():

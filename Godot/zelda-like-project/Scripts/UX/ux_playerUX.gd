@@ -1,4 +1,4 @@
-﻿##[b][color=red]playerUX[/color][/b] is primarily used to feed variable values to other entities within the player ui.
+##[b][color=red]playerUX[/color][/b] is primarily used to feed variable values to other entities within the player ui.
 class_name PlayerUX
 extends Control
 
@@ -68,14 +68,14 @@ func _ready():
 	var hp_component : PlayerHealthComponent = root.health
 	skullsContainer.set_max_skulls(hp_component.max_skulls)
 	skullsContainer.update_skulls(hp_component.cur_health)
-	hp_component.health_changed.connect(_on_health_changed)
-	hp_component.max_health_changed.connect(_on_max_health_changed)
+	SignalUtil.safe_connect(hp_component, "health_changed", Callable(self, "_on_health_changed"))
+	SignalUtil.safe_connect(hp_component, "max_health_changed", Callable(self, "_on_max_health_changed"))
 	check_viewport_size.emit()
-	
+
 	var energy_comp : EnergyComponent = root.energy
 	if energy_comp and energy_display:
 		energy_display.initialize(energy_comp, player, player_cam)
-		energy_comp.max_energy_changed.connect(_on_max_energy_changed)
+		SignalUtil.safe_connect(energy_comp, "max_energy_changed", Callable(self, "_on_max_energy_changed"))
 	
 	var magic_comp : MagicComponent = root.magic
 	if magic_comp and magic_display:
@@ -113,8 +113,8 @@ func _ready():
 			print("PlayerUX: root.equipped_spells is null! Skipping spell wiring.")
 	
 	if player_cam:
-		if energy_display and not player_cam.zoom_changed.is_connected(_on_zoom_changed):
-			player_cam.zoom_changed.connect(_on_zoom_changed)
+		if energy_display:
+			SignalUtil.safe_connect(player_cam, "zoom_changed", Callable(self, "_on_zoom_changed"))
 
 func _on_zoom_changed(is_zoomed : bool):
 	if energy_display:
@@ -122,14 +122,14 @@ func _on_zoom_changed(is_zoomed : bool):
 			energy_display.force_show(true)
 		else:
 			energy_display.force_show(false)
-			if energy_display._energy_component and energy_display._energy_component.is_full():
+			if energy_display._component and energy_display._component.is_full():
 				energy_display.hide_immediately()
 	if magic_display:
 		if is_zoomed:
 			magic_display.force_show(true)
 		else:
 			magic_display.force_show(false)
-			if magic_display._magic_component and magic_display._magic_component.is_full():
+			if magic_display._component and magic_display._component.is_full():
 				magic_display.hide_immediately()
 	if currency_display:
 		currency_display.force_show(is_zoomed)

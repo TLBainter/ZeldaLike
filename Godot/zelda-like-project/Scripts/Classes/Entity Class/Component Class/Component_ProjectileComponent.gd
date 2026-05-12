@@ -1,4 +1,4 @@
-﻿##[b][color=red]ProjectileComponent[/color][/b] handles the movement of a thrown DynamicThing.[br]
+##[b][color=red]ProjectileComponent[/color][/b] handles the movement of a thrown DynamicThing.[br]
 ##Simulates a visual arc (sprite offset goes up then down) while the body moves along the ground.[br]
 ##On collision with a wall or object, or when reaching max distance: lands.[br]
 ##If the object is breakable, it breaks on impact. Otherwise it stops in place.[br]
@@ -54,6 +54,9 @@ func _ready():
 ##[b]speed[/b]: Travel speed in pixels per second.[br]
 ##[b]arc_height[/b]: Peak height of the visual arc.
 func launch(object : DynamicThing, direction : Vector2, max_distance : float, speed : float = 150.0, arc_height : float = 8.0) -> void:
+	if max_distance <= 0:
+		push_error("ProjectileComponent: max_distance must be > 0, got %d" % max_distance)
+		return
 	_object = object
 	_body = object.body
 	_direction = direction.normalized()
@@ -70,7 +73,7 @@ func launch(object : DynamicThing, direction : Vector2, max_distance : float, sp
 			if child is CollisionShape2D:
 				child.disabled = false
 		_original_collision_mask = _body.collision_mask
-		_body.collision_mask = _body.collision_mask & ~1
+		_body.collision_mask = _body.collision_mask & ~CollisionLayers.GROUND
 	set_physics_process(true)
 	if debug_me:
 		print(debug_name, ": Launched ", direction, " dist=", max_distance, " speed=", speed)
@@ -108,7 +111,7 @@ func _land(hit_something : bool):
 	_active = false
 	set_physics_process(false)
 	if _sprite:
-		_sprite.position = Vector2.ZERO
+		_sprite.position = _sprite_original_offset
 	if _body:
 		_body.collision_mask = _original_collision_mask
 	var broke : bool = false

@@ -1,4 +1,4 @@
-﻿class_name StateAttack
+class_name StateAttack
 extends State
 
 #region VARIABLES
@@ -166,7 +166,7 @@ func execute_hit() -> void:
 			continue
 		var entity = _find_entity(collider)
 		if debug_me_verbose:
-			print_rich("    Collider: [i]", collider.name, "[/i] → Entity: [i]", entity, "[/i] ([i]", entity.name if entity else "null", "[/i])")
+			print_rich("    Collider: [i]", collider.name, "[/i] -> Entity: [i]", entity, "[/i] ([i]", entity.name if entity else "null", "[/i])")
 		if entity and not entity in processed_entities:
 			processed_entities.append(entity)
 			_try_damage_entity(entity)

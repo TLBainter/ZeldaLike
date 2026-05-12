@@ -10,7 +10,7 @@ enum DamageLevel { LOW = 2, AVERAGE = 4, HIGH = 6 }
 
 #region BACKING VARIABLES
 # All properties are virtual (via _get_property_list) so their order in the inspector
-# is fully controlled. @export is not used — exported node types are illegal on Resources.
+# is fully controlled. @export is not used - exported node types are illegal on Resources.
 
 var attack_type : AttackType = AttackType.MELEE_DIRECTIONAL
 
@@ -40,7 +40,7 @@ var projectile_data : ProjectileAttackResource = null
 
 func _get_property_list() -> Array[Dictionary]:
 	return [
-		# ── Attack Type ──────────────────────────────────────────────────────
+		# -- Attack Type ------------------------------------------------------
 		{"name": "Attack Type", "type": TYPE_NIL, "usage": PROPERTY_USAGE_GROUP, "hint_string": ""},
 		{
 			"name": "attack_type",
@@ -49,7 +49,7 @@ func _get_property_list() -> Array[Dictionary]:
 			"hint_string": "Melee Directional,Projectile Directional,Melee Area,Projectile Area",
 			"usage": PROPERTY_USAGE_DEFAULT,
 		},
-		# ── Damage ───────────────────────────────────────────────────────────
+		# -- Damage -----------------------------------------------------------
 		{"name": "Damage", "type": TYPE_NIL, "usage": PROPERTY_USAGE_GROUP, "hint_string": ""},
 		{
 			"name": "damage",
@@ -61,21 +61,21 @@ func _get_property_list() -> Array[Dictionary]:
 		{"name": "blockable",     "type": TYPE_BOOL, "usage": PROPERTY_USAGE_DEFAULT},
 		{"name": "parryable",     "type": TYPE_BOOL, "usage": PROPERTY_USAGE_DEFAULT},
 		{"name": "interruptable", "type": TYPE_BOOL, "usage": PROPERTY_USAGE_DEFAULT},
-		# ── Animation ────────────────────────────────────────────────────────
+		# -- Animation --------------------------------------------------------
 		{"name": "Animation", "type": TYPE_NIL, "usage": PROPERTY_USAGE_GROUP, "hint_string": ""},
 		{
 			"name": "editor_anim_player",
 			"type": TYPE_OBJECT,
 			"hint": PROPERTY_HINT_NODE_TYPE,
 			"hint_string": "AnimationPlayer",
-			"usage": PROPERTY_USAGE_EDITOR,  # not saved — editor helper only
+			"usage": PROPERTY_USAGE_EDITOR,  # not saved - editor helper only
 		},
 		{"name": "anim_down",           "type": TYPE_STRING, "usage": PROPERTY_USAGE_DEFAULT},
 		{"name": "anim_left",           "type": TYPE_STRING, "usage": PROPERTY_USAGE_DEFAULT},
 		{"name": "anim_up",             "type": TYPE_STRING, "usage": PROPERTY_USAGE_DEFAULT},
 		{"name": "anim_right",          "type": TYPE_STRING, "usage": PROPERTY_USAGE_DEFAULT},
 		{"name": "attack_trigger_frame","type": TYPE_INT,    "usage": PROPERTY_USAGE_DEFAULT},
-		# ── Parry Window ─────────────────────────────────────────────────────
+		# -- Parry Window -----------------------------------------------------
 		{"name": "Parry Window", "type": TYPE_NIL, "usage": PROPERTY_USAGE_GROUP, "hint_string": ""},
 		# TODO: parry system not implemented
 		{
@@ -92,17 +92,17 @@ func _get_property_list() -> Array[Dictionary]:
 			"hint_string": "0.0,10.0,0.01,suffix:s",
 			"usage": PROPERTY_USAGE_DEFAULT,
 		},
-		# ── Area Data ────────────────────────────────────────────────────────
+		# -- Area Data --------------------------------------------------------
 		{"name": "Area Data", "type": TYPE_NIL, "usage": PROPERTY_USAGE_GROUP, "hint_string": ""},
 		{
 			"name": "attack_area",
 			"type": TYPE_OBJECT,
 			"hint": PROPERTY_HINT_NODE_TYPE,
 			"hint_string": "Area2D",
-			"usage": PROPERTY_USAGE_DEFAULT,  # saved — wired to scene Area2D node
+			"usage": PROPERTY_USAGE_DEFAULT,  # saved - wired to scene Area2D node
 		},
 		{"name": "collision_shape_suffix", "type": TYPE_STRING, "usage": PROPERTY_USAGE_DEFAULT},
-		# ── Projectile Data ──────────────────────────────────────────────────
+		# -- Projectile Data --------------------------------------------------
 		{"name": "Projectile Data", "type": TYPE_NIL, "usage": PROPERTY_USAGE_GROUP, "hint_string": ""},
 		{
 			"name": "projectile_data",
@@ -162,7 +162,7 @@ func _get(property : StringName) -> Variant:
 
 #endregion
 
-#region TOOL — dynamic inspector hints
+#region TOOL - dynamic inspector hints
 
 func _validate_property(property : Dictionary) -> void:
 	if property.name in ["anim_down", "anim_left", "anim_up", "anim_right"]:

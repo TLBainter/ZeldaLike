@@ -30,6 +30,9 @@ func _ready() -> void:
 func request_song(song: SongResource) -> void:
 	if song == null or song == _current_song:
 		return
+	if not song.is_valid():
+		push_error("MusicManager: SongResource is not valid (missing required loop stream)")
+		return
 	_pending_song = song
 	if not _shot_player.playing and not _loop_player.playing:
 		_transition_to_pending()

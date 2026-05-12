@@ -1,7 +1,5 @@
-##[b][color=red]DecorObject[/color][/b] is a resource defining the properties of a [b]DynamicDecor[/b].[br]
-##Configures sprite frames (initial, destroyed, particles), sounds, and drop table.[br]
-##[br]
-##All frames reference indices into a single atlas texture strip (one row, uniform frame size).
+##Defines DynamicDecor properties: sprite frames (initial, destroyed, particles), sounds, drops.
+##All frames are indices into a single-row atlas texture with uniform frame size.
 class_name DecorObject
 extends Resource
 

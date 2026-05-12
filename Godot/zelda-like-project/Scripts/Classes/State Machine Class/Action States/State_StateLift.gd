@@ -1,4 +1,4 @@
-﻿##[b][color=red]StateLift[/color][/b] is the Action layer state for lifting a DynamicThing.[br]
+##[b][color=red]StateLift[/color][/b] is the Action layer state for lifting a DynamicThing.[br]
 ##Freezes movement, plays the lift animation, and waits for animation_finished to transition to HoldingAction.[br]
 ##The object is visually moved to the hold offset above the player during the animation.[br]
 ##[br]

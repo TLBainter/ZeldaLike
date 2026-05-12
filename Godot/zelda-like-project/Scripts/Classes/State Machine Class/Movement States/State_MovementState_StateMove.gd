@@ -1,4 +1,4 @@
-﻿##[b][color=red]StateMove[/color][/b] is the initial movement state.[br]
+##[b][color=red]StateMove[/color][/b] is the initial movement state.[br]
 ##In this state, a character is moving at a moderate pace rather than running or idling.[br]
 ##Transitions to idle when joystick input is within the deadzone, or to running when joystick input is high.
 ##[br]

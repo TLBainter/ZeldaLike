@@ -1,5 +1,5 @@
-##[b][color=red]ImmediateEffect[/color][/b] defines a single effect applied once on item use.[br]
-##Used within [b]ItemFunction[/b]'s immediate_effects array.
+##Defines a single effect applied once on item use.
+##Used in ItemFunction's immediate_effects array.
 class_name ImmediateEffect
 extends Resource
 

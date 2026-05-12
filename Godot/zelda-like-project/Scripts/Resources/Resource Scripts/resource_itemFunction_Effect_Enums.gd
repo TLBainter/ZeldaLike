@@ -25,7 +25,7 @@ enum PermanentEffectTarget {
 
 ##When a permanent effect is applied.[br]
 ##[b]ON_GET[/b]: applied as soon as the item is obtained (e.g. an arcane shard that raises max magic immediately).[br]
-##[b]ON_COMPLETE[/b]: applied only when a full part-set is formed (e.g. bone shards → skull grants max health).
+##[b]ON_COMPLETE[/b]: applied only when a full part-set is formed (e.g. bone shards -> skull grants max health).
 enum PermanentEffectTiming {
 	ON_GET,
 	ON_COMPLETE,

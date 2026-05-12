@@ -1,4 +1,4 @@
-﻿##[b][color=red]MenuController[/color][/b] handles navigation input for a menu full of [b]MenuHoverable[/b] panels.[br]
+##[b][color=red]MenuController[/color][/b] handles navigation input for a menu full of [b]MenuHoverable[/b] panels.[br]
 ##Routes D-pad/stick input to move between hoverables.
 class_name MenuController
 extends Node

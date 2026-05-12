@@ -1,4 +1,4 @@
-﻿@icon("res://Editor Tools/Icons/icon_chest.svg")
+@icon("res://Editor Tools/Icons/icon_chest.svg")
 ##[b][color=red]InteractableComponentContainer[/color][/b] is a pluggable container interaction zone.[br]
 ##Extends [b]InteractableComponent[/b] with chest-opening logic.[br]
 @tool
@@ -56,7 +56,7 @@ const CHEST_ANIM_FPS : float = 8.0
 ##Whether this chest has been opened. Persisted across sessions via [b]containerManager[/b].
 var is_opened : bool = false
 
-# Resolved per interact() call — accounts for upgrade chain logic.
+# Resolved per interact() call - accounts for upgrade chain logic.
 var _resolved_item_id : String = ""
 var _resolved_item_kind : ContainerRewardResource.ItemKind = ContainerRewardResource.ItemKind.PROGRESSION
 var _resolved_mini_sprite : Texture2D = null
@@ -183,7 +183,7 @@ func _on_dialogue_closed(user : Player) -> void:
 func _finish(user : Player) -> void:
 	user.freeze_input(false)
 
-	# Apply consumable effects (health, energy, magic, currency) — Money items only.
+	# Apply consumable effects (health, energy, magic, currency) - Money items only.
 	if _resolved_item_kind == ContainerRewardResource.ItemKind.MONEY:
 		var item_res : ItemResource = ItemID.ITEM_RESOURCES.get(_resolved_item_id)
 		if item_res:
@@ -201,7 +201,7 @@ func _finish(user : Player) -> void:
 		var level := Level.get_level_ancestor(self)
 		if level == null or level.get_effective_type() != Level.LevelType.DUNGEON:
 			var level_name_str := level.get_effective_name() if level else "unknown"
-			push_error("Chest: '%s' not given — level '%s' is not a Dungeon type." % [_resolved_item_id, level_name_str])
+			push_error("Chest: '%s' not given - level '%s' is not a Dungeon type." % [_resolved_item_id, level_name_str])
 			var bead_res : ItemResource = ItemID.ITEM_RESOURCES.get(ItemID.ORANGE_BEAD)
 			if bead_res and user.currency:
 				user.currency.add(bead_res.grant_notes)
@@ -275,7 +275,7 @@ func _resolve_upgrade(user : Player) -> void:
 	var has_upgrade : bool = user.inventory.has_item(upgrade_id)
 
 	if not has_base:
-		pass  # Give the base item — defaults already set.
+		pass  # Give the base item - defaults already set.
 	elif not has_upgrade:
 		# Give the upgrade instead.
 		_resolved_item_id = upgrade_id
@@ -284,7 +284,7 @@ func _resolve_upgrade(user : Player) -> void:
 			_resolved_mini_sprite = mir.mini_icon
 			_resolved_dialogue_ref = mir.text_ref_id
 	else:
-		# Player has both — give an orange bead and log the error.
+		# Player has both - give an orange bead and log the error.
 		_resolved_item_id = ItemID.ORANGE_BEAD
 		_resolved_item_kind = ContainerRewardResource.ItemKind.MONEY
 		var item_res : ItemResource = ItemID.ITEM_RESOURCES.get(ItemID.ORANGE_BEAD)
@@ -381,7 +381,7 @@ func _show_frame(frame_index : int) -> void:
 		chest_sprite.frame = frame_index
 
 ##Advances the chest sprite from frame 0 to the last frame.[br]
-##Snaps instantly for 1–2 frames; tweens at [b]CHEST_ANIM_FPS[/b] for 3+ frames.
+##Snaps instantly for 1-2 frames; tweens at [b]CHEST_ANIM_FPS[/b] for 3+ frames.
 func _animate_sprite_open() -> void:
 	var fc := container_data.frame_count if container_data else 1
 	if fc <= 2:

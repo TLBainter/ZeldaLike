@@ -81,6 +81,9 @@ direction = 4
 script = ExtResource("11_wtjvx")
 sprite_sheet_name = "Puff Test"
 animation_name = "Walk"
+frame_rate = 10.0
+loops = true
+frame_count = -1
 directions = Array[ExtResource("12_xlxhy")]([SubResource("Resource_3em4b"), SubResource("Resource_wtjvx"), SubResource("Resource_xlxhy"), SubResource("Resource_6re8q")])
 metadata/_custom_type_script = "uid://b1r0wwukdeubg"
 
@@ -107,6 +110,9 @@ direction = 4
 script = ExtResource("11_wtjvx")
 sprite_sheet_name = "Puff Test"
 animation_name = "Attack1"
+frame_rate = 10.0
+loops = true
+frame_count = -1
 directions = Array[ExtResource("12_xlxhy")]([SubResource("Resource_j1w0n"), SubResource("Resource_7s1g0"), SubResource("Resource_dx5oi"), SubResource("Resource_egeu7")])
 metadata/_custom_type_script = "uid://b1r0wwukdeubg"
 

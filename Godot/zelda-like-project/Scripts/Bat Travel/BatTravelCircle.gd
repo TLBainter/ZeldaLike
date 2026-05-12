@@ -1,4 +1,4 @@
-﻿##[b][color=red]BatTravelCircle[/color][/b] is the 32×32 interact zone at each end of a [BatTravelRoute].[br]
+##[b][color=red]BatTravelCircle[/color][/b] is the 3232 interact zone at each end of a [BatTravelRoute].[br]
 @tool
 class_name BatTravelCircle
 extends InteractableComponent
@@ -50,7 +50,7 @@ func _ready() -> void:
 	interact_type = InteractType.CUSTOM
 	context_key = "Bat Soar"
 	shape_type = 0       # Circle
-	shape_radius = 16.0  # 32×32 diameter
+	shape_radius = 16.0  # 3232 diameter
 	super()
 
 	if Engine.is_editor_hint():

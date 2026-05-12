@@ -1,24 +1,16 @@
-﻿##[b][color=red]TextResolver[/color][/b] is an autoload that resolves variable placeholders in text strings.[br]
-##Placeholders use the format [code][category.key][/code].[br]
-##Categories are registered at runtime with a callback that returns the value.[br]
+##Resolves variable placeholders in text strings using registered category callbacks.
+##Placeholder format: [category.key]
 class_name TextResolver
 extends Node
 
 #region VARIABLES
 
-##Registered category resolvers.[br]
-##Format: { "category_name" : Callable(key : String) -> String }
 var _categories : Dictionary = {}
 
 #endregion VARIABLES
 
 #region FUNCTIONS
 
-func _ready():
-	pass
-
-##Resolves all [category.key] placeholders in the given text.[br]
-##Returns the text with all recognized placeholders replaced.
 func resolve(text : String) -> String:
 	var result = text
 	var regex = RegEx.new()
@@ -33,7 +25,6 @@ func resolve(text : String) -> String:
 		result = result.replace(full_match, replacement)
 	return result
 
-##Resolves a single category.key pair.
 func _resolve_single(category : String, key : String) -> String:
 	if _categories.has(category):
 		var resolver : Callable = _categories[category]
@@ -45,18 +36,9 @@ func _resolve_single(category : String, key : String) -> String:
 
 #region REGISTRATION
 
-##Registers a category with a resolver callable.[br]
-##The callable receives a key string and should return the value (any type, converted to String).[br]
-##[br]
-##Example:[br]
-##[code]textResolver.register_category("cur", _resolve_currency)[/code][br]
-##[code]func _resolve_currency(key : String):[/code][br]
-##[code]    match key:[/code][br]
-##[code]        "currency": return cur_notes[/code]
 func register_category(category_name : String, resolver : Callable) -> void:
 	_categories[category_name] = resolver
 
-##Unregisters a category.
 func unregister_category(category_name : String) -> void:
 	_categories.erase(category_name)
 

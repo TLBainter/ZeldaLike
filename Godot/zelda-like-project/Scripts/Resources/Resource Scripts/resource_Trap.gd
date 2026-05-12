@@ -1,5 +1,4 @@
-##[b][color=red]TrapResource[/color][/b] defines the data for a [b]Trap[/b] node.[br]
-##Configures sprite sheet, animation timing, trigger behavior, and damage.
+##Defines Trap node data: sprite sheet, animation timing, trigger behavior, and damage.
 class_name TrapResource
 extends Resource
 

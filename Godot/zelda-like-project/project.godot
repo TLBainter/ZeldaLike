@@ -32,6 +32,8 @@ doorManager="*res://Scripts/Managers/manager_Door.gd"
 destructibleManager="*res://Scripts/Managers/manager_Destructible.gd"
 enemyManager="*res://Scripts/Managers/manager_Enemy.gd"
 musicManager="*res://Scripts/Managers/manager_Music.gd"
+SignalUtil="*uid://th4rkorr5nah"
+services="*uid://dsalia7mi5v4"
 
 [display]
 

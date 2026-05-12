@@ -1,4 +1,4 @@
-﻿@icon("res://Editor Tools/Icons/icon_object.svg")
+@icon("res://Editor Tools/Icons/icon_object.svg")
 ##[b][color=red]DynamicThing[/color][/b] is a [b]Thing[/b] that uses a [b]CharacterBody2D[/b] and can be physically manipulated:[br]
 ##lifted, thrown, pushed, pulled, and broken.[br]
 ##Assign an [b]InteractableObject[/b] resource to configure capabilities.[br]

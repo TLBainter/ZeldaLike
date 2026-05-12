@@ -1,4 +1,4 @@
-﻿@icon("res://Editor Tools/Icons/icon_npc.svg")
+@icon("res://Editor Tools/Icons/icon_npc.svg")
 ##[b][color=red]Character[/color][/b] is a subclass of the [b][color=yellow]EntityClass[/color][/b] class.[br]
 ##This class encompasses [b]NPCs[/b], [b]Enemies[/b], and even the [b]Player[/b].
 class_name Character
@@ -174,7 +174,7 @@ func get_weight_class() -> int:
 		_:  return 3
 
 ##Returns the base knockback distance (px) for a melee interaction.[br]
-##[param attacker_class] and [param target_class] are weight classes 1–3.
+##[param attacker_class] and [param target_class] are weight classes 1-3.
 static func _melee_kb_base(attacker_class: int, target_class: int) -> float:
 	var diff := target_class - attacker_class
 	match diff:

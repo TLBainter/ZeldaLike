@@ -1,4 +1,4 @@
-﻿##[b][color=red]StateInteract[/color][/b] is the state you first enter when you begin an interaction.[br]
+##[b][color=red]StateInteract[/color][/b] is the state you first enter when you begin an interaction.[br]
 ##You may remain in this state if the interaction is ongoing (such as dialogue), or you may exit the interaction immediately.
 ##[br]
 ##[b]LAYER[/b]: Action

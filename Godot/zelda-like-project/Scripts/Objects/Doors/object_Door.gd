@@ -1,4 +1,4 @@
-﻿@tool
+@tool
 @icon("res://Editor Tools/Icons/icon_door.svg")
 ##[b][color=yellow]Door[/color][/b] is a unified door: always a scene transition trigger, optionally requiring a key.[br]
 ##Set [b]direction[/b] to orient the door. Enable [b]locked[/b] to require a key before the player can pass.[br]
@@ -444,7 +444,7 @@ func _show_dialogue(ref_id: String, user: EntityClass, on_closed: Callable) -> v
 
 #endregion DIALOGUE
 
-#region EDITOR TOOL — _set / _get
+#region EDITOR TOOL - _set / _get
 
 func _set(property: StringName, value: Variant) -> bool:
 	if property == "target_scene":
@@ -497,9 +497,9 @@ static func _uid_to_res_path(path: String) -> String:
 		return path
 	return ResourceUID.get_id_path(uid)
 
-#endregion EDITOR TOOL — _set / _get
+#endregion EDITOR TOOL - _set / _get
 
-#region EDITOR TOOL — Partner door sync
+#region EDITOR TOOL - Partner door sync
 
 func _sync_partner_door() -> void:
 	if not is_inside_tree():
@@ -507,10 +507,10 @@ func _sync_partner_door() -> void:
 
 	var current_scene_path: String = _uid_to_res_path(get_tree().edited_scene_root.scene_file_path)
 	if current_scene_path.is_empty():
-		push_warning("Door '%s': cannot write inverse — current scene is unsaved." % name)
+		push_warning("Door '%s': cannot write inverse - current scene is unsaved." % name)
 		return
 	if _target_scene_path.is_empty():
-		push_warning("Door '%s': cannot write inverse — target_scene_path is empty." % name)
+		push_warning("Door '%s': cannot write inverse - target_scene_path is empty." % name)
 		return
 
 	var target_packed := load(_target_scene_path) as PackedScene
@@ -549,7 +549,7 @@ func _sync_partner_door() -> void:
 		return
 
 	if debug_me:
-		print("[Door] Inverse set — '%s' in '%s' ↔ '%s' in '%s'." % [
+		print("[Door] Inverse set - '%s' in '%s' <-> '%s' in '%s'." % [
 			_target_door_name, save_path.get_file(), name, current_scene_path.get_file()
 		])
 
@@ -559,9 +559,9 @@ func _sync_partner_door() -> void:
 		if save_path != active_path:
 			EditorInterface.call_deferred("reload_scene_from_path", save_path)
 
-#endregion EDITOR TOOL — Partner door sync
+#endregion EDITOR TOOL - Partner door sync
 
-#region EDITOR TOOL — Dynamic dropdown for target_door_name
+#region EDITOR TOOL - Dynamic dropdown for target_door_name
 
 func _refresh_door_cache() -> void:
 	_cached_door_names.clear()
@@ -632,4 +632,4 @@ func _get_property_list() -> Array:
 	})
 	return props
 
-#endregion EDITOR TOOL — Dynamic dropdown for target_door_name
+#endregion EDITOR TOOL - Dynamic dropdown for target_door_name

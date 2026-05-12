@@ -1,4 +1,4 @@
-﻿##[b][color=red]StateCastSpell[/color][/b] is the Action Layer state for casting a spell.[br]
+##[b][color=red]StateCastSpell[/color][/b] is the Action Layer state for casting a spell.[br]
 ##Entered via [b]Player._on_spell_cast_requested()[/b] after [b]prepare()[/b] is called with the target spell.[br]
 ##[br]
 ##[b]Phase 0; Interruptible:[/b] From [method enter] until [method on_cast_spell] fires.[br]

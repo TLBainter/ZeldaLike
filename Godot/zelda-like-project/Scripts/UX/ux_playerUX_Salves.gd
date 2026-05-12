@@ -1,6 +1,5 @@
-##[b][color=red]SalvePanel[/color][/b] displays a single concoction/salve on the DPad HUD.[br]
-##Shows the mini texture, quantity label, and plays a use animation when activated.[br]
-##Desaturates and dims when the player has 0 of the salve.
+##Displays a single concoction on the DPad HUD.
+##Shows mini texture, quantity, and use animation. Desaturates when quantity is 0.
 class_name SalvePanel
 extends Panel
 
@@ -65,32 +64,28 @@ func _ready():
 	_apply_label_alignment()
 	_update_display()
 
-##Initializes the panel with inventory and input references.
 func initialize(inventory : InventoryComponent, input_comp : PlayerInputComponent, concoction_use : ConcoctionItemUse = null) -> void:
 	_inventory = inventory
 	_concoction_use = concoction_use
-	if input_comp and not input_comp.d_pad_pressed.is_connected(_on_dpad_pressed):
-		input_comp.d_pad_pressed.connect(_on_dpad_pressed)
-	if _inventory and not _inventory.inventory_changed.is_connected(_on_inventory_changed):
-		_inventory.inventory_changed.connect(_on_inventory_changed)
+	if input_comp:
+		SignalUtil.safe_connect(input_comp, "d_pad_pressed", Callable(self, "_on_dpad_pressed"))
+	if _inventory:
+		SignalUtil.safe_connect(_inventory, "inventory_changed", Callable(self, "_on_inventory_changed"))
 	_update_display()
 
 #region DISPLAY
 
-##Updates the texture, quantity, and visual state based on inventory.
 func _update_display() -> void:
 	_update_texture()
 	_update_quantity()
 	_update_availability()
 
-##Sets the salve_rect texture from the item resource's mini icon.
 func _update_texture() -> void:
 	if not salve_rect or not item_resource:
 		return
 	if item_resource.mini_icon:
 		salve_rect.texture = item_resource.mini_icon
 
-##Updates the quantity label from inventory.
 func _update_quantity() -> void:
 	if not quantity_label:
 		return
@@ -100,7 +95,6 @@ func _update_quantity() -> void:
 	var qty = _inventory.get_quantity(item_resource.item_id)
 	quantity_label.text = str(qty)
 
-##Updates the visual state: desaturated + transparent if 0, normal if owned.
 func _update_availability() -> void:
 	var has_salve = _has_salve()
 	if salve_rect:
@@ -114,7 +108,6 @@ func _update_availability() -> void:
 		else:
 			quantity_label.add_theme_color_override("font_color", Color.RED)
 
-##Returns whether the player has at least 1 of this salve.
 func _has_salve() -> bool:
 	if not _inventory or not item_resource or item_resource.item_id.is_empty():
 		return false
@@ -136,7 +129,6 @@ func _apply_label_alignment() -> void:
 
 #region INPUT
 
-##Called when a DPad button is pressed. Checks if it matches this salve's index.
 func _on_dpad_pressed(index : int) -> void:
 	if index != _dpad_index:
 		return
@@ -146,7 +138,6 @@ func _on_dpad_pressed(index : int) -> void:
 		return
 	_use_salve()
 
-##Uses the salve: plays animation, decreases quantity.
 func _use_salve() -> void:
 	if salve_anim_player and salve_anim_player.has_animation("salveUse"):
 		var anim = salve_anim_player.get_animation("salveUse")
@@ -169,7 +160,6 @@ func _use_salve() -> void:
 
 #region INVENTORY CALLBACK
 
-##Called when any inventory item changes. Refreshes display if it's our item.
 func _on_inventory_changed(item_id : String, _quantity : int) -> void:
 	if item_resource and item_id == item_resource.item_id:
 		_update_display()
@@ -178,7 +168,6 @@ func _on_inventory_changed(item_id : String, _quantity : int) -> void:
 
 #region HELPERS
 
-##Maps SalveType to DPad index (1-4).
 func _get_dpad_index() -> int:
 	match salve_type:
 		SalveType.RESTORATIVE: return 1

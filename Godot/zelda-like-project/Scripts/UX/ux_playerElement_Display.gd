@@ -1,4 +1,4 @@
-﻿##[b][color=red]UXDisplayElement[/color][/b] extends [b]UXElement[/b] for player UI displays[br]
+##[b][color=red]UXDisplayElement[/color][/b] extends [b]UXElement[/b] for player UI displays[br]
 ##that position themselves relative to the player and manage a container of child GUI elements.[br]
 ##Provides common positioning, diagonal stacking, active element tracking,[br]
 ##darkening of inactive elements, and z-index management.[br]

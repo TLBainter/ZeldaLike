@@ -1,4 +1,4 @@
-﻿##[b][color=red]StateDashRebound[/color][/b] is the post-dash rebound movement state.[br]
+##[b][color=red]StateDashRebound[/color][/b] is the post-dash rebound movement state.[br]
 ##Entered from StateDash when the dash is interrupted by a wall or object collision.[br]
 ##The player is pushed back 10% of the distance they successfully traveled during the dash.[br]
 ##Rebound stops normally on collision (no chaining). No invulnerability granted.[br]

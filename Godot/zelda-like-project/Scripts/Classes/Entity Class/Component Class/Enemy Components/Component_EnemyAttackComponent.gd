@@ -1,6 +1,6 @@
 ##[b][color=red]EnemyAttackComponent[/color][/b] holds the enemy's attack data and resolves per-attack Area2Ds.[br]
 ##[br]
-##Each [b]AttackResource[/b] in [member attacks] stores an [b]attack_area[/b] node reference —[br]
+##Each [b]AttackResource[/b] in [member attacks] stores an [b]attack_area[/b] node reference -[br]
 ##wired directly in the inspector to the Area2D for that attack.[br]
 ##[br]
 ##Each Area2D should contain one [b]CollisionShape2D[/b] per direction, named with a direction suffix:[br]
@@ -84,8 +84,8 @@ func find_projectile_attack() -> AttackResource:
 	return null
 
 ##Returns the best [AttackResource] for the current situation.[br]
-##[b]in_melee[/b]: true → returns first melee attack.[br]
-##[b]aligned_for_projectile[/b]: true → returns first projectile attack.[br]
+##[b]in_melee[/b]: true -> returns first melee attack.[br]
+##[b]aligned_for_projectile[/b]: true -> returns first projectile attack.[br]
 ##Returns null if no matching attack exists.
 func get_best_attack(_facing : String, in_melee : bool, aligned_for_projectile : bool) -> AttackResource:
 	if in_melee:

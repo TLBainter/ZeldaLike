@@ -1,4 +1,4 @@
-﻿##[b][color=red]StatePushing[/color][/b] is the [b]Movement layer[/b] state for pushing a grabbed object.[br]
+##[b][color=red]StatePushing[/color][/b] is the [b]Movement layer[/b] state for pushing a grabbed object.[br]
 ##Smoothly moves both the player and object 8px in the facing direction.[br]
 ##Holding directional input causes continuous snaps with a weight-based delay between them.[br]
 ##Returns to GrabIdle when input stops. Transitions to Pulling if input reverses (and object is pullable).[br]

@@ -1,4 +1,4 @@
-﻿##[b][color=red]StateDrop[/color][/b] is the Action layer state for dropping a held object.[br]
+##[b][color=red]StateDrop[/color][/b] is the Action layer state for dropping a held object.[br]
 ##Places the object at the player's feet, re-enables its collision, and transitions to NoAction.[br]
 ##[br]
 ##[b]Layer[/b]: Action

@@ -43,7 +43,7 @@ var sound_library : SoundLibrary = null
 func _get_property_list() -> Array[Dictionary]:
 	var props : Array[Dictionary] = []
 
-	# ── Flash ─────────────────────────────────────────────────────────────────
+	# -- Flash -----------------------------------------------------------------
 	props.append({"name": "Flash", "type": TYPE_NIL, "usage": PROPERTY_USAGE_GROUP, "hint_string": ""})
 	props.append({"name": "use_flash", "type": TYPE_BOOL, "usage": PROPERTY_USAGE_DEFAULT})
 	if use_flash:
@@ -65,7 +65,7 @@ func _get_property_list() -> Array[Dictionary]:
 			"usage": PROPERTY_USAGE_DEFAULT,
 		})
 
-	# ── Particle ──────────────────────────────────────────────────────────────
+	# -- Particle --------------------------------------------------------------
 	props.append({"name": "Particle", "type": TYPE_NIL, "usage": PROPERTY_USAGE_GROUP, "hint_string": ""})
 	props.append({"name": "use_particle", "type": TYPE_BOOL, "usage": PROPERTY_USAGE_DEFAULT})
 	if use_particle:
@@ -93,7 +93,7 @@ func _get_property_list() -> Array[Dictionary]:
 			"usage": PROPERTY_USAGE_DEFAULT,
 		})
 
-	# ── Sprite ────────────────────────────────────────────────────────────────
+	# -- Sprite ----------------------------------------------------------------
 	props.append({"name": "Sprite", "type": TYPE_NIL, "usage": PROPERTY_USAGE_GROUP, "hint_string": ""})
 	props.append({"name": "use_sprite", "type": TYPE_BOOL, "usage": PROPERTY_USAGE_DEFAULT})
 	if use_sprite:
@@ -120,7 +120,7 @@ func _get_property_list() -> Array[Dictionary]:
 			"usage": PROPERTY_USAGE_DEFAULT,
 		})
 
-	# ── Sound ─────────────────────────────────────────────────────────────────
+	# -- Sound -----------------------------------------------------------------
 	props.append({"name": "Sound", "type": TYPE_NIL, "usage": PROPERTY_USAGE_GROUP, "hint_string": ""})
 	props.append({"name": "use_sound", "type": TYPE_BOOL, "usage": PROPERTY_USAGE_DEFAULT})
 	if use_sound:

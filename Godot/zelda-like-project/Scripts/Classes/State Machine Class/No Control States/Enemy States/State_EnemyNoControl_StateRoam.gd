@@ -1,4 +1,4 @@
-##[b][color=red]StateRoam[/color][/b] — the enemy wanders in random cardinal directions.[br]
+##[b][color=red]StateRoam[/color][/b] - the enemy wanders in random cardinal directions.[br]
 ##Transitions to Chase when the player is detected via [b]EnemyInputComponent[/b].
 class_name StateRoam
 extends State

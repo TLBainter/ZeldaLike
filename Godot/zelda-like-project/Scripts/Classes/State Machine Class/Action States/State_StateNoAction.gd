@@ -1,4 +1,4 @@
-﻿##[b][color=red]StateNoAction[/color][/b] is the default Action Layer state.[br]
+##[b][color=red]StateNoAction[/color][/b] is the default Action Layer state.[br]
 ##The character is not performing any actions in this state.[br]
 ##Transitions to action states are triggered by input or events.[br]
 ##[br]

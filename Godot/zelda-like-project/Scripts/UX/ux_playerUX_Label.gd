@@ -1,4 +1,4 @@
-##[b][color=red]PlayerUXLabel[/color][/b] is the base class for dynamic text that appears in the UI under the PlayerInGameCanvas
+##Base class for dynamic text in the UI.
 class_name PlayerUXLabel
 extends Label
 
@@ -17,7 +17,6 @@ var debug_name : String:
 #endregion VARIABLES
 
 #region FUNCTIONS
-##Updates the text of a label; can be overridden by child classes for more specific formatting.
 func update_label(new_text : String):
 	text = new_text
 	if debug_me:

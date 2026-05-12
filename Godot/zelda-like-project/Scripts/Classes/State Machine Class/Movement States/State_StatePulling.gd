@@ -1,4 +1,4 @@
-﻿##[b][color=red]StatePulling[/color][/b] is the [b]Movement layer[/b] state for pulling a grabbed object.[br]
+##[b][color=red]StatePulling[/color][/b] is the [b]Movement layer[/b] state for pulling a grabbed object.[br]
 ##Smoothly moves both the player and object 8px opposite the facing direction.[br]
 ##The player moves backward first, then the object follows into the player's previous position.[br]
 ##Holding directional input causes continuous snaps with a weight-based delay between them.[br]

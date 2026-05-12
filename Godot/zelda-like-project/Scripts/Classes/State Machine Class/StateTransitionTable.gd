@@ -1,4 +1,4 @@
-﻿##[b][color=red]StateTransitionTable[/color][/b] maps logical transition keys to GDScript resources.[br]
+##[b][color=red]StateTransitionTable[/color][/b] maps logical transition keys to GDScript resources.[br]
 ##Assign this to a [b]StateCoordinator[/b] to configure which concrete state class handles each role.[br]
 ##[br]
 ##[b]Default behavior:[/b] [method _init] pre-populates all 17 standard state mappings.[br]
@@ -9,7 +9,7 @@
 class_name StateTransitionTable
 extends Resource
 
-##Maps string keys → GDScript Script resources.[br]
+##Maps string keys -> GDScript Script resources.[br]
 ##[method StateCoordinator.get_transition] looks up the script here, then resolves it[br]
 ##against the coordinator's discovered state registry.
 @export var transitions: Dictionary = {}
@@ -37,7 +37,7 @@ func _init() -> void:
 		StateID.KNOCKBACK:      preload("res://Scripts/Classes/State Machine Class/No Control States/State_NoControl_StateKnockback.gd"),
 		StateID.INITIALIZED:    preload("res://Scripts/Classes/State Machine Class/No Control States/State_StateInitialized.gd"),
 		StateID.PLAYER_DEAD:    preload("res://Scripts/Classes/State Machine Class/No Control States/State_PlayerNoControl_StateDead.gd"),
-		# Enemy states — player coordinator ignores these (no matching state nodes)
+		# Enemy states - player coordinator ignores these (no matching state nodes)
 		StateID.ROAM:           preload("res://Scripts/Classes/State Machine Class/No Control States/Enemy States/State_EnemyNoControl_StateRoam.gd"),
 		StateID.CHASE:          preload("res://Scripts/Classes/State Machine Class/No Control States/Enemy States/State_EnemyNoControl_StateChase.gd"),
 		StateID.COMBAT:         preload("res://Scripts/Classes/State Machine Class/No Control States/Enemy States/State_EnemyNoControl_StateCombat.gd"),

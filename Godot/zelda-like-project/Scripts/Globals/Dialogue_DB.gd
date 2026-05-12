@@ -1,4 +1,4 @@
-﻿##[color=red][b]Dialogue Database/dialogueDB[/b][/color] is an autoload, global variable handling dialogue.[br]
+##[color=red][b]Dialogue Database/dialogueDB[/b][/color] is an autoload, global variable handling dialogue.[br]
 ##This reads the CSV file for dialogue and holds a dictionary of text lines.
 extends Node
 
@@ -56,7 +56,7 @@ func _parse_csv():
 			continue
 		var ref_id = csv_row[0]
 		var char_id = csv_row[1]
-		# Store columns C–H by position so indices are stable (Column C = lines[0], D = lines[1], …).
+		# Store columns C-H by position so indices are stable (Column C = lines[0], D = lines[1], ...).
 		# Trailing empty columns are trimmed; internal empties are preserved for schema-based access.
 		var lines : Array[String] = []
 		for i in range(2, 8):

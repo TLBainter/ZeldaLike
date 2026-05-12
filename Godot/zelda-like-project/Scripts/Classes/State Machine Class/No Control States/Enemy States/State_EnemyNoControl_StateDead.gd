@@ -1,4 +1,4 @@
-##[b][color=red]StateDead[/color][/b] — resolves the enemy's drop table, spawns pickups, then removes the enemy from the scene.
+##[b][color=red]StateDead[/color][/b] - resolves the enemy's drop table, spawns pickups, then removes the enemy from the scene.
 class_name StateDead
 extends State
 
