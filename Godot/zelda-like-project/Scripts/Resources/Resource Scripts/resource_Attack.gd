@@ -19,11 +19,8 @@ var blockable : bool = true
 var parryable : bool = false
 var interruptable : bool = true
 
-var _anim_player_cache : AnimationPlayer = null  # editor-only, not serialized
-var anim_down : String = ""
-var anim_left : String = ""
-var anim_up : String = ""
-var anim_right : String = ""
+var _vis_anims_cache : Array[CharacterAnimationResource] = []  # editor-only, not serialized
+var animation_name : String = ""
 var attack_trigger_frame : int = 0
 
 var parry_window_start : float = 0.1
@@ -63,18 +60,8 @@ func _get_property_list() -> Array[Dictionary]:
 		{"name": "interruptable", "type": TYPE_BOOL, "usage": PROPERTY_USAGE_DEFAULT},
 		# -- Animation --------------------------------------------------------
 		{"name": "Animation", "type": TYPE_NIL, "usage": PROPERTY_USAGE_GROUP, "hint_string": ""},
-		{
-			"name": "editor_anim_player",
-			"type": TYPE_OBJECT,
-			"hint": PROPERTY_HINT_NODE_TYPE,
-			"hint_string": "AnimationPlayer",
-			"usage": PROPERTY_USAGE_EDITOR,  # not saved - editor helper only
-		},
-		{"name": "anim_down",           "type": TYPE_STRING, "usage": PROPERTY_USAGE_DEFAULT},
-		{"name": "anim_left",           "type": TYPE_STRING, "usage": PROPERTY_USAGE_DEFAULT},
-		{"name": "anim_up",             "type": TYPE_STRING, "usage": PROPERTY_USAGE_DEFAULT},
-		{"name": "anim_right",          "type": TYPE_STRING, "usage": PROPERTY_USAGE_DEFAULT},
-		{"name": "attack_trigger_frame","type": TYPE_INT,    "usage": PROPERTY_USAGE_DEFAULT},
+		{"name": "animation_name",       "type": TYPE_STRING, "usage": PROPERTY_USAGE_DEFAULT},
+		{"name": "attack_trigger_frame", "type": TYPE_INT,    "usage": PROPERTY_USAGE_DEFAULT},
 		# -- Parry Window -----------------------------------------------------
 		{"name": "Parry Window", "type": TYPE_NIL, "usage": PROPERTY_USAGE_GROUP, "hint_string": ""},
 		# TODO: parry system not implemented
@@ -124,14 +111,7 @@ func _set(property : StringName, value : Variant) -> bool:
 		&"blockable":            blockable = value;             return true
 		&"parryable":            parryable = value;             return true
 		&"interruptable":        interruptable = value;         return true
-		&"editor_anim_player":
-			_anim_player_cache = value as AnimationPlayer
-			notify_property_list_changed()
-			return true
-		&"anim_down":            anim_down = value;             return true
-		&"anim_left":            anim_left = value;             return true
-		&"anim_up":              anim_up = value;               return true
-		&"anim_right":           anim_right = value;            return true
+		&"animation_name":       animation_name = value;        return true
 		&"attack_trigger_frame": attack_trigger_frame = value;  return true
 		&"parry_window_start":   parry_window_start = value;    return true
 		&"parry_window_end":     parry_window_end = value;      return true
@@ -142,22 +122,18 @@ func _set(property : StringName, value : Variant) -> bool:
 
 func _get(property : StringName) -> Variant:
 	match property:
-		&"attack_type":           return attack_type
-		&"damage":                return damage
-		&"blockable":             return blockable
-		&"parryable":             return parryable
-		&"interruptable":         return interruptable
-		&"editor_anim_player":    return _anim_player_cache
-		&"anim_down":             return anim_down
-		&"anim_left":             return anim_left
-		&"anim_up":               return anim_up
-		&"anim_right":            return anim_right
-		&"attack_trigger_frame":  return attack_trigger_frame
-		&"parry_window_start":    return parry_window_start
-		&"parry_window_end":      return parry_window_end
-		&"attack_area":           return _area_cache
-		&"collision_shape_suffix": return collision_shape_suffix
-		&"projectile_data":       return projectile_data
+		&"attack_type":              return attack_type
+		&"damage":                   return damage
+		&"blockable":                return blockable
+		&"parryable":                return parryable
+		&"interruptable":            return interruptable
+		&"animation_name":           return animation_name
+		&"attack_trigger_frame":     return attack_trigger_frame
+		&"parry_window_start":       return parry_window_start
+		&"parry_window_end":         return parry_window_end
+		&"attack_area":              return _area_cache
+		&"collision_shape_suffix":   return collision_shape_suffix
+		&"projectile_data":          return projectile_data
 	return null
 
 #endregion
@@ -165,20 +141,15 @@ func _get(property : StringName) -> Variant:
 #region TOOL - dynamic inspector hints
 
 func _validate_property(property : Dictionary) -> void:
-	if property.name in ["anim_down", "anim_left", "anim_up", "anim_right"]:
-		if _anim_player_cache:
-			var anims : PackedStringArray = _anim_player_cache.get_animation_list()
-			if anims.size() > 0:
+	if property.name == "animation_name":
+		if not _vis_anims_cache.is_empty():
+			var names : PackedStringArray = []
+			for r : CharacterAnimationResource in _vis_anims_cache:
+				if r and r.animation_name != "":
+					names.append(r.animation_name)
+			if names.size() > 0:
 				property.hint = PROPERTY_HINT_ENUM
-				property.hint_string = ",".join(Array(anims))
-	elif property.name in ["parry_window_start", "parry_window_end"]:
-		var max_time : float = 10.0
-		if _anim_player_cache and anim_down != "":
-			var anim : Animation = _anim_player_cache.get_animation(anim_down)
-			if anim:
-				max_time = anim.length
-		property.hint = PROPERTY_HINT_RANGE
-		property.hint_string = "0.0," + str(max_time) + ",0.01,suffix:s"
+				property.hint_string = ",".join(names)
 
 #endregion
 
@@ -186,13 +157,5 @@ func _validate_property(property : Dictionary) -> void:
 
 func get_damage_amount() -> int:
 	return int(damage)
-
-func get_anim_for_facing(facing : String) -> String:
-	match facing:
-		"down":  return anim_down
-		"left":  return anim_left
-		"up":    return anim_up
-		"right": return anim_right
-	return anim_down
 
 #endregion

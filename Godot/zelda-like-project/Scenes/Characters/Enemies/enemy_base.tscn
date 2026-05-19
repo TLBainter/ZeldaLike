@@ -69,21 +69,18 @@ direction = 2
 
 [sub_resource type="Resource" id="Resource_xlxhy"]
 script = ExtResource("12_xlxhy")
-row = 3
+row = 2
 direction = 6
 
 [sub_resource type="Resource" id="Resource_6re8q"]
 script = ExtResource("12_xlxhy")
-row = 2
+row = 3
 direction = 4
 
 [sub_resource type="Resource" id="Resource_c1g7c"]
 script = ExtResource("11_wtjvx")
 sprite_sheet_name = "Puff Test"
 animation_name = "Walk"
-frame_rate = 10.0
-loops = true
-frame_count = -1
 directions = Array[ExtResource("12_xlxhy")]([SubResource("Resource_3em4b"), SubResource("Resource_wtjvx"), SubResource("Resource_xlxhy"), SubResource("Resource_6re8q")])
 metadata/_custom_type_script = "uid://b1r0wwukdeubg"
 
@@ -98,21 +95,20 @@ direction = 2
 
 [sub_resource type="Resource" id="Resource_dx5oi"]
 script = ExtResource("12_xlxhy")
-row = 7
+row = 6
 direction = 6
 
 [sub_resource type="Resource" id="Resource_egeu7"]
 script = ExtResource("12_xlxhy")
-row = 6
+row = 7
 direction = 4
 
 [sub_resource type="Resource" id="Resource_p2gsv"]
 script = ExtResource("11_wtjvx")
 sprite_sheet_name = "Puff Test"
 animation_name = "Attack1"
-frame_rate = 10.0
-loops = true
-frame_count = -1
+loops = false
+trigger_method_frame = 3
 directions = Array[ExtResource("12_xlxhy")]([SubResource("Resource_j1w0n"), SubResource("Resource_7s1g0"), SubResource("Resource_dx5oi"), SubResource("Resource_egeu7")])
 metadata/_custom_type_script = "uid://b1r0wwukdeubg"
 
@@ -166,10 +162,7 @@ damage = 2
 blockable = true
 parryable = false
 interruptable = true
-anim_down = "enemyAttack1Down"
-anim_left = "enemyAttack1Left"
-anim_up = "enemyAttack1Up"
-anim_right = "enemyAttack1Right"
+animation_name = "Attack1"
 attack_trigger_frame = 3
 parry_window_start = 0.0
 parry_window_end = 2.99
@@ -416,6 +409,13 @@ debug_me_verbose = true
 debug_name = "Shooter State Coord"
 metadata/_custom_type_script = "uid://c0gguh8o4ftae"
 
+[sub_resource type="Resource" id="Resource_2s5ka"]
+script = ExtResource("8_ynlb1")
+debug_me = true
+debug_me_verbose = true
+debug_name = "Enemy Attack State"
+metadata/_custom_type_script = "uid://c0gguh8o4ftae"
+
 [node name="enemy" type="Node2D" unique_id=619697809 node_paths=PackedStringArray("input", "attack_component", "body", "nav_agent", "root", "sprite", "anim", "state_machine", "collider", "audio", "stats", "health", "move")]
 script = ExtResource("1_jroqy")
 input = NodePath("ComponentManager/enemyInputComponent")
@@ -566,6 +566,7 @@ metadata/_custom_type_script = "uid://cv00auxwsog0v"
 script = ExtResource("22_b5g42f")
 attack_component = NodePath("../../../ComponentManager/EnemyAttackComponent")
 no_action_state = NodePath("../StateNoAction")
+debug = SubResource("Resource_2s5ka")
 metadata/_custom_type_script = "uid://b5g42f62r2lkt"
 
 [node name="StateNoAction" type="Node" parent="StateCoordinator/ActionLayer" unique_id=1626903822]

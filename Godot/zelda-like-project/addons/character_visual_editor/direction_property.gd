@@ -49,8 +49,10 @@ func _init() -> void:
 				_dir_buttons[dir_val] = btn
 				btn.toggled.connect(_on_button_toggled.bind(dir_val))
 			grid.add_child(btn)
-	add_child(grid)
-	set_bottom_editor(grid)
+	var center := CenterContainer.new()
+	center.add_child(grid)
+	add_child(center)
+	set_bottom_editor(center)
 
 func _update_property() -> void:
 	_updating = true

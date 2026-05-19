@@ -17,6 +17,8 @@ func enter() -> void:
 	_attack_anim_name = ""
 	_attack_facing = ""
 	_attack_resource = null
+	var _dbg_player_pos := Vector2.ZERO
+	var _dbg_enemy_pos := Vector2.ZERO
 	if debug_me_verbose:
 		print_rich(root.debug_name, " ", debug_name, " State [color=green][i]entered[/i][/color].")
 	var character = get_character()
@@ -27,9 +29,9 @@ func enter() -> void:
 	if character.audio and character.audio is CharacterAudioControl:
 		character.audio.play_attack_sound()
 	coordinator.context_locked = true
+	var _char_anim : CharacterAnimator = null
 	if character.anim and character.anim is CharacterAnimator:
-		(character.anim as CharacterAnimator).can_update_facing = false
-		_attack_facing = (character.anim as CharacterAnimator).facing
+		_char_anim = character.anim as CharacterAnimator
 	if not attack_component:
 		_exit_to_no_action()
 		return
@@ -44,6 +46,14 @@ func enter() -> void:
 		if _player_node:
 			var _pb := _player_node.get("body") as Node2D
 			var _player_pos : Vector2 = _pb.global_position if _pb else _player_node.global_position
+			_dbg_player_pos = _player_pos
+			_dbg_enemy_pos = _enemy.body.global_position
+			if _char_anim:
+				var _toward := (_player_pos - _enemy.body.global_position).normalized()
+				if _toward != Vector2.ZERO:
+					_char_anim.set_facing(_toward)
+				_attack_facing = _char_anim.facing
+				_char_anim.can_update_facing = false
 			var _melee_res := attack_component.find_melee_attack()
 			if _melee_res:
 				_in_melee = attack_component.is_player_near_attack_area(_melee_res, _attack_facing, _player_pos)
@@ -60,15 +70,22 @@ func enter() -> void:
 		_exit_to_no_action()
 		return
 	attack_component.set_active_shape(_attack_resource, _attack_facing)
-	var anim_name := _attack_resource.get_anim_for_facing(_attack_facing)
-	if anim_name == "":
+	var anim_prefix := _attack_resource.animation_name
+	if anim_prefix == "":
 		_exit_to_no_action()
 		return
 	if character.anim and character.anim is CharacterAnimator:
-		(character.anim as CharacterAnimator).play(anim_name)
-	_attack_anim_name = anim_name
+		var char_anim := character.anim as CharacterAnimator
+		if not char_anim.play_directional_anim(anim_prefix):
+			_exit_to_no_action()
+			return
+		_attack_anim_name = char_anim.current_animation
 	set_process(true)
-	_debug_log(str("Enemy attack started. Facing: ", _attack_facing, " Anim: ", _attack_anim_name))
+	_debug_log(str("Enemy attack started.",
+		"\n  Enemy pos: ", _dbg_enemy_pos,
+		"\n  Player pos: ", _dbg_player_pos,
+		"\n  Facing: ", _attack_facing,
+		"\n  Anim: ", _attack_anim_name))
 
 func exit() -> void:
 	if attack_component and _attack_resource:

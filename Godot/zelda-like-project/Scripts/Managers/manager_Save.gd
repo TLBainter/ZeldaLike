@@ -363,11 +363,13 @@ func _apply_data(data : Dictionary) -> void:
 
 func _apply_player_stats(data : Dictionary) -> void:
 	var h : Dictionary = data.get("health", {})
+	_player.health._loading_health = true
 	_player.health.max_health = h.get("max", _player.health.max_health)
 	_player.health.cur_health = h.get("cur", _player.health.cur_health)
 	var low_hp : int = clampi(int(floor(_player.health.max_health * 0.25)), 4, 15)
 	if _player.health.cur_health < low_hp:
 		_player.health.cur_health = low_hp + 4
+	_player.health._loading_health = false
 
 	var m : Dictionary = data.get("magic", {})
 	_player.magic.total_shards = m.get("total_shards", _player.magic.total_shards)

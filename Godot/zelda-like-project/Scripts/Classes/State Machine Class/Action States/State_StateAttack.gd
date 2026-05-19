@@ -80,7 +80,7 @@ func _process(_delta : float) -> void:
 		_debug_log(str("Animation ended or interrupted. Current: '", cur_anim, "' Expected: '", _attack_anim_name, "'"))
 		_exit_to_no_action()
 	elif cur_anim == "":
-		_debug_log("Animation finished.")
+		_debug_log(str("Animation finished: '", _attack_anim_name, "'"))
 		_exit_to_no_action()
 
 func pause() -> void:

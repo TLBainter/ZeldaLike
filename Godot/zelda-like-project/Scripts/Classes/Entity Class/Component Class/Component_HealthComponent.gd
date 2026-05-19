@@ -28,12 +28,14 @@ var max_health : int = 4
 ##The current hit points of the entity.
 ##Set true during increase_max to suppress health_changed (max expansion, not a heal).
 var _expanding_max : bool = false
+##Set true during save-load to suppress health_changed (initialization, not damage).
+var _loading_health : bool = false
 var cur_health : int = 4:
 	set(value):
 		var new_health = clampi(value, 0, max_health)
 		var chng_amt = new_health - cur_health
 		cur_health = new_health
-		if chng_amt != 0 and not _expanding_max:
+		if chng_amt != 0 and not _expanding_max and not _loading_health:
 			health_changed.emit(cur_health, max_health, chng_amt)
 			if cur_health == 0:
 				died.emit()

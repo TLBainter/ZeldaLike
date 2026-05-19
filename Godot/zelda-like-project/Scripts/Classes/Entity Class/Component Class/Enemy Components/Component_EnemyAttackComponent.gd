@@ -1,3 +1,4 @@
+@tool
 ##[b][color=red]EnemyAttackComponent[/color][/b] holds the enemy's attack data and resolves per-attack Area2Ds.[br]
 ##[br]
 ##Each [b]AttackResource[/b] in [member attacks] stores an [b]attack_area[/b] node reference -[br]
@@ -14,7 +15,11 @@ extends Component
 #region VARIABLES
 
 @export_group("Attacks")
-@export var attacks : Array[AttackResource] = []
+@export var attacks : Array[AttackResource] = []:
+	set(v):
+		attacks = v
+		if Engine.is_editor_hint():
+			_inject_vis_anims()
 
 @export_group("Melee Detection")
 ##Distance in pixels within which the enemy considers the player to be in melee range.
@@ -23,6 +28,29 @@ extends Component
 @export_range(0, 64, 1, "suffix:px") var melee_trigger_range : float = 8.0
 
 #endregion VARIABLES
+
+#region EDITOR INJECTION
+
+func _ready() -> void:
+	if Engine.is_editor_hint():
+		call_deferred("_inject_vis_anims")
+
+func _inject_vis_anims() -> void:
+	if not is_inside_tree():
+		return
+	var entity := _find_entity_parent()
+	if not entity:
+		return
+	var vis_anims = entity.get("visual_animations")
+	if not vis_anims is Array:
+		return
+	for attack : AttackResource in attacks:
+		if not attack:
+			continue
+		attack._vis_anims_cache = vis_anims
+		attack.notify_property_list_changed()
+
+#endregion EDITOR INJECTION
 
 #region FUNCTIONS
 

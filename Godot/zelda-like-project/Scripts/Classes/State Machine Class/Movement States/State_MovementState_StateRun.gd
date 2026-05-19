@@ -21,6 +21,11 @@ func _on_move(_move_input : Vector2, move_strength : float):
 		_safe_transition(StateID.IDLE)
 	elif move_strength <= GameConstants.RUN_THRESHOLD:
 		_safe_transition(StateID.MOVE)
+	else:
+		var character = get_character()
+		var _energy = character.get("energy") if character else null
+		if _energy and _energy.is_exhausted_state:
+			_safe_transition(StateID.MOVE)
 
 func get_context_key() -> String:
 	if coordinator.held_object:

@@ -1,5 +1,6 @@
 ##Intercepts inspector properties for [b]CharacterAnimationDirectionEntry[/b] and [b]CharacterAnimationResource[/b].[br]
-##- Replaces the [code]direction[/code] enum dropdown with the compass-rose grid widget.[br]
+##- Replaces the [code]row[/code] integer editor with [b]RowPreviewProperty[/b], which embeds the compass direction picker, animated preview, and frame strip.[br]
+##- Suppresses the [code]direction[/code] enum dropdown (now handled inside RowPreviewProperty).[br]
 ##- Replaces the [code]sprite_sheet_name[/code] string field with a dropdown of names from the owning character's sprite sheets.
 @tool
 class_name DirectionInspectorPlugin
@@ -30,17 +31,22 @@ class _DirectionBuilder:
 		res.directions = entries
 		res.notify_property_list_changed()
 
-const DirectionCompassProperty = preload("res://addons/character_visual_editor/direction_property.gd")
 const SpriteSheetNameProperty  = preload("res://addons/character_visual_editor/sprite_sheet_name_property.gd")
+const RowPreviewProperty       = preload("res://addons/character_visual_editor/row_preview_property.gd")
 
 ## Tracks the most recently inspected Character node so sub-resource property editors
 ## can read its visual_sprite_sheets without needing a back-reference on the resource itself.
 var _current_character: Character = null
+## Tracks the most recently inspected CharacterAnimationResource so the row preview
+## can read its sprite_sheet_name and frame_count.
+var _current_anim_resource: CharacterAnimationResource = null
 
 func _can_handle(object: Object) -> bool:
 	if object is Character:
 		_current_character = object
 		return false  # Capture the reference but don't intercept Character's own properties.
+	if object is CharacterAnimationResource:
+		_current_anim_resource = object
 	return object is CharacterAnimationDirectionEntry or object is CharacterAnimationResource
 
 func _parse_property(object: Object, type: Variant.Type, name: String,
@@ -67,8 +73,10 @@ func _parse_property(object: Object, type: Variant.Type, name: String,
 		hbox.add_child(btn8)
 		add_custom_control(hbox)
 		return false  # Keep the default directions array editor below the buttons.
-	if object is CharacterAnimationDirectionEntry and name == "direction":
-		add_property_editor(name, DirectionCompassProperty.new())
+	if object is CharacterAnimationDirectionEntry and name == "row":
+		add_property_editor(name, RowPreviewProperty.new(_current_character, _current_anim_resource))
 		return true
+	if object is CharacterAnimationDirectionEntry and name == "direction":
+		return true  # Suppressed; direction picker is embedded in RowPreviewProperty.
 	return false
 

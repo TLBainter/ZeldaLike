@@ -21,6 +21,24 @@ extends AnimationPlayer
 		if Engine.is_editor_hint() and v and is_node_ready():
 			build_animations_from_resources()
 		_rebuild_animations = false
+func _validate_property(property: Dictionary) -> void:
+	if property.name not in ["idle_prefix", "walk_prefix"]:
+		return
+	var parent := get_parent()
+	if not parent:
+		return
+	var vis_anims = parent.get("visual_animations")
+	if not vis_anims is Array:
+		return
+	var names : PackedStringArray = []
+	for anim_res in vis_anims:
+		var n : String = anim_res.get("animation_name") if anim_res else ""
+		if n != "":
+			names.append(n)
+	if names.size() > 0:
+		property.hint = PROPERTY_HINT_ENUM
+		property.hint_string = ",".join(names)
+
 var debug_me : bool:
 	get: return debug.debug_me if debug else false
 var debug_me_verbose : bool:
@@ -95,9 +113,11 @@ func build_animations_from_resources() -> void:
 			continue
 
 		var hframes    : int   = sheet.get_hframes()
-		var frame_count : int  = anim_res.frame_count if anim_res.frame_count > 0 else hframes
 		var frame_dur  : float = 1.0 / anim_res.frame_rate
 		var is_default_sheet : bool = (sheet == default_sheet)
+		var sheet_img  : Image = null
+		if anim_res.frame_count <= 0 and sheet.texture:
+			sheet_img = sheet.texture.get_image()
 
 		for dir_entry : CharacterAnimationDirectionEntry in anim_res.directions:
 			var anim_name : String = anim_res.animation_name + dir_entry.get_anim_suffix()
@@ -105,6 +125,8 @@ func build_animations_from_resources() -> void:
 			if lib.has_animation(anim_name):
 				continue  # Non-destructive: never overwrite manually-defined animations.
 
+			var frame_count : int = anim_res.frame_count if anim_res.frame_count > 0 \
+				else _detect_frame_count(sheet_img, hframes, sheet.get_vframes(), dir_entry.row)
 			var built : Animation = Animation.new()
 			built.loop_mode = Animation.LOOP_LINEAR if anim_res.loops else Animation.LOOP_NONE
 			built.length    = frame_count * frame_dur
@@ -141,6 +163,15 @@ func build_animations_from_resources() -> void:
 				built.track_set_interpolation_type(vf_track, Animation.INTERPOLATION_NEAREST)
 				built.value_track_set_update_mode(vf_track, Animation.UPDATE_DISCRETE)
 				built.track_insert_key(vf_track, 0.0, sheet.get_vframes())
+
+			if anim_res.trigger_method_frame >= 0:
+				var sm_node := root.get("state_machine") as Node
+				if sm_node:
+					var sm_path := str(root.get_path_to(sm_node))
+					var trigger_time : float = anim_res.trigger_method_frame * frame_dur
+					var method_track : int = built.add_track(Animation.TYPE_METHOD)
+					built.track_set_path(method_track, NodePath(sm_path))
+					built.track_insert_key(method_track, trigger_time, {"method": &"attack_hit", "args": []})
 
 			lib.add_animation(anim_name, built)
 			if debug_me:
@@ -267,4 +298,38 @@ func force_face(face_dir : Vector2):
 	play_directional_anim(AnimationName.IDLE)
 	if debug_me:
 		print(debug_name, " forced to face ", facing)
+
+##Scans [param img] for the first fully-transparent frame in [param row] and returns its index
+##as the effective frame count. Falls back to [param hframes] when the image is unusable.
+static func _detect_frame_count(img: Image, hframes: int, vframes: int, row: int) -> int:
+	if not img or img.is_compressed():
+		return hframes
+	var tex_w : int = img.get_width()
+	var tex_h : int = img.get_height()
+	if tex_w == 0 or tex_h == 0 or hframes <= 0 or vframes <= 0:
+		return hframes
+	@warning_ignore("integer_division")
+	var frame_w : int = tex_w / hframes
+	@warning_ignore("integer_division")
+	var frame_h : int = tex_h / vframes
+	if frame_w == 0 or frame_h == 0:
+		return hframes
+	@warning_ignore("integer_division")
+	var step_x : int = maxi(1, frame_w / 8)
+	@warning_ignore("integer_division")
+	var step_y : int = maxi(1, frame_h / 8)
+	var y0 : int = row * frame_h
+	for f in range(hframes):
+		var x0 : int = f * frame_w
+		var has_content := false
+		for y in range(y0, y0 + frame_h, step_y):
+			for x in range(x0, x0 + frame_w, step_x):
+				if img.get_pixel(x, y).a > 0.0:
+					has_content = true
+					break
+			if has_content:
+				break
+		if not has_content:
+			return f
+	return hframes
 

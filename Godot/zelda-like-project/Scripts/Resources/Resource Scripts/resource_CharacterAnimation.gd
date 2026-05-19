@@ -21,6 +21,9 @@ extends Resource
 @export var loops: bool = true
 ##Number of frames to use from each row. Set to -1 to use all horizontal frames the sprite sheet provides.
 @export var frame_count: int = -1
+##If >= 0, a method track is added calling attack_hit() on the StateCoordinator at this frame index.
+##Set to -1 (default) for non-attack animations.
+@export var trigger_method_frame: int = -1
 
 @export_group("Directions")
 ##One entry per compass direction this animation supports. Each entry maps a sprite sheet row to a direction.

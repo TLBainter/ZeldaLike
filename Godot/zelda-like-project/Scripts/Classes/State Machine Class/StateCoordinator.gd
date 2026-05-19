@@ -210,7 +210,9 @@ func request_context_refresh():
 
 ##Sends an attack hit message to target(s) of attacks
 func attack_hit() -> void:
-	if action_layer and action_layer.current_state is StateAttack:
+	if not action_layer or not action_layer.is_active:
+		return
+	if action_layer.current_state is StateAttack:
 		action_layer.current_state.execute_hit()
 
 	#region state registry
