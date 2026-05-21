@@ -229,6 +229,8 @@ block={
 2d_physics/layer_5="Blocking Layer"
 2d_physics/layer_6="Wall Layer"
 2d_physics/layer_7="Attack Layer"
+2d_physics/layer_8="Grapple Layer"
+2d_physics/layer_9="Gap Layer"
 
 [physics]
 

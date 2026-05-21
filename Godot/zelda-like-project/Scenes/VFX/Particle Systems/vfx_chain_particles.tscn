@@ -1,0 +1,49 @@
+[gd_scene format=3 uid="uid://233xswhwfc3h"]
+
+[ext_resource type="Texture2D" uid="uid://ccc17jyyf802h" path="res://Sprites/VFX/Spells/Grapple/grappleSpell_chainParticles.tres" id="1_nxgh1"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_7xlnp"]
+blend_mode = 1
+particles_animation = true
+particles_anim_h_frames = 3
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="Curve" id="Curve_x0iyj"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.3470716, 1), 0.0, 0.0, 0, 0, Vector2(0.73318875, 0.8635496), -2.1304257, -2.1304257, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="CurveTexture" id="CurveTexture_1rk2r"]
+curve = SubResource("Curve_x0iyj")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_vfqou"]
+lifetime_randomness = 0.07
+particle_flag_disable_z = true
+angle_min = -263.6
+angle_max = 153.1
+inherit_velocity_ratio = 0.08
+spread = 58.648
+flatness = 0.13
+initial_velocity_max = 13.78
+angular_velocity_min = -116.22002
+angular_velocity_max = -68.030014
+orbit_velocity_min = -0.35499993
+orbit_velocity_max = -0.14199992
+gravity = Vector3(0, 50, 0)
+linear_accel_min = -25.980001
+linear_accel_max = 65.75
+radial_accel_min = -2.2351742e-06
+radial_accel_max = -2.2351742e-06
+alpha_curve = SubResource("CurveTexture_1rk2r")
+hue_variation_min = -0.030000022
+hue_variation_max = 0.019999977
+anim_speed_min = 0.049999997
+anim_speed_max = 0.90999997
+
+[node name="ChainParticles" type="GPUParticles2D" unique_id=1097828744]
+material = SubResource("CanvasItemMaterial_7xlnp")
+amount = 2
+texture = ExtResource("1_nxgh1")
+lifetime = 0.5
+speed_scale = 1.25
+process_material = SubResource("ParticleProcessMaterial_vfqou")

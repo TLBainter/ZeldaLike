@@ -557,7 +557,9 @@ func _sync_partner_door() -> void:
 		var active_root := EditorInterface.get_edited_scene_root()
 		var active_path := _uid_to_res_path(active_root.scene_file_path) if active_root else ""
 		if save_path != active_path:
-			EditorInterface.call_deferred("reload_scene_from_path", save_path)
+			var reload_path := save_path
+			get_tree().create_timer(0.0).timeout.connect(
+				func(): EditorInterface.reload_scene_from_path(reload_path), CONNECT_ONE_SHOT)
 
 #endregion EDITOR TOOL - Partner door sync
 

@@ -1,0 +1,46 @@
+[gd_scene format=3 uid="uid://da58rq7jtdnn4"]
+
+[ext_resource type="Texture2D" uid="uid://cam4ghqhq0fhx" path="res://Sprites/VFX/Particles/Enemy/Stunned/vfx_stunned-particles.png" id="1_ney8g"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_e4egf"]
+particles_animation = true
+particles_anim_h_frames = 5
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="Curve" id="Curve_6jrbf"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.20173536, 1), 0.0, 0.0, 0, 0, Vector2(0.86334056, 0.7973919), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="CurveTexture" id="CurveTexture_68li5"]
+curve = SubResource("Curve_6jrbf")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_w8nt8"]
+particle_flag_disable_z = true
+angle_min = 1.0728835e-05
+angle_max = 1.0728835e-05
+spread = 102.91
+initial_velocity_max = 37.399998
+angular_velocity_min = -1.6093254e-05
+angular_velocity_max = -1.6093254e-05
+orbit_velocity_min = -0.70899993
+orbit_velocity_max = 0.85000014
+gravity = Vector3(0, -35, 0)
+scale_min = 0.5
+scale_max = 0.75
+alpha_curve = SubResource("CurveTexture_68li5")
+anim_speed_min = 0.65999997
+anim_speed_max = 1.01
+
+[node name="GPUParticles2D" type="GPUParticles2D" unique_id=1854489524]
+material = SubResource("CanvasItemMaterial_e4egf")
+amount = 1
+amount_ratio = 0.9669
+texture = ExtResource("1_ney8g")
+lifetime = 0.62
+interp_to_end = 0.142
+preprocess = 1.03
+speed_scale = 0.76
+explosiveness = 0.6
+randomness = 0.09
+process_material = SubResource("ParticleProcessMaterial_w8nt8")

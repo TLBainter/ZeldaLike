@@ -1,0 +1,35 @@
+[gd_scene format=3 uid="uid://do52nc32xbjl3"]
+
+[ext_resource type="Script" uid="uid://bxr5k2nawqd4t" path="res://Scripts/Spells/Grapple/SpellcastGrapple.gd" id="0_script"]
+[ext_resource type="Texture2D" uid="uid://bed28serfj8ij" path="res://Sprites/VFX/Spells/Grapple/grappleSpell_handOpen.tres" id="1_y0so5"]
+[ext_resource type="Texture2D" uid="uid://civ3raw8mo3ue" path="res://Sprites/VFX/Spells/Grapple/grappleSpell_chainWide.tres" id="2_wog1p"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_eh6qt"]
+radius = 4.0
+
+[node name="GrappleSpell" type="Node2D" unique_id=1433034773]
+script = ExtResource("0_script")
+
+[node name="GrappleHand" type="CharacterBody2D" parent="." unique_id=1571211849]
+show_behind_parent = true
+collision_layer = 192
+collision_mask = 179
+
+[node name="HandCollisionCircle" type="CollisionShape2D" parent="GrappleHand" unique_id=693208724]
+position = Vector2(1, -5)
+shape = SubResource("CircleShape2D_eh6qt")
+
+[node name="HandSprite" type="Sprite2D" parent="GrappleHand" unique_id=319858851]
+position = Vector2(0, -8)
+texture = ExtResource("1_y0so5")
+hframes = 4
+
+[node name="ChainSpawner" type="Node2D" parent="GrappleHand" unique_id=700247695]
+position = Vector2(1, 0)
+
+[node name="ChainLatch" type="Sprite2D" parent="GrappleHand/ChainSpawner" unique_id=1008877716]
+position = Vector2(0, 2)
+texture = ExtResource("2_wog1p")
+hframes = 8
+vframes = 2
+frame = 8

@@ -41,6 +41,9 @@
 [ext_resource type="Script" uid="uid://dgkup04tuee81" path="res://Scripts/Classes/Entity Class/Characters/Character Animator/CharacterAnimator.gd" id="28_dgkup0"]
 [ext_resource type="Script" uid="uid://b5n2rl7q3egjo" path="res://Scripts/Classes/State Machine Class/No Control States/Enemy States/State_EnemyNoControl_StateDamaged.gd" id="29_damaged"]
 [ext_resource type="Script" uid="uid://c5q8ceaqot3x1" path="res://Scripts/Classes/State Machine Class/No Control States/State_NoControl_StateKnockback.gd" id="30_kbk"]
+[ext_resource type="Script" path="res://Scripts/Classes/State Machine Class/No Control States/Enemy States/State_EnemyNoControl_StateGrappled.gd" id="31_grappled"]
+[ext_resource type="Script" path="res://Scripts/Classes/State Machine Class/No Control States/Enemy States/State_EnemyNoControl_StateGrappleRebound.gd" id="32_grapple_rebound"]
+[ext_resource type="Script" path="res://Scripts/Classes/State Machine Class/No Control States/Enemy States/State_EnemyNoControl_StateStunned.gd" id="33_stunned"]
 
 [sub_resource type="Resource" id="Resource_45opd"]
 script = ExtResource("7_r4iot")
@@ -439,7 +442,7 @@ move = NodePath("ComponentManager/enemyMoveComponent")
 debug = SubResource("Resource_qkb4a")
 
 [node name="enemyBody" type="CharacterBody2D" parent="." unique_id=2067573121]
-collision_mask = 51
+collision_mask = 307
 
 [node name="enemySprite" type="Sprite2D" parent="enemyBody" unique_id=2142106002]
 texture = ExtResource("2_eu8ko")
@@ -612,3 +615,12 @@ script = ExtResource("29_damaged")
 
 [node name="StateKnockback" type="Node" parent="StateCoordinator/NoControlLayer" unique_id=1732050808]
 script = ExtResource("30_kbk")
+
+[node name="StateGrappled" type="Node" parent="StateCoordinator/NoControlLayer" unique_id=1832050808]
+script = ExtResource("31_grappled")
+
+[node name="StateGrappleRebound" type="Node" parent="StateCoordinator/NoControlLayer" unique_id=1932050808]
+script = ExtResource("32_grapple_rebound")
+
+[node name="StateStunned" type="Node" parent="StateCoordinator/NoControlLayer" unique_id=2032050808]
+script = ExtResource("33_stunned")

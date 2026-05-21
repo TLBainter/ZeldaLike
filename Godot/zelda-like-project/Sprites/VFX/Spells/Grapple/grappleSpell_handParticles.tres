@@ -1,0 +1,7 @@
+[gd_resource type="AtlasTexture" format=3 uid="uid://dbpggb68ybonh"]
+
+[ext_resource type="Texture2D" uid="uid://bdmb7evhhv6ev" path="res://Sprites/VFX/Spells/Grapple/grappleSpell_spriteSheet.png" id="1_v3v2a"]
+
+[resource]
+atlas = ExtResource("1_v3v2a")
+region = Rect2(24, 48, 40, 8)

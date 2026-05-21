@@ -46,4 +46,7 @@ func _init() -> void:
 		StateID.DEAD:           preload("res://Scripts/Classes/State Machine Class/No Control States/Enemy States/State_EnemyNoControl_StateDead.gd"),
 		StateID.BLOCK:          preload("res://Scripts/Classes/State Machine Class/Action States/State_StateBlock_Player.gd"),
 		StateID.ENEMY_ATTACK:   preload("res://Scripts/Classes/State Machine Class/Action States/State_EnemyAction_StateEnemyAttack.gd"),
+		StateID.GRAPPLED:        preload("res://Scripts/Classes/State Machine Class/No Control States/Enemy States/State_EnemyNoControl_StateGrappled.gd"),
+		StateID.GRAPPLE_REBOUND: preload("res://Scripts/Classes/State Machine Class/No Control States/Enemy States/State_EnemyNoControl_StateGrappleRebound.gd"),
+		StateID.STUNNED:         preload("res://Scripts/Classes/State Machine Class/No Control States/Enemy States/State_EnemyNoControl_StateStunned.gd"),
 	}

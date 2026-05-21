@@ -58,10 +58,30 @@ extends AudioControl
 @export var exit_backstep_sounds : SoundLibrary
 ##sounds to play when rebounding off a wall after a dash
 @export var rebound_sounds : SoundLibrary
+@export_category("Spell")
+@export_group("Grapple")
+@export_subgroup("Cast")
+##sounds to play when the grapple spell is first cast
+@export var grapple_init_sounds : SoundLibrary
+##sounds to play each time a chain link appears during extend
+@export var grapple_chain_extend_sounds : SoundLibrary
+##sounds to play each time a chain link disappears during retract
+@export var grapple_chain_retract_sounds : SoundLibrary
+##sounds to play when the grapple spell concludes
+@export var grapple_exit_sounds : SoundLibrary
+@export_subgroup("Effect")
+##sounds to play when the grapple hand impacts something that forces retraction
+@export var grapple_impact_sounds : SoundLibrary
+##sounds to play when the grapple hand latches onto something
+@export var grapple_latch_sounds : SoundLibrary
+##sounds to play when the grapple hand releases its latch
+@export var grapple_release_sounds : SoundLibrary
 
 #endregion sound libraries
 
 #region dash loop state
+var _chain_extend_player: AudioStreamPlayer = null
+var _chain_retract_player: AudioStreamPlayer = null
 var _dash_loop_active : bool = false
 var _bat_flap_active_count : int = 0
 var _bat_flap_timer : Timer
@@ -93,6 +113,8 @@ func _play_local_sound(stream : AudioStream, bus : String = default_bus, pitch :
 #region health and damage audio
 ##Receives the health change signal and plays a sound from a set based on the damage or healing received.
 func _on_health_changed(cur_hp : int, _max_hp : int, change_amount : int):
+	if health and health._loading_health:
+		return
 	if cur_hp == 0:
 		_play_death_sound()
 		return
@@ -147,6 +169,24 @@ func play_exit_backstep_sound() -> void:
 func play_rebound_sound() -> void:
 	_play_one_shot(rebound_sounds)
 #endregion dodge one-shots
+
+#region grapple cast one-shots
+func play_grapple_init_sound() -> void: _play_one_shot(grapple_init_sounds)
+func play_grapple_chain_extend_sound() -> void:
+	if is_instance_valid(_chain_extend_player):
+		_chain_extend_player.stop()
+	if grapple_chain_extend_sounds == null or grapple_chain_extend_sounds.sounds.is_empty():
+		return
+	_chain_extend_player = play_sound(grapple_chain_extend_sounds.sounds.pick_random(), default_bus)
+
+func play_grapple_chain_retract_sound() -> void:
+	if is_instance_valid(_chain_retract_player):
+		_chain_retract_player.stop()
+	if grapple_chain_retract_sounds == null or grapple_chain_retract_sounds.sounds.is_empty():
+		return
+	_chain_retract_player = play_sound(grapple_chain_retract_sounds.sounds.pick_random(), default_bus)
+func play_grapple_exit_sound() -> void: _play_one_shot(grapple_exit_sounds)
+#endregion grapple cast one-shots
 
 #region dash loop
 ##Starts the bat-flap and bat-squeak layers. Call from StateDash.enter().

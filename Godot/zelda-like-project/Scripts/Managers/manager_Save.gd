@@ -316,11 +316,22 @@ func _collect_data() -> Dictionary:
 			"max" : _player.currency.max_notes,
 		},
 		"inventory"     : _player.inventory.get_all_items().duplicate(),
+		"spells"        : _collect_spell_data(),
 		"containers"    : containerManager.get_all_opened(),
 		"doors"         : doorManager.get_all_unlocked(),
 		"destructibles" : destructibleManager.get_all_destroyed(),
 		"enemies"       : enemyManager.get_save_data(),
 	}
+
+func _collect_spell_data() -> Dictionary:
+	var out := {}
+	if not _player or not _player.equipped_spells:
+		return out
+	for slot in [1, 2, 3]:
+		var res : MenuItemResource = _player.equipped_spells.get_spell(slot)
+		if res and not res.resource_path.is_empty():
+			out[slot] = res.resource_path
+	return out
 
 func _get_location_name() -> String:
 	var root := get_tree().current_scene
@@ -369,6 +380,7 @@ func _apply_player_stats(data : Dictionary) -> void:
 	var low_hp : int = clampi(int(floor(_player.health.max_health * 0.25)), 4, 15)
 	if _player.health.cur_health < low_hp:
 		_player.health.cur_health = low_hp + 4
+	_player.health.health_changed.emit(_player.health.cur_health, _player.health.max_health, 0)
 	_player.health._loading_health = false
 
 	var m : Dictionary = data.get("magic", {})
@@ -390,6 +402,15 @@ func _apply_player_stats(data : Dictionary) -> void:
 	_player.inventory.clear_inventory()
 	for item_id : String in inv:
 		_player.inventory.add_item(item_id, inv[item_id])
+
+	var spells : Dictionary = data.get("spells", {})
+	if _player.equipped_spells:
+		for slot in spells:
+			var path : String = spells[slot]
+			if not path.is_empty():
+				var res := load(path) as MenuItemResource
+				if res:
+					_player.equipped_spells.assign_spell(slot, res)
 
 func _position_at_door(t : Dictionary) -> void:
 	var door_name : String = t.get("door_name", "")

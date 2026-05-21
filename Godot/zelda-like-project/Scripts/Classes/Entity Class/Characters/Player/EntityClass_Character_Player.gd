@@ -24,6 +24,8 @@ extends Character
 @export var equipped_spells : EquippedSpellsComponent
 ##The Action Layer state that handles spell casting.
 @export var cast_spell_state : StateCastSpell
+##The NoControl Layer state that handles the Grapple Spell.
+@export var grapple_spell_state : SpellcastGrappleState
 ##The StateCoordinator used to request Action Layer state changes.
 @export var state_coordinator : StateCoordinator
 @export_group("Items")
@@ -85,7 +87,13 @@ func _on_action_button_pressed(btn):
 			pass
 
 ##Received from [b]PlayerInputComponent.spell_cast_requested[/b].[br]
-func _on_spell_cast_requested(_slot : int, spell : MenuItemResource) -> void:
+func _on_spell_cast_requested(slot : int, spell : MenuItemResource) -> void:
+	if spell.item_id == ItemID.SPELL_GRAPPLE:
+		if not grapple_spell_state or not state_coordinator:
+			return
+		grapple_spell_state.prepare(slot)
+		state_coordinator.request_no_control_change(grapple_spell_state)
+		return
 	if not cast_spell_state or not state_coordinator:
 		return
 	cast_spell_state.prepare(spell)

@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://breeq2dqvlk2q"]
+
+[ext_resource type="Texture2D" uid="uid://c7tkgqdq2ai6r" path="res://Sprites/VFX/Spells/Grapple/grappleSpell_chainTall.tres" id="1_o7eni"]
+[ext_resource type="Texture2D" uid="uid://civ3raw8mo3ue" path="res://Sprites/VFX/Spells/Grapple/grappleSpell_chainWide.tres" id="2_7u07o"]
+
+[node name="ExtendingChains" type="Node2D" unique_id=1719278401]
+
+[node name="TallChainSprite" type="Sprite2D" parent="." unique_id=1219559100]
+position = Vector2(0, 2)
+texture = ExtResource("1_o7eni")
+hframes = 8
+
+[node name="WideChainSprite" type="Sprite2D" parent="." unique_id=1389754464]
+position = Vector2(0, 7)
+texture = ExtResource("2_7u07o")
+hframes = 8

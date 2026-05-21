@@ -107,10 +107,43 @@
 [ext_resource type="AudioStream" uid="uid://cab4wur2vomag" path="res://Sound/SFX/Player/Player Action SFX/Player Dash SFX/Dash-Bat-Rebound/bat_rebound_12.wav" id="70_g8qw5"]
 [ext_resource type="AudioStream" uid="uid://dkf4g7yneerno" path="res://Sound/SFX/Player/Player Action SFX/Player Dash SFX/Dash-Bat-Rebound/bat_rebound_13.wav" id="71_g8j83"]
 [ext_resource type="AudioStream" uid="uid://bl3fa0aoyh36c" path="res://Sound/SFX/Player/Player Action SFX/Player Dash SFX/Dash-Bat-Rebound/bat_rebound_14.wav" id="72_g0j35"]
+[ext_resource type="AudioStream" uid="uid://csddfopu4tyrn" path="res://Sound/SFX/Player/Spells/Grapple/playerSpell_Grapple_spellCast_01.wav" id="75_mhfyv"]
+[ext_resource type="AudioStream" uid="uid://m13ihq8o8kti" path="res://Sound/SFX/Player/Spells/Grapple/playerSpell_Grapple_chainSingle_01.wav" id="76_u8y8d"]
+[ext_resource type="AudioStream" uid="uid://b6t4kgvpkwb6l" path="res://Sound/SFX/Player/Spells/Grapple/playerSpell_Grapple_chainSingle_02.wav" id="77_kufrd"]
+[ext_resource type="AudioStream" uid="uid://datw1rrlps77v" path="res://Sound/SFX/Player/Spells/Grapple/playerSpell_Grapple_chainSingle_03.wav" id="78_gbgvl"]
+[ext_resource type="AudioStream" uid="uid://icg8d56wodpq" path="res://Sound/SFX/Player/Spells/Grapple/playerSpell_Grapple_chainSingle_04.wav" id="79_mqko5"]
+[ext_resource type="AudioStream" uid="uid://bv1u0tgxih8k4" path="res://Sound/SFX/Player/Spells/Grapple/playerSpell_Grapple_chainSingle_05.wav" id="80_6xaca"]
+[ext_resource type="AudioStream" uid="uid://ga85xsdagn4a" path="res://Sound/SFX/Player/Spells/Grapple/playerSpell_Grapple_chainSingle_06.wav" id="81_4arqk"]
+[ext_resource type="AudioStream" uid="uid://brgyjten6gjhp" path="res://Sound/SFX/Player/Spells/Grapple/playerSpell_Grapple_chainSingle_07.wav" id="82_j5b38"]
+[ext_resource type="AudioStream" uid="uid://d2que2iwh1lxv" path="res://Sound/SFX/Player/Spells/Grapple/playerSpell_Grapple_chainSingle_08.wav" id="83_6mdo8"]
+[ext_resource type="AudioStream" uid="uid://byvacgigi5b2n" path="res://Sound/SFX/Player/Spells/Grapple/playerSpell_Grapple_chainSingle_09.wav" id="84_t5tea"]
+[ext_resource type="AudioStream" uid="uid://deedl1q3cldmq" path="res://Sound/SFX/Player/Spells/Grapple/playerSpell_Grapple_chainSingle_10.wav" id="85_ynqe8"]
+[ext_resource type="AudioStream" uid="uid://cirpqpf4ga33q" path="res://Sound/SFX/Player/Spells/Grapple/playerSpell_Grapple_chainSingle_11.wav" id="86_ttmt4"]
+[ext_resource type="AudioStream" uid="uid://cdq2upobebcut" path="res://Sound/SFX/Player/Spells/Grapple/playerSpell_Grapple_chainSingle_12.wav" id="87_b2fit"]
+[ext_resource type="AudioStream" uid="uid://4dli432wwxds" path="res://Sound/SFX/Player/Spells/Grapple/playerSpell_Grapple_chainSingle_13.wav" id="88_rajeo"]
+[ext_resource type="AudioStream" uid="uid://cgx72y52gfxje" path="res://Sound/SFX/Player/Spells/Grapple/playerSpell_Grapple_handImpact_01.wav" id="89_aha2l"]
 [ext_resource type="Script" uid="uid://cot33t6uqb8w3" path="res://Scripts/Classes/State Machine Class/Action States/State_StateCastSpell.gd" id="89_bikm2"]
+[ext_resource type="AudioStream" uid="uid://bpc1fqcf2jcos" path="res://Sound/SFX/Player/Spells/Grapple/playerSpell_Grapple_handImpact_02.wav" id="90_t8y73"]
+[ext_resource type="AudioStream" uid="uid://d0usimc4xie5j" path="res://Sound/SFX/Player/Spells/Grapple/playerSpell_Grapple_handImpact_03.wav" id="91_lqpto"]
+[ext_resource type="AudioStream" uid="uid://cqkkfwrrjcr75" path="res://Sound/SFX/Player/Spells/Grapple/playerSpell_Grapple_handImpact_04.wav" id="92_ui0k8"]
+[ext_resource type="AudioStream" uid="uid://kryxdjnt6wad" path="res://Sound/SFX/Player/Spells/Grapple/playerSpell_Grapple_handImpact_05.wav" id="93_xnhbl"]
+[ext_resource type="AudioStream" uid="uid://b3t5f85mfdbdk" path="res://Sound/SFX/Player/Spells/Grapple/playerSpell_Grapple_handLatch_01.wav" id="94_2ef6q"]
+[ext_resource type="AudioStream" uid="uid://dsukwccd5m0sy" path="res://Sound/SFX/Player/Spells/Grapple/playerSpell_Grapple_handLatch_02.wav" id="95_wpgsy"]
+[ext_resource type="AudioStream" uid="uid://cikh7hvqmsin8" path="res://Sound/SFX/Player/Spells/Grapple/playerSpell_Grapple_handLatch_03.wav" id="96_36bi1"]
+[ext_resource type="AudioStream" uid="uid://cl81u42tajkvs" path="res://Sound/SFX/Player/Spells/Grapple/playerSpell_Grapple_handLatch_04.wav" id="97_idobf"]
+[ext_resource type="AudioStream" uid="uid://c3latxqemju8y" path="res://Sound/SFX/Player/Spells/Grapple/playerSpell_Grapple_handLatch_05.wav" id="98_2dmuv"]
+[ext_resource type="AudioStream" uid="uid://rl664t2ke84a" path="res://Sound/SFX/Player/Spells/Grapple/playerSpell_Grapple_handLatch_06.wav" id="99_e225n"]
+[ext_resource type="AudioStream" uid="uid://dbchu8f2rde63" path="res://Sound/SFX/Player/Spells/Grapple/playerSpell_Grapple_handRelease_01.wav" id="100_6slyo"]
+[ext_resource type="AudioStream" uid="uid://bauy8tuvmjbq" path="res://Sound/SFX/Player/Spells/Grapple/playerSpell_Grapple_handRelease_02.wav" id="101_h6trn"]
+[ext_resource type="AudioStream" uid="uid://b27mxjrclu6gw" path="res://Sound/SFX/Player/Spells/Grapple/playerSpell_Grapple_handRelease_03.wav" id="102_hueer"]
+[ext_resource type="AudioStream" uid="uid://bwews66bqt143" path="res://Sound/SFX/Player/Spells/Grapple/playerSpell_Grapple_handRelease_05.wav" id="103_rjl8i"]
 [ext_resource type="Script" uid="uid://d0mub1c7ufay" path="res://Scripts/Classes/State Machine Class/Action States/State_StateBlock_Player.gd" id="107_23621"]
 [ext_resource type="Script" uid="uid://c5q8ceaqot3x1" path="res://Scripts/Classes/State Machine Class/No Control States/State_NoControl_StateKnockback.gd" id="108_kbk"]
-[ext_resource type="Script" path="res://Scripts/Classes/State Machine Class/No Control States/State_PlayerNoControl_StateDead.gd" id="109_plrdead"]
+[ext_resource type="Script" uid="uid://b7hcegymisdia" path="res://Scripts/Classes/State Machine Class/No Control States/State_PlayerNoControl_StateDead.gd" id="109_plrdead"]
+[ext_resource type="Script" uid="uid://d4j6bf02uamk8" path="res://Scripts/Classes/State Machine Class/No Control States/State_NoControl_Spellcast_Grapple.gd" id="110_grapple"]
+[ext_resource type="Texture2D" uid="uid://bed28serfj8ij" path="res://Sprites/VFX/Spells/Grapple/grappleSpell_handOpen.tres" id="111_gropen"]
+[ext_resource type="Texture2D" uid="uid://co6l08e4oj68i" path="res://Sprites/VFX/Spells/Grapple/grappleSpell_handClosed.tres" id="112_grclose"]
+[ext_resource type="Texture2D" uid="uid://civ3raw8mo3ue" path="res://Sprites/VFX/Spells/Grapple/grappleSpell_chainWide.tres" id="114_grwide"]
 
 [sub_resource type="Resource" id="Resource_h1onf"]
 script = ExtResource("15_8uivy")
@@ -251,6 +284,9 @@ size = Vector2(7, 14)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ovnlg"]
 size = Vector2(6.5, 14)
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_0q3fj"]
+radius = 3.0
+
 [sub_resource type="Resource" id="Resource_8uivy"]
 script = ExtResource("15_8uivy")
 debug_me = true
@@ -289,6 +325,41 @@ metadata/_custom_type_script = "uid://vdqimlmcg4ql"
 [sub_resource type="Resource" id="Resource_050eg"]
 script = ExtResource("15_ya4ld")
 sounds = Array[AudioStream]([ExtResource("59_23621"), ExtResource("60_ovnlg"), ExtResource("61_6byyc"), ExtResource("62_0q3fj"), ExtResource("63_espqb"), ExtResource("64_dmdk8"), ExtResource("65_liw1v"), ExtResource("66_3gsd7"), ExtResource("67_db7j8"), ExtResource("68_2yw8k"), ExtResource("69_nl7rt"), ExtResource("70_g8qw5"), ExtResource("71_g8j83"), ExtResource("72_g0j35")])
+metadata/_custom_type_script = "uid://vdqimlmcg4ql"
+
+[sub_resource type="Resource" id="Resource_3gsd7"]
+script = ExtResource("15_ya4ld")
+sounds = Array[AudioStream]([ExtResource("75_mhfyv")])
+metadata/_custom_type_script = "uid://vdqimlmcg4ql"
+
+[sub_resource type="Resource" id="Resource_3y42k"]
+script = ExtResource("15_ya4ld")
+sounds = Array[AudioStream]([ExtResource("76_u8y8d"), ExtResource("77_kufrd"), ExtResource("78_gbgvl"), ExtResource("79_mqko5"), ExtResource("80_6xaca"), ExtResource("81_4arqk"), ExtResource("82_j5b38"), ExtResource("83_6mdo8"), ExtResource("84_t5tea"), ExtResource("85_ynqe8"), ExtResource("86_ttmt4"), ExtResource("87_b2fit"), ExtResource("88_rajeo")])
+metadata/_custom_type_script = "uid://vdqimlmcg4ql"
+
+[sub_resource type="Resource" id="Resource_hg4mp"]
+script = ExtResource("15_ya4ld")
+sounds = Array[AudioStream]([ExtResource("76_u8y8d"), ExtResource("77_kufrd"), ExtResource("78_gbgvl"), ExtResource("79_mqko5"), ExtResource("80_6xaca"), ExtResource("81_4arqk"), ExtResource("82_j5b38"), ExtResource("83_6mdo8"), ExtResource("84_t5tea"), ExtResource("85_ynqe8"), ExtResource("86_ttmt4"), ExtResource("87_b2fit"), ExtResource("88_rajeo")])
+metadata/_custom_type_script = "uid://vdqimlmcg4ql"
+
+[sub_resource type="Resource" id="Resource_gajdb"]
+script = ExtResource("15_ya4ld")
+sounds = Array[AudioStream]([ExtResource("75_mhfyv")])
+metadata/_custom_type_script = "uid://vdqimlmcg4ql"
+
+[sub_resource type="Resource" id="Resource_btar6"]
+script = ExtResource("15_ya4ld")
+sounds = Array[AudioStream]([ExtResource("89_aha2l"), ExtResource("90_t8y73"), ExtResource("91_lqpto"), ExtResource("92_ui0k8"), ExtResource("93_xnhbl")])
+metadata/_custom_type_script = "uid://vdqimlmcg4ql"
+
+[sub_resource type="Resource" id="Resource_lwp4n"]
+script = ExtResource("15_ya4ld")
+sounds = Array[AudioStream]([ExtResource("94_2ef6q"), ExtResource("95_wpgsy"), ExtResource("96_36bi1"), ExtResource("97_idobf"), ExtResource("98_2dmuv"), ExtResource("99_e225n")])
+metadata/_custom_type_script = "uid://vdqimlmcg4ql"
+
+[sub_resource type="Resource" id="Resource_bhx55"]
+script = ExtResource("15_ya4ld")
+sounds = Array[AudioStream]([ExtResource("100_6slyo"), ExtResource("101_h6trn"), ExtResource("102_hueer"), ExtResource("103_rjl8i")])
 metadata/_custom_type_script = "uid://vdqimlmcg4ql"
 
 [sub_resource type="Resource" id="Resource_ya4ld"]
@@ -1758,6 +1829,9 @@ _data = {
 &"WalkUpRight": SubResource("Animation_pr2lv")
 }
 
+[sub_resource type="Resource" id="Resource_espqb"]
+script = ExtResource("15_8uivy")
+
 [sub_resource type="Resource" id="Resource_2qsty"]
 script = ExtResource("15_8uivy")
 debug_me = true
@@ -1877,7 +1951,7 @@ debug_me = true
 debug_name = "Initialized"
 metadata/_custom_type_script = "uid://c0gguh8o4ftae"
 
-[node name="Player" type="Node2D" unique_id=209100190 node_paths=PackedStringArray("currency", "magic", "energy", "input", "player_ux", "player_cam", "equipped_spells", "cast_spell_state", "state_coordinator", "item_get_sprite", "igs_anim", "inventory", "concoction_use", "body", "foot_area", "root", "sprite", "anim", "state_machine", "collider", "audio", "stats", "health", "move")]
+[node name="Player" type="Node2D" unique_id=209100190 node_paths=PackedStringArray("currency", "magic", "energy", "input", "player_ux", "player_cam", "equipped_spells", "cast_spell_state", "grapple_spell_state", "state_coordinator", "item_get_sprite", "igs_anim", "inventory", "concoction_use", "body", "foot_area", "root", "sprite", "anim", "state_machine", "collider", "audio", "stats", "health", "move")]
 y_sort_enabled = true
 script = ExtResource("1_27cb7")
 currency = NodePath("Component Manager/CurrencyComponent")
@@ -1888,6 +1962,7 @@ player_ux = NodePath("PlayerUX")
 player_cam = NodePath("PlayerCam")
 equipped_spells = NodePath("Component Manager/EquippedSpellsComponent")
 cast_spell_state = NodePath("StateCoordinator/Action Layer/StateCastSpell")
+grapple_spell_state = NodePath("StateCoordinator/No Control Layer/StateSpellcastGrapple")
 state_coordinator = NodePath("StateCoordinator")
 item_get_sprite = NodePath("PlayerBody/ItemGetSprite")
 igs_anim = NodePath("PlayerBody/ItemGetSprite/ItemGetSpriteAnimator")
@@ -1909,7 +1984,7 @@ debug = SubResource("Resource_h1onf")
 
 [node name="PlayerBody" type="CharacterBody2D" parent="." unique_id=1872381837]
 z_as_relative = false
-collision_mask = 51
+collision_mask = 307
 script = ExtResource("2_aencf")
 
 [node name="playerSprite" type="Sprite2D" parent="PlayerBody" unique_id=584966771]
@@ -1952,6 +2027,7 @@ texture = ExtResource("5_q4102")
 libraries/ = SubResource("AnimationLibrary_0q3fj")
 
 [node name="BlockArea" type="Area2D" parent="PlayerBody" unique_id=173148212]
+visible = false
 collision_mask = 65
 monitoring = false
 
@@ -1978,6 +2054,29 @@ position = Vector2(9, -5)
 shape = SubResource("RectangleShape2D_ovnlg")
 disabled = true
 debug_color = Color(0.6889647, 0.4954477, 0.16740623, 0.41960785)
+
+[node name="GrappleSpawnArea" type="Area2D" parent="PlayerBody" unique_id=1553512162]
+visible = false
+
+[node name="GrappleSpawnDown" type="CollisionShape2D" parent="PlayerBody/GrappleSpawnArea" unique_id=636596441]
+position = Vector2(-7, -4)
+shape = SubResource("CircleShape2D_0q3fj")
+debug_color = Color(0, 0.23924097, 0.39106557, 0.41960785)
+
+[node name="GrappleSpawnUp" type="CollisionShape2D" parent="PlayerBody/GrappleSpawnArea" unique_id=1590530856]
+position = Vector2(7, -4)
+shape = SubResource("CircleShape2D_0q3fj")
+debug_color = Color(0, 0.23924097, 0.39106557, 0.41960785)
+
+[node name="GrappleSpawnLeft" type="CollisionShape2D" parent="PlayerBody/GrappleSpawnArea" unique_id=1447862570]
+position = Vector2(0, -5)
+shape = SubResource("CircleShape2D_0q3fj")
+debug_color = Color(0, 0.23924097, 0.39106557, 0.41960785)
+
+[node name="GrappleSpawnRight" type="CollisionShape2D" parent="PlayerBody/GrappleSpawnArea" unique_id=624674776]
+position = Vector2(0, -5)
+shape = SubResource("CircleShape2D_0q3fj")
+debug_color = Color(0, 0.23924097, 0.39106557, 0.41960785)
 
 [node name="Component Manager" type="Node" parent="." unique_id=995905587]
 
@@ -2014,6 +2113,13 @@ bat_squeak_sounds = SubResource("Resource_ttmt4")
 enter_backstep_sounds = SubResource("Resource_c166g")
 exit_backstep_sounds = SubResource("Resource_1w2cp")
 rebound_sounds = SubResource("Resource_050eg")
+grapple_init_sounds = SubResource("Resource_3gsd7")
+grapple_chain_extend_sounds = SubResource("Resource_3y42k")
+grapple_chain_retract_sounds = SubResource("Resource_hg4mp")
+grapple_exit_sounds = SubResource("Resource_gajdb")
+grapple_impact_sounds = SubResource("Resource_btar6")
+grapple_latch_sounds = SubResource("Resource_lwp4n")
+grapple_release_sounds = SubResource("Resource_bhx55")
 default_bus = "Character"
 debug = SubResource("Resource_ya4ld")
 metadata/_custom_type_script = "uid://bo7f3qlfwmchv"
@@ -2064,6 +2170,7 @@ debug = SubResource("Resource_q4102")
 [node name="PlayerAnimator" type="AnimationPlayer" parent="." unique_id=1778712659]
 libraries/ = SubResource("AnimationLibrary_1mdwi")
 script = ExtResource("3_dxcao")
+debug = SubResource("Resource_espqb")
 
 [node name="PlayerUX" parent="." unique_id=895243336 node_paths=PackedStringArray("root", "input") instance=ExtResource("9_8gg06")]
 root = NodePath("..")
@@ -2203,5 +2310,15 @@ metadata/_custom_type_script = "uid://bla114d73nu7a"
 [node name="StateKnockback" type="Node" parent="StateCoordinator/No Control Layer" unique_id=1414213562]
 script = ExtResource("108_kbk")
 
-[node name="StatePlayerDead" type="Node" parent="StateCoordinator/No Control Layer" unique_id=2718281828]
+[node name="StatePlayerDead" type="Node" parent="StateCoordinator/No Control Layer" unique_id=-1576685468]
 script = ExtResource("109_plrdead")
+
+[node name="StateSpellcastGrapple" type="Node" parent="StateCoordinator/No Control Layer" unique_id=1948372651]
+script = ExtResource("110_grapple")
+hand_open = ExtResource("111_gropen")
+hand_closed = ExtResource("112_grclose")
+chain_wide = ExtResource("114_grwide")
+magic_cost = 1
+extension_speed = 135.0
+retraction_multiplier = 1.85
+max_distance = 48.0

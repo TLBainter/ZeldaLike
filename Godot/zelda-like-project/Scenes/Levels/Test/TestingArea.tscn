@@ -827,20 +827,38 @@ theme_override_font_sizes/font_size = 8
 text = "Destruction"
 horizontal_alignment = 1
 
-[node name="ToShooterEnemyTest" parent="." unique_id=374214122 instance=ExtResource("13_ypn2k")]
+[node name="ToShooterEnemyTest" parent="." unique_id=126748035 instance=ExtResource("13_ypn2k")]
 position = Vector2(-80, -31)
+distance = 27.338
 target_scene_path = "res://Scenes/Levels/Test/TestingArea_ShooterEnemy.tscn"
 target_door_rel_path = "Door-to-TestingArea"
 target_door_name = "Door-to-TestingArea"
 debug = SubResource("Resource_h3to2")
 
-[node name="Door Name" type="Label" parent="ToShooterEnemyTest" unique_id=1680611769]
+[node name="Door Name" type="Label" parent="ToShooterEnemyTest" unique_id=2020038574]
+offset_left = -23.0
+offset_right = 23.0
+offset_bottom = 12.0
+pivot_offset_ratio = Vector2(0.5, 0)
+theme_override_font_sizes/font_size = 8
+text = "Shooter Enemy
+"
+horizontal_alignment = 1
+
+[node name="ToGrappleTest" parent="." unique_id=270377065 instance=ExtResource("13_ypn2k")]
+position = Vector2(80, -31)
+target_scene_path = "res://Scenes/Levels/Test/TestingArea_GrappleSpell.tscn"
+target_door_rel_path = "Door-to-TestingArea"
+target_door_name = "Door-to-TestingArea"
+debug = SubResource("Resource_h3to2")
+
+[node name="Door Name" type="Label" parent="ToGrappleTest" unique_id=724179599]
 offset_left = -30.0
 offset_right = 29.0
 offset_bottom = 12.0
 pivot_offset_ratio = Vector2(0.5, 0)
 theme_override_font_sizes/font_size = 8
-text = "Shooter Enemy"
+text = "Grapple Test"
 horizontal_alignment = 1
 
 [node name="FakeExit" parent="." unique_id=1326123149 instance=ExtResource("13_ypn2k")]

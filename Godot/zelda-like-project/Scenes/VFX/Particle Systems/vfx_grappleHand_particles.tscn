@@ -1,0 +1,57 @@
+[gd_scene format=3 uid="uid://dxqmpjq6hxl5j"]
+
+[ext_resource type="Texture2D" uid="uid://wfto0vwfjlo7" path="res://Sprites/VFX/Spells/Grapple/grappleSpell_spriteSheet_handParticles.png" id="1_nmg45"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_80ip7"]
+blend_mode = 1
+particles_animation = true
+particles_anim_h_frames = 5
+particles_anim_v_frames = 1
+particles_anim_loop = true
+
+[sub_resource type="Curve" id="Curve_gqerw"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.09978308, 0.7601781), 6.0548944, 6.0548944, 0, 0, Vector2(0.32754883, 1), 0.0, 0.0, 0, 0, Vector2(0.66160524, 0.83047074), -1.9061707, -1.9061707, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 5
+
+[sub_resource type="CurveTexture" id="CurveTexture_mqw4q"]
+curve = SubResource("Curve_gqerw")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_uf67d"]
+lifetime_randomness = 0.06
+particle_flag_disable_z = true
+angle_min = 14.200011
+angle_max = 113.40001
+inherit_velocity_ratio = 0.055
+spread = 180.0
+initial_velocity_min = 62.989998
+initial_velocity_max = 147.64
+angular_velocity_min = -215.43001
+angular_velocity_max = 232.42998
+orbit_velocity_min = 0.023000097
+orbit_velocity_max = 0.3940001
+radial_velocity_min = -118.11002
+radial_velocity_max = 31.499977
+gravity = Vector3(0, 0, 0)
+linear_accel_min = -12.200002
+linear_accel_max = 7.4799976
+radial_accel_min = -35.43
+radial_accel_max = 18.899998
+tangential_accel_min = -41.34
+tangential_accel_max = 15.749997
+damping_max = 12.402
+scale_over_velocity_max = 27.56
+alpha_curve = SubResource("CurveTexture_mqw4q")
+
+[node name="HandParticles" type="GPUParticles2D" unique_id=1633053276]
+material = SubResource("CanvasItemMaterial_80ip7")
+amount = 6
+texture = ExtResource("1_nmg45")
+lifetime = 0.5
+interp_to_end = 0.08
+preprocess = 1.1
+speed_scale = 0.75
+explosiveness = 0.15
+randomness = 0.09
+interpolate = false
+fract_delta = false
+process_material = SubResource("ParticleProcessMaterial_uf67d")

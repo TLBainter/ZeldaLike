@@ -63,6 +63,8 @@ var consumable_fade_target : float = 1.0
 var action_button_fade_target : float = 1.0
 ##Internal reference to the action buttons.
 var _action_buttons : Array = []
+##Snapshot of spell assignments taken when the menu opens; used to detect changes on close.
+var _spell_snapshot : Dictionary = {}
 
 #endregion VARIABLES
 
@@ -107,6 +109,8 @@ func _initialize() -> void:
 		menu_controller.activate()
 		menu_controller.nav_move_sounds = nav_move_sounds
 		menu_controller.pause_menu = self
+	if player and player.equipped_spells:
+		_spell_snapshot = _build_spell_snapshot(player.equipped_spells)
 	if menu_container:
 		menu_container.modulate.a = 0.0
 	get_tree().paused = true
@@ -191,6 +195,7 @@ func _close() -> void:
 	if _is_closing:
 		return
 	_is_closing = true
+	_check_and_save_spells()
 	if menu_controller:
 		menu_controller.deactivate()
 	_fading_in = false
@@ -302,6 +307,24 @@ func _restore_ux() -> void:
 #endregion SHOW/HIDE IN-GAME UX
 
 #region Spell Assignment
+
+func _build_spell_snapshot(equipped : EquippedSpellsComponent) -> Dictionary:
+	var snap := {}
+	for slot in [1, 2, 3]:
+		var res : MenuItemResource = equipped.get_spell(slot)
+		snap[slot] = res.item_id if res else ""
+	return snap
+
+func _check_and_save_spells() -> void:
+	var player = _find_player()
+	if not player or not player.equipped_spells:
+		return
+	var current := _build_spell_snapshot(player.equipped_spells)
+	if current != _spell_snapshot:
+		saveManager.save()
+		if debug_me:
+			print(debug_name, ": Spell assignments changed; saving.")
+
 func handle_spell_assignment(spell_panel : MenuHoverableSpell, slot : int) -> void:
 	if not spell_panel or not spell_panel._equipped_spells:
 		return
