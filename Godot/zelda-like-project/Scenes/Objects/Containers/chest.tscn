@@ -12,7 +12,7 @@ script = ExtResource("4_afmbl")
 size = Vector2(16, 9)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_chest"]
-radius = 8.0
+radius = 0.0
 
 [node name="Chest" type="Node2D" unique_id=495694602 node_paths=PackedStringArray("chest_sprite", "contained_item_sprite")]
 y_sort_enabled = true
@@ -22,7 +22,9 @@ chest_sprite = NodePath("ChestBody/ChestSprite")
 contained_item_sprite = NodePath("containedItemSprite")
 interact_type = 6
 context_key = "open"
-area_offset = Vector2(0, -2)
+grapple_effect = 1
+shape_radius = 0.0
+shape_height = 8.0
 debug = SubResource("Resource_88lic")
 
 [node name="ChestBody" type="StaticBody2D" parent="." unique_id=610724472]
@@ -40,7 +42,6 @@ position = Vector2(0, 3.5)
 shape = SubResource("RectangleShape2D_chest")
 
 [node name="InteractArea" type="Area2D" parent="." unique_id=1706351879]
-position = Vector2(0, -2)
 collision_layer = 2
 
 [node name="InteractCollider" type="CollisionShape2D" parent="InteractArea" unique_id=1802725501]

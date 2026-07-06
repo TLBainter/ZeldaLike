@@ -6,6 +6,8 @@
 ##[code]/remove item_id quantity[/code] -- Removes items from player inventory. Quantity defaults to 1.[br]
 ##[code]/list[/code] -- Prints all current inventory contents.[br]
 ##[code]/items[/code] -- Prints all valid ItemID constants.[br]
+##[code]/refresh destructibles[/code] -- Restores all perma-destroyed destructibles by clearing tracked state and reloading the scene.[br]
+##[code]/quickload[/code] -- Loads the most recently-modified save file.[br]
 class_name DebugCommandLine
 extends CanvasLayer
 
@@ -106,6 +108,10 @@ func _execute_command(text : String) -> void:
 			_cmd_load()
 		"/new":
 			_cmd_new_game(parts)
+		"/refresh":
+			_cmd_refresh(parts)
+		"/quickload":
+			_cmd_quickload()
 		_:
 			_print_output("[color=red]Unknown command: " + command + ". Type /help for commands.[/color]")
 
@@ -339,6 +345,50 @@ func _cmd_new_game(parts : Array) -> void:
 	else:
 		_print_output("[color=red]Usage: /new game[/color]")
 
+func _cmd_refresh(parts : Array) -> void:
+	if parts.size() < 2 or parts[1].to_lower() != "destructibles":
+		_print_output("[color=red]Usage: /refresh destructibles[/color]")
+		return
+	if SceneTransitionManager.is_transitioning:
+		_print_output("[color=red]Cannot refresh during a scene transition.[/color]")
+		return
+	var players := get_tree().get_nodes_in_group("player")
+	if players.is_empty():
+		_print_output("[color=red]No player found.[/color]")
+		return
+	var player := players[0]
+	var current_scene := get_tree().current_scene
+	if not current_scene or current_scene.scene_file_path.is_empty():
+		_print_output("[color=red]Cannot determine current scene path.[/color]")
+		return
+	var packed := load(current_scene.scene_file_path) as PackedScene
+	if not packed:
+		_print_output("[color=red]Could not load scene for reload.[/color]")
+		return
+	var door_name : String = SceneTransitionManager.get_last_door_name()
+	if door_name.is_empty():
+		var level := _find_level_in_current_scene()
+		if level and not level.default_entrance.is_empty():
+			var default_door := level.get_node_or_null(level.default_entrance)
+			if default_door:
+				door_name = default_door.name
+	if door_name.is_empty():
+		_print_output("[color=red]No door reference found; cannot reload scene.[/color]")
+		return
+	destructibleManager.clear()
+	_close()
+	SceneTransitionManager.load_transition(player, packed, door_name)
+
+func _cmd_quickload() -> void:
+	var slot := _get_most_recent_save_slot()
+	if slot == -1:
+		_print_output("[color=red]No save files found.[/color]")
+		return
+	if not saveManager.load_game(slot):
+		_print_output("[color=red]Failed to load save slot " + str(slot) + ".[/color]")
+		return
+	_close()
+
 #endregion COMMANDS
 
 #region PERMANENT EFFECTS
@@ -387,6 +437,29 @@ func _get_current_dungeon_name() -> String:
 	if level and level.get_effective_type() == Level.LevelType.DUNGEON:
 		return level.get_effective_name()
 	return ""
+
+func _find_level_in_current_scene() -> Level:
+	var root := get_tree().current_scene
+	if not root:
+		return null
+	if root is Level:
+		return root as Level
+	var results := root.find_children("*", "Level", true, false)
+	if not results.is_empty():
+		return results[0] as Level
+	return null
+
+func _get_most_recent_save_slot() -> int:
+	var latest_time : int = -1
+	var latest_slot : int = -1
+	for i in saveManager.SLOT_COUNT:
+		if saveManager.has_save(i):
+			var path : String = saveManager.SAVE_PATH_TEMPLATE % i
+			var t : int = FileAccess.get_modified_time(path)
+			if t > latest_time:
+				latest_time = t
+				latest_slot = i
+	return latest_slot
 
 ##Reads all constant values from the ItemID class dynamically.
 func _get_all_item_ids() -> Array[String]:
@@ -511,6 +584,8 @@ func _cmd_help() -> void:
 	text += "  [color=gray]/save[/color]; Save current game\n"
 	text += "  [color=gray]/load[/color]; Load last save\n"
 	text += "  [color=gray]/new game[/color]; Delete save and restart\n"
+	text += "  [color=gray]/refresh destructibles[/color]; Restore all destroyed destructibles\n"
+	text += "  [color=gray]/quickload[/color]; Load most recent save file\n"
 	text += "  [color=gray]/help[/color]; Show this message\n"
 	_print_output(text)
 

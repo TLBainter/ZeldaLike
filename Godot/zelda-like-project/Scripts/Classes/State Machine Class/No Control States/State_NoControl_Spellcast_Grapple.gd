@@ -29,6 +29,7 @@ var _entity_latched: Node = null
 var _is_pull_player: bool = false
 var _player_pull_active: bool = false
 var _player_pull_destination: Vector2 = Vector2.ZERO
+var _pulled_pickup: WorldItem = null
 
 #region SETUP
 
@@ -46,6 +47,7 @@ func enter() -> void:
 	_entity_latched = null
 	_is_pull_player = false
 	_player_pull_active = false
+	_pulled_pickup = null
 	super.enter()
 	if _cast_rejected:
 		return
@@ -66,14 +68,19 @@ func _physics_process(delta: float) -> void:
 				_grapple.start_retract()
 	if _player_pull_active:
 		var to_dest: Vector2 = _player_pull_destination - root.body.global_position
+		if debug_me_verbose:
+			print("[GrappleState] pull tick: to_dest=%s  len=%.1f" % [to_dest, to_dest.length()])
 		if to_dest.length() <= 4.0:
+			if debug_me:
+				print("[GrappleState] PULL_PLAYER arrived at destination")
 			_apply_grapple_rebound()
 			_player_pull_active = false
 			_entity_latched = null
-			_cleanup_grapple()
-			_safe_transition(StateID.INITIALIZED)
+			set_physics_process(false)
+			_grapple.retract_to_position(root.body.global_position)
 		else:
 			root.body.global_position += to_dest.normalized() * PLAYER_PULL_SPEED * delta
+			_grapple.trim_chains_behind_position(root.body.global_position)
 
 func exit() -> void:
 	set_physics_process(false)
@@ -119,10 +126,14 @@ func _spawn_grapple() -> void:
 		max_distance,
 		hand_open, hand_closed, chain_wide
 	)
+	_grapple.debug_me = debug_me
+	_grapple.debug_me_verbose = debug_me_verbose
 	_grapple.wall_hit.connect(_on_wall_hit)
 	_grapple.retract_complete.connect(_on_retract_complete)
 	_grapple.entity_hit.connect(_on_entity_hit)
 	_grapple.latch_pull_complete.connect(_on_latch_pull_complete)
+	_grapple.pickup_grabbed.connect(_on_pickup_grabbed)
+	_grapple.pickup_hit.connect(_on_pickup_hit)
 	_grapple.chain_extended.connect(_on_chain_extended)
 	_grapple.chain_retracted.connect(_on_chain_retracted)
 	if root and root.body:
@@ -138,6 +149,9 @@ func _cleanup_grapple() -> void:
 				_entity_latched.freeze_input(false)
 	_entity_latched = null
 	_player_pull_active = false
+	if _pulled_pickup and is_instance_valid(_pulled_pickup):
+		_pulled_pickup.set_process(true)
+	_pulled_pickup = null
 	if _grapple and is_instance_valid(_grapple):
 		if _grapple.wall_hit.is_connected(_on_wall_hit):
 			_grapple.wall_hit.disconnect(_on_wall_hit)
@@ -147,6 +161,10 @@ func _cleanup_grapple() -> void:
 			_grapple.entity_hit.disconnect(_on_entity_hit)
 		if _grapple.latch_pull_complete.is_connected(_on_latch_pull_complete):
 			_grapple.latch_pull_complete.disconnect(_on_latch_pull_complete)
+		if _grapple.pickup_grabbed.is_connected(_on_pickup_grabbed):
+			_grapple.pickup_grabbed.disconnect(_on_pickup_grabbed)
+		if _grapple.pickup_hit.is_connected(_on_pickup_hit):
+			_grapple.pickup_hit.disconnect(_on_pickup_hit)
 		if _grapple.chain_extended.is_connected(_on_chain_extended):
 			_grapple.chain_extended.disconnect(_on_chain_extended)
 		if _grapple.chain_retracted.is_connected(_on_chain_retracted):
@@ -173,6 +191,12 @@ func _on_chain_retracted() -> void:
 		root.audio.play_grapple_chain_retract_sound()
 
 func _on_entity_hit(entity: Node) -> void:
+	if debug_me:
+		print("[GrappleState] entity_hit: '%s' (%s)" % [entity.name, entity.get_class()])
+	if entity is InteractableComponent:
+		_handle_interactable_grapple(entity as InteractableComponent)
+		return
+
 	var entity_weight_raw: int = 0
 	var entity_weight_class: int = 0
 
@@ -220,15 +244,49 @@ func _on_entity_hit(entity: Node) -> void:
 		_player_pull_destination = entity.body.global_position - dir * LATCH_APPROACH_DIST
 		_grapple.setup_latch_pull_target(entity, false)
 
+func _handle_interactable_grapple(interactable: InteractableComponent) -> void:
+	if debug_me:
+		print("[GrappleState] _handle_interactable_grapple: effect=%d  entity='%s'" % [interactable.grapple_effect, interactable.name])
+	match interactable.grapple_effect:
+		InteractableComponent.GrappleEffect.PULL_PLAYER:
+			_entity_latched = interactable
+			_is_pull_player = true
+			var dir: Vector2 = facing_to_vector(root.anim.facing if root and root.anim else "down")
+			_player_pull_destination = interactable.global_position - dir * LATCH_APPROACH_DIST
+			if debug_me:
+				print("[GrappleState] PULL_PLAYER: dest=%s  entity_pos=%s  dir=%s" % [_player_pull_destination, interactable.global_position, dir])
+			_grapple.setup_latch_pull_target(interactable, false)
+		InteractableComponent.GrappleEffect.PULL_SELF:
+			_entity_latched = interactable
+			_is_pull_player = false
+			_grapple.setup_latch_pull_target(interactable, true)
+		InteractableComponent.GrappleEffect.SPECIAL:
+			interactable.interact(root)
+			_on_wall_hit()
+
 func _on_latch_pull_complete() -> void:
+	if debug_me:
+		print("[GrappleState] _on_latch_pull_complete: _is_pull_player=%s" % _is_pull_player)
 	if _is_pull_player:
 		_player_pull_active = true
 		set_physics_process(true)
+		if debug_me:
+			print("[GrappleState] PULL_PLAYER active: dest=%s  player_pos=%s" % [_player_pull_destination, root.body.global_position if root and root.body else Vector2.ZERO])
 	else:
 		_apply_grapple_rebound()
 		_entity_latched = null
 		_cleanup_grapple()
 		_safe_transition(StateID.INITIALIZED)
+
+func _on_pickup_grabbed(item: WorldItem) -> void:
+	_pulled_pickup = item
+
+func _on_pickup_hit(item: WorldItem) -> void:
+	_pulled_pickup = null
+	if root and root.body:
+		item.try_pickup(root.body)
+	_cleanup_grapple()
+	_safe_transition(StateID.INITIALIZED)
 
 func _apply_grapple_rebound() -> void:
 	if not _entity_latched or not is_instance_valid(_entity_latched):

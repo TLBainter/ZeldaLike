@@ -29,6 +29,13 @@ enum InteractType {
 	GRAB_OR_LIFT,
 	CUSTOM
 }
+
+enum GrappleEffect {
+	NO_EFFECT,
+	PULL_PLAYER,
+	PULL_SELF,
+	SPECIAL
+}
 #endregion
 
 #region EXPORTS
@@ -43,6 +50,15 @@ enum InteractType {
 ##The context key sent to the context label UI.[br]
 ##Auto-populated from [b]interact_type[/b], but editable for custom types.
 @export var context_key: String = "default"
+
+##What happens when this interactable is hit by the Grapple Spell.[br]
+##[b]NO_EFFECT[/b]: grapple treats it as a wall (default).[br]
+##[b]PULL_PLAYER[/b]: player is pulled toward this interactable.[br]
+##[b]PULL_SELF[/b]: this interactable is pulled toward the player.[br]
+##[b]SPECIAL[/b]: calls interact() on this component, then grapple retracts.
+@export var grapple_effect: GrappleEffect = GrappleEffect.NO_EFFECT:
+	set(v):
+		grapple_effect = v
 
 @export_group("Interact Area")
 ##Shape type for the interaction detection zone.

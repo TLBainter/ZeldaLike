@@ -736,6 +736,18 @@ item_kind = 0
 item = "spell_grapple"
 metadata/_custom_type_script = "uid://tp0m7574selp"
 
+[sub_resource type="Resource" id="Resource_ybt77"]
+script = ExtResource("7_ybt77")
+item_kind = 4
+item = "orange_bead"
+metadata/_custom_type_script = "uid://tp0m7574selp"
+
+[sub_resource type="Resource" id="Resource_ncoep"]
+script = ExtResource("13_g2w05")
+debug_me = true
+debug_me_verbose = true
+debug_name = "TestGrappleChest"
+
 [sub_resource type="Resource" id="Resource_h3to2"]
 script = ExtResource("13_g2w05")
 
@@ -771,6 +783,11 @@ tile_set = SubResource("TileSet_dwulq")
 [node name="Chest" parent="TileMap" unique_id=495694602 instance=ExtResource("6_fi1cx")]
 position = Vector2(-105, 54)
 reward = SubResource("Resource_j7yw7")
+
+[node name="Chest2" parent="TileMap" unique_id=1604505474 instance=ExtResource("6_fi1cx")]
+position = Vector2(88, -20)
+reward = SubResource("Resource_ybt77")
+debug = SubResource("Resource_ncoep")
 
 [node name="Door-to-TestingArea" parent="." unique_id=1783186270 instance=ExtResource("15_iawka")]
 position = Vector2(0, 95)

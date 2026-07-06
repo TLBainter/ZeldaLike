@@ -13,6 +13,8 @@ signal wall_hit
 signal retract_complete
 signal entity_hit(entity: Node)
 signal latch_pull_complete
+signal pickup_grabbed(item: WorldItem)
+signal pickup_hit(item: WorldItem)
 signal chain_extended
 signal chain_retracted
 
@@ -53,6 +55,12 @@ var _clip_material: ShaderMaterial
 var _anim_timer: float = 0.0
 var _entity_target: Node = null
 var _pull_target_entity: bool = false
+var _is_pickup: bool = false
+var _retract_to_active: bool = false
+var _retract_to_start: Vector2
+var _retract_to_target: Vector2
+var _retract_to_duration: float = 0.0
+var _retract_to_elapsed: float = 0.0
 
 #region SETUP
 
@@ -137,6 +145,8 @@ func _process(delta: float) -> void:
 	if _anim_timer >= 1.0 / ANIM_FPS:
 		_anim_timer -= 1.0 / ANIM_FPS
 		_advance_animations()
+	if _retract_to_active:
+		_tick_retract_to(delta)
 
 func _physics_process(delta: float) -> void:
 	if _phase == Phase.EXTENDING:
@@ -157,6 +167,14 @@ func _tick_extend(delta: float) -> void:
 	_try_spawn_chains()
 
 	if collision != null:
+		var forward_dot: float = collision.get_normal().dot(-_dir)
+		if forward_dot < 0.5:
+			if debug_me_verbose:
+				print("[GrappleHand] side collision ignored (forward_dot=%.2f)" % forward_dot)
+			var remaining: float = maxf(0.0, motion.length() - collision.get_travel().length())
+			_hand.global_position += _dir * remaining
+			return
+
 		var collider: Node = collision.get_collider()
 		var parent: Node = collider.get_parent() if collider else null
 		if debug_me:
@@ -172,10 +190,19 @@ func _tick_extend(delta: float) -> void:
 			if debug_me:
 				print("[GrappleHand] -> entity_hit emitted (%s)" % parent.name)
 			entity_hit.emit(parent)
+		elif parent is InteractableComponent and (parent as InteractableComponent).grapple_effect != InteractableComponent.GrappleEffect.NO_EFFECT:
+			if debug_me:
+				print("[GrappleHand] -> entity_hit emitted (interactable) (%s)" % parent.name)
+			entity_hit.emit(parent)
 		else:
 			if debug_me:
 				print("[GrappleHand] -> wall_hit emitted")
 			wall_hit.emit()
+		return
+
+	var pickup := _check_pickup_overlap()
+	if pickup != null:
+		_grab_pickup(pickup)
 		return
 
 	if _dist_traveled >= _max_dist:
@@ -189,14 +216,23 @@ func _tick_latch(delta: float) -> void:
 	_hand.global_position -= _dir * step
 	_dist_retracted += step
 	if is_instance_valid(_entity_target):
-		var entity_body = _entity_target.get("body")
-		if entity_body:
-			entity_body.global_position = _hand.global_position
+		if _is_pickup:
+			_entity_target.global_position = _hand.global_position
+		else:
+			var entity_body = _entity_target.get("body")
+			if entity_body:
+				entity_body.global_position = _hand.global_position
 	_trim_chains()
 	if _dist_retracted >= _dist_traveled - ENTITY_PULL_STOP_DIST:
 		set_physics_process(false)
+		var was_pickup: bool = _is_pickup
+		var grabbed_item: Node = _entity_target
 		_entity_target = null
-		latch_pull_complete.emit()
+		_is_pickup = false
+		if was_pickup and is_instance_valid(grabbed_item):
+			pickup_hit.emit(grabbed_item as WorldItem)
+		else:
+			latch_pull_complete.emit()
 
 func _tick_retract(delta: float) -> void:
 	var motion: Vector2 = -_dir * _retract_speed * delta
@@ -209,6 +245,34 @@ func _tick_retract(delta: float) -> void:
 		set_physics_process(false)
 		set_process(false)
 		retract_complete.emit()
+
+func _check_pickup_overlap() -> WorldItem:
+	var space := get_world_2d().direct_space_state
+	var params := PhysicsShapeQueryParameters2D.new()
+	var shape := CircleShape2D.new()
+	shape.radius = 8.0
+	params.shape = shape
+	params.transform = _hand.global_transform
+	params.collide_with_areas = true
+	params.collide_with_bodies = false
+	params.collision_mask = 1
+	for r in space.intersect_shape(params):
+		var c = r.get("collider")
+		if c is WorldItem and (c as WorldItem)._can_pickup:
+			return c as WorldItem
+	return null
+
+func _grab_pickup(item: WorldItem) -> void:
+	if debug_me:
+		print("[GrappleHand] -> pickup grabbed (%s)" % item.name)
+	item.set_process(false)
+	_hand_sprite.texture = _hand_closed_tex
+	set_physics_process(false)
+	_entity_target = item
+	_is_pickup = true
+	_pull_target_entity = true
+	pickup_grabbed.emit(item)
+	_begin_latch()
 
 #endregion PHYSICS
 
@@ -289,5 +353,49 @@ func _begin_latch() -> void:
 		set_physics_process(true)
 	else:
 		latch_pull_complete.emit()
+
+##Removes chain links that are behind [param world_pos] along the extension axis.
+##Call each frame during PULL_PLAYER so links disappear as the player passes over them.
+func trim_chains_behind_position(world_pos: Vector2) -> void:
+	var player_proj := (world_pos - global_position).dot(_dir)
+	while _chains.size() > 0:
+		var chain: Node2D = _chains[0]
+		if not is_instance_valid(chain):
+			_chains.remove_at(0)
+			continue
+		if (chain.global_position - global_position).dot(_dir) >= player_proj + 12.0:
+			break
+		_chains.remove_at(0)
+		_fade_and_free(chain)
+		chain_retracted.emit()
+
+##Fades remaining chains and moves the hand to [param target] via _process, then emits [signal retract_complete].
+##Used for PULL_PLAYER arrival so the hand retracts to the player rather than the spawn origin.
+func retract_to_position(target: Vector2) -> void:
+	if is_instance_valid(_hand_particles):
+		create_tween().tween_property(_hand_particles, "modulate:a", 0.0, PARTICLE_FADE_OUT)
+	for chain in _chains:
+		if is_instance_valid(chain):
+			_fade_and_free(chain)
+	_chains.clear()
+	set_physics_process(false)
+	var on_axis: Vector2 = global_position + _dir * (target - global_position).dot(_dir)
+	_clip_material.set_shader_parameter("clip_origin", on_axis)
+	_retract_to_start = _hand.global_position
+	_retract_to_target = on_axis
+	_retract_to_duration = maxf(0.15, _hand.global_position.distance_to(on_axis) / _retract_speed)
+	_retract_to_elapsed = 0.0
+	_retract_to_active = true
+	set_process(true)
+
+func _tick_retract_to(delta: float) -> void:
+	_retract_to_elapsed += delta
+	var t: float = clampf(_retract_to_elapsed / _retract_to_duration, 0.0, 1.0)
+	_hand.global_position = _retract_to_start.lerp(_retract_to_target, t)
+	_hand.modulate.a = 1.0 - t
+	if t >= 1.0:
+		_retract_to_active = false
+		set_process(false)
+		retract_complete.emit()
 
 #endregion PUBLIC API

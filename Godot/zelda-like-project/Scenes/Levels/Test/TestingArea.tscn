@@ -808,6 +808,7 @@ position = Vector2(171, 32)
 [node name="Chest" parent="." unique_id=495694602 instance=ExtResource("14_8g1vm")]
 position = Vector2(-112, -33)
 reward = SubResource("Resource_63oom")
+grapple_effect = 0
 debug = SubResource("Resource_88lic")
 
 [node name="ToDestructionTest" parent="." unique_id=1783186270 instance=ExtResource("13_ypn2k")]

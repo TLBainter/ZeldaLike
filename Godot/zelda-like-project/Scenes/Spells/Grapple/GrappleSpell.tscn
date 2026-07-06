@@ -8,6 +8,8 @@
 radius = 4.0
 
 [node name="GrappleSpell" type="Node2D" unique_id=1433034773]
+z_index = -1
+z_as_relative = false
 script = ExtResource("0_script")
 
 [node name="GrappleHand" type="CharacterBody2D" parent="." unique_id=1571211849]

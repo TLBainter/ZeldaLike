@@ -1951,6 +1951,13 @@ debug_me = true
 debug_name = "Initialized"
 metadata/_custom_type_script = "uid://c0gguh8o4ftae"
 
+[sub_resource type="Resource" id="Resource_mhfyv"]
+script = ExtResource("15_8uivy")
+debug_me = true
+debug_me_verbose = true
+debug_name = "PlayerGrappleCast"
+metadata/_custom_type_script = "uid://c0gguh8o4ftae"
+
 [node name="Player" type="Node2D" unique_id=209100190 node_paths=PackedStringArray("currency", "magic", "energy", "input", "player_ux", "player_cam", "equipped_spells", "cast_spell_state", "grapple_spell_state", "state_coordinator", "item_get_sprite", "igs_anim", "inventory", "concoction_use", "body", "foot_area", "root", "sprite", "anim", "state_machine", "collider", "audio", "stats", "health", "move")]
 y_sort_enabled = true
 script = ExtResource("1_27cb7")
@@ -2318,7 +2325,8 @@ script = ExtResource("110_grapple")
 hand_open = ExtResource("111_gropen")
 hand_closed = ExtResource("112_grclose")
 chain_wide = ExtResource("114_grwide")
-magic_cost = 1
 extension_speed = 135.0
 retraction_multiplier = 1.85
 max_distance = 48.0
+magic_cost = 1
+debug = SubResource("Resource_mhfyv")
