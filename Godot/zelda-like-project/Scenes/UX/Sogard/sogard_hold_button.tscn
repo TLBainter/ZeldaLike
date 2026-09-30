@@ -1,0 +1,100 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://Scenes/UX/Sogard/sogard_button.tscn" id="1_base"]
+[ext_resource type="Script" path="res://Scripts/UX/Sogard/sogard_hold_button.gd" id="2_script"]
+[ext_resource type="StyleBox" path="res://Sprites/UX/Sogard/sogard_sb_mb174_dn.tres" id="3_plate_n"]
+[ext_resource type="StyleBox" path="res://Sprites/UX/Sogard/sogard_sb_mb174_df.tres" id="4_plate_f"]
+[ext_resource type="Texture2D" path="res://Sprites/UX/Sogard/sogard_ui_hold_tile.tres" id="5_tile"]
+[ext_resource type="Texture2D" path="res://Sprites/UX/Sogard/sogard_ui_dia5_red.tres" id="6_dia5_red"]
+
+[sub_resource type="Animation" id="Animation_jit"]
+resource_name = "jit"
+length = 0.08
+loop_mode = 1
+step = 0.01
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:label_nudge")
+tracks/0/interp = 0
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.04),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [Vector2(-1, 0), Vector2(1, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_jit"]
+_data = {
+&"jit": SubResource("Animation_jit")
+}
+
+[node name="SogardHoldButton" node_paths=PackedStringArray("plate", "label", "glyph_chip", "pointer_left", "pointer_right", "glow", "anim", "glow_anim", "hold_fill", "hold_edge", "tick_timer", "jit_anim") instance=ExtResource("1_base")]
+offset_right = 174.0
+offset_bottom = 24.0
+script = ExtResource("2_script")
+hold_fill = NodePath("HoldFill")
+hold_edge = NodePath("HoldEdge")
+tick_timer = NodePath("TickTimer")
+jit_anim = NodePath("JitPlayer")
+plate = NodePath("Plate")
+label = NodePath("Label")
+glyph_chip = NodePath("GlyphChip")
+pointer_left = NodePath("Pointer")
+pointer_right = NodePath("PointerRight")
+glow = NodePath("Glow")
+anim = NodePath("AnimationPlayer")
+glow_anim = NodePath("GlowPlayer")
+plate_normal = ExtResource("3_plate_n")
+plate_focused = ExtResource("4_plate_f")
+glyph_key = "a"
+pointer = 3
+pointer_gap = 5
+
+[node name="Plate" parent="."]
+theme_override_styles/panel = ExtResource("3_plate_n")
+
+[node name="Pointer" parent="."]
+offset_left = -12.0
+offset_top = 8.0
+offset_right = -5.0
+offset_bottom = 15.0
+texture = ExtResource("6_dia5_red")
+
+[node name="PointerRight" parent="."]
+offset_left = 179.0
+offset_top = 8.0
+offset_right = 186.0
+offset_bottom = 15.0
+texture = ExtResource("6_dia5_red")
+
+[node name="HoldFill" type="TextureRect" parent="."]
+visible = false
+texture_repeat = 2
+layout_mode = 0
+offset_left = 3.0
+offset_top = 3.0
+offset_right = 3.0
+offset_bottom = 21.0
+mouse_filter = 2
+texture = ExtResource("5_tile")
+expand_mode = 1
+stretch_mode = 1
+
+[node name="HoldEdge" type="ColorRect" parent="."]
+visible = false
+layout_mode = 0
+offset_left = 3.0
+offset_top = 3.0
+offset_right = 4.0
+offset_bottom = 21.0
+mouse_filter = 2
+color = Color(1, 0.290196, 0.290196, 1)
+
+[node name="TickTimer" type="Timer" parent="."]
+wait_time = 0.04
+ignore_time_scale = true
+
+[node name="JitPlayer" type="AnimationPlayer" parent="."]
+libraries/ = SubResource("AnimationLibrary_jit")

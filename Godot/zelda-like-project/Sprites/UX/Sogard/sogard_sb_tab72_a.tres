@@ -1,0 +1,10 @@
+[gd_resource type="StyleBoxTexture" format=3]
+
+[ext_resource type="Texture2D" path="res://Sprites/UX/Sogard/sogard_ui_tab72_a.tres" id="1_tex"]
+
+[resource]
+texture = ExtResource("1_tex")
+texture_margin_left = 4
+texture_margin_top = 4
+texture_margin_right = 4
+texture_margin_bottom = 4

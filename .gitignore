@@ -15,3 +15,12 @@ export_credentials.cfg
 data_*/
 mono_crash.*.json
 *.txt
+
+# GDExtension build intermediates
+Godot/gdext/godot-cpp/
+Godot/gdext/retroBitCrush/.sconsign*
+Godot/gdext/retroBitCrush/src/*.obj
+Godot/gdext/retroBitCrush/src/*.o
+Godot/gdext/retroBitCrush/src/*.os
+Godot/zelda-like-project/addons/retroBitCrush/bin/*.exp
+Godot/zelda-like-project/addons/retroBitCrush/bin/*.lib

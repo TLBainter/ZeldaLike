@@ -205,6 +205,23 @@ func delete_save(slot: int) -> void:
 	if dir:
 		dir.remove("save_%d.dat" % slot)
 
+##Copies the save file in [param slot_from] into [param slot_to], overwriting any save there.[br]
+##Returns [b]false[/b] if the slots match, the source is empty or corrupted, or the write fails.
+func copy_save(slot_from: int, slot_to: int) -> bool:
+	if slot_from == slot_to:
+		return false
+	var data := read_save_data(slot_from)
+	if data.is_empty():
+		return false
+	_ensure_save_dir()
+	var bytes : PackedByteArray = var_to_bytes(data)
+	var file  := FileAccess.open(_save_path(slot_to), FileAccess.WRITE)
+	if not file:
+		push_error("SaveManager: could not open '%s' for writing." % _save_path(slot_to))
+		return false
+	file.store_buffer(bytes)
+	return true
+
 ##Returns [b]true[/b] if [param slot] has a save file on disk.[br]
 ##Pass [b]-1[/b] (default) to check the currently active slot.
 func has_save(slot: int = -1) -> bool:

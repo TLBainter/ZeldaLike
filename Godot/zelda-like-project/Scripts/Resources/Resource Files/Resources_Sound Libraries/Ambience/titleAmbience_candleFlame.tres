@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="SoundLibrary" format=3 uid="uid://ctfyohhf7ov83"]
+
+[ext_resource type="Script" uid="uid://vdqimlmcg4ql" path="res://Scripts/Resources/Resource Scripts/resource_Sound_Library.gd" id="1_lib"]
+[ext_resource type="AudioStream" uid="uid://du05bnb5rfeh5" path="res://Sound/SFX/Ambience/Title Screen Ambience/SFX_candleFlame_01.wav" id="2_s"]
+[ext_resource type="AudioStream" uid="uid://dpod7d6wuebvg" path="res://Sound/SFX/Ambience/Title Screen Ambience/SFX_candleFlame_02.wav" id="3_s"]
+[ext_resource type="AudioStream" uid="uid://bs634jscmufmv" path="res://Sound/SFX/Ambience/Title Screen Ambience/SFX_candleFlame_03.wav" id="4_s"]
+[ext_resource type="AudioStream" uid="uid://by2t2u3n6p77h" path="res://Sound/SFX/Ambience/Title Screen Ambience/SFX_candleFlame_04.wav" id="5_s"]
+[ext_resource type="AudioStream" uid="uid://bawgh2q127h5j" path="res://Sound/SFX/Ambience/Title Screen Ambience/SFX_candleFlame_05.wav" id="6_s"]
+
+[resource]
+script = ExtResource("1_lib")
+sounds = Array[AudioStream]([ExtResource("2_s"), ExtResource("3_s"), ExtResource("4_s"), ExtResource("5_s"), ExtResource("6_s")])
+metadata/_custom_type_script = "uid://vdqimlmcg4ql"

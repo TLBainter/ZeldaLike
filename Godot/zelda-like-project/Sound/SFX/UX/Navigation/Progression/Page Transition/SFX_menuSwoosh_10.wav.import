@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://cxi3lab50lhrb"
+path="res://.godot/imported/SFX_menuSwoosh_10.wav-1724f3c6524d5ae484bc82ca55ed168b.sample"
+
+[deps]
+
+source_file="res://Sound/SFX/UX/Navigation/Progression/Page Transition/SFX_menuSwoosh_10.wav"
+dest_files=["res://.godot/imported/SFX_menuSwoosh_10.wav-1724f3c6524d5ae484bc82ca55ed168b.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

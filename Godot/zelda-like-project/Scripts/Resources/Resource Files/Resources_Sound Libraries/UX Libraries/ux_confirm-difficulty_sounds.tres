@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="SoundLibrary" format=3 uid="uid://nahmdnsqv5fk"]
+
+[ext_resource type="Script" uid="uid://vdqimlmcg4ql" path="res://Scripts/Resources/Resource Scripts/resource_Sound_Library.gd" id="1_lib"]
+[ext_resource type="AudioStream" uid="uid://byxyh5b1b1irj" path="res://Sound/SFX/UX/Navigation/Progression/SFX_menuConfirmDifficulty_01.wav" id="2_s01"]
+
+[resource]
+script = ExtResource("1_lib")
+sounds = Array[AudioStream]([ExtResource("2_s01")])
+metadata/_custom_type_script = "uid://vdqimlmcg4ql"

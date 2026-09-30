@@ -6,14 +6,30 @@ class_name MenuHoverableSpell
 extends MenuHoverableItem
 
 #region VARIABLES
-
+const BADGE_KEYS : Dictionary = {1: "act1", 2: "act2", 3: "act3"}
 
 ##Reference to the SpellSlotManager. Set at runtime.
 var _equipped_spells : EquippedSpellsComponent = null
+var _glyph_platform : String = SogardInputGlyphs.KEYBOARD
+var _key_chip : PanelContainer = null
 
 #endregion VARIABLES
 
 #region FUNCTIONS
+
+func _on_hoverable_ready() -> void:
+	super._on_hoverable_ready()
+	add_to_group(SogardInputGlyphs.GROUP)
+	if settingsManager:
+		_glyph_platform = settingsManager.get_glyph_platform()
+	_update_assignment_display()
+
+##Settings hook: redraws the slot badge for platform p ("xbox", "ps", "switch" or "keyboard").
+func set_glyph_platform(p : String) -> void:
+	if p == _glyph_platform:
+		return
+	_glyph_platform = p
+	_update_assignment_display()
 
 ##Sets the spell slot manager reference and updates display.
 func set_equipped_spells(equipped_spells : EquippedSpellsComponent) -> void:
@@ -24,27 +40,53 @@ func set_equipped_spells(equipped_spells : EquippedSpellsComponent) -> void:
 
 #region ASSIGNMENT DISPLAY
 
-##Updates the assignment TextureRect based on current spell slot data.
+##Updates the assignment badge from current spell slot data: platform pad glyph, or a key chip read from InputMap on keyboard.
 func _update_assignment_display() -> void:
 	if not assignment_rect:
 		return
 	if not _equipped_spells or not item_resource or item_resource.item_id.is_empty():
 		assignment_rect.visible = false
+		_set_key_chip("")
 		return
 	var slot = _equipped_spells.get_slot_for_spell(item_resource.item_id)
 	if slot == -1:
 		assignment_rect.visible = false
-	else:
-		assignment_rect.visible = true
+		_set_key_chip("")
+		return
+	var key_text : String = ""
+	if _glyph_platform == SogardInputGlyphs.KEYBOARD:
+		key_text = SogardInputGlyphs.key_for_action(StringName("actionButton%d" % slot))
+	_set_key_chip(key_text)
+	assignment_rect.visible = true
+	if key_text.is_empty():
 		assignment_rect.texture = _get_button_sprite(slot)
+	else:
+		assignment_rect.texture = null
 
-##Returns the button sprite for a given slot index.
+##Returns the badge sprite for a slot: the platform glyph for BADGE_KEYS[slot], else the exported button sprite.
 func _get_button_sprite(slot : int) -> Texture2D:
+	var tex : Texture2D = SogardGlyphs.get_texture(_glyph_platform, str(BADGE_KEYS.get(slot, "")))
+	if tex:
+		return tex
 	match slot:
 		1: return button_1_sprite
 		2: return button_2_sprite
 		3: return button_3_sprite
 	return null
+
+##Shows a key chip with text over the assignment rect, created on first use; empty text hides it.
+func _set_key_chip(text : String) -> void:
+	if text.is_empty():
+		if _key_chip:
+			_key_chip.visible = false
+		return
+	if not _key_chip:
+		_key_chip = SogardHintBar.make_key_chip(text)
+		_key_chip.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+		assignment_rect.add_child(_key_chip)
+	else:
+		(_key_chip.get_child(0) as Label).text = text
+	_key_chip.visible = true
 
 ##Called when any spell slot changes. Updates display if relevant.
 func _on_spell_equip_changed(_slot : int, _spell_resource : MenuItemResource) -> void:
@@ -101,7 +143,7 @@ func _on_unhover() -> void:
 
 #region QUANTITY OVERRIDE
 
-##Spells don't show quantity -- hide the label entirely.
+##Spells do not show quantity; hides the label.
 func _update_quantity() -> void:
 	if quantity_label:
 		quantity_label.visible = false

@@ -1,0 +1,9 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" uid="uid://d2mo25q4ejsha" path="res://Scripts/UX/Sogard/sogard_tabs.gd" id="1_script"]
+[ext_resource type="Theme" path="res://Text and Style/Text/sogard_menu_theme.tres" id="2_theme"]
+
+[node name="SogardTabs" type="HBoxContainer"]
+theme = ExtResource("2_theme")
+theme_override_constants/separation = 4
+script = ExtResource("1_script")

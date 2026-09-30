@@ -1,0 +1,12 @@
+[gd_scene format=3 uid="uid://c5t7xq2ambtl3"]
+
+[ext_resource type="Script" uid="uid://dv421a2fe5bph" path="res://Scripts/Level Script/level.gd" id="1_level"]
+[ext_resource type="Resource" uid="uid://b3huo8vm3r2mk" path="res://Scripts/Resources/Resource Files/Resources_Ambience/titleScreenAmbience.tres" id="2_amb"]
+[ext_resource type="PackedScene" uid="uid://dbul4543yg6p3" path="res://Scenes/UX/menu_start.tscn" id="3_menu"]
+
+[node name="TitleScreenLevel" type="Node2D" unique_id=1228020298]
+script = ExtResource("1_level")
+level_name = "Title Screen"
+ambience = ExtResource("2_amb")
+
+[node name="MenuStart" parent="." unique_id=669953128 instance=ExtResource("3_menu")]

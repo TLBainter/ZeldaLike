@@ -1,0 +1,13 @@
+[configuration]
+
+entry_symbol = "retro_bit_crush_init"
+compatibility_minimum = "4.6"
+
+[libraries]
+
+windows.debug.x86_64 = "res://addons/retroBitCrush/bin/retroBitCrush.windows.template_debug.x86_64.dll"
+windows.release.x86_64 = "res://addons/retroBitCrush/bin/retroBitCrush.windows.template_release.x86_64.dll"
+linux.debug.x86_64 = "res://addons/retroBitCrush/bin/retroBitCrush.linux.template_debug.x86_64.so"
+linux.release.x86_64 = "res://addons/retroBitCrush/bin/retroBitCrush.linux.template_release.x86_64.so"
+macos.debug = "res://addons/retroBitCrush/bin/retroBitCrush.macos.template_debug.universal.dylib"
+macos.release = "res://addons/retroBitCrush/bin/retroBitCrush.macos.template_release.universal.dylib"

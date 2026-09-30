@@ -48,6 +48,7 @@ var _total_chars : int = 0
 var _last_played_char_index : int = -1
 ##Whether or not we are currently adding characters to the label
 var _is_typing : bool = false
+var _speed_mult : float = 1.0
 #endregion PROCESS
 
 #endregion VARIABLES
@@ -55,7 +56,14 @@ var _is_typing : bool = false
 #region FUNCTIONS
 
 func _ready():
+	add_to_group("sogard_text_speed")
+	if settingsManager:
+		_speed_mult = settingsManager.get_text_speed_multiplier()
 	initialize(false)
+
+##Settings hook: scales text_speed by m (Text Speed setting: Slow, Normal, Fast).
+func set_text_speed_multiplier(m : float) -> void:
+	_speed_mult = m
 
 ##Whether or not you want to display the dialogue and have text run.
 func initialize(init : bool):
@@ -125,7 +133,7 @@ func _process(delta : float):
 	if not _is_typing:
 		set_process(false)
 		return
-	_visible_chars += text_speed * delta
+	_visible_chars += text_speed * _speed_mult * delta
 	var current_int_chars = int(_visible_chars)
 	dialogue_label.visible_characters = current_int_chars
 	if current_int_chars > _last_played_char_index:

@@ -1,0 +1,21 @@
+#!/usr/bin/env python
+import os
+
+# godot-cpp master ignores gdextension/extension_api.json unless custom_api_file is given; this points it at the 4.6.2 dump.
+api_file = os.path.abspath("../godot-cpp/gdextension/extension_api.json")
+
+env = SConscript("../godot-cpp/SConstruct", {"custom_api_file": api_file})
+
+# Keep output names identical on every platform; posix builds would otherwise prepend "lib".
+env["SHLIBPREFIX"] = ""
+
+env.Append(CPPPATH=["src/"])
+sources = Glob("src/*.cpp")
+
+library = env.SharedLibrary(
+    "../../zelda-like-project/addons/retroBitCrush/bin/retroBitCrush{}{}".format(env["suffix"], env["SHLIBSUFFIX"]),
+    source=sources,
+)
+
+env.NoCache(library)
+Default(library)

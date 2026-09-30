@@ -1,5 +1,8 @@
 [gd_resource type="AudioBusLayout" format=3 uid="uid://bg6v5msmxacxc"]
 
+[sub_resource type="RetroBitCrush" id="RetroBitCrush_iexhd"]
+resource_name = "RetroBitCrush"
+
 [resource]
 bus/1/name = &"Background"
 bus/1/solo = false
@@ -15,10 +18,12 @@ bus/2/volume_db = -1.9947557
 bus/2/send = &"Master"
 bus/3/name = &"Music"
 bus/3/solo = false
-bus/3/mute = true
+bus/3/mute = false
 bus/3/bypass_fx = false
-bus/3/volume_db = -2.4724855
+bus/3/volume_db = 4.195738
 bus/3/send = &"Background"
+bus/3/effect/0/effect = SubResource("RetroBitCrush_iexhd")
+bus/3/effect/0/enabled = true
 bus/4/name = &"Ambience"
 bus/4/solo = false
 bus/4/mute = false
@@ -29,7 +34,7 @@ bus/5/name = &"UI"
 bus/5/solo = false
 bus/5/mute = false
 bus/5/bypass_fx = false
-bus/5/volume_db = -5.042245
+bus/5/volume_db = -7.9366364
 bus/5/send = &"Sound Effects"
 bus/6/name = &"Dialogue"
 bus/6/solo = false
@@ -53,7 +58,7 @@ bus/9/name = &"Voice"
 bus/9/solo = false
 bus/9/mute = false
 bus/9/bypass_fx = false
-bus/9/volume_db = 0.0
+bus/9/volume_db = -8.241915
 bus/9/send = &"Character"
 bus/10/name = &"Environment"
 bus/10/solo = false
@@ -85,3 +90,15 @@ bus/14/mute = false
 bus/14/bypass_fx = false
 bus/14/volume_db = 1.0204983
 bus/14/send = &"Music"
+bus/15/name = &"Boss"
+bus/15/solo = false
+bus/15/mute = false
+bus/15/bypass_fx = false
+bus/15/volume_db = 0.0
+bus/15/send = &"Music"
+bus/16/name = &"Cutscene"
+bus/16/solo = false
+bus/16/mute = false
+bus/16/bypass_fx = false
+bus/16/volume_db = 0.0
+bus/16/send = &"Music"

@@ -34,8 +34,6 @@ var _held_time : float = 0.0
 var _repeat_started : bool = false
 ##A reference to the player's inventory component.
 var _inventory : InventoryComponent = null
-##The navigation move sounds from the pause menu interface.
-var nav_move_sounds : SoundLibrary
 ##A reference to the pause menu.
 var pause_menu : PauseMenu = null
 
@@ -156,9 +154,8 @@ func _navigate_to(target : MenuHoverable, play_sound : bool = true) -> void:
 		_current.unhover()
 	_current = target
 	_current.hover()
-	if play_sound and nav_move_sounds and not nav_move_sounds.sounds.is_empty():
-		if audioManager:
-			audioManager.play(nav_move_sounds.sounds.pick_random(), "UI")
+	if play_sound:
+		menuSfx.play_nav()
 	if debug_me:
 		print(debug_name, ": Navigated to ", _current.debug_name)
 
@@ -175,6 +172,14 @@ func _get_input_direction() -> String:
 	if Input.is_action_pressed("dPadLeft"):
 		return "left"
 	if Input.is_action_pressed("dPadRight"):
+		return "right"
+	if Input.is_action_pressed("ui_up"):
+		return "up"
+	if Input.is_action_pressed("ui_down"):
+		return "down"
+	if Input.is_action_pressed("ui_left"):
+		return "left"
+	if Input.is_action_pressed("ui_right"):
 		return "right"
 	var move = Input.get_vector("moveLeft", "moveRight", "moveUp", "moveDown")
 	if move.length() < 0.4:

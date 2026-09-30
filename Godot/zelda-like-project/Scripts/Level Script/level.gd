@@ -18,6 +18,7 @@ enum LevelType { NONE, OVERWORLD, INTERIOR, CAVE, DUNGEON }
 
 @export_group("Audio")
 @export var default_song: SongResource
+@export var ambience: AmbienceResource
 
 @export_group("Dungeon")
 @export var door_resource: DoorResource
@@ -44,7 +45,10 @@ func _enter_tree() -> void:
 func _ready() -> void:
 	if Engine.is_editor_hint():
 		return
-	musicManager.request_song(default_song)
+	var amb := get_effective_ambience()
+	if amb == null or not amb.has_music():
+		musicManager.request_song(get_effective_default_song())
+	ambienceManager.request_ambience(amb)
 
 func _validate_property(property: Dictionary) -> void:
 	if property.name in ["door_resource", "boss_door_resource"] and level_type != LevelType.DUNGEON:
@@ -69,6 +73,29 @@ func get_effective_door_resource() -> DoorResource:
 	var inst := container_level.instantiate()
 	var lvl := _find_level_node(inst)
 	var result := lvl.get_effective_door_resource() if lvl else null
+	inst.free()
+	return result
+
+func get_effective_ambience() -> AmbienceResource:
+	if ambience:
+		return ambience
+	if not container_level:
+		return null
+	var inst := container_level.instantiate()
+	var lvl := _find_level_node(inst)
+	var result := lvl.get_effective_ambience() if lvl else null
+	inst.free()
+	return result
+
+## Returns [member default_song], or the song of the [member container_level] when this level has none.
+func get_effective_default_song() -> SongResource:
+	if default_song:
+		return default_song
+	if not container_level:
+		return null
+	var inst := container_level.instantiate()
+	var lvl := _find_level_node(inst)
+	var result := lvl.get_effective_default_song() if lvl else null
 	inst.free()
 	return result
 

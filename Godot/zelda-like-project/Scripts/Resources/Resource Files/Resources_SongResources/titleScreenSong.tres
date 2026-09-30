@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="SongResource" format=3 uid="uid://b2q808isn8rth"]
+
+[ext_resource type="AudioStream" uid="uid://c74u0glp8le4a" path="res://Sound/MUSIC/Placeholder/MSC_placeholder_TitleScreenMusic.wav" id="1_loop"]
+[ext_resource type="Script" uid="uid://ckuo37cb5srcs" path="res://Scripts/Resources/Resource Scripts/resource_Song.gd" id="2_song"]
+
+[resource]
+script = ExtResource("2_song")
+opener = ExtResource("1_loop")
+loop = ExtResource("1_loop")
+metadata/_custom_type_script = "uid://ckuo37cb5srcs"

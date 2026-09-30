@@ -1,0 +1,32 @@
+[gd_resource type="Theme" format=3]
+
+[ext_resource type="FontFile" path="res://Sprites/UX/Fonts/GothicPixelScript.ttf" id="1_script"]
+[ext_resource type="FontFile" path="res://Sprites/UX/Fonts/GothicPixelBody.ttf" id="2_body"]
+[ext_resource type="FontFile" path="res://Sprites/UX/Fonts/GothicPixelSerif.ttf" id="3_serif"]
+[ext_resource type="FontFile" path="res://Sprites/UX/Fonts/GothicPixelNumerics.ttf" id="4_numerics"]
+
+[resource]
+SogardScript32/base_type = &"Label"
+SogardScript32/colors/font_color = Color(0.913725, 0.878431, 0.811765, 1)
+SogardScript32/fonts/font = ExtResource("1_script")
+SogardScript32/font_sizes/font_size = 32
+SogardScript16/base_type = &"Label"
+SogardScript16/colors/font_color = Color(0.913725, 0.878431, 0.811765, 1)
+SogardScript16/fonts/font = ExtResource("1_script")
+SogardScript16/font_sizes/font_size = 16
+SogardBody16/base_type = &"Label"
+SogardBody16/colors/font_color = Color(0.913725, 0.878431, 0.811765, 1)
+SogardBody16/fonts/font = ExtResource("2_body")
+SogardBody16/font_sizes/font_size = 16
+SogardSerif8/base_type = &"Label"
+SogardSerif8/colors/font_color = Color(0.913725, 0.878431, 0.811765, 1)
+SogardSerif8/fonts/font = ExtResource("3_serif")
+SogardSerif8/font_sizes/font_size = 8
+SogardSerif4/base_type = &"Label"
+SogardSerif4/colors/font_color = Color(0.913725, 0.878431, 0.811765, 1)
+SogardSerif4/fonts/font = ExtResource("3_serif")
+SogardSerif4/font_sizes/font_size = 4
+SogardNumerics16/base_type = &"Label"
+SogardNumerics16/colors/font_color = Color(0.913725, 0.878431, 0.811765, 1)
+SogardNumerics16/fonts/font = ExtResource("4_numerics")
+SogardNumerics16/font_sizes/font_size = 16

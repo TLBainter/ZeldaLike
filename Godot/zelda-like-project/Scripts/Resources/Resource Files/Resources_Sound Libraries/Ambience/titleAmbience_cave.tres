@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="SoundLibrary" format=3 uid="uid://bp10b4ekmb2fc"]
+
+[ext_resource type="Script" uid="uid://vdqimlmcg4ql" path="res://Scripts/Resources/Resource Scripts/resource_Sound_Library.gd" id="1_lib"]
+[ext_resource type="AudioStream" uid="uid://m7mbjook6tia" path="res://Sound/SFX/Ambience/Title Screen Ambience/SFX_menuCave01.wav" id="2_s"]
+
+[resource]
+script = ExtResource("1_lib")
+sounds = Array[AudioStream]([ExtResource("2_s")])
+metadata/_custom_type_script = "uid://vdqimlmcg4ql"

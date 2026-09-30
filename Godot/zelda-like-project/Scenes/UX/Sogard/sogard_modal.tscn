@@ -1,0 +1,93 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" uid="uid://u2upagesfksu" path="res://Scripts/UX/Sogard/sogard_modal.gd" id="1_script"]
+[ext_resource type="Shader" uid="uid://b77mnrrmtcmr2" path="res://Shaders/UX/Sogard/sogard_backdrop.gdshader" id="2_shader"]
+[ext_resource type="Theme" path="res://Text and Style/Text/sogard_menu_theme.tres" id="3_theme"]
+[ext_resource type="Script" uid="uid://bn1or5fqmpuha" path="res://Scripts/UX/Sogard/sogard_corner_dots.gd" id="4_dots"]
+[ext_resource type="Script" uid="uid://w6iti8bjpnqo" path="res://Scripts/UX/Sogard/sogard_nav_input.gd" id="5_nav"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_backdrop"]
+resource_local_to_scene = true
+shader = ExtResource("2_shader")
+shader_parameter/saturation = 0.0
+shader_parameter/darken = 0.72
+shader_parameter/tint = Color(0.0156863, 0.00392157, 0.00784314, 1)
+shader_parameter/alpha = 0.0
+
+[node name="SogardModal" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("3_theme")
+script = ExtResource("1_script")
+
+[node name="Backdrop" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_backdrop")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Frame" type="PanelContainer" parent="."]
+custom_minimum_size = Vector2(300, 162)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -150.0
+offset_top = -81.0
+offset_right = 150.0
+offset_bottom = 81.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBox" type="VBoxContainer" parent="Frame"]
+layout_mode = 2
+theme_override_constants/separation = 6
+alignment = 1
+
+[node name="Title" type="Label" parent="Frame/VBox"]
+layout_mode = 2
+theme_type_variation = &"SogardScript16"
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="Body" type="Label" parent="Frame/VBox"]
+layout_mode = 2
+theme_type_variation = &"SogardBody16"
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="Spacer" type="Control" parent="Frame/VBox"]
+custom_minimum_size = Vector2(0, 4)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="ButtonRow" type="BoxContainer" parent="Frame/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 6
+alignment = 1
+
+[node name="CornerDots" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 0
+mouse_filter = 2
+script = ExtResource("4_dots")
+
+[node name="SogardNavInput" type="Node" parent="."]
+script = ExtResource("5_nav")
+active = false

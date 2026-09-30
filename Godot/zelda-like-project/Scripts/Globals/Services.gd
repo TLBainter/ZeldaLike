@@ -15,4 +15,6 @@ extends Node
 @onready var destructible = get_node("/root/destructibleManager")
 @onready var enemy = get_node("/root/enemyManager")
 @onready var music = get_node("/root/musicManager")
+@onready var ambience = get_node("/root/ambienceManager")
 @onready var scene_transition = get_node("/root/SceneTransitionManager")
+@onready var settings = get_node("/root/settingsManager")

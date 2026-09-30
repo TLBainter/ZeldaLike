@@ -1,0 +1,38 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://Scripts/UX/Sogard/sogard_toast.gd" id="1_script"]
+[ext_resource type="Theme" path="res://Text and Style/Text/sogard_menu_theme.tres" id="2_theme"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_toast"]
+content_margin_left = 8.0
+content_margin_top = 4.0
+content_margin_right = 8.0
+content_margin_bottom = 4.0
+bg_color = Color(0.101961, 0.0196078, 0.0313725, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.541176, 0.0392157, 0.0862745, 1)
+anti_aliasing = false
+
+[node name="SogardToast" type="PanelContainer" node_paths=PackedStringArray("label", "clear_timer")]
+visible = false
+offset_top = 46.0
+mouse_filter = 2
+theme = ExtResource("2_theme")
+theme_override_styles/panel = SubResource("StyleBoxFlat_toast")
+script = ExtResource("1_script")
+label = NodePath("Label")
+clear_timer = NodePath("ClearTimer")
+frame_style = SubResource("StyleBoxFlat_toast")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 2
+theme_type_variation = &"SogardSerif8"
+theme_override_colors/font_color = Color(1, 0.823529, 0.121569, 1)
+horizontal_alignment = 1
+
+[node name="ClearTimer" type="Timer" parent="."]
+one_shot = true
+ignore_time_scale = true

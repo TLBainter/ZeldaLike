@@ -1,0 +1,16 @@
+Godot Engine v4.6.2.stable.official.71f334935 - https://godotengine.org
+
+WARNING: res://Scripts/Resources/Resource Files/Resources_Sound Libraries/UX Libraries/ux_menu_sfx_config.tres:3 - ext_resource, invalid UID: uid://jqchdti1mrolv - using text path instead: res://Scripts/Resources/Resource Scripts/resource_Menu_Sfx_Config.gd
+   at: load (scene/resources/resource_format_text.cpp:500)
+WARNING: AmbienceLayerPlayer: stream res://Sound/SFX/Ambience/Title Screen Ambience/SFX_menuCave01.wav has native looping enabled, finished will never fire
+   at: push_warning (core/variant/variant_utility.cpp:1034)
+   GDScript backtrace (most recent call first):
+       [0] _play_once (res://Scripts/Classes/Audio Class/Audio_AmbienceLayerPlayer.gd:58)
+       [1] start (res://Scripts/Classes/Audio Class/Audio_AmbienceLayerPlayer.gd:35)
+       [2] play (res://Scripts/Classes/Audio Class/Audio_AmbiencePlayer.gd:24)
+       [3] request_ambience (res://Scripts/Managers/manager_Ambience.gd:22)
+       [4] _ready (res://Scripts/Level Script/level.gd:51)
+WARNING: ObjectDB instances leaked at exit (run with --verbose for details).
+   at: cleanup (core/object/object.cpp:2641)
+ERROR: 4 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:810)

@@ -57,7 +57,9 @@ func _unhandled_input(event : InputEvent):
 	if event.is_action_pressed("pause"):
 		if get_tree().paused:
 			return
+		get_viewport().set_input_as_handled()
 		_open_pause_menu()
+		return
 	if not get_tree().paused:
 		for action in ACTION_BUTTONS:
 			if event.is_action_pressed(action):
@@ -78,6 +80,11 @@ func _open_pause_menu():
 	else:
 		_pause_menu_instance = pause_menu_scene.instantiate()
 		get_tree().root.add_child(_pause_menu_instance)
+
+##Frees the root-level pause menu when this component is deleted. Uses PREDELETE because door transitions reparent the Player.
+func _notification(what : int) -> void:
+	if what == NOTIFICATION_PREDELETE and is_instance_valid(_pause_menu_instance):
+		_pause_menu_instance.queue_free()
 
 #endregion PauseMenu
 

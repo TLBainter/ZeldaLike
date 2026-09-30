@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="SoundLibrary" format=3 uid="uid://dsk4bpeam1lyu"]
+
+[ext_resource type="Script" uid="uid://vdqimlmcg4ql" path="res://Scripts/Resources/Resource Scripts/resource_Sound_Library.gd" id="1_lib"]
+[ext_resource type="AudioStream" uid="uid://b55yrxk887o0t" path="res://Sound/SFX/UX/Navigation/Progression/Page Transition/SFX_menuSwoosh_01.wav" id="2_s01"]
+[ext_resource type="AudioStream" uid="uid://c8fm5ad10bqjg" path="res://Sound/SFX/UX/Navigation/Progression/Page Transition/SFX_menuSwoosh_02.wav" id="3_s02"]
+[ext_resource type="AudioStream" uid="uid://dfceyrbkhqo17" path="res://Sound/SFX/UX/Navigation/Progression/Page Transition/SFX_menuSwoosh_03.wav" id="4_s03"]
+[ext_resource type="AudioStream" uid="uid://biwv256q3x25h" path="res://Sound/SFX/UX/Navigation/Progression/Page Transition/SFX_menuSwoosh_04.wav" id="5_s04"]
+[ext_resource type="AudioStream" uid="uid://dkf4kxqnv56ls" path="res://Sound/SFX/UX/Navigation/Progression/Page Transition/SFX_menuSwoosh_05.wav" id="6_s05"]
+[ext_resource type="AudioStream" uid="uid://bs7ohubn2tjop" path="res://Sound/SFX/UX/Navigation/Progression/Page Transition/SFX_menuSwoosh_06.wav" id="7_s06"]
+[ext_resource type="AudioStream" uid="uid://mrslrojp1tym" path="res://Sound/SFX/UX/Navigation/Progression/Page Transition/SFX_menuSwoosh_07.wav" id="8_s07"]
+[ext_resource type="AudioStream" uid="uid://c44w8d6mypoxd" path="res://Sound/SFX/UX/Navigation/Progression/Page Transition/SFX_menuSwoosh_08.wav" id="9_s08"]
+[ext_resource type="AudioStream" uid="uid://cbni118gkk0e6" path="res://Sound/SFX/UX/Navigation/Progression/Page Transition/SFX_menuSwoosh_09.wav" id="10_s09"]
+[ext_resource type="AudioStream" uid="uid://cxi3lab50lhrb" path="res://Sound/SFX/UX/Navigation/Progression/Page Transition/SFX_menuSwoosh_10.wav" id="11_s10"]
+[ext_resource type="AudioStream" uid="uid://dxrlyr3qq5yiu" path="res://Sound/SFX/UX/Navigation/Progression/Page Transition/SFX_menuSwoosh_11.wav" id="12_s11"]
+[ext_resource type="AudioStream" uid="uid://dguk0jglwxvdb" path="res://Sound/SFX/UX/Navigation/Progression/Page Transition/SFX_menuSwoosh_12.wav" id="13_s12"]
+[ext_resource type="AudioStream" uid="uid://bc8qeus1j8u1r" path="res://Sound/SFX/UX/Navigation/Progression/Page Transition/SFX_menuSwoosh_13.wav" id="14_s13"]
+
+[resource]
+script = ExtResource("1_lib")
+sounds = Array[AudioStream]([ExtResource("2_s01"), ExtResource("3_s02"), ExtResource("4_s03"), ExtResource("5_s04"), ExtResource("6_s05"), ExtResource("7_s06"), ExtResource("8_s07"), ExtResource("9_s08"), ExtResource("10_s09"), ExtResource("11_s10"), ExtResource("12_s11"), ExtResource("13_s12"), ExtResource("14_s13")])
+metadata/_custom_type_script = "uid://vdqimlmcg4ql"

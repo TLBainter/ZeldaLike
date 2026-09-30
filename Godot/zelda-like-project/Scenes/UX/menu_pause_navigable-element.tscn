@@ -2,54 +2,16 @@
 
 [ext_resource type="Script" uid="uid://d1taqjbkp7d8f" path="res://Scripts/UX/ux_pauseMenu_menuHoverable_item.gd" id="1_tpnf1"]
 [ext_resource type="Texture2D" uid="uid://b7pjvpt53p2bl" path="res://Sprites/UX/InGameUX/ActionButtons/UX_Button_ActionButton2_A.tres" id="5_pr1q6"]
-[ext_resource type="FontFile" uid="uid://hmspkjbm2loq" path="res://Sprites/UX/Fonts/GothicPixelNumerics.ttf" id="6_jfkd1"]
 [ext_resource type="Texture2D" uid="uid://coj45ljky5bay" path="res://Sprites/UX/InGameUX/ActionButtons/UX_Button_ActionButton1_B.tres" id="6_nqh24"]
 [ext_resource type="Texture2D" uid="uid://8xjmn2c0ttaa" path="res://Sprites/UX/InGameUX/ActionButtons/UX_Button_ActionButton3_X.tres" id="6_vhand"]
 [ext_resource type="Script" uid="uid://c0gguh8o4ftae" path="res://Scripts/Resources/Resource Scripts/resource_debug_settings.gd" id="7_6vul3"]
-[ext_resource type="Texture2D" uid="uid://cgytaakseib2o" path="res://Sprites/UX/Pause Menu Elements/Cursor/ux_pause-menu_cursor-spell.png" id="8_6vul3"]
-[ext_resource type="Texture2D" uid="uid://b63jdji1n60nr" path="res://Sprites/UX/Pause Menu Elements/ux_pause-menu_inventory_panel-spell.png" id="8_k6u7s"]
 [ext_resource type="Texture2D" uid="uid://dldnas5m2e22s" path="res://Sprites/Item Sprites/Spells/spell_menuOutline_haste.tres" id="9_k6u7s"]
+[ext_resource type="Texture2D" path="res://Sprites/UX/Sogard/sogard_ui_sock_n.tres" id="10_sock_n"]
+[ext_resource type="Texture2D" path="res://Sprites/UX/Sogard/sogard_ui_sock_f.tres" id="11_sock_f"]
+[ext_resource type="FontFile" path="res://Sprites/UX/Fonts/GothicPixelSerif.ttf" id="12_serif"]
 
 [sub_resource type="Resource" id="Resource_l51id"]
 script = ExtResource("7_6vul3")
-
-[sub_resource type="Animation" id="Animation_jfkd1"]
-resource_name = "CursorActive"
-length = 0.5
-loop_mode = 2
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:scale")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.33333334, 0.5),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 0,
-"values": [Vector2(1, 1), Vector2(1.04, 1.04), Vector2(1.05, 1.05)]
-}
-
-[sub_resource type="Animation" id="Animation_nqh24"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:scale")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(1, 1)]
-}
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_pr1q6"]
-_data = {
-&"CursorActive": SubResource("Animation_jfkd1"),
-&"RESET": SubResource("Animation_nqh24")
-}
 
 [sub_resource type="Animation" id="Animation_pr1q6"]
 resource_name = "Flash"
@@ -73,12 +35,12 @@ tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/path = NodePath(".:self_modulate")
-tracks/0/interp = 1
+tracks/0/interp = 0
 tracks/0/loop_wrap = true
 tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
-"update": 0,
+"update": 1,
 "values": [Color(1, 1, 1, 1)]
 }
 
@@ -88,12 +50,9 @@ _data = {
 &"RESET": SubResource("Animation_vhand")
 }
 
-[sub_resource type="FontVariation" id="FontVariation_nqh24"]
-base_font = ExtResource("6_jfkd1")
-spacing_glyph = 1
-
-[node name="MenuPanel" type="Panel" unique_id=370079235 node_paths=PackedStringArray("item_rect", "flash_player", "quantity_label", "panel_rect", "cursor_rect", "cursor_anim", "assignment_rect")]
+[node name="MenuPanel" type="Panel" unique_id=370079235 node_paths=PackedStringArray("item_rect", "flash_player", "quantity_label", "panel_rect", "cursor_rect", "assignment_rect")]
 self_modulate = Color(1, 1, 1, 0)
+custom_minimum_size = Vector2(36, 36)
 size_flags_horizontal = 0
 size_flags_vertical = 0
 script = ExtResource("1_tpnf1")
@@ -101,11 +60,10 @@ item_rect = NodePath("PanelBCKG/OutlineTexture")
 flash_player = NodePath("PanelBCKG/OutlineTexture/FlashAnimator")
 quantity_label = NodePath("PanelBCKG/QuantityLabel")
 panel_rect = NodePath("PanelBCKG")
-panel_texture = ExtResource("8_k6u7s")
+panel_texture = ExtResource("10_sock_n")
+panel_texture_hovered = ExtResource("11_sock_f")
 content_anchors_preset = 0
-cursor_texture = ExtResource("8_6vul3")
 cursor_rect = NodePath("PanelBCKG/PanelCursor")
-cursor_anim = NodePath("PanelBCKG/PanelCursor/CursorActiveAnimator")
 button_1_sprite = ExtResource("6_nqh24")
 button_2_sprite = ExtResource("5_pr1q6")
 button_3_sprite = ExtResource("6_vhand")
@@ -114,11 +72,11 @@ debug = SubResource("Resource_l51id")
 
 [node name="PanelBCKG" type="TextureRect" parent="." unique_id=1291658304]
 layout_mode = 1
-offset_right = 64.0
-offset_bottom = 72.0
-pivot_offset = Vector2(32, 36)
+offset_right = 36.0
+offset_bottom = 36.0
+pivot_offset = Vector2(18, 18)
 pivot_offset_ratio = Vector2(0.5, 0.5)
-texture = ExtResource("8_k6u7s")
+texture = ExtResource("10_sock_n")
 stretch_mode = 5
 
 [node name="PanelCursor" type="TextureRect" parent="PanelBCKG" unique_id=299574781]
@@ -130,12 +88,8 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-pivot_offset_ratio = Vector2(0.4, 0.5)
-texture = ExtResource("8_6vul3")
+pivot_offset_ratio = Vector2(0.5, 0.5)
 stretch_mode = 5
-
-[node name="CursorActiveAnimator" type="AnimationPlayer" parent="PanelBCKG/PanelCursor" unique_id=2141237903]
-libraries/ = SubResource("AnimationLibrary_pr1q6")
 
 [node name="OutlineTexture" type="TextureRect" parent="PanelBCKG" unique_id=1900763709]
 custom_minimum_size = Vector2(32, 32)
@@ -152,34 +106,44 @@ offset_bottom = 16.0
 grow_horizontal = 2
 grow_vertical = 2
 pivot_offset_ratio = Vector2(0.5, 0.5)
+texture_filter = 1
 texture = ExtResource("9_k6u7s")
+expand_mode = 1
 stretch_mode = 5
 
 [node name="FlashAnimator" type="AnimationPlayer" parent="PanelBCKG/OutlineTexture" unique_id=993298837]
 libraries/ = SubResource("AnimationLibrary_6vul3")
 
 [node name="QuantityLabel" type="Label" parent="PanelBCKG" unique_id=682721538]
+z_index = 1
 layout_mode = 1
 anchors_preset = 3
 anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -19.0
-offset_top = -13.0
+offset_left = -15.0
+offset_top = -11.0
+offset_right = -3.0
+offset_bottom = -3.0
 grow_horizontal = 0
 grow_vertical = 0
 pivot_offset_ratio = Vector2(1, 1)
-theme_override_constants/line_spacing = 4
-theme_override_constants/outline_size = 3
-theme_override_fonts/font = SubResource("FontVariation_nqh24")
-theme_override_font_sizes/font_size = 12
+theme_override_colors/font_color = Color(0.913725, 0.878431, 0.811765, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+theme_override_constants/outline_size = 0
+theme_override_fonts/font = ExtResource("12_serif")
+theme_override_font_sizes/font_size = 8
 text = "00"
 horizontal_alignment = 2
+vertical_alignment = 2
 
 [node name="AssignedButton" type="TextureRect" parent="PanelBCKG" unique_id=737680216]
 visible = false
-custom_minimum_size = Vector2(32, 32)
+z_index = 1
+custom_minimum_size = Vector2(16, 16)
 layout_mode = 1
 anchors_preset = 3
 anchor_left = 1.0
@@ -187,10 +151,11 @@ anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = -16.0
-offset_top = -17.0
-offset_bottom = -1.0
+offset_top = -16.0
 grow_horizontal = 0
 grow_vertical = 0
 pivot_offset_ratio = Vector2(1, 1)
+texture_filter = 1
 texture = ExtResource("6_nqh24")
+expand_mode = 1
 stretch_mode = 5

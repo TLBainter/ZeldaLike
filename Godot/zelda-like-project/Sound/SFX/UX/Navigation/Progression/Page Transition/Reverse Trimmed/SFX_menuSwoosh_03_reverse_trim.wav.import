@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://pfdt5nb71ef3"
+path="res://.godot/imported/SFX_menuSwoosh_03_reverse_trim.wav-7e20b3e1ae731d767acc586ced9bc6b4.sample"
+
+[deps]
+
+source_file="res://Sound/SFX/UX/Navigation/Progression/Page Transition/Reverse Trimmed/SFX_menuSwoosh_03_reverse_trim.wav"
+dest_files=["res://.godot/imported/SFX_menuSwoosh_03_reverse_trim.wav-7e20b3e1ae731d767acc586ced9bc6b4.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

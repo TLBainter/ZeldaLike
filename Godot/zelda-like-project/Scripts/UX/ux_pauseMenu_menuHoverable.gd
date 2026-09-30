@@ -78,8 +78,6 @@ extends Panel
 		cursor_rect = value
 		if is_inside_tree():
 			_apply_cursor_properties()
-##A reference to the animation player for the cursor.
-@export var cursor_anim = Node
 
 @export_category("Spell Assignment")
 @export_group("Button Sprites")
@@ -187,8 +185,6 @@ func hover() -> void:
 		panel_rect.texture = panel_texture_hovered
 	if cursor_rect:
 		cursor_rect.visible = true
-	if cursor_anim and cursor_anim.has_animation("CursorActive"):
-		cursor_anim.play("CursorActive")
 	_on_hover()
 	if debug_me:
 		print(debug_name, ": Hovered.")
@@ -200,8 +196,6 @@ func unhover() -> void:
 		panel_rect.texture = panel_texture
 	if cursor_rect:
 		cursor_rect.visible = false
-	if cursor_anim and cursor_anim.is_playing():
-		cursor_anim.stop()
 	_on_unhover()
 	_clear_info_box()
 	if debug_me:

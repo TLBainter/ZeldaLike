@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://ynt0xas5wf4r"
+path="res://.godot/imported/SFX_menuSwoosh_07_reverse.wav-eb228bc931decb2fc4fb06836e646db2.sample"
+
+[deps]
+
+source_file="res://Sound/SFX/UX/Navigation/Progression/Page Transition/Reverse/SFX_menuSwoosh_07_reverse.wav"
+dest_files=["res://.godot/imported/SFX_menuSwoosh_07_reverse.wav-eb228bc931decb2fc4fb06836e646db2.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

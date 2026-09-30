@@ -1,8 +1,8 @@
 [gd_resource type="Resource" script_class="SongResource" format=3 uid="uid://b4mhnoipmfyi7"]
 
-[ext_resource type="AudioStream" uid="uid://q3qtp5neglxs" path="res://Sound/MUSIC/TestAreaTheme/testAreaTheme-End.wav" id="1_qef5h"]
-[ext_resource type="AudioStream" uid="uid://dfk02movkkiil" path="res://Sound/MUSIC/TestAreaTheme/testAreaTheme-Loop.wav" id="2_rv2i8"]
-[ext_resource type="AudioStream" uid="uid://mw1jxuyg6t1d" path="res://Sound/MUSIC/TestAreaTheme/testAreaTheme-Start.wav" id="3_hdfyv"]
+[ext_resource type="AudioStream" uid="uid://q3qtp5neglxs" path="res://Sound/MUSIC/Placeholder/TestAreaTheme/testAreaTheme-End.wav" id="1_qef5h"]
+[ext_resource type="AudioStream" uid="uid://dfk02movkkiil" path="res://Sound/MUSIC/Placeholder/TestAreaTheme/testAreaTheme-Loop.wav" id="2_rv2i8"]
+[ext_resource type="AudioStream" uid="uid://mw1jxuyg6t1d" path="res://Sound/MUSIC/Placeholder/TestAreaTheme/testAreaTheme-Start.wav" id="3_hdfyv"]
 [ext_resource type="Script" uid="uid://ckuo37cb5srcs" path="res://Scripts/Resources/Resource Scripts/resource_Song.gd" id="4_2uxft"]
 
 [resource]

@@ -1,0 +1,262 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" uid="uid://b1wg3t0aequww" path="res://Scripts/Menus/menu_NewGameFlow.gd" id="1_script"]
+[ext_resource type="Theme" path="res://Text and Style/Text/sogard_menu_theme.tres" id="2_theme"]
+[ext_resource type="StyleBox" path="res://Sprites/UX/Sogard/sogard_sb_panel_name.tres" id="3_panel_name"]
+[ext_resource type="StyleBox" path="res://Sprites/UX/Sogard/sogard_sb_key22_n.tres" id="4_key22_n"]
+[ext_resource type="StyleBox" path="res://Sprites/UX/Sogard/sogard_sb_key22_f.tres" id="5_key22_f"]
+[ext_resource type="StyleBox" path="res://Sprites/UX/Sogard/sogard_sb_key77_n.tres" id="6_key77_n"]
+[ext_resource type="StyleBox" path="res://Sprites/UX/Sogard/sogard_sb_key77_f.tres" id="7_key77_f"]
+[ext_resource type="Texture2D" path="res://Sprites/UX/Sogard/sogard_ui_line_l.tres" id="8_line_l"]
+[ext_resource type="Texture2D" path="res://Sprites/UX/Sogard/sogard_ui_line_r.tres" id="9_line_r"]
+[ext_resource type="Texture2D" path="res://Sprites/UX/Sogard/sogard_ui_dia5.tres" id="10_dia"]
+[ext_resource type="PackedScene" path="res://Scenes/UX/Sogard/sogard_diff_card.tscn" id="11_card"]
+[ext_resource type="PackedScene" path="res://Scenes/UX/Sogard/sogard_hint_bar.tscn" id="12_hints"]
+[ext_resource type="Script" uid="uid://w6iti8bjpnqo" path="res://Scripts/UX/Sogard/sogard_nav_input.gd" id="13_nav"]
+[ext_resource type="Script" path="res://Scripts/UX/Sogard/sogard_shake.gd" id="14_shake"]
+[ext_resource type="Script" path="res://Scripts/UX/Sogard/sogard_screen_in.gd" id="15_screen_in"]
+[ext_resource type="Script" path="res://Scripts/UX/Sogard/sogard_name_typing.gd" id="16_typing"]
+
+[node name="NewGameFlow" type="Control" node_paths=PackedStringArray("name_screen", "name_panel", "file_label", "cells_root", "keys_root", "name_nav", "name_screen_in", "diff_screen", "story_card", "standard_card", "epic_card", "beginning_label", "footer_name_label", "diff_nav", "diff_screen_in", "hint_bar", "shake", "typing")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme = ExtResource("2_theme")
+script = ExtResource("1_script")
+key_plate_normal = ExtResource("4_key22_n")
+key_plate_focused = ExtResource("5_key22_f")
+action_plate_normal = ExtResource("6_key77_n")
+action_plate_focused = ExtResource("7_key77_f")
+name_screen = NodePath("NameScreen")
+name_panel = NodePath("NameScreen/NamePanel")
+file_label = NodePath("NameScreen/NamePanel/FileLabel")
+cells_root = NodePath("NameScreen/NamePanel/Cells")
+keys_root = NodePath("NameScreen/NamePanel/Keys")
+name_nav = NodePath("NameScreen/NameNav")
+name_screen_in = NodePath("NameScreen/ScreenIn")
+diff_screen = NodePath("DiffScreen")
+story_card = NodePath("DiffScreen/Cards/Story")
+standard_card = NodePath("DiffScreen/Cards/Standard")
+epic_card = NodePath("DiffScreen/Cards/Epic")
+beginning_label = NodePath("DiffScreen/BeginningLabel")
+footer_name_label = NodePath("DiffScreen/FooterName")
+diff_nav = NodePath("DiffScreen/DiffNav")
+diff_screen_in = NodePath("DiffScreen/ScreenIn")
+hint_bar = NodePath("HintBar")
+shake = NodePath("Shake")
+typing = NodePath("NameTyping")
+
+[node name="NameScreen" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="NamePanel" type="Panel" parent="NameScreen"]
+layout_mode = 0
+offset_left = 130.0
+offset_top = 52.0
+offset_right = 510.0
+offset_bottom = 264.0
+mouse_filter = 2
+theme_override_styles/panel = ExtResource("3_panel_name")
+
+[node name="FileLabel" type="Label" parent="NameScreen/NamePanel"]
+layout_mode = 0
+offset_top = 12.0
+offset_right = 380.0
+offset_bottom = 21.0
+mouse_filter = 2
+theme_type_variation = &"SogardSerif8"
+theme_override_colors/font_color = Color(0.627451, 0.56078434, 0.54901963, 1)
+text = "FILE I"
+horizontal_alignment = 1
+
+[node name="Title" type="Label" parent="NameScreen/NamePanel"]
+layout_mode = 0
+offset_top = 30.0
+offset_right = 380.0
+offset_bottom = 62.0
+mouse_filter = 2
+theme_type_variation = &"SogardScript32"
+theme_override_colors/font_shadow_color = Color(0.431373, 0.0392157, 0.0901961, 1)
+theme_override_constants/shadow_offset_x = 0
+theme_override_constants/shadow_offset_y = 2
+text = "What is your name?"
+horizontal_alignment = 1
+
+[node name="Cells" type="Control" parent="NameScreen/NamePanel"]
+anchors_preset = 0
+offset_right = 380.0
+offset_bottom = 212.0
+mouse_filter = 2
+
+[node name="Keys" type="Control" parent="NameScreen/NamePanel"]
+anchors_preset = 0
+offset_right = 380.0
+offset_bottom = 212.0
+mouse_filter = 2
+
+[node name="ScreenIn" type="Node" parent="NameScreen"]
+script = ExtResource("15_screen_in")
+play_on_ready = false
+
+[node name="NameNav" type="Node" parent="NameScreen" node_paths=PackedStringArray("scope_root")]
+script = ExtResource("13_nav")
+scope_root = NodePath("../NamePanel/Keys")
+active = false
+
+[node name="DiffScreen" type="Control" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Title" type="Label" parent="DiffScreen"]
+layout_mode = 0
+offset_left = 128.0
+offset_top = 16.0
+offset_right = 512.0
+offset_bottom = 48.0
+mouse_filter = 2
+theme_type_variation = &"SogardScript32"
+theme_override_colors/font_shadow_color = Color(0.431373, 0.0392157, 0.0901961, 1)
+theme_override_constants/shadow_offset_x = 0
+theme_override_constants/shadow_offset_y = 2
+text = "Choose Your Difficulty"
+horizontal_alignment = 1
+
+[node name="LineL" type="TextureRect" parent="DiffScreen"]
+layout_mode = 0
+offset_left = 45.0
+offset_top = 32.0
+offset_right = 109.0
+offset_bottom = 33.0
+mouse_filter = 2
+texture = ExtResource("8_line_l")
+expand_mode = 1
+
+[node name="DiaL" type="TextureRect" parent="DiffScreen"]
+layout_mode = 0
+offset_left = 112.0
+offset_top = 29.0
+offset_right = 119.0
+offset_bottom = 36.0
+mouse_filter = 2
+texture = ExtResource("10_dia")
+
+[node name="DiaR" type="TextureRect" parent="DiffScreen"]
+layout_mode = 0
+offset_left = 521.0
+offset_top = 29.0
+offset_right = 528.0
+offset_bottom = 36.0
+mouse_filter = 2
+texture = ExtResource("10_dia")
+
+[node name="LineR" type="TextureRect" parent="DiffScreen"]
+layout_mode = 0
+offset_left = 531.0
+offset_top = 32.0
+offset_right = 595.0
+offset_bottom = 33.0
+mouse_filter = 2
+texture = ExtResource("9_line_r")
+expand_mode = 1
+
+[node name="Cards" type="Control" parent="DiffScreen"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Story" parent="DiffScreen/Cards" instance=ExtResource("11_card")]
+layout_mode = 0
+offset_left = 40.0
+offset_top = 68.0
+offset_right = 216.0
+offset_bottom = 264.0
+diff_name = "Story"
+description = "An easy game with minimal
+challenge, designed to
+experience the story."
+
+[node name="Standard" parent="DiffScreen/Cards" instance=ExtResource("11_card")]
+layout_mode = 0
+offset_left = 232.0
+offset_top = 68.0
+offset_right = 408.0
+offset_bottom = 264.0
+diff_name = "Standard"
+description = "The way the game is meant to
+be played."
+
+[node name="Epic" parent="DiffScreen/Cards" instance=ExtResource("11_card")]
+layout_mode = 0
+offset_left = 424.0
+offset_top = 68.0
+offset_right = 600.0
+offset_bottom = 264.0
+diff_name = "Epic"
+description = "A challenge for seasoned
+players. Parrying is a
+necessity."
+
+[node name="BeginningLabel" type="Label" parent="DiffScreen"]
+layout_mode = 0
+offset_left = 254.0
+offset_top = 287.0
+offset_right = 321.0
+offset_bottom = 301.0
+mouse_filter = 2
+theme_type_variation = &"SogardBody16"
+theme_override_colors/font_color = Color(0.627451, 0.56078434, 0.54901963, 1)
+text = "Beginning as"
+
+[node name="FooterName" type="Label" parent="DiffScreen"]
+layout_mode = 0
+offset_left = 327.0
+offset_top = 284.0
+offset_right = 387.0
+offset_bottom = 300.0
+mouse_filter = 2
+theme_type_variation = &"SogardScript16"
+theme_override_colors/font_color = Color(1, 0.8235294, 0.12156863, 1)
+theme_override_colors/font_shadow_color = Color(0.22745098, 0.023529412, 0.0627451, 1)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+
+[node name="ScreenIn" type="Node" parent="DiffScreen"]
+script = ExtResource("15_screen_in")
+play_on_ready = false
+
+[node name="DiffNav" type="Node" parent="DiffScreen" node_paths=PackedStringArray("scope_root", "initial_focus")]
+script = ExtResource("13_nav")
+scope_root = NodePath("../Cards")
+initial_focus = NodePath("../Cards/Standard")
+active = false
+
+[node name="HintBar" parent="." instance=ExtResource("12_hints")]
+layout_mode = 1
+
+[node name="Shake" type="Node" parent="." node_paths=PackedStringArray("target")]
+script = ExtResource("14_shake")
+target = NodePath("..")
+
+[node name="NameTyping" type="Node" parent="."]
+script = ExtResource("16_typing")
+active = false

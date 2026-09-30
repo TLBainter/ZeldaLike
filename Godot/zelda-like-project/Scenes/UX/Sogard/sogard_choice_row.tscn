@@ -1,0 +1,72 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://Scripts/UX/Sogard/sogard_choice_row.gd" id="1_script"]
+[ext_resource type="Theme" path="res://Text and Style/Text/sogard_menu_theme.tres" id="2_theme"]
+[ext_resource type="Texture2D" path="res://Sprites/UX/Sogard/sogard_ui_row_f.tres" id="3_row_f"]
+[ext_resource type="Texture2D" path="res://Sprites/UX/Sogard/sogard_ui_arrow_l.tres" id="4_arrow_l"]
+[ext_resource type="Texture2D" path="res://Sprites/UX/Sogard/sogard_ui_arrow_r.tres" id="5_arrow_r"]
+
+[node name="SogardChoiceRow" type="Control" node_paths=PackedStringArray("focus_bar", "label", "arrow_l", "value_label", "arrow_r")]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 392.0
+offset_bottom = 20.0
+focus_mode = 2
+theme = ExtResource("2_theme")
+script = ExtResource("1_script")
+focus_bar = NodePath("FocusBar")
+label = NodePath("Label")
+arrow_l = NodePath("ArrowL")
+value_label = NodePath("Value")
+arrow_r = NodePath("ArrowR")
+
+[node name="FocusBar" type="TextureRect" parent="."]
+visible = false
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("3_row_f")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_left = 14.0
+offset_top = 2.0
+offset_right = 190.0
+offset_bottom = 18.0
+mouse_filter = 2
+theme_type_variation = &"SogardBody16"
+vertical_alignment = 1
+
+[node name="ArrowL" type="TextureRect" parent="."]
+layout_mode = 0
+offset_left = 222.0
+offset_top = 6.0
+offset_right = 230.0
+offset_bottom = 14.0
+mouse_filter = 2
+texture = ExtResource("4_arrow_l")
+
+[node name="Value" type="Label" parent="."]
+layout_mode = 0
+offset_left = 240.0
+offset_top = 2.0
+offset_right = 360.0
+offset_bottom = 18.0
+mouse_filter = 2
+theme_type_variation = &"SogardBody16"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ArrowR" type="TextureRect" parent="."]
+layout_mode = 0
+offset_left = 366.0
+offset_top = 6.0
+offset_right = 374.0
+offset_bottom = 14.0
+mouse_filter = 2
+texture = ExtResource("5_arrow_r")

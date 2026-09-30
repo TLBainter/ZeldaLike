@@ -1,0 +1,214 @@
+[gd_scene format=3 uid="uid://b4afjeeciqaxc"]
+
+[ext_resource type="Script" uid="uid://ckkg3uv6hmlqk" path="res://Scripts/UX/Sogard/sogard_background.gd" id="1_script"]
+[ext_resource type="Theme" path="res://Text and Style/Text/sogard_menu_theme.tres" id="2_theme"]
+[ext_resource type="Shader" uid="uid://c0rxxegesdkuw" path="res://Shaders/UX/Sogard/sogard_fog_scroll.gdshader" id="3_shader_fog"]
+[ext_resource type="Shader" uid="uid://b77mnrrmtcmr2" path="res://Shaders/UX/Sogard/sogard_backdrop.gdshader" id="4_shader_backdrop"]
+[ext_resource type="Texture2D" uid="uid://dlnt604tusfvv" path="res://Sprites/UX/Sogard/sogard_ui_fx_vignette.tres" id="5_tex_vignette"]
+[ext_resource type="Texture2D" uid="uid://kpnglttemdbj" path="res://Sprites/UX/Sogard/sogard_ui_fx_fog.tres" id="6_tex_fog"]
+[ext_resource type="Texture2D" uid="uid://cqdwdr2rw7xys" path="res://Sprites/UX/Sogard/sogard_ui_fx_candle.tres" id="7_tex_candle"]
+[ext_resource type="Texture2D" uid="uid://bsfi0exxknx7j" path="res://Sprites/UX/Sogard/sogard_ui_blood_top.tres" id="8_tex_blood_top"]
+[ext_resource type="Script" uid="uid://c2k4euhmr4h2e" path="res://Scripts/UX/Sogard/sogard_bg_drops.gd" id="9_script_drops"]
+[ext_resource type="Script" uid="uid://cbn5rmllkharq" path="res://Scripts/UX/Sogard/sogard_bg_particles.gd" id="10_script_particles"]
+[ext_resource type="Texture2D" uid="uid://cw3l6hsa8rgka" path="res://Sprites/UX/Sogard/sogard_ui_bricks.png" id="11_tex_bricks"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_fog"]
+shader = ExtResource("3_shader_fog")
+shader_parameter/scroll_rate = 0.0
+shader_parameter/step_rate = 12.0
+
+[sub_resource type="Animation" id="Animation_flameA"]
+resource_name = "flick"
+length = 2.4
+loop_mode = 1
+step = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Flame1:modulate:a")
+tracks/0/interp = 0
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.6, 0.9, 1.2, 1.5, 1.8, 2.1),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [1.0, 0.85, 1.0, 0.9, 1.0, 0.8, 0.95, 1.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_flameA"]
+_data = {
+&"flick": SubResource("Animation_flameA")
+}
+
+[sub_resource type="Animation" id="Animation_flameB"]
+resource_name = "flick"
+length = 3.0
+loop_mode = 1
+step = 0.4
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Flame2:modulate:a")
+tracks/0/interp = 0
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.4, 0.8, 1.2, 1.6, 2, 2.4, 2.8),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0.9, 1.0, 0.85, 1.0, 0.95, 0.8, 1.0, 0.9]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_flameB"]
+_data = {
+&"flick": SubResource("Animation_flameB")
+}
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_desat"]
+shader = ExtResource("4_shader_backdrop")
+shader_parameter/saturation = 0.0
+shader_parameter/darken = 0.35
+shader_parameter/tint = Color(0.643137, 0.207843, 0.164706, 1)
+shader_parameter/alpha = 0.0
+
+[node name="SogardBackground" type="Control" unique_id=461786216 node_paths=PackedStringArray("vignette", "fog", "candle", "blood_top", "drops", "embers", "rise", "desat", "bricks")]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 640.0
+offset_bottom = 360.0
+theme = ExtResource("2_theme")
+script = ExtResource("1_script")
+vignette = NodePath("Vignette")
+fog = NodePath("Fog")
+candle = NodePath("Candle")
+blood_top = NodePath("BloodTop")
+drops = NodePath("Drops")
+embers = NodePath("Embers")
+rise = NodePath("Rise")
+desat = NodePath("Desat")
+bricks = NodePath("Bricks")
+
+[node name="Bricks" type="TextureRect" parent="." unique_id=902113348]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("11_tex_bricks")
+stretch_mode = 1
+
+[node name="BgColor" type="ColorRect" parent="." unique_id=1800869211]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.04, 0.02, 0.028, 0.9098039)
+
+[node name="Vignette" type="TextureRect" parent="." unique_id=532030776]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("5_tex_vignette")
+expand_mode = 1
+
+[node name="Fog" type="TextureRect" parent="." unique_id=178719830]
+material = SubResource("ShaderMaterial_fog")
+layout_mode = 0
+offset_top = 219.0
+offset_right = 640.0
+offset_bottom = 359.0
+mouse_filter = 2
+texture = ExtResource("6_tex_fog")
+stretch_mode = 1
+
+[node name="Candle" type="Control" parent="." unique_id=545688418]
+anchors_preset = 0
+offset_left = 110.0
+offset_top = -30.0
+offset_right = 530.0
+offset_bottom = 390.0
+mouse_filter = 2
+
+[node name="Flame1" type="TextureRect" parent="Candle" unique_id=1438100741]
+layout_mode = 0
+offset_left = -160.0
+offset_top = 130.0
+offset_right = 260.0
+offset_bottom = 550.0
+mouse_filter = 2
+texture = ExtResource("7_tex_candle")
+
+[node name="Flame2" type="TextureRect" parent="Candle" unique_id=1472642795]
+modulate = Color(1, 1, 1, 0.9)
+layout_mode = 0
+offset_left = 160.0
+offset_top = 130.0
+offset_right = 280.0
+offset_bottom = 310.0
+mouse_filter = 2
+texture = ExtResource("7_tex_candle")
+
+[node name="FlameAnimA" type="AnimationPlayer" parent="Candle" unique_id=1561837095]
+libraries/ = SubResource("AnimationLibrary_flameA")
+autoplay = &"flick"
+
+[node name="FlameAnimB" type="AnimationPlayer" parent="Candle" unique_id=188930730]
+libraries/ = SubResource("AnimationLibrary_flameB")
+autoplay = &"flick"
+
+[node name="Drops" type="Control" parent="." unique_id=1849485058]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("9_script_drops")
+
+[node name="BloodTop" type="TextureRect" parent="." unique_id=557194631]
+layout_mode = 0
+offset_right = 640.0
+offset_bottom = 56.0
+mouse_filter = 2
+texture = ExtResource("8_tex_blood_top")
+
+[node name="Embers" type="Control" parent="." unique_id=2102008027]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("10_script_particles")
+mode = 1
+count = 20
+
+[node name="Rise" type="Control" parent="." unique_id=81474599]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("10_script_particles")
+
+[node name="Desat" type="ColorRect" parent="." unique_id=1803582913]
+material = SubResource("ShaderMaterial_desat")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2

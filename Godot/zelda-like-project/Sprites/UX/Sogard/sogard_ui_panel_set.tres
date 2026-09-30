@@ -1,0 +1,7 @@
+[gd_resource type="AtlasTexture" format=3 uid="uid://c626prbg1qy67"]
+
+[ext_resource type="Texture2D" uid="uid://d4f8k2naxpqr" path="res://Sprites/UX/Sogard/sogard_ui_atlas.png" id="1_src"]
+
+[resource]
+atlas = ExtResource("1_src")
+region = Rect2(642, 698, 416, 274)

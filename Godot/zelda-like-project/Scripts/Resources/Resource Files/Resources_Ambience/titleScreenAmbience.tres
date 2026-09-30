@@ -1,0 +1,49 @@
+[gd_resource type="Resource" script_class="AmbienceResource" format=3 uid="uid://b3huo8vm3r2mk"]
+
+[ext_resource type="Script" uid="uid://ck0c5cab6lgxd" path="res://Scripts/Resources/Resource Scripts/resource_Ambience.gd" id="1_amb"]
+[ext_resource type="Script" uid="uid://c38rxr56mwq64" path="res://Scripts/Resources/Resource Scripts/resource_AmbienceLayer.gd" id="2_layer"]
+[ext_resource type="Resource" uid="uid://b2q808isn8rth" path="res://Scripts/Resources/Resource Files/Resources_SongResources/titleScreenSong.tres" id="3_song"]
+[ext_resource type="Resource" uid="uid://ctfyohhf7ov83" path="res://Scripts/Resources/Resource Files/Resources_Sound Libraries/Ambience/titleAmbience_candleFlame.tres" id="4_candle"]
+[ext_resource type="Resource" uid="uid://c7icerbxy3f47" path="res://Scripts/Resources/Resource Files/Resources_Sound Libraries/Ambience/titleAmbience_wind.tres" id="5_wind"]
+[ext_resource type="Resource" uid="uid://d0sfeq0jamq63" path="res://Scripts/Resources/Resource Files/Resources_Sound Libraries/Ambience/titleAmbience_abandoned.tres" id="6_abandoned"]
+[ext_resource type="Resource" uid="uid://bp10b4ekmb2fc" path="res://Scripts/Resources/Resource Files/Resources_Sound Libraries/Ambience/titleAmbience_cave.tres" id="7_cave"]
+[ext_resource type="Resource" uid="uid://cyrexxqpr4v6" path="res://Scripts/Resources/Resource Files/Resources_Sound Libraries/Ambience/titleAmbience_tone.tres" id="8_tone"]
+
+[sub_resource type="Resource" id="Resource_candle"]
+script = ExtResource("2_layer")
+library = ExtResource("4_candle")
+start_mode = 1
+start_delay = 6.0
+
+[sub_resource type="Resource" id="Resource_wind"]
+script = ExtResource("2_layer")
+library = ExtResource("5_wind")
+volume = 0.1
+loop_mode = 2
+loop_interval_min = 0.0
+loop_interval_max = 7.0
+start_mode = 2
+
+[sub_resource type="Resource" id="Resource_abandoned"]
+script = ExtResource("2_layer")
+library = ExtResource("6_abandoned")
+volume = 0.6
+
+[sub_resource type="Resource" id="Resource_cave"]
+script = ExtResource("2_layer")
+library = ExtResource("7_cave")
+volume = 0.35
+
+[sub_resource type="Resource" id="Resource_tone"]
+script = ExtResource("2_layer")
+library = ExtResource("8_tone")
+volume = 0.6
+loop_mode = 2
+loop_interval_min = 20.0
+loop_interval_max = 40.0
+start_delay = 10.0
+
+[resource]
+script = ExtResource("1_amb")
+music = ExtResource("3_song")
+layers = Array[ExtResource("2_layer")]([SubResource("Resource_candle"), SubResource("Resource_wind"), SubResource("Resource_abandoned"), SubResource("Resource_cave"), SubResource("Resource_tone")])

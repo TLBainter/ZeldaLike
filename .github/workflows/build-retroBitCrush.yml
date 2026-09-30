@@ -1,0 +1,248 @@
+name: build-retroBitCrush
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - "Godot/gdext/**"
+      - ".github/workflows/build-retroBitCrush.yml"
+
+permissions:
+  contents: read
+
+env:
+  GODOT_VERSION: 4.6.2-stable
+  GODOT_CPP_SHA: 507ed9d840c01a3c5b2a39af8bb4000bfac30bf5
+  PYTHON_VERSION: "3.12"
+
+jobs:
+  dump-api:
+    name: dump-api
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Download Godot editor
+        shell: bash
+        run: |
+          mkdir -p "$RUNNER_TEMP/godot"
+          curl -fsSL -o "$RUNNER_TEMP/godot.zip" \
+            "https://github.com/godotengine/godot/releases/download/${GODOT_VERSION}/Godot_v${GODOT_VERSION}_linux.x86_64.zip"
+          unzip -q "$RUNNER_TEMP/godot.zip" -d "$RUNNER_TEMP/godot"
+          chmod +x "$RUNNER_TEMP/godot/Godot_v${GODOT_VERSION}_linux.x86_64"
+
+      # godot-cpp master ignores its bundled API when custom_api_file is set,
+      # so the API is dumped from the editor version the extension targets.
+      - name: Dump extension API
+        shell: bash
+        run: |
+          mkdir -p "$RUNNER_TEMP/api"
+          cd "$RUNNER_TEMP/api"
+          "$RUNNER_TEMP/godot/Godot_v${GODOT_VERSION}_linux.x86_64" --headless --dump-extension-api --dump-gdextension-interface
+          test -s extension_api.json
+          test -s gdextension_interface.h
+          ls -l
+
+      - name: Upload API files
+        uses: actions/upload-artifact@v4
+        with:
+          name: godot-extension-api
+          path: ${{ runner.temp }}/api
+          if-no-files-found: error
+
+  build:
+    name: build-${{ matrix.name }}
+    needs: dump-api
+    runs-on: ${{ matrix.runner }}
+    defaults:
+      run:
+        shell: bash
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: windows
+            runner: windows-latest
+            platform: windows
+            arch: x86_64
+            lib_ext: dll
+          - name: linux
+            runner: ubuntu-22.04
+            platform: linux
+            arch: x86_64
+            lib_ext: so
+          - name: macos
+            runner: macos-latest
+            platform: macos
+            arch: universal
+            lib_ext: dylib
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Check out godot-cpp
+        uses: actions/checkout@v4
+        with:
+          repository: godotengine/godot-cpp
+          ref: ${{ env.GODOT_CPP_SHA }}
+          path: Godot/gdext/godot-cpp
+          fetch-depth: 1
+
+      - name: Download extension API
+        uses: actions/download-artifact@v4
+        with:
+          name: godot-extension-api
+          path: Godot/gdext/godot-cpp/gdextension
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Install SCons
+        run: python -m pip install scons
+
+      - name: Build
+        working-directory: Godot/gdext/retroBitCrush
+        run: |
+          api="$GITHUB_WORKSPACE/Godot/gdext/godot-cpp/gdextension/extension_api.json"
+          test -s "$api"
+          for target in template_debug template_release; do
+            scons -j4 platform=${{ matrix.platform }} target=$target custom_api_file="$api"
+          done
+
+      - name: Sign macOS libraries
+        if: matrix.platform == 'macos'
+        working-directory: Godot/zelda-like-project/addons/retroBitCrush/bin
+        run: |
+          for lib in retroBitCrush.macos.*.universal.dylib; do
+            codesign --force --sign - "$lib"
+          done
+
+      - name: Verify outputs
+        working-directory: Godot/zelda-like-project/addons/retroBitCrush/bin
+        run: |
+          ls -l
+          test -f "retroBitCrush.${{ matrix.platform }}.template_debug.${{ matrix.arch }}.${{ matrix.lib_ext }}"
+          test -f "retroBitCrush.${{ matrix.platform }}.template_release.${{ matrix.arch }}.${{ matrix.lib_ext }}"
+
+      - name: Upload binaries
+        uses: actions/upload-artifact@v4
+        with:
+          name: retroBitCrush-${{ matrix.name }}
+          path: |
+            Godot/zelda-like-project/addons/retroBitCrush/bin/retroBitCrush.${{ matrix.platform }}.template_debug.${{ matrix.arch }}.${{ matrix.lib_ext }}
+            Godot/zelda-like-project/addons/retroBitCrush/bin/retroBitCrush.${{ matrix.platform }}.template_release.${{ matrix.arch }}.${{ matrix.lib_ext }}
+          if-no-files-found: error
+
+  # The editor loads the debug library only; the release library is not load-tested.
+  test-load:
+    name: test-load-${{ matrix.name }}
+    needs: build
+    runs-on: ${{ matrix.runner }}
+    defaults:
+      run:
+        shell: bash
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: linux
+            runner: ubuntu-22.04
+            asset: linux.x86_64
+          - name: macos
+            runner: macos-latest
+            asset: macos.universal
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          sparse-checkout: Godot/zelda-like-project/addons/retroBitCrush
+
+      - name: Download binaries
+        uses: actions/download-artifact@v4
+        with:
+          name: retroBitCrush-${{ matrix.name }}
+          path: Godot/zelda-like-project/addons/retroBitCrush/bin
+
+      - name: Install Godot editor
+        run: |
+          mkdir -p "$RUNNER_TEMP/godot"
+          curl -fsSL -o "$RUNNER_TEMP/godot.zip" \
+            "https://github.com/godotengine/godot/releases/download/${GODOT_VERSION}/Godot_v${GODOT_VERSION}_${{ matrix.asset }}.zip"
+          unzip -q "$RUNNER_TEMP/godot.zip" -d "$RUNNER_TEMP/godot"
+          if [ "${{ matrix.name }}" = macos ]; then
+            xattr -cr "$RUNNER_TEMP/godot/Godot.app"
+            godot_bin="$RUNNER_TEMP/godot/Godot.app/Contents/MacOS/Godot"
+          else
+            godot_bin="$RUNNER_TEMP/godot/Godot_v${GODOT_VERSION}_${{ matrix.asset }}"
+          fi
+          chmod +x "$godot_bin"
+          echo "GODOT=$godot_bin" >> "$GITHUB_ENV"
+
+      - name: Assemble test project
+        run: |
+          proj="$RUNNER_TEMP/rbc_test"
+          mkdir -p "$proj"
+          cp -r Godot/zelda-like-project/addons "$proj/"
+          cat > "$proj/project.godot" <<'EOF'
+          config_version=5
+
+          [application]
+
+          config/name="rbc_test"
+          EOF
+          cat > "$proj/check.gd" <<'EOF'
+          extends SceneTree
+
+          func _init():
+              print("exists=", ClassDB.class_exists("RetroBitCrush"))
+              print("can_inst=", ClassDB.can_instantiate("RetroBitCrush"))
+              var e = ClassDB.instantiate("RetroBitCrush")
+              print("is_audio_effect=", e is AudioEffect)
+              quit()
+          EOF
+
+      - name: Import project
+        run: |
+          "$GODOT" --headless --path "$RUNNER_TEMP/rbc_test" --import || true
+          "$GODOT" --headless --path "$RUNNER_TEMP/rbc_test" --import
+
+      - name: Load extension
+        run: |
+          "$GODOT" --headless --path "$RUNNER_TEMP/rbc_test" --script res://check.gd 2>&1 | tee "$RUNNER_TEMP/check.log"
+          for want in exists=true can_inst=true is_audio_effect=true; do
+            grep -q "$want" "$RUNNER_TEMP/check.log" || { echo "missing: $want"; exit 1; }
+          done
+
+  package:
+    name: package-addon
+    needs: [build, test-load]
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          sparse-checkout: Godot/zelda-like-project/addons/retroBitCrush
+
+      - name: Download binaries
+        uses: actions/download-artifact@v4
+        with:
+          pattern: retroBitCrush-*
+          merge-multiple: true
+          path: binaries
+
+      - name: Assemble addon
+        shell: bash
+        run: |
+          dest="package/addons/retroBitCrush"
+          mkdir -p "$dest/bin"
+          cp Godot/zelda-like-project/addons/retroBitCrush/retroBitCrush.gdextension "$dest/"
+          cp binaries/* "$dest/bin/"
+          find package -type f | sort
+          test "$(find "$dest/bin" -type f | wc -l)" -eq 6
+
+      - name: Upload addon
+        uses: actions/upload-artifact@v4
+        with:
+          name: retroBitCrush-addon
+          path: package
+          if-no-files-found: error

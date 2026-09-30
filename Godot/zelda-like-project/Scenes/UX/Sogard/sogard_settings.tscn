@@ -1,0 +1,296 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://Scripts/UX/Sogard/sogard_settings.gd" id="1_script"]
+[ext_resource type="Theme" path="res://Text and Style/Text/sogard_menu_theme.tres" id="2_theme"]
+[ext_resource type="PackedScene" path="res://Scenes/UX/Sogard/sogard_tabs.tscn" id="3_tabs"]
+[ext_resource type="PackedScene" path="res://Scenes/UX/Sogard/sogard_choice_row.tscn" id="4_choice"]
+[ext_resource type="PackedScene" path="res://Scenes/UX/Sogard/sogard_slider_row.tscn" id="5_slider"]
+[ext_resource type="PackedScene" path="res://Scenes/UX/Sogard/sogard_hint_bar.tscn" id="6_hints"]
+[ext_resource type="Script" uid="uid://bn1or5fqmpuha" path="res://Scripts/UX/Sogard/sogard_corner_dots.gd" id="7_dots"]
+[ext_resource type="Script" uid="uid://w6iti8bjpnqo" path="res://Scripts/UX/Sogard/sogard_nav_input.gd" id="8_nav"]
+[ext_resource type="Script" path="res://Scripts/UX/Sogard/sogard_shake.gd" id="9_shake"]
+[ext_resource type="Script" path="res://Scripts/UX/Sogard/sogard_screen_in.gd" id="10_screen_in"]
+[ext_resource type="StyleBox" path="res://Sprites/UX/Sogard/sogard_sb_panel_set.tres" id="11_sb_panel"]
+[ext_resource type="Texture2D" path="res://Sprites/UX/Sogard/sogard_ui_line_l.tres" id="12_line_l"]
+[ext_resource type="Texture2D" path="res://Sprites/UX/Sogard/sogard_ui_line_r.tres" id="13_line_r"]
+[ext_resource type="Texture2D" path="res://Sprites/UX/Sogard/sogard_ui_dia5.tres" id="14_dia"]
+
+[node name="SogardSettings" type="Control" node_paths=PackedStringArray("heading", "panel", "tabs", "gameplay", "graphics", "audio", "shake", "hint_bar", "nav", "screen_in")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme = ExtResource("2_theme")
+script = ExtResource("1_script")
+heading = NodePath("Heading")
+panel = NodePath("Panel")
+tabs = NodePath("Panel/Tabs")
+gameplay = NodePath("Panel/Gameplay")
+graphics = NodePath("Panel/Graphics")
+audio = NodePath("Panel/Audio")
+shake = NodePath("Shake")
+hint_bar = NodePath("HintBar")
+nav = NodePath("SogardNavInput")
+screen_in = NodePath("ScreenIn")
+
+[node name="Heading" type="Control" parent="."]
+layout_mode = 0
+offset_right = 640.0
+offset_bottom = 48.0
+mouse_filter = 2
+
+[node name="Title" type="Label" parent="Heading"]
+layout_mode = 0
+offset_top = 4.0
+offset_right = 640.0
+offset_bottom = 44.0
+theme_type_variation = &"SogardScript32"
+theme_override_colors/font_shadow_color = Color(0.431373, 0.0392157, 0.0901961, 1)
+theme_override_constants/shadow_offset_x = 0
+theme_override_constants/shadow_offset_y = 2
+text = "Settings"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LineL" type="TextureRect" parent="Heading"]
+layout_mode = 0
+offset_left = 170.0
+offset_top = 26.0
+offset_right = 234.0
+offset_bottom = 27.0
+mouse_filter = 2
+texture = ExtResource("12_line_l")
+
+[node name="DiaL" type="TextureRect" parent="Heading"]
+layout_mode = 0
+offset_left = 234.0
+offset_top = 23.0
+offset_right = 241.0
+offset_bottom = 30.0
+mouse_filter = 2
+texture = ExtResource("14_dia")
+
+[node name="DiaR" type="TextureRect" parent="Heading"]
+layout_mode = 0
+offset_left = 399.0
+offset_top = 23.0
+offset_right = 406.0
+offset_bottom = 30.0
+mouse_filter = 2
+texture = ExtResource("14_dia")
+
+[node name="LineR" type="TextureRect" parent="Heading"]
+layout_mode = 0
+offset_left = 406.0
+offset_top = 26.0
+offset_right = 470.0
+offset_bottom = 27.0
+mouse_filter = 2
+texture = ExtResource("13_line_r")
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 0
+offset_left = 112.0
+offset_top = 48.0
+offset_right = 528.0
+offset_bottom = 322.0
+mouse_filter = 2
+theme_override_styles/panel = ExtResource("11_sb_panel")
+
+[node name="CornerDots" type="Control" parent="Panel"]
+layout_mode = 1
+anchors_preset = 0
+mouse_filter = 2
+script = ExtResource("7_dots")
+
+[node name="Tabs" parent="Panel" instance=ExtResource("3_tabs")]
+layout_mode = 0
+offset_left = 12.0
+offset_top = 12.0
+offset_right = 404.0
+offset_bottom = 34.0
+tab_labels = PackedStringArray("Gameplay", "Graphics", "Audio")
+focusable = true
+
+[node name="Gameplay" type="VBoxContainer" parent="Panel"]
+layout_mode = 0
+offset_left = 12.0
+offset_top = 42.0
+offset_right = 404.0
+offset_bottom = 260.0
+mouse_filter = 2
+theme_override_constants/separation = 2
+
+[node name="Prompts" parent="Panel/Gameplay" instance=ExtResource("4_choice")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(392, 20)
+layout_mode = 2
+label_text = "Button Prompts"
+options = PackedStringArray("Auto", "Xbox", "PlayStation", "Switch", "Keyboard")
+index = 0
+
+[node name="TextSpeed" parent="Panel/Gameplay" instance=ExtResource("4_choice")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(392, 20)
+layout_mode = 2
+label_text = "Text Speed"
+options = PackedStringArray("Slow", "Normal", "Fast")
+index = 1
+
+[node name="Graphics" type="VBoxContainer" parent="Panel"]
+visible = false
+layout_mode = 0
+offset_left = 12.0
+offset_top = 42.0
+offset_right = 404.0
+offset_bottom = 260.0
+mouse_filter = 2
+theme_override_constants/separation = 2
+
+[node name="ScreenShake" parent="Panel/Graphics" instance=ExtResource("4_choice")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(392, 20)
+layout_mode = 2
+label_text = "Screen Shake"
+options = PackedStringArray("Off", "Minimal", "Standard", "Excessive")
+index = 2
+
+[node name="Particles" parent="Panel/Graphics" instance=ExtResource("4_choice")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(392, 20)
+layout_mode = 2
+label_text = "Particles"
+options = PackedStringArray("Off", "Minimal", "Standard", "Excessive")
+index = 2
+
+[node name="DisplayMode" parent="Panel/Graphics" instance=ExtResource("4_choice")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(392, 20)
+layout_mode = 2
+label_text = "Display Mode"
+options = PackedStringArray("Windowed", "Fullscreen", "Borderless")
+index = 1
+
+[node name="Scaling" parent="Panel/Graphics" instance=ExtResource("4_choice")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(392, 20)
+layout_mode = 2
+label_text = "Scaling"
+options = PackedStringArray("Fit", "Pixel Perfect")
+index = 0
+
+[node name="Audio" type="VBoxContainer" parent="Panel"]
+visible = false
+layout_mode = 0
+offset_left = 12.0
+offset_top = 42.0
+offset_right = 404.0
+offset_bottom = 260.0
+mouse_filter = 2
+theme_override_constants/separation = 0
+
+[node name="MasterVolume" parent="Panel/Audio" instance=ExtResource("5_slider")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(392, 20)
+layout_mode = 2
+label_text = "Master Volume"
+value = 8
+
+[node name="MusicVolume" parent="Panel/Audio" instance=ExtResource("5_slider")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(392, 20)
+layout_mode = 2
+label_text = "Music Volume"
+value = 8
+
+[node name="BackgroundMusic" parent="Panel/Audio" instance=ExtResource("5_slider")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(392, 20)
+layout_mode = 2
+label_text = "Background Music"
+value = 10
+is_sub_row = true
+
+[node name="BossMusic" parent="Panel/Audio" instance=ExtResource("5_slider")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(392, 20)
+layout_mode = 2
+label_text = "Boss Music"
+value = 10
+is_sub_row = true
+
+[node name="CutsceneMusic" parent="Panel/Audio" instance=ExtResource("5_slider")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(392, 20)
+layout_mode = 2
+label_text = "Cutscene Music"
+value = 9
+is_sub_row = true
+
+[node name="MusicStyle" parent="Panel/Audio" instance=ExtResource("4_choice")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(392, 20)
+layout_mode = 2
+label_text = "Music Style"
+options = PackedStringArray("Retro", "Orchestral")
+is_sub_row = true
+is_last_child = true
+
+[node name="EffectVolume" parent="Panel/Audio" instance=ExtResource("5_slider")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(392, 20)
+layout_mode = 2
+label_text = "Effect Volume"
+value = 8
+
+[node name="PlayerFX" parent="Panel/Audio" instance=ExtResource("5_slider")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(392, 20)
+layout_mode = 2
+label_text = "Player FX"
+value = 10
+is_sub_row = true
+
+[node name="EnemyFX" parent="Panel/Audio" instance=ExtResource("5_slider")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(392, 20)
+layout_mode = 2
+label_text = "Enemy FX"
+value = 9
+is_sub_row = true
+
+[node name="AmbientFX" parent="Panel/Audio" instance=ExtResource("5_slider")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(392, 20)
+layout_mode = 2
+label_text = "Ambient FX"
+value = 7
+is_sub_row = true
+is_last_child = true
+
+[node name="UXVolume" parent="Panel/Audio" instance=ExtResource("5_slider")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(392, 20)
+layout_mode = 2
+label_text = "UX Volume"
+value = 6
+
+[node name="HintBar" parent="." instance=ExtResource("6_hints")]
+layout_mode = 1
+
+[node name="Shake" type="Node" parent="." node_paths=PackedStringArray("target")]
+script = ExtResource("9_shake")
+target = NodePath("..")
+
+[node name="ScreenIn" type="Node" parent="."]
+script = ExtResource("10_screen_in")
+
+[node name="SogardNavInput" type="Node" parent="." node_paths=PackedStringArray("scope_root", "initial_focus")]
+script = ExtResource("8_nav")
+scope_root = NodePath("..")
+initial_focus = NodePath("../Panel/Gameplay/Prompts")
+action_accept = &""
+active = false

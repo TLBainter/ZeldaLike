@@ -1,0 +1,139 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://Scripts/UX/Sogard/sogard_diff_card.gd" id="1_script"]
+[ext_resource type="Theme" path="res://Text and Style/Text/sogard_menu_theme.tres" id="2_theme"]
+[ext_resource type="Texture2D" path="res://Sprites/UX/Sogard/sogard_ui_diff_n.tres" id="3_plate_n"]
+[ext_resource type="Texture2D" path="res://Sprites/UX/Sogard/sogard_ui_diff_f.tres" id="4_plate_f"]
+[ext_resource type="Texture2D" path="res://Sprites/UX/Sogard/sogard_ui_fx_glow_diff.tres" id="5_glow"]
+[ext_resource type="Texture2D" path="res://Sprites/UX/Sogard/sogard_ui_line_l.tres" id="6_line_l"]
+[ext_resource type="Texture2D" path="res://Sprites/UX/Sogard/sogard_ui_line_r.tres" id="7_line_r"]
+[ext_resource type="Texture2D" path="res://Sprites/UX/Sogard/sogard_ui_dia5.tres" id="8_dia5"]
+
+[node name="SogardDiffCard" type="Control" node_paths=PackedStringArray("body", "plate", "glow", "embers", "name_label", "desc_label")]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 176.0
+offset_bottom = 196.0
+focus_mode = 2
+theme = ExtResource("2_theme")
+script = ExtResource("1_script")
+plate_normal = ExtResource("3_plate_n")
+plate_focused = ExtResource("4_plate_f")
+body = NodePath("Body")
+plate = NodePath("Body/Plate")
+glow = NodePath("Body/Glow")
+embers = [NodePath("Body/Ember1"), NodePath("Body/Ember2"), NodePath("Body/Ember3")]
+name_label = NodePath("Body/NameLabel")
+desc_label = NodePath("Body/Desc")
+
+[node name="Body" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 176.0
+offset_bottom = 196.0
+mouse_filter = 2
+
+[node name="Plate" type="TextureRect" parent="Body"]
+layout_mode = 0
+offset_right = 176.0
+offset_bottom = 196.0
+mouse_filter = 2
+texture = ExtResource("3_plate_n")
+
+[node name="Glow" type="TextureRect" parent="Body"]
+visible = false
+layout_mode = 0
+offset_right = 176.0
+offset_bottom = 196.0
+mouse_filter = 2
+texture = ExtResource("5_glow")
+
+[node name="Ember1" type="ColorRect" parent="Body"]
+visible = false
+layout_mode = 0
+offset_left = 53.0
+offset_top = 186.0
+offset_right = 55.0
+offset_bottom = 188.0
+mouse_filter = 2
+color = Color(1, 0.41568628, 0.22745098, 1)
+
+[node name="Ember2" type="ColorRect" parent="Body"]
+visible = false
+layout_mode = 0
+offset_left = 97.0
+offset_top = 189.0
+offset_right = 98.0
+offset_bottom = 190.0
+mouse_filter = 2
+color = Color(1, 0.8235294, 0.12156863, 1)
+
+[node name="Ember3" type="ColorRect" parent="Body"]
+visible = false
+layout_mode = 0
+offset_left = 130.0
+offset_top = 185.0
+offset_right = 132.0
+offset_bottom = 187.0
+mouse_filter = 2
+color = Color(1, 0.22745098, 0.16470589, 1)
+
+[node name="NameLabel" type="Label" parent="Body"]
+layout_mode = 0
+offset_left = 12.0
+offset_top = 26.0
+offset_right = 164.0
+offset_bottom = 58.0
+mouse_filter = 2
+theme_type_variation = &"SogardScript32"
+theme_override_constants/shadow_offset_x = 0
+theme_override_constants/shadow_offset_y = 2
+text = "Standard"
+horizontal_alignment = 1
+
+[node name="Ornament" type="Control" parent="Body"]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 63.0
+offset_top = 68.0
+offset_right = 114.0
+offset_bottom = 75.0
+mouse_filter = 2
+
+[node name="LineL" type="TextureRect" parent="Body/Ornament"]
+layout_mode = 0
+offset_top = 3.0
+offset_right = 20.0
+offset_bottom = 4.0
+mouse_filter = 2
+texture = ExtResource("6_line_l")
+expand_mode = 1
+
+[node name="Dia" type="TextureRect" parent="Body/Ornament"]
+layout_mode = 0
+offset_left = 22.0
+offset_right = 29.0
+offset_bottom = 7.0
+mouse_filter = 2
+texture = ExtResource("8_dia5")
+
+[node name="LineR" type="TextureRect" parent="Body/Ornament"]
+layout_mode = 0
+offset_left = 31.0
+offset_top = 3.0
+offset_right = 51.0
+offset_bottom = 4.0
+mouse_filter = 2
+texture = ExtResource("7_line_r")
+expand_mode = 1
+
+[node name="Desc" type="Label" parent="Body"]
+layout_mode = 0
+offset_left = 12.0
+offset_top = 87.0
+offset_right = 164.0
+offset_bottom = 137.0
+mouse_filter = 2
+theme_type_variation = &"SogardBody16"
+theme_override_constants/line_spacing = 4
+horizontal_alignment = 1

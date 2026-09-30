@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://dpod7d6wuebvg"
+path="res://.godot/imported/SFX_candleFlame_02.wav-bf818634d288753fe9610080fd50d665.sample"
+
+[deps]
+
+source_file="res://Sound/SFX/Ambience/Title Screen Ambience/SFX_candleFlame_02.wav"
+dest_files=["res://.godot/imported/SFX_candleFlame_02.wav-bf818634d288753fe9610080fd50d665.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=2
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

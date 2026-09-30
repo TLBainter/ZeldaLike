@@ -1,0 +1,160 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" uid="uid://bxtsa1060fkck" path="res://Scripts/Menus/menu_FileSelect.gd" id="1_script"]
+[ext_resource type="Theme" path="res://Text and Style/Text/sogard_menu_theme.tres" id="2_theme"]
+[ext_resource type="PackedScene" uid="uid://s2q8lqoa7xfe" path="res://Scenes/UX/file_select_panel.tscn" id="3_card"]
+[ext_resource type="PackedScene" path="res://Scenes/UX/Sogard/sogard_hint_bar.tscn" id="4_hints"]
+[ext_resource type="Script" uid="uid://w6iti8bjpnqo" path="res://Scripts/UX/Sogard/sogard_nav_input.gd" id="5_nav"]
+[ext_resource type="Script" path="res://Scripts/UX/Sogard/sogard_shake.gd" id="6_shake"]
+[ext_resource type="Script" path="res://Scripts/UX/Sogard/sogard_screen_in.gd" id="7_screen_in"]
+[ext_resource type="Texture2D" path="res://Sprites/UX/Sogard/sogard_ui_line_l.tres" id="8_line_l"]
+[ext_resource type="Texture2D" path="res://Sprites/UX/Sogard/sogard_ui_line_r.tres" id="9_line_r"]
+[ext_resource type="Texture2D" path="res://Sprites/UX/Sogard/sogard_ui_dia5.tres" id="10_dia"]
+[ext_resource type="StyleBox" path="res://Sprites/UX/Sogard/sogard_sb_modal200x208.tres" id="11_sb_modal"]
+[ext_resource type="StyleBox" path="res://Sprites/UX/Sogard/sogard_sb_mb160_n.tres" id="12_sb_mb_n"]
+[ext_resource type="StyleBox" path="res://Sprites/UX/Sogard/sogard_sb_mb160_f.tres" id="13_sb_mb_f"]
+
+[node name="FileSelect" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme = ExtResource("2_theme")
+script = ExtResource("1_script")
+slot_frame = ExtResource("11_sb_modal")
+slot_plate_n = ExtResource("12_sb_mb_n")
+slot_plate_f = ExtResource("13_sb_mb_f")
+
+[node name="Backdrop" type="ColorRect" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 0.55)
+
+[node name="Title" type="Control" parent="."]
+layout_mode = 0
+offset_right = 640.0
+offset_bottom = 48.0
+mouse_filter = 2
+
+[node name="LineL" type="TextureRect" parent="Title"]
+layout_mode = 0
+offset_left = 162.0
+offset_top = 25.0
+offset_right = 226.0
+offset_bottom = 26.0
+mouse_filter = 2
+texture = ExtResource("8_line_l")
+
+[node name="DiaL" type="TextureRect" parent="Title"]
+layout_mode = 0
+offset_left = 229.0
+offset_top = 22.0
+offset_right = 236.0
+offset_bottom = 29.0
+mouse_filter = 2
+texture = ExtResource("10_dia")
+
+[node name="Label" type="Label" parent="Title"]
+layout_mode = 0
+offset_left = 239.0
+offset_top = 10.0
+offset_right = 401.0
+offset_bottom = 42.0
+theme_type_variation = &"SogardScript32"
+theme_override_colors/font_color = Color(0.913725, 0.878431, 0.811765, 1)
+theme_override_colors/font_shadow_color = Color(0.431373, 0.0392157, 0.0901961, 1)
+theme_override_constants/shadow_offset_x = 0
+theme_override_constants/shadow_offset_y = 2
+text = "Choose a File"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="DiaR" type="TextureRect" parent="Title"]
+layout_mode = 0
+offset_left = 404.0
+offset_top = 22.0
+offset_right = 411.0
+offset_bottom = 29.0
+mouse_filter = 2
+texture = ExtResource("10_dia")
+
+[node name="LineR" type="TextureRect" parent="Title"]
+layout_mode = 0
+offset_left = 414.0
+offset_top = 25.0
+offset_right = 478.0
+offset_bottom = 26.0
+mouse_filter = 2
+texture = ExtResource("9_line_r")
+
+[node name="Card0" parent="." instance=ExtResource("3_card")]
+layout_mode = 0
+offset_left = 25.0
+offset_top = 50.0
+offset_right = 315.0
+offset_bottom = 136.0
+
+[node name="Card1" parent="." instance=ExtResource("3_card")]
+layout_mode = 0
+offset_left = 325.0
+offset_top = 50.0
+offset_right = 615.0
+offset_bottom = 136.0
+
+[node name="Card2" parent="." instance=ExtResource("3_card")]
+layout_mode = 0
+offset_left = 25.0
+offset_top = 142.0
+offset_right = 315.0
+offset_bottom = 228.0
+
+[node name="Card3" parent="." instance=ExtResource("3_card")]
+layout_mode = 0
+offset_left = 325.0
+offset_top = 142.0
+offset_right = 615.0
+offset_bottom = 228.0
+
+[node name="Card4" parent="." instance=ExtResource("3_card")]
+layout_mode = 0
+offset_left = 25.0
+offset_top = 234.0
+offset_right = 315.0
+offset_bottom = 320.0
+
+[node name="Card5" parent="." instance=ExtResource("3_card")]
+layout_mode = 0
+offset_left = 325.0
+offset_top = 234.0
+offset_right = 615.0
+offset_bottom = 320.0
+
+[node name="SogardNavInput" type="Node" parent="." node_paths=PackedStringArray("scope_root")]
+script = ExtResource("5_nav")
+scope_root = NodePath("..")
+action_cancel = &""
+active = false
+
+[node name="Shake" type="Node" parent="." node_paths=PackedStringArray("target")]
+script = ExtResource("6_shake")
+target = NodePath("..")
+
+[node name="ScreenIn" type="Node" parent="."]
+script = ExtResource("7_screen_in")
+play_on_ready = false
+
+[node name="HintLayer" type="CanvasLayer" parent="."]
+layer = 101
+visible = false
+
+[node name="HintBar" parent="HintLayer" instance=ExtResource("4_hints")]
+layout_mode = 3

@@ -1,350 +1,491 @@
 [gd_scene format=3 uid="uid://s2q8lqoa7xfe"]
 
-[ext_resource type="FontFile" uid="uid://m1c0i2aa4cyp" path="res://Sprites/UX/Fonts/GothicPixelBody.ttf" id="1_3gvyc"]
-[ext_resource type="Texture2D" uid="uid://b334ygyrh1suv" path="res://Sprites/UX/InGameUX/PlayerStats/PlayerSkulls/playerFang_4.tres" id="2_3s3wl"]
-[ext_resource type="Texture2D" uid="uid://nq8sovsfyoc1" path="res://Sprites/Item Sprites/Resource Upgrades/bone-shard_static-3.tres" id="3_7ksmp"]
-[ext_resource type="FontFile" uid="uid://bsube4x6p1pws" path="res://Sprites/UX/Fonts/GothicPixelSerif.ttf" id="3_hiyug"]
-[ext_resource type="Texture2D" uid="uid://clcsjslyst6va" path="res://Sprites/Item Sprites/Resource Upgrades/arcane-shard_static-5.tres" id="4_hiyug"]
-[ext_resource type="Texture2D" uid="uid://bpq3pph5gslbj" path="res://Sprites/Item Sprites/Resource Upgrades/gland_static-3.tres" id="5_dyqhv"]
-[ext_resource type="Texture2D" uid="uid://d0vlb0u47hn4x" path="res://Sprites/UX/InGameUX/PlayerStats/playerEnergy_4-4.tres" id="6_pl8p4"]
-[ext_resource type="Texture2D" uid="uid://nessfmy0dvif" path="res://Sprites/UX/InGameUX/PlayerStats/playerMagic_6-6.tres" id="7_pilwx"]
-[ext_resource type="Texture2D" uid="uid://dsyilaykfy1av" path="res://Sprites/Item Sprites/Spells/spell_menuMini_grapple.tres" id="8_xda3v"]
-[ext_resource type="Texture2D" uid="uid://dylwfoqh8cii7" path="res://Sprites/Item Sprites/Spells/spell_menuMini_hammer.tres" id="9_oyawd"]
-[ext_resource type="Texture2D" uid="uid://cpeowp2y72lie" path="res://Sprites/Item Sprites/Spells/spell_menuMini_haste.tres" id="10_wgxc2"]
-[ext_resource type="Texture2D" uid="uid://btmg7catdvdvm" path="res://Sprites/Item Sprites/Spells/spell_menuMini_ignite.tres" id="11_cdnav"]
-[ext_resource type="Texture2D" uid="uid://b3cgf6dgo33mq" path="res://Sprites/Item Sprites/Spells/spell_menuMini_summon.tres" id="12_0vc86"]
-[ext_resource type="Texture2D" uid="uid://j8fe2amr00d5" path="res://Sprites/Item Sprites/Mobility/mobility_menu_bat-Static.tres" id="13_hc5c6"]
-[ext_resource type="Texture2D" uid="uid://k8m08dksjsjh" path="res://Sprites/Item Sprites/Mobility/mobility_menu_bootStatic.tres" id="14_f1rma"]
-[ext_resource type="Texture2D" uid="uid://5cj1bm6o7x48" path="res://Sprites/Item Sprites/Mobility/mobility_menu_hoodStatic.tres" id="15_8s2wn"]
-[ext_resource type="Script" uid="uid://dep2nundsorlm" path="res://Scripts/Menus/menu_FileSelectPanel.gd" id="16_mpan"]
+[ext_resource type="Script" uid="uid://dep2nundsorlm" path="res://Scripts/Menus/menu_FileSelectPanel.gd" id="1_script"]
+[ext_resource type="Theme" path="res://Text and Style/Text/sogard_menu_theme.tres" id="2_theme"]
+[ext_resource type="Texture2D" path="res://Sprites/UX/Sogard/sogard_ui_card_n.tres" id="3_card_n"]
+[ext_resource type="Texture2D" path="res://Sprites/UX/Sogard/sogard_ui_card_f.tres" id="4_card_f"]
+[ext_resource type="Texture2D" path="res://Sprites/UX/Sogard/sogard_ui_card_s.tres" id="5_card_s"]
+[ext_resource type="Texture2D" path="res://Sprites/UX/Sogard/sogard_ui_fx_glow_card.tres" id="6_glow"]
+[ext_resource type="Texture2D" uid="uid://b334ygyrh1suv" path="res://Sprites/UX/InGameUX/PlayerStats/PlayerSkulls/playerFang_4.tres" id="7_skull"]
+[ext_resource type="Texture2D" uid="uid://d0vlb0u47hn4x" path="res://Sprites/UX/InGameUX/PlayerStats/playerEnergy_4-4.tres" id="8_energy"]
+[ext_resource type="Texture2D" uid="uid://nessfmy0dvif" path="res://Sprites/UX/InGameUX/PlayerStats/playerMagic_6-6.tres" id="9_magic"]
+[ext_resource type="Texture2D" uid="uid://dsyilaykfy1av" path="res://Sprites/Item Sprites/Spells/spell_menuMini_grapple.tres" id="10_grapple"]
+[ext_resource type="Texture2D" uid="uid://dylwfoqh8cii7" path="res://Sprites/Item Sprites/Spells/spell_menuMini_hammer.tres" id="11_hammer"]
+[ext_resource type="Texture2D" uid="uid://cpeowp2y72lie" path="res://Sprites/Item Sprites/Spells/spell_menuMini_haste.tres" id="12_haste"]
+[ext_resource type="Texture2D" uid="uid://b3cgf6dgo33mq" path="res://Sprites/Item Sprites/Spells/spell_menuMini_summon.tres" id="13_summon"]
+[ext_resource type="Texture2D" uid="uid://btmg7catdvdvm" path="res://Sprites/Item Sprites/Spells/spell_menuMini_ignite.tres" id="14_ignite"]
+[ext_resource type="Texture2D" uid="uid://bhwp75n5xon74" path="res://Sprites/Item Sprites/Mobility/mobility_menuMini_bat.tres" id="15_bat"]
+[ext_resource type="Texture2D" uid="uid://r5l4d56nje1d" path="res://Sprites/Item Sprites/Mobility/mobility_menuMini_hood.tres" id="16_hood"]
+[ext_resource type="Texture2D" uid="uid://b4u235r7maipt" path="res://Sprites/Item Sprites/Mobility/mobility_menuMini_boot.tres" id="17_boot"]
 
-[sub_resource type="FontVariation" id="FontVariation_3le72"]
-base_font = ExtResource("1_3gvyc")
+[sub_resource type="Shader" id="Shader_missing"]
+code = "shader_type canvas_item;
 
-[sub_resource type="Theme" id="Theme_7cj1n"]
-default_font = SubResource("FontVariation_3le72")
+uniform float gray : hint_range(0.0, 1.0) = 0.0;
+uniform float bright = 1.0;
 
-[sub_resource type="FontVariation" id="FontVariation_bj4bm"]
-base_font = ExtResource("3_hiyug")
+void fragment() {
+	vec3 l = vec3(dot(COLOR.rgb, vec3(0.2126, 0.7152, 0.0722)));
+	COLOR.rgb = mix(COLOR.rgb, l, gray) * bright;
+}
+"
 
-[sub_resource type="Theme" id="Theme_cq0gw"]
-default_font = SubResource("FontVariation_bj4bm")
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_missing"]
+shader = SubResource("Shader_missing")
+shader_parameter/gray = 1.0
+shader_parameter/bright = 0.3
 
-[node name="File Select Panel" type="Panel" unique_id=187275303]
-custom_minimum_size = Vector2(224, 112)
-script = ExtResource("16_mpan")
+[sub_resource type="Shader" id="Shader_ghost"]
+code = "shader_type canvas_item;
+render_mode unshaded;
 
-[node name="Header Panel" type="Panel" parent="." unique_id=846682580]
-self_modulate = Color(1, 0, 0, 1)
-layout_mode = 1
-anchors_preset = 10
-anchor_right = 1.0
+uniform sampler2D screen_texture : hint_screen_texture, repeat_disable, filter_nearest;
+uniform float gray = 0.0;
+uniform float bright = 1.0;
+uniform float opacity = 1.0;
+
+void fragment() {
+	vec4 c = textureLod(screen_texture, SCREEN_UV, 0.0);
+	if (c.a > 0.0001) {
+		c.rgb /= c.a;
+	}
+	c.rgb = mix(c.rgb, vec3(dot(c.rgb, vec3(0.2126, 0.7152, 0.0722))), gray) * bright;
+	COLOR *= c;
+	COLOR.a *= opacity;
+}
+"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ghost"]
+shader = SubResource("Shader_ghost")
+shader_parameter/gray = 0.0
+shader_parameter/bright = 1.0
+shader_parameter/opacity = 1.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tag"]
+bg_color = Color(0.788235, 0.635294, 0.290196, 1)
+
+[sub_resource type="Animation" id="Animation_flick"]
+resource_name = "loop"
+length = 1.8
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Fx/Glow:modulate:a")
+tracks/0/interp = 0
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.0648, 0.1296, 0.1944, 0.2592, 0.324, 0.3816, 0.4392, 0.4968, 0.5544, 0.612, 0.6768, 0.7416, 0.8064, 0.8712, 0.936, 1.0008, 1.0656, 1.1304, 1.1952, 1.26, 1.368, 1.476, 1.584, 1.692),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0.7, 0.76, 0.82, 0.88, 0.94, 1.0, 0.93, 0.86, 0.79, 0.72, 0.65, 0.71, 0.77, 0.83, 0.89, 0.95, 0.916, 0.882, 0.848, 0.814, 0.78, 0.804, 0.828, 0.852, 0.876]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_flick"]
+_data = {
+&"loop": SubResource("Animation_flick")
+}
+
+[sub_resource type="Animation" id="Animation_pulse"]
+resource_name = "loop"
+length = 1.2
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Ghost/CopyHere:modulate:a")
+tracks/0/interp = 0
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6, 0.8, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0.55, 0.7, 0.85, 1.0, 0.85, 0.7]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_pulse"]
+_data = {
+&"loop": SubResource("Animation_pulse")
+}
+
+[sub_resource type="Animation" id="Animation_ember1"]
+resource_name = "loop"
+length = 1.2
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Fx/Ember1:position")
+tracks/0/interp = 0
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.15, 0.3, 0.45, 0.6, 0.75, 0.9, 1.05),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [Vector2(64, 79), Vector2(64, 76), Vector2(63, 74), Vector2(63, 71), Vector2(63, 68), Vector2(62, 65), Vector2(62, 63), Vector2(61, 60)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Fx/Ember1:modulate:a")
+tracks/1/interp = 0
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.0225, 0.045, 0.0675, 0.09, 0.1125, 0.135, 0.1575, 0.18, 0.3075, 0.435, 0.5625, 0.69, 0.8175, 0.945, 1.0725),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0.0, 0.125, 0.25, 0.375, 0.5, 0.625, 0.75, 0.875, 1.0, 0.875, 0.75, 0.625, 0.5, 0.375, 0.25, 0.125]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ember1"]
+_data = {
+&"loop": SubResource("Animation_ember1")
+}
+
+[sub_resource type="Animation" id="Animation_ember2"]
+resource_name = "loop"
+length = 1.5
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Fx/Ember2:position")
+tracks/0/interp = 0
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1666667, 0.3333333, 0.5, 0.6666667, 0.8333333, 1, 1.1666667, 1.3333333),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [Vector2(186, 81), Vector2(186, 79), Vector2(187, 76), Vector2(187, 74), Vector2(187, 71), Vector2(188, 69), Vector2(188, 66), Vector2(188, 64), Vector2(189, 61)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Fx/Ember2:modulate:a")
+tracks/1/interp = 0
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.025, 0.05, 0.075, 0.1, 0.125, 0.15, 0.175, 0.2, 0.225, 0.3666667, 0.5083333, 0.65, 0.7916667, 0.9333333, 1.075, 1.2166667, 1.3583333),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0.0, 0.1111111, 0.2222222, 0.3333333, 0.4444444, 0.5555556, 0.6666667, 0.7777778, 0.8888889, 1.0, 0.8888889, 0.7777778, 0.6666667, 0.5555556, 0.4444444, 0.3333333, 0.2222222, 0.1111111]
+}
+
+[sub_resource type="Animation" id="Animation_ember2_wait"]
+resource_name = "wait"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Fx/Ember2:position")
+tracks/0/interp = 0
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [Vector2(186, 81)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Fx/Ember2:modulate:a")
+tracks/1/interp = 0
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [1.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ember2"]
+_data = {
+&"loop": SubResource("Animation_ember2"),
+&"wait": SubResource("Animation_ember2_wait")
+}
+
+[sub_resource type="Animation" id="Animation_ember3"]
+resource_name = "loop"
+length = 1.3
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Fx/Ember3:position")
+tracks/0/interp = 0
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1625, 0.325, 0.4875, 0.65, 0.8125, 0.975, 1.1375),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [Vector2(244, 78), Vector2(244, 75), Vector2(245, 73), Vector2(245, 70), Vector2(245, 67), Vector2(245, 64), Vector2(246, 62), Vector2(246, 59)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Fx/Ember3:modulate:a")
+tracks/1/interp = 0
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.024375, 0.04875, 0.073125, 0.0975, 0.121875, 0.14625, 0.170625, 0.195, 0.333125, 0.47125, 0.609375, 0.7475, 0.885625, 1.02375, 1.161875),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0.0, 0.125, 0.25, 0.375, 0.5, 0.625, 0.75, 0.875, 1.0, 0.875, 0.75, 0.625, 0.5, 0.375, 0.25, 0.125]
+}
+
+[sub_resource type="Animation" id="Animation_ember3_wait"]
+resource_name = "wait"
+length = 0.9
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Fx/Ember3:position")
+tracks/0/interp = 0
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [Vector2(244, 78)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Fx/Ember3:modulate:a")
+tracks/1/interp = 0
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [1.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ember3"]
+_data = {
+&"loop": SubResource("Animation_ember3"),
+&"wait": SubResource("Animation_ember3_wait")
+}
+
+[node name="FileSelectPanel" type="Control" unique_id=1556822814]
+custom_minimum_size = Vector2(290, 86)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 290.0
+offset_bottom = 86.0
+focus_mode = 2
+theme = ExtResource("2_theme")
+script = ExtResource("1_script")
+card_normal = ExtResource("3_card_n")
+card_focused = ExtResource("4_card_f")
+card_source = ExtResource("5_card_s")
+skull_texture = ExtResource("7_skull")
+energy_texture = ExtResource("8_energy")
+magic_texture = ExtResource("9_magic")
+book_textures = Array[Texture2D]([ExtResource("10_grapple"), ExtResource("11_hammer"), ExtResource("12_haste"), ExtResource("13_summon"), ExtResource("14_ignite")])
+equip_textures = Array[Texture2D]([ExtResource("15_bat"), ExtResource("16_hood"), ExtResource("17_boot")])
+missing_material = SubResource("ShaderMaterial_missing")
+
+[node name="Bg" type="TextureRect" parent="." unique_id=2050426957]
+layout_mode = 0
+offset_right = 290.0
+offset_bottom = 86.0
+mouse_filter = 2
+texture = ExtResource("3_card_n")
+
+[node name="Fx" type="Control" parent="." unique_id=150763503]
+visible = false
+anchors_preset = 0
+offset_right = 290.0
+offset_bottom = 86.0
+mouse_filter = 2
+
+[node name="Glow" type="TextureRect" parent="Fx" unique_id=905639179]
+layout_mode = 0
+offset_right = 290.0
+offset_bottom = 86.0
+mouse_filter = 2
+texture = ExtResource("6_glow")
+
+[node name="Ember1" type="ColorRect" parent="Fx" unique_id=1333042731]
+layout_mode = 0
+offset_left = 64.0
+offset_top = 79.0
+offset_right = 66.0
+offset_bottom = 81.0
+mouse_filter = 2
+color = Color(1, 0.415686, 0.227451, 1)
+
+[node name="Ember2" type="ColorRect" parent="Fx" unique_id=859114109]
+layout_mode = 0
+offset_left = 186.0
+offset_top = 81.0
+offset_right = 187.0
+offset_bottom = 82.0
+mouse_filter = 2
+color = Color(1, 0.823529, 0.121569, 1)
+
+[node name="Ember3" type="ColorRect" parent="Fx" unique_id=2102357208]
+layout_mode = 0
+offset_left = 244.0
+offset_top = 78.0
+offset_right = 246.0
+offset_bottom = 80.0
+mouse_filter = 2
+color = Color(1, 0.227451, 0.164706, 1)
+
+[node name="Used" type="CanvasGroup" parent="." unique_id=578763303]
+material = SubResource("ShaderMaterial_ghost")
+
+[node name="UsedBox" type="Control" parent="Used" unique_id=979089224]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 290.0
+offset_bottom = 86.0
+mouse_filter = 2
+theme = ExtResource("2_theme")
+
+[node name="Num" type="Label" parent="Used/UsedBox" unique_id=1293935184]
+layout_mode = 0
+offset_left = 11.0
+offset_top = 8.0
+offset_right = 31.0
 offset_bottom = 24.0
-grow_horizontal = 2
+theme_type_variation = &"SogardBody16"
+theme_override_colors/font_color = Color(0.541176, 0.0392157, 0.0862745, 1)
+text = "I"
 
-[node name="File Name" type="RichTextLabel" parent="Header Panel" unique_id=1358873160]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme = SubResource("Theme_7cj1n")
-text = "[File Name]"
-horizontal_alignment = 1
+[node name="Name" type="Label" parent="Used/UsedBox" unique_id=2136600198]
+layout_mode = 0
+offset_left = 39.0
+offset_top = 8.0
+offset_right = 180.0
+offset_bottom = 24.0
+theme_type_variation = &"SogardBody16"
+text_overrun_behavior = 3
 
-[node name="Time n Place" type="HBoxContainer" parent="." unique_id=465657528]
-layout_mode = 1
-anchors_preset = 14
-anchor_top = 0.5
-anchor_right = 1.0
-anchor_bottom = 0.5
-offset_top = -32.0
-offset_bottom = -14.0
-grow_horizontal = 2
-grow_vertical = 2
-pivot_offset_ratio = Vector2(0.5, 0.5)
-theme_override_constants/separation = 0
+[node name="Tag" type="Panel" parent="Used/UsedBox" unique_id=409243613]
+visible = false
+layout_mode = 0
+offset_top = 10.0
+offset_right = 40.0
+offset_bottom = 22.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_tag")
 
-[node name="Play Time" type="RichTextLabel" parent="Time n Place" unique_id=1633993201]
-custom_minimum_size = Vector2(112, 0)
-layout_mode = 2
-theme = SubResource("Theme_cq0gw")
-theme_override_font_sizes/normal_font_size = 8
-text = "--:--:--"
-horizontal_alignment = 1
+[node name="TagLabel" type="Label" parent="Used/UsedBox/Tag" unique_id=1374010033]
+layout_mode = 0
+offset_left = 3.0
+offset_right = 37.0
+offset_bottom = 12.0
+theme_type_variation = &"SogardSerif8"
+theme_override_colors/font_color = Color(0.0392157, 0.0196078, 0.027451, 1)
+text = "COPYING"
 
-[node name="Location" type="RichTextLabel" parent="Time n Place" unique_id=529926309]
-custom_minimum_size = Vector2(112, 0)
-layout_mode = 2
-theme = SubResource("Theme_cq0gw")
-theme_override_font_sizes/normal_font_size = 8
-text = "Location"
-horizontal_alignment = 1
+[node name="Diff" type="Label" parent="Used/UsedBox" unique_id=784504486]
+layout_mode = 0
+offset_top = 12.0
+offset_right = 40.0
+offset_bottom = 20.0
+theme_type_variation = &"SogardSerif8"
+theme_override_colors/font_color = Color(0.627451, 0.560784, 0.54902, 1)
 
-[node name="Resources" type="GridContainer" parent="." unique_id=481854958]
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.060000002
-anchor_top = 0.411
-anchor_right = 0.5
-anchor_bottom = 0.69600004
-offset_left = -0.44000053
-offset_top = -7.0320015
-offset_right = 98.0
-offset_bottom = -6.9520035
-grow_horizontal = 2
-grow_vertical = 2
-pivot_offset_ratio = Vector2(0.5, 0.5)
-columns = 4
+[node name="Time" type="Label" parent="Used/UsedBox" unique_id=1077939583]
+layout_mode = 0
+offset_left = 230.0
+offset_top = 8.0
+offset_right = 279.0
+offset_bottom = 24.0
+theme_type_variation = &"SogardNumerics16"
+text = "0:00:00"
 
-[node name="Skulls" type="GridContainer" parent="Resources" unique_id=1071020424]
-layout_mode = 2
-theme_override_constants/h_separation = 1
-theme_override_constants/v_separation = 1
-columns = 10
+[node name="Location" type="Label" parent="Used/UsedBox" unique_id=1429651798]
+layout_mode = 0
+offset_left = 39.0
+offset_top = 27.0
+offset_right = 279.0
+offset_bottom = 35.0
+theme_type_variation = &"SogardSerif8"
+theme_override_colors/font_color = Color(0.627451, 0.560784, 0.54902, 1)
+text_overrun_behavior = 3
 
-[node name="SingleSkull1" type="TextureRect" parent="Resources/Skulls" unique_id=225164783]
-custom_minimum_size = Vector2(8, 8)
-layout_mode = 2
-texture = ExtResource("2_3s3wl")
-stretch_mode = 4
+[node name="Icons" type="Control" parent="Used/UsedBox" unique_id=1814432327]
+anchors_preset = 0
+offset_right = 290.0
+offset_bottom = 86.0
+mouse_filter = 2
 
-[node name="SingleSkull2" type="TextureRect" parent="Resources/Skulls" unique_id=87978408]
-custom_minimum_size = Vector2(8, 8)
-layout_mode = 2
-texture = ExtResource("2_3s3wl")
-stretch_mode = 4
+[node name="Empty" type="Control" parent="." unique_id=1026973724]
+visible = false
+anchors_preset = 0
+offset_right = 290.0
+offset_bottom = 86.0
+mouse_filter = 2
 
-[node name="SingleSkull3" type="TextureRect" parent="Resources/Skulls" unique_id=1003413477]
-custom_minimum_size = Vector2(8, 8)
-layout_mode = 2
-texture = ExtResource("2_3s3wl")
-stretch_mode = 4
+[node name="EmptyNum" type="Label" parent="Empty" unique_id=1309264968]
+layout_mode = 0
+offset_left = 11.0
+offset_top = 35.0
+offset_right = 31.0
+offset_bottom = 51.0
+theme_type_variation = &"SogardBody16"
+theme_override_colors/font_color = Color(0.352941, 0.0431373, 0.0784314, 1)
+text = "I"
 
-[node name="SingleSkull4" type="TextureRect" parent="Resources/Skulls" unique_id=2104057951]
-custom_minimum_size = Vector2(8, 8)
-layout_mode = 2
-texture = ExtResource("2_3s3wl")
-stretch_mode = 4
+[node name="EmptyLabel" type="Label" parent="Empty" unique_id=53287417]
+layout_mode = 0
+offset_left = 39.0
+offset_top = 35.0
+offset_right = 279.0
+offset_bottom = 51.0
+theme_type_variation = &"SogardBody16"
+text = "Empty"
 
-[node name="SingleSkull5" type="TextureRect" parent="Resources/Skulls" unique_id=1631905145]
-custom_minimum_size = Vector2(8, 8)
-layout_mode = 2
-texture = ExtResource("2_3s3wl")
-stretch_mode = 4
+[node name="Ghost" type="Control" parent="." unique_id=799630872]
+visible = false
+anchors_preset = 0
+offset_right = 290.0
+offset_bottom = 86.0
+mouse_filter = 2
 
-[node name="SingleSkull6" type="TextureRect" parent="Resources/Skulls" unique_id=847983722]
-custom_minimum_size = Vector2(8, 8)
-layout_mode = 2
-texture = ExtResource("2_3s3wl")
-stretch_mode = 4
+[node name="CopyHere" type="Label" parent="Ghost" unique_id=299564416]
+layout_mode = 0
+offset_top = 27.0
+offset_right = 290.0
+offset_bottom = 59.0
+theme_type_variation = &"SogardScript32"
+theme_override_colors/font_color = Color(1, 0.823529, 0.121569, 1)
+theme_override_colors/font_shadow_color = Color(0.227451, 0.0156863, 0.0352941, 1)
+theme_override_colors/font_outline_color = Color(0.227451, 0.0156863, 0.0352941, 1)
+theme_override_constants/shadow_offset_x = 0
+theme_override_constants/shadow_offset_y = 2
+theme_override_constants/outline_size = 1
+text = "Copy Here?"
 
-[node name="SingleSkull7" type="TextureRect" parent="Resources/Skulls" unique_id=1092480444]
-custom_minimum_size = Vector2(8, 8)
-layout_mode = 2
-texture = ExtResource("2_3s3wl")
-stretch_mode = 4
+[node name="OverNote" type="Label" parent="Ghost" unique_id=816040939]
+visible = false
+layout_mode = 0
+offset_top = 61.0
+offset_right = 290.0
+offset_bottom = 69.0
+theme_type_variation = &"SogardSerif8"
+theme_override_colors/font_color = Color(1, 0.541176, 0.541176, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
 
-[node name="SingleSkull8" type="TextureRect" parent="Resources/Skulls" unique_id=1937173064]
-custom_minimum_size = Vector2(8, 8)
-layout_mode = 2
-texture = ExtResource("2_3s3wl")
-stretch_mode = 4
+[node name="FlickPlayer" type="AnimationPlayer" parent="." unique_id=1073316814]
+libraries/ = SubResource("AnimationLibrary_flick")
 
-[node name="SingleSkull9" type="TextureRect" parent="Resources/Skulls" unique_id=2021632126]
-custom_minimum_size = Vector2(8, 8)
-layout_mode = 2
-texture = ExtResource("2_3s3wl")
-stretch_mode = 4
+[node name="PulsePlayer" type="AnimationPlayer" parent="." unique_id=1178144930]
+libraries/ = SubResource("AnimationLibrary_pulse")
 
-[node name="SingleSkull10" type="TextureRect" parent="Resources/Skulls" unique_id=617245581]
-custom_minimum_size = Vector2(8, 8)
-layout_mode = 2
-texture = ExtResource("2_3s3wl")
-stretch_mode = 4
+[node name="Ember1Player" type="AnimationPlayer" parent="." unique_id=2146326989]
+libraries/ = SubResource("AnimationLibrary_ember1")
 
-[node name="SingleSkull11" type="TextureRect" parent="Resources/Skulls" unique_id=207147921]
-custom_minimum_size = Vector2(8, 8)
-layout_mode = 2
-texture = ExtResource("2_3s3wl")
-stretch_mode = 4
+[node name="Ember2Player" type="AnimationPlayer" parent="." unique_id=459926615]
+libraries/ = SubResource("AnimationLibrary_ember2")
 
-[node name="SingleSkull12" type="TextureRect" parent="Resources/Skulls" unique_id=1971037364]
-custom_minimum_size = Vector2(8, 8)
-layout_mode = 2
-texture = ExtResource("2_3s3wl")
-stretch_mode = 4
-
-[node name="SingleSkull13" type="TextureRect" parent="Resources/Skulls" unique_id=1449767605]
-custom_minimum_size = Vector2(8, 8)
-layout_mode = 2
-texture = ExtResource("2_3s3wl")
-stretch_mode = 4
-
-[node name="SingleSkull14" type="TextureRect" parent="Resources/Skulls" unique_id=1771542517]
-custom_minimum_size = Vector2(8, 8)
-layout_mode = 2
-texture = ExtResource("2_3s3wl")
-stretch_mode = 4
-
-[node name="SingleSkull15" type="TextureRect" parent="Resources/Skulls" unique_id=53772004]
-custom_minimum_size = Vector2(8, 8)
-layout_mode = 2
-texture = ExtResource("2_3s3wl")
-stretch_mode = 4
-
-[node name="SingleSkull16" type="TextureRect" parent="Resources/Skulls" unique_id=1505544470]
-custom_minimum_size = Vector2(8, 8)
-layout_mode = 2
-texture = ExtResource("2_3s3wl")
-stretch_mode = 4
-
-[node name="SingleSkull17" type="TextureRect" parent="Resources/Skulls" unique_id=1233271686]
-custom_minimum_size = Vector2(8, 8)
-layout_mode = 2
-texture = ExtResource("2_3s3wl")
-stretch_mode = 4
-
-[node name="SingleSkull18" type="TextureRect" parent="Resources/Skulls" unique_id=105520078]
-custom_minimum_size = Vector2(8, 8)
-layout_mode = 2
-texture = ExtResource("2_3s3wl")
-stretch_mode = 4
-
-[node name="SingleSkull19" type="TextureRect" parent="Resources/Skulls" unique_id=436563102]
-custom_minimum_size = Vector2(8, 8)
-layout_mode = 2
-texture = ExtResource("2_3s3wl")
-stretch_mode = 4
-
-[node name="SingleSkull20" type="TextureRect" parent="Resources/Skulls" unique_id=863308338]
-custom_minimum_size = Vector2(8, 8)
-layout_mode = 2
-texture = ExtResource("2_3s3wl")
-stretch_mode = 4
-
-[node name="Bones" type="TextureRect" parent="Resources" unique_id=662855595]
-custom_minimum_size = Vector2(32, 32)
-layout_mode = 2
-texture = ExtResource("3_7ksmp")
-
-[node name="Medallion" type="TextureRect" parent="Resources" unique_id=632005945]
-custom_minimum_size = Vector2(32, 32)
-layout_mode = 2
-texture = ExtResource("4_hiyug")
-
-[node name="Glands" type="TextureRect" parent="Resources" unique_id=1719180576]
-custom_minimum_size = Vector2(32, 32)
-layout_mode = 2
-texture = ExtResource("5_dyqhv")
-
-[node name="Collection" type="GridContainer" parent="." unique_id=1799784210]
-layout_mode = 1
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_left = 13.0
-offset_top = -55.0
-offset_right = 97.0
-offset_bottom = -5.0
-grow_vertical = 0
-theme_override_constants/h_separation = 0
-theme_override_constants/v_separation = 1
-
-[node name="HBoxContainer" type="HBoxContainer" parent="Collection" unique_id=648338629]
-layout_mode = 2
-theme_override_constants/separation = 1
-
-[node name="Energy" type="TextureRect" parent="Collection/HBoxContainer" unique_id=482865371]
-layout_mode = 2
-texture = ExtResource("6_pl8p4")
-
-[node name="Energy2" type="TextureRect" parent="Collection/HBoxContainer" unique_id=815459586]
-layout_mode = 2
-texture = ExtResource("6_pl8p4")
-
-[node name="Energy3" type="TextureRect" parent="Collection/HBoxContainer" unique_id=564054997]
-layout_mode = 2
-texture = ExtResource("6_pl8p4")
-
-[node name="Energy4" type="TextureRect" parent="Collection/HBoxContainer" unique_id=641690586]
-layout_mode = 2
-texture = ExtResource("6_pl8p4")
-
-[node name="Energy5" type="TextureRect" parent="Collection/HBoxContainer" unique_id=1879391673]
-layout_mode = 2
-texture = ExtResource("6_pl8p4")
-
-[node name="HBoxContainer2" type="HBoxContainer" parent="Collection" unique_id=473691654]
-layout_mode = 2
-theme_override_constants/separation = 1
-
-[node name="Magic" type="TextureRect" parent="Collection/HBoxContainer2" unique_id=387609101]
-layout_mode = 2
-texture = ExtResource("7_pilwx")
-
-[node name="Magic2" type="TextureRect" parent="Collection/HBoxContainer2" unique_id=1633910391]
-layout_mode = 2
-texture = ExtResource("7_pilwx")
-
-[node name="Magic3" type="TextureRect" parent="Collection/HBoxContainer2" unique_id=1710334799]
-layout_mode = 2
-texture = ExtResource("7_pilwx")
-
-[node name="Magic4" type="TextureRect" parent="Collection/HBoxContainer2" unique_id=84789298]
-layout_mode = 2
-texture = ExtResource("7_pilwx")
-
-[node name="Magic5" type="TextureRect" parent="Collection/HBoxContainer2" unique_id=987742318]
-layout_mode = 2
-texture = ExtResource("7_pilwx")
-
-[node name="Progression" type="HBoxContainer" parent="Collection" unique_id=84650944]
-layout_mode = 2
-theme_override_constants/separation = 1
-
-[node name="Spell1" type="TextureRect" parent="Collection/Progression" unique_id=1064268441]
-layout_mode = 2
-texture = ExtResource("8_xda3v")
-
-[node name="Spell2" type="TextureRect" parent="Collection/Progression" unique_id=65096637]
-layout_mode = 2
-texture = ExtResource("9_oyawd")
-
-[node name="Spell3" type="TextureRect" parent="Collection/Progression" unique_id=1205921559]
-layout_mode = 2
-texture = ExtResource("10_wgxc2")
-
-[node name="Spell4" type="TextureRect" parent="Collection/Progression" unique_id=1191615514]
-layout_mode = 2
-texture = ExtResource("11_cdnav")
-
-[node name="Spell5" type="TextureRect" parent="Collection/Progression" unique_id=1815580774]
-layout_mode = 2
-texture = ExtResource("12_0vc86")
-
-[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=1519861500]
-layout_mode = 1
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -118.0
-offset_top = -39.0
-offset_bottom = -4.0
-grow_horizontal = 0
-grow_vertical = 0
-
-[node name="MobilityItem1" type="TextureRect" parent="HBoxContainer" unique_id=1369642327]
-layout_mode = 2
-texture = ExtResource("13_hc5c6")
-
-[node name="MobilityItem2" type="TextureRect" parent="HBoxContainer" unique_id=980652947]
-layout_mode = 2
-texture = ExtResource("14_f1rma")
-
-[node name="MobilityItem3" type="TextureRect" parent="HBoxContainer" unique_id=1384790629]
-layout_mode = 2
-texture = ExtResource("15_8s2wn")
+[node name="Ember3Player" type="AnimationPlayer" parent="." unique_id=43595157]
+libraries/ = SubResource("AnimationLibrary_ember3")

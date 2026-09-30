@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="SoundLibrary" format=3 uid="uid://bujjyio63bhv5"]
+
+[ext_resource type="Script" uid="uid://vdqimlmcg4ql" path="res://Scripts/Resources/Resource Scripts/resource_Sound_Library.gd" id="1_lib"]
+[ext_resource type="AudioStream" uid="uid://c5d1xlkxqh701" path="res://Sound/SFX/UX/Navigation/Progression/SFX_menuSliderMove_01.wav" id="2_s01"]
+
+[resource]
+script = ExtResource("1_lib")
+sounds = Array[AudioStream]([ExtResource("2_s01")])
+metadata/_custom_type_script = "uid://vdqimlmcg4ql"

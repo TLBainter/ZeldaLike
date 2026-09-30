@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="SoundLibrary" format=3 uid="uid://dvbnjg50wluot"]
+
+[ext_resource type="Script" uid="uid://vdqimlmcg4ql" path="res://Scripts/Resources/Resource Scripts/resource_Sound_Library.gd" id="1_lib"]
+[ext_resource type="AudioStream" uid="uid://cxbeehibt2s3q" path="res://Sound/SFX/UX/Navigation/Progression/Page Transition/Reverse Trimmed/SFX_menuSwoosh_01_reverse_trim.wav" id="2_s01"]
+[ext_resource type="AudioStream" uid="uid://dyyjnxc78v270" path="res://Sound/SFX/UX/Navigation/Progression/Page Transition/Reverse Trimmed/SFX_menuSwoosh_02_reverse_trim.wav" id="3_s02"]
+[ext_resource type="AudioStream" uid="uid://pfdt5nb71ef3" path="res://Sound/SFX/UX/Navigation/Progression/Page Transition/Reverse Trimmed/SFX_menuSwoosh_03_reverse_trim.wav" id="4_s03"]
+[ext_resource type="AudioStream" uid="uid://c53x1ttujjkbw" path="res://Sound/SFX/UX/Navigation/Progression/Page Transition/Reverse Trimmed/SFX_menuSwoosh_04_reverse_trim.wav" id="5_s04"]
+[ext_resource type="AudioStream" uid="uid://bl0b4rj4b0c5v" path="res://Sound/SFX/UX/Navigation/Progression/Page Transition/Reverse Trimmed/SFX_menuSwoosh_05_reverse_trim.wav" id="6_s05"]
+[ext_resource type="AudioStream" uid="uid://d25laimn5bvnu" path="res://Sound/SFX/UX/Navigation/Progression/Page Transition/Reverse Trimmed/SFX_menuSwoosh_06_reverse_trim.wav" id="7_s06"]
+[ext_resource type="AudioStream" uid="uid://dp8gq1hdy6b4e" path="res://Sound/SFX/UX/Navigation/Progression/Page Transition/Reverse Trimmed/SFX_menuSwoosh_07_reverse_trim.wav" id="8_s07"]
+[ext_resource type="AudioStream" uid="uid://ocvxbgny0yp0" path="res://Sound/SFX/UX/Navigation/Progression/Page Transition/Reverse Trimmed/SFX_menuSwoosh_08_reverse_trim.wav" id="9_s08"]
+[ext_resource type="AudioStream" uid="uid://be6oqllf7r6iq" path="res://Sound/SFX/UX/Navigation/Progression/Page Transition/Reverse Trimmed/SFX_menuSwoosh_09_reverse_trim.wav" id="10_s09"]
+[ext_resource type="AudioStream" uid="uid://cga00udvvhk3w" path="res://Sound/SFX/UX/Navigation/Progression/Page Transition/Reverse Trimmed/SFX_menuSwoosh_10_reverse_trim.wav" id="11_s10"]
+[ext_resource type="AudioStream" uid="uid://d1m6rjg4swqlf" path="res://Sound/SFX/UX/Navigation/Progression/Page Transition/Reverse Trimmed/SFX_menuSwoosh_11_reverse_trim.wav" id="12_s11"]
+[ext_resource type="AudioStream" uid="uid://c2t48k12ewfei" path="res://Sound/SFX/UX/Navigation/Progression/Page Transition/Reverse Trimmed/SFX_menuSwoosh_12_reverse_trim.wav" id="13_s12"]
+[ext_resource type="AudioStream" uid="uid://b2th7oo0toqek" path="res://Sound/SFX/UX/Navigation/Progression/Page Transition/Reverse Trimmed/SFX_menuSwoosh_13_reverse_trim.wav" id="14_s13"]
+
+[resource]
+script = ExtResource("1_lib")
+sounds = Array[AudioStream]([ExtResource("2_s01"), ExtResource("3_s02"), ExtResource("4_s03"), ExtResource("5_s04"), ExtResource("6_s05"), ExtResource("7_s06"), ExtResource("8_s07"), ExtResource("9_s08"), ExtResource("10_s09"), ExtResource("11_s10"), ExtResource("12_s11"), ExtResource("13_s12"), ExtResource("14_s13")])
+metadata/_custom_type_script = "uid://vdqimlmcg4ql"
