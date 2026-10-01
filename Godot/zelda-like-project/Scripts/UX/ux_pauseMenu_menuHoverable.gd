@@ -92,6 +92,11 @@ extends Panel
 ##The TextureRect that shows which button this spell is assigned to.
 @export var assignment_rect : TextureRect
 
+@export_category("Input")
+@export_group("Mouse")
+##Allows mouse hover and click on this panel. Disable to make this panel inert to the mouse.
+@export var mouse_enabled : bool = true
+
 @export_category("Debug")
 @export var debug : DebugSettings = DebugSettings.new()
 var debug_me : bool:
@@ -105,6 +110,8 @@ var debug_name : String:
 
 ##Whether this panel is currently hovered by the cursor.
 var _is_hovered : bool = false
+##The MenuController that owns this panel. Set by MenuController.activate().
+var controller : MenuController = null
 
 #endregion VARIABLES
 
@@ -118,12 +125,46 @@ func _ready():
 	if cursor_rect:
 		cursor_rect.visible = false
 	if not Engine.is_editor_hint():
+		_setup_mouse_filters()
 		_on_hoverable_ready()
 	set_process(false)
 
 ##Virtual. Called at the end of _ready() for subclass-specific setup.
 func _on_hoverable_ready() -> void:
 	pass
+
+#region MOUSE
+
+##Makes this panel receive mouse events and all Control descendants ignore them so they cannot swallow input.
+func _setup_mouse_filters() -> void:
+	mouse_filter = Control.MOUSE_FILTER_STOP
+	for child in find_children("*", "Control", true, false):
+		(child as Control).mouse_filter = Control.MOUSE_FILTER_IGNORE
+
+##Hovers on mouse motion and hovers then clicks on left press. Motion with zero relative is ignored so a stationary pointer does not steal hover on menu open.
+func _gui_input(event : InputEvent) -> void:
+	if Engine.is_editor_hint() or not mouse_enabled:
+		return
+	if event is InputEventMouseMotion:
+		if event.relative != Vector2.ZERO and not _is_hovered:
+			_request_mouse_hover()
+	elif event is InputEventMouseButton:
+		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
+			accept_event()
+			_request_mouse_hover()
+			_on_click()
+
+##Asks the owning MenuController to move the hover to this panel.
+func _request_mouse_hover() -> void:
+	if controller == null:
+		return
+	controller.request_mouse_hover(self)
+
+##Virtual. Called on left click. Subclasses override for click behavior; the base click only moves the hover.
+func _on_click() -> void:
+	pass
+
+#endregion MOUSE
 
 #region CONTENT PROPERTIES
 

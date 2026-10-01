@@ -8,6 +8,7 @@ signal activated()
 const GOLD : Color = Color("#ffd21f")
 const BONE : Color = Color("#e9e0cf")
 const MUTED : Color = Color("#a08f8c")
+const PIP_DIM : Color = Color(0.62, 0.62, 0.62)
 const FOCUS_SHADOW : Color = Color("#3a0610")
 const REST_SHADOW : Color = Color("#1a0508")
 const LIFT_PX : int = 4
@@ -34,6 +35,12 @@ const EMBER_SPECS : Array = [[1.2, 8, -3.0, 0.0], [1.5, 9, 3.0, 1.0], [1.3, 8, 2
 		description = v
 		if is_node_ready():
 			desc_label.text = v
+##Perk lines shown under the description, one gold pip per line. Rows beyond perks.size() are hidden.
+@export var perks : PackedStringArray = PackedStringArray():
+	set(v):
+		perks = v
+		if is_node_ready():
+			_apply_perks()
 
 @export_category("Plate")
 ##Unfocused plate texture (sogard_ui_diff_n).
@@ -43,11 +50,13 @@ const EMBER_SPECS : Array = [[1.2, 8, -3.0, 0.0], [1.5, 9, 3.0, 1.0], [1.3, 8, 2
 
 @export_category("Components")
 @export var body : Control
-@export var plate : TextureRect
+@export var plate : NinePatchRect
 @export var glow : TextureRect
 @export var embers : Array[Control] = []
 @export var name_label : Label
 @export var desc_label : Label
+@export var perk_pips : Array[TextureRect] = []
+@export var perk_labels : Array[Label] = []
 
 @export_category("Sound")
 ##Played when the card gains focus.
@@ -79,6 +88,7 @@ func _ready() -> void:
 	focus_exited.connect(set_focused_visual.bind(false))
 	name_label.text = diff_name
 	desc_label.text = description
+	_apply_perks()
 	_build_players()
 	set_focused_visual(false)
 
@@ -92,6 +102,10 @@ func set_focused_visual(on : bool) -> void:
 	name_label.add_theme_color_override("font_outline_color", FOCUS_SHADOW)
 	name_label.add_theme_constant_override("outline_size", 1 if on else 0)
 	desc_label.add_theme_color_override("font_color", BONE if on else MUTED)
+	for l in perk_labels:
+		l.add_theme_color_override("font_color", BONE if on else MUTED)
+	for p in perk_pips:
+		p.modulate = Color.WHITE if on else PIP_DIM
 	glow.visible = on
 	for e in embers:
 		e.visible = on
@@ -152,6 +166,14 @@ func handle_direction(dir : Vector2i) -> bool:
 	if direction_handler.is_valid():
 		return direction_handler.call(self, dir)
 	return false
+
+func _apply_perks() -> void:
+	for i in perk_labels.size():
+		var has : bool = i < perks.size()
+		perk_labels[i].visible = has
+		perk_labels[i].text = perks[i] if has else ""
+		if i < perk_pips.size():
+			perk_pips[i].visible = has
 
 func _build_players() -> void:
 	_glow_player = AnimationPlayer.new()

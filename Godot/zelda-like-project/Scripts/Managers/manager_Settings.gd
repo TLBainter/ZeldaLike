@@ -21,6 +21,7 @@ const BUSES : Dictionary = {
 	&"fx": &"Sound Effects", &"pfx": &"Character", &"efx": &"Environment", &"afx": &"Ambience", &"ux": &"UI",
 }
 const TEXT_SPEED_MULTIPLIERS : Array[float] = [0.5, 1.0, 2.0]
+const PARTICLE_MULTIPLIERS : Array[float] = [0.0, 0.5, 1.0, 1.5]
 const DISPLAY_MODES : Array[int] = [
 	DisplayServer.WINDOW_MODE_WINDOWED,
 	DisplayServer.WINDOW_MODE_EXCLUSIVE_FULLSCREEN,
@@ -86,6 +87,10 @@ func on_settings_changed(key : StringName, value : int) -> void:
 ##Dialogue reveal multiplier for the stored Text Speed (Slow 0.5, Normal 1.0, Fast 2.0).
 func get_text_speed_multiplier() -> float:
 	return TEXT_SPEED_MULTIPLIERS[clampi(get_value(&"text"), 0, TEXT_SPEED_MULTIPLIERS.size() - 1)]
+
+##Particle density multiplier for the stored Particles choice (Off 0.0, Minimal 0.5, Standard 1.0, Excessive 1.5).
+func get_particle_multiplier() -> float:
+	return PARTICLE_MULTIPLIERS[clampi(get_value(&"particles"), 0, PARTICLE_MULTIPLIERS.size() - 1)]
 
 ##Resolved glyph platform ("xbox", "ps", "switch" or "keyboard") for glyph nodes that enter the tree after the last broadcast.
 func get_glyph_platform() -> String:

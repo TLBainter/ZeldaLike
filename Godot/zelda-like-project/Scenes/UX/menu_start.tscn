@@ -1,19 +1,18 @@
-[gd_scene load_steps=23 format=3 uid="uid://dbul4543yg6p3"]
+[gd_scene format=3 uid="uid://dbul4543yg6p3"]
 
 [ext_resource type="FontFile" uid="uid://bsube4x6p1pws" path="res://Sprites/UX/Fonts/GothicPixelSerif.ttf" id="1_ikajw"]
-[ext_resource type="FontFile" uid="uid://c7dx1gflvghhh" path="res://Sprites/UX/Fonts/GothicPixelScript.ttf" id="2_ofor1"]
 [ext_resource type="Script" uid="uid://dxigkys24u637" path="res://Scripts/Menus/menu_MainMenu.gd" id="5_mmain"]
-[ext_resource type="Theme" path="res://Text and Style/Text/sogard_menu_theme.tres" id="t31_theme"]
-[ext_resource type="PackedScene" path="res://Scenes/UX/Sogard/sogard_background.tscn" id="t31_bg"]
+[ext_resource type="PackedScene" uid="uid://b4afjeeciqaxc" path="res://Scenes/UX/Sogard/sogard_background.tscn" id="t31_bg"]
 [ext_resource type="PackedScene" path="res://Scenes/UX/Sogard/sogard_button.tscn" id="t31_btn"]
+[ext_resource type="Texture2D" uid="uid://drw1n52f4wkdd" path="res://Sprites/UX/Sogard/sogard_ui_dia3.tres" id="t31_dia3"]
+[ext_resource type="Texture2D" uid="uid://c8qg2m04jw14f" path="res://Sprites/UX/Sogard/sogard_ui_dia7.tres" id="t31_dia7"]
 [ext_resource type="PackedScene" path="res://Scenes/UX/Sogard/sogard_hint_bar.tscn" id="t31_hint"]
-[ext_resource type="PackedScene" path="res://Scenes/UX/Sogard/sogard_settings.tscn" id="t31_set"]
-[ext_resource type="Script" path="res://Scripts/UX/Sogard/sogard_screen_in.gd" id="t31_scrin"]
+[ext_resource type="Texture2D" uid="uid://cfellce48sw71" path="res://Sprites/UX/Sogard/sogard_ui_line_l.tres" id="t31_linel"]
+[ext_resource type="Texture2D" uid="uid://cnawjrjiiqrdw" path="res://Sprites/UX/Sogard/sogard_ui_line_r.tres" id="t31_liner"]
 [ext_resource type="Script" uid="uid://w6iti8bjpnqo" path="res://Scripts/UX/Sogard/sogard_nav_input.gd" id="t31_nav"]
-[ext_resource type="Texture2D" path="res://Sprites/UX/Sogard/sogard_ui_line_l.tres" id="t31_linel"]
-[ext_resource type="Texture2D" path="res://Sprites/UX/Sogard/sogard_ui_line_r.tres" id="t31_liner"]
-[ext_resource type="Texture2D" path="res://Sprites/UX/Sogard/sogard_ui_dia3.tres" id="t31_dia3"]
-[ext_resource type="Texture2D" path="res://Sprites/UX/Sogard/sogard_ui_dia7.tres" id="t31_dia7"]
+[ext_resource type="Script" uid="uid://b3utuv636jf6y" path="res://Scripts/UX/Sogard/sogard_screen_in.gd" id="t31_scrin"]
+[ext_resource type="PackedScene" path="res://Scenes/UX/Sogard/sogard_settings.tscn" id="t31_set"]
+[ext_resource type="Theme" path="res://Text and Style/Text/sogard_menu_theme.tres" id="t31_theme"]
 [ext_resource type="PackedScene" path="res://Scenes/UX/Sogard/sogard_file_select.tscn" id="t32_fsel"]
 [ext_resource type="PackedScene" path="res://Scenes/UX/Sogard/sogard_new_game_flow.tscn" id="t33_ngf"]
 
@@ -129,7 +128,7 @@ script = ExtResource("5_mmain")
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1612775089]
 follow_viewport_enabled = true
 
-[node name="Background" parent="CanvasLayer" instance=ExtResource("t31_bg")]
+[node name="Background" parent="CanvasLayer" unique_id=420313978 instance=ExtResource("t31_bg")]
 
 [node name="MainMenu" type="Control" parent="CanvasLayer" unique_id=1735948720]
 layout_mode = 3
@@ -141,40 +140,23 @@ grow_vertical = 2
 mouse_filter = 2
 theme = ExtResource("t31_theme")
 
-[node name="Version" type="Label" parent="CanvasLayer/MainMenu"]
+[node name="Version" type="Label" parent="CanvasLayer/MainMenu" unique_id=462113849]
 layout_mode = 0
-offset_left = 590.0
+offset_left = 550.0
 offset_top = 8.0
 offset_right = 630.0
-offset_bottom = 14.0
-theme_type_variation = &"SogardSerif4"
+offset_bottom = 20.0
+theme_type_variation = &"SogardSerif8"
 theme_override_colors/font_color = Color(0.415686, 0.333333, 0.34902, 1)
 text = "v0.1"
 horizontal_alignment = 2
 
-[node name="EpicOf" type="Label" parent="CanvasLayer/MainMenu"]
-layout_mode = 0
-offset_left = 221.0
-offset_top = 38.0
-offset_right = 421.0
-offset_bottom = 56.0
-theme_override_colors/font_color = Color(0.913725, 0.878431, 0.811765, 1)
-theme_override_colors/font_shadow_color = Color(0.227451, 0.023529, 0.062745, 1)
-theme_override_constants/shadow_offset_x = 1
-theme_override_constants/shadow_offset_y = 1
-theme_override_fonts/font = ExtResource("1_ikajw")
-theme_override_font_sizes/font_size = 16
-text = "the Epic of"
-horizontal_alignment = 2
-
-[node name="Wordmark" type="Label" parent="CanvasLayer/MainMenu"]
+[node name="Wordmark" type="Label" parent="CanvasLayer/MainMenu" unique_id=741135493]
 layout_mode = 0
 offset_left = 160.0
 offset_top = 56.0
 offset_right = 480.0
 offset_bottom = 128.0
-grow_horizontal = 2
-grow_vertical = 2
 theme_type_variation = &"SogardScript32"
 theme_override_colors/font_color = Color(1, 0.823529, 0.121569, 1)
 theme_override_colors/font_shadow_color = Color(0.431373, 0.039216, 0.090196, 1)
@@ -185,7 +167,49 @@ text = "Sogard"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="LineL" type="TextureRect" parent="CanvasLayer/MainMenu"]
+[node name="the" type="Label" parent="CanvasLayer/MainMenu" unique_id=1534755165]
+layout_mode = 0
+offset_left = 265.0
+offset_top = 36.0
+offset_right = 298.0
+offset_bottom = 54.0
+theme_override_colors/font_color = Color(0.913725, 0.878431, 0.811765, 1)
+theme_override_colors/font_shadow_color = Color(0.227451, 0.023529, 0.062745, 1)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+theme_override_fonts/font = ExtResource("1_ikajw")
+theme_override_font_sizes/font_size = 16
+text = "the"
+
+[node name="Epic" type="Label" parent="CanvasLayer/MainMenu" unique_id=1954425098]
+layout_mode = 0
+offset_left = 266.0
+offset_top = 53.0
+offset_right = 310.0
+offset_bottom = 71.0
+theme_override_colors/font_color = Color(0.913725, 0.878431, 0.811765, 1)
+theme_override_colors/font_shadow_color = Color(0.227451, 0.023529, 0.062745, 1)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+theme_override_fonts/font = ExtResource("1_ikajw")
+theme_override_font_sizes/font_size = 16
+text = "EPIC"
+
+[node name="of" type="Label" parent="CanvasLayer/MainMenu" unique_id=1836298453]
+layout_mode = 0
+offset_left = 316.0
+offset_top = 59.0
+offset_right = 339.0
+offset_bottom = 77.0
+theme_override_colors/font_color = Color(0.913725, 0.878431, 0.811765, 1)
+theme_override_colors/font_shadow_color = Color(0.227451, 0.023529, 0.062745, 1)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+theme_override_fonts/font = ExtResource("1_ikajw")
+theme_override_font_sizes/font_size = 16
+text = "of"
+
+[node name="LineL" type="TextureRect" parent="CanvasLayer/MainMenu" unique_id=8477086]
 layout_mode = 0
 offset_left = 240.0
 offset_top = 140.0
@@ -194,7 +218,7 @@ offset_bottom = 141.0
 mouse_filter = 2
 texture = ExtResource("t31_linel")
 
-[node name="Dia3L" type="TextureRect" parent="CanvasLayer/MainMenu"]
+[node name="Dia3L" type="TextureRect" parent="CanvasLayer/MainMenu" unique_id=410654525]
 layout_mode = 0
 offset_left = 307.0
 offset_top = 138.0
@@ -203,7 +227,7 @@ offset_bottom = 143.0
 mouse_filter = 2
 texture = ExtResource("t31_dia3")
 
-[node name="Dia7" type="TextureRect" parent="CanvasLayer/MainMenu"]
+[node name="Dia7" type="TextureRect" parent="CanvasLayer/MainMenu" unique_id=1167983761]
 layout_mode = 0
 offset_left = 315.0
 offset_top = 136.0
@@ -212,7 +236,7 @@ offset_bottom = 145.0
 mouse_filter = 2
 texture = ExtResource("t31_dia7")
 
-[node name="Dia3R" type="TextureRect" parent="CanvasLayer/MainMenu"]
+[node name="Dia3R" type="TextureRect" parent="CanvasLayer/MainMenu" unique_id=254324623]
 layout_mode = 0
 offset_left = 327.0
 offset_top = 138.0
@@ -221,7 +245,7 @@ offset_bottom = 143.0
 mouse_filter = 2
 texture = ExtResource("t31_dia3")
 
-[node name="LineR" type="TextureRect" parent="CanvasLayer/MainMenu"]
+[node name="LineR" type="TextureRect" parent="CanvasLayer/MainMenu" unique_id=1093558634]
 layout_mode = 0
 offset_left = 335.0
 offset_top = 140.0
@@ -230,7 +254,7 @@ offset_bottom = 141.0
 mouse_filter = 2
 texture = ExtResource("t31_liner")
 
-[node name="ContinueButton" parent="CanvasLayer/MainMenu" instance=ExtResource("t31_btn")]
+[node name="ContinueButton" parent="CanvasLayer/MainMenu" unique_id=332406606 instance=ExtResource("t31_btn")]
 layout_mode = 0
 offset_left = 230.0
 offset_top = 154.0
@@ -239,7 +263,7 @@ offset_bottom = 176.0
 text = "Load Game"
 glow_enabled = true
 
-[node name="NewGameButton" parent="CanvasLayer/MainMenu" instance=ExtResource("t31_btn")]
+[node name="NewGameButton" parent="CanvasLayer/MainMenu" unique_id=1734630501 instance=ExtResource("t31_btn")]
 layout_mode = 0
 offset_left = 230.0
 offset_top = 182.0
@@ -248,7 +272,7 @@ offset_bottom = 204.0
 text = "New Game"
 glow_enabled = true
 
-[node name="SettingsButton" parent="CanvasLayer/MainMenu" instance=ExtResource("t31_btn")]
+[node name="SettingsButton" parent="CanvasLayer/MainMenu" unique_id=618003067 instance=ExtResource("t31_btn")]
 layout_mode = 0
 offset_left = 230.0
 offset_top = 210.0
@@ -257,7 +281,7 @@ offset_bottom = 232.0
 text = "Settings"
 glow_enabled = true
 
-[node name="QuitButton" parent="CanvasLayer/MainMenu" instance=ExtResource("t31_btn")]
+[node name="QuitButton" parent="CanvasLayer/MainMenu" unique_id=2060421481 instance=ExtResource("t31_btn")]
 layout_mode = 0
 offset_left = 230.0
 offset_top = 238.0
@@ -266,15 +290,15 @@ offset_bottom = 260.0
 text = "Quit"
 glow_enabled = true
 
-[node name="Embers" type="Control" parent="CanvasLayer/MainMenu"]
-layout_mode = 0
+[node name="Embers" type="Control" parent="CanvasLayer/MainMenu" unique_id=3361687]
+anchors_preset = 0
 offset_left = 230.0
 offset_top = 154.0
 offset_right = 410.0
 offset_bottom = 176.0
 mouse_filter = 2
 
-[node name="Speck1" type="ColorRect" parent="CanvasLayer/MainMenu/Embers"]
+[node name="Speck1" type="ColorRect" parent="CanvasLayer/MainMenu/Embers" unique_id=486096285]
 modulate = Color(1, 1, 1, 0)
 layout_mode = 0
 offset_left = 54.0
@@ -284,7 +308,7 @@ offset_bottom = 19.0
 mouse_filter = 2
 color = Color(1, 0.415686, 0.227451, 1)
 
-[node name="Speck2" type="ColorRect" parent="CanvasLayer/MainMenu/Embers"]
+[node name="Speck2" type="ColorRect" parent="CanvasLayer/MainMenu/Embers" unique_id=1862499226]
 modulate = Color(1, 1, 1, 0)
 layout_mode = 0
 offset_left = 111.0
@@ -294,7 +318,7 @@ offset_bottom = 20.0
 mouse_filter = 2
 color = Color(1, 0.823529, 0.121569, 1)
 
-[node name="Speck3" type="ColorRect" parent="CanvasLayer/MainMenu/Embers"]
+[node name="Speck3" type="ColorRect" parent="CanvasLayer/MainMenu/Embers" unique_id=1714771301]
 modulate = Color(1, 1, 1, 0)
 layout_mode = 0
 offset_left = 140.0
@@ -304,35 +328,33 @@ offset_bottom = 18.0
 mouse_filter = 2
 color = Color(1, 0.227451, 0.164706, 1)
 
-[node name="EmberAnim1" type="AnimationPlayer" parent="CanvasLayer/MainMenu/Embers"]
+[node name="EmberAnim1" type="AnimationPlayer" parent="CanvasLayer/MainMenu/Embers" unique_id=1318038558]
 libraries/ = SubResource("AnimationLibrary_t31_e1")
-autoplay = "rise"
+autoplay = &"rise"
 
-[node name="EmberAnim2" type="AnimationPlayer" parent="CanvasLayer/MainMenu/Embers"]
+[node name="EmberAnim2" type="AnimationPlayer" parent="CanvasLayer/MainMenu/Embers" unique_id=294361686]
 libraries/ = SubResource("AnimationLibrary_t31_e2")
-autoplay = "rise"
+autoplay = &"rise"
 
-[node name="EmberAnim3" type="AnimationPlayer" parent="CanvasLayer/MainMenu/Embers"]
+[node name="EmberAnim3" type="AnimationPlayer" parent="CanvasLayer/MainMenu/Embers" unique_id=1395962394]
 libraries/ = SubResource("AnimationLibrary_t31_e3")
-autoplay = "rise"
+autoplay = &"rise"
 
-
-[node name="HintBar" parent="CanvasLayer/MainMenu" instance=ExtResource("t31_hint")]
+[node name="HintBar" parent="CanvasLayer/MainMenu" unique_id=153528458 instance=ExtResource("t31_hint")]
 layout_mode = 1
 hints = Array[String](["a:Select"])
 
-[node name="ScreenIn" type="Node" parent="CanvasLayer/MainMenu"]
+[node name="ScreenIn" type="Node" parent="CanvasLayer/MainMenu" unique_id=1738049017]
 script = ExtResource("t31_scrin")
 
-[node name="SogardNavInput" type="Node" parent="CanvasLayer/MainMenu" node_paths=PackedStringArray("scope_root", "initial_focus")]
+[node name="SogardNavInput" type="Node" parent="CanvasLayer/MainMenu" unique_id=1840404087 node_paths=PackedStringArray("scope_root", "initial_focus")]
 script = ExtResource("t31_nav")
 scope_root = NodePath("..")
 initial_focus = NodePath("../NewGameButton")
 action_cancel = &""
 
-[node name="Settings" parent="CanvasLayer" instance=ExtResource("t31_set")]
+[node name="Settings" parent="CanvasLayer" unique_id=625956577 instance=ExtResource("t31_set")]
 visible = false
-variant = 0
 
 [node name="FileSelect" parent="CanvasLayer" unique_id=1286100943 instance=ExtResource("t32_fsel")]
 visible = false

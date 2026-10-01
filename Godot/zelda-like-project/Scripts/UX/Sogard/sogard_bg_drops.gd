@@ -11,6 +11,14 @@ const Y_START : float = 12.0
 const DROP_COUNT : int = 4
 const DROP_SIZE : Vector2 = Vector2(4, 6)
 
+##Number of drops built. Scaled by SogardBackground.set_particle_level; 0 removes all drops.
+@export var count : int = DROP_COUNT:
+	set(v):
+		count = maxi(v, 0)
+		if is_node_ready():
+			_build()
+			_layout()
+
 @export_category("Debug")
 @export var debug : DebugSettings = DebugSettings.new()
 var debug_me : bool:
@@ -48,7 +56,7 @@ func _build() -> void:
 	for c in get_children():
 		c.queue_free()
 	_drops.clear()
-	for i in range(DROP_COUNT):
+	for i in range(count):
 		var d : TextureRect = TextureRect.new()
 		d.texture = TEX_DROP
 		d.size = DROP_SIZE
@@ -63,5 +71,5 @@ func _layout() -> void:
 		return
 	var w : float = size.x
 	for i in range(_drops.size()):
-		_drops[i].position.x = w / 5.0 * float(i + 1)
+		_drops[i].position.x = w / float(_drops.size() + 1) * float(i + 1)
 #endregion FUNCTIONS

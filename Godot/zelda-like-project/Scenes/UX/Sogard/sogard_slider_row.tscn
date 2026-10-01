@@ -3,22 +3,19 @@
 [ext_resource type="Script" path="res://Scripts/UX/Sogard/sogard_slider_row.gd" id="1_script"]
 [ext_resource type="Theme" path="res://Text and Style/Text/sogard_menu_theme.tres" id="2_theme"]
 [ext_resource type="Texture2D" path="res://Sprites/UX/Sogard/sogard_ui_row_f.tres" id="3_row_f"]
-[ext_resource type="Texture2D" path="res://Sprites/UX/Sogard/sogard_ui_slider_track.tres" id="4_track_n"]
-[ext_resource type="Texture2D" path="res://Sprites/UX/Sogard/sogard_ui_dither_red.png" id="5_fill_n"]
 [ext_resource type="Texture2D" path="res://Sprites/UX/Sogard/sogard_ui_slider_knob.tres" id="6_knob_n"]
 
-[node name="SogardSliderRow" type="Control" node_paths=PackedStringArray("focus_bar", "label", "track", "fill", "knob")]
+[node name="SogardSliderRow" type="Control" node_paths=PackedStringArray("focus_bar", "label", "knob")]
 layout_mode = 3
 anchors_preset = 0
 offset_right = 392.0
 offset_bottom = 20.0
 focus_mode = 2
+texture_repeat = 2
 theme = ExtResource("2_theme")
 script = ExtResource("1_script")
 focus_bar = NodePath("FocusBar")
 label = NodePath("Label")
-track = NodePath("Track")
-fill = NodePath("Fill")
 knob = NodePath("Knob")
 
 [node name="FocusBar" type="TextureRect" parent="."]
@@ -42,28 +39,6 @@ offset_bottom = 18.0
 mouse_filter = 2
 theme_type_variation = &"SogardBody16"
 vertical_alignment = 1
-
-[node name="Track" type="TextureRect" parent="."]
-layout_mode = 0
-offset_left = 280.0
-offset_top = 5.0
-offset_right = 384.0
-offset_bottom = 15.0
-mouse_filter = 2
-texture = ExtResource("4_track_n")
-expand_mode = 1
-
-[node name="Fill" type="TextureRect" parent="."]
-layout_mode = 0
-offset_left = 284.0
-offset_top = 16.0
-offset_right = 334.0
-offset_bottom = 19.0
-mouse_filter = 2
-texture = ExtResource("5_fill_n")
-expand_mode = 1
-stretch_mode = 1
-texture_repeat = 2
 
 [node name="Knob" type="TextureRect" parent="."]
 layout_mode = 0

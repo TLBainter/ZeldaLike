@@ -56,25 +56,35 @@ func resolve(player = null) -> Array[PickupResource]:
 	var results : Array[PickupResource] = []
 	if drop_pool.is_empty():
 		return results
-	if drop_chance < 100:
+	var recovery_mult : float = saveManager.get_recovery_drop_multiplier() if saveManager else 1.0
+	var chance : int = drop_chance
+	if recovery_mult != 1.0 and _is_all_recovery():
+		chance = clampi(roundi(float(drop_chance) * recovery_mult), 0, 100)
+	if chance < 100:
 		var roll = randi_range(1, 100)
-		if roll > drop_chance:
+		if roll > chance:
 			if debug_me:
-				print("DropTable: Chance roll failed (", roll, " > ", drop_chance, "%); dropping nothing.")
+				print("DropTable: Chance roll failed (", roll, " > ", chance, "%); dropping nothing.")
 			_apply_pity_miss(player)
 			return results
 		elif debug_me:
-			print("DropTable: Chance roll passed (", roll, " <= ", drop_chance, "%).")
+			print("DropTable: Chance roll passed (", roll, " <= ", chance, "%).")
 	# Guaranteed drops ignore player need; Random drops filter by need.
 	var eligible_pickups : Array[PickupResource] = []
 	if drop_type == "Guaranteed":
 		for pickup in drop_pool.keys():
-			if pickup:
-				eligible_pickups.append(pickup)
+			if not pickup:
+				continue
+			if recovery_mult <= 0.0 and _is_recovery(pickup):
+				continue
+			eligible_pickups.append(pickup)
 	else:
 		for pickup in drop_pool.keys():
-			if pickup and _is_item_needed(pickup, player):
-				eligible_pickups.append(pickup)
+			if not pickup or not _is_item_needed(pickup, player):
+				continue
+			if recovery_mult <= 0.0 and _is_recovery(pickup):
+				continue
+			eligible_pickups.append(pickup)
 	if eligible_pickups.is_empty():
 		_apply_pity_miss(player)
 		return results
@@ -118,6 +128,20 @@ func _apply_pity_hit(player) -> void:
 	if "debug_me_verbose" in player and player.debug_me_verbose and player.drop_pity > 0:
 		print("DropTable: Item dropped; pity reset from ", player.drop_pity, " to 0.")
 	player.drop_pity = 0
+
+##True when every item in the pool is a recovery pickup. Such tables get drop_chance scaled by the difficulty multiplier, since weights are relative.
+func _is_all_recovery() -> bool:
+	for pickup in drop_pool.keys():
+		if pickup and not _is_recovery(pickup):
+			return false
+	return true
+
+##True when the pickup restores health, energy or magic. These are the drops difficulty scales.
+func _is_recovery(pickup : PickupResource) -> bool:
+	if not pickup or not pickup.item:
+		return false
+	var item = pickup.item
+	return item.recover_health > 0 or item.recover_energy > 0 or item.recover_magic > 0
 
 ##Checks whether the player actually needs this item.[br]
 ##Returns [b]false[/b] if the player is at max for what this item provides.[br]
@@ -182,12 +206,16 @@ func _weighted_random_pick(eligible : Array[PickupResource], pity : int = 0) -> 
 
 ##Returns the effective drop weight for a pickup.[br]
 ##Items with base weight < 25 receive [b]+pity[/b] to their weight.[br]
-##Items at 25 or above are unaffected by pity.
+##Items at 25 or above are unaffected by pity, judged by the base weight before difficulty scaling.[br]
+##Recovery items (health, energy, magic) are multiplied by the difficulty drop multiplier.
 func _calculate_weight(pickup : PickupResource, pity : int = 0) -> float:
 	var pool_value : int = drop_pool.get(pickup, 1)
 	var base : float = float(max(pool_value, 1))
+	var weight : float = base
+	if _is_recovery(pickup):
+		weight *= saveManager.get_recovery_drop_multiplier() if saveManager else 1.0
 	if base < 25.0:
-		base += float(pity)
-	return base
+		weight += float(pity)
+	return weight
 
 #endregion FUNCTIONS

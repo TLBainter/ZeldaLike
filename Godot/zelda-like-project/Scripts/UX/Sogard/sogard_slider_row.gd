@@ -1,4 +1,5 @@
-##Gamepad-first Sogard settings row: a labeled 0-10 slider with gold diamond pips and a red dither fill bar, stepped by handle_direction. Keys and pad route through SogardNavInput; a left press or drag on the track sets the value.
+##Gamepad-first Sogard settings row: a labeled 0-10 slider drawn as layered atlas art (background, red dither fill, foreground frame), stepped by handle_direction. Keys and pad route through SogardNavInput; a left press or drag on the track sets the value.
+@tool
 class_name SogardSliderRow
 extends Control
 
@@ -11,9 +12,9 @@ const TRACK_W : int = 100
 const TRACK_H : int = 10
 const ART_X : int = 280
 const ART_W : int = 104
-const DIA_Y : int = 7
-const FILL_Y : int = 16
-const FILL_H : int = 3
+const FILL_Y : int = 6
+const FILL_H : int = 8
+const BG_X : int = 281
 const PIP_COUNT : int = 10
 const TRACK_HIT_PAD : float = 4.0
 const TREE_X : int = 14
@@ -23,15 +24,13 @@ const SHADOW_COLOR : Color = Color("#000000")
 const COLOR_BONE : Color = Color("#e9e0cf")
 const COLOR_GOLD : Color = Color("#ffd21f")
 const COLOR_BRASS : Color = Color("#c9a24a")
-const COLOR_GROOVE : Color = Color("#140608")
-const COLOR_GROOVE_EDGE : Color = Color("#050203")
-const DIA_DIM : Color = Color(0.62, 0.62, 0.62)
 
-const TEX_TRACK_N : Texture2D = preload("res://Sprites/UX/Sogard/sogard_ui_slider_track.tres")
-const TEX_TRACK_F : Texture2D = preload("res://Sprites/UX/Sogard/sogard_ui_slider_track_f.tres")
+const TEX_FG_N : Texture2D = preload("res://Sprites/UX/Sogard/sogard_ui_slider_fg.tres")
+const TEX_FG_F : Texture2D = preload("res://Sprites/UX/Sogard/sogard_ui_slider_fg_f.tres")
+const TEX_BG_N : Texture2D = preload("res://Sprites/UX/Sogard/sogard_ui_slider_bg.tres")
+const TEX_BG_F : Texture2D = preload("res://Sprites/UX/Sogard/sogard_ui_slider_bg_f.tres")
 const TEX_FILL_N : Texture2D = preload("res://Sprites/UX/Sogard/sogard_ui_dither_red.png")
 const TEX_FILL_F : Texture2D = preload("res://Sprites/UX/Sogard/sogard_ui_dither_red_f.png")
-const TEX_DIA : Texture2D = preload("res://Sprites/UX/Sogard/sogard_ui_dia5.tres")
 const TEX_KNOB_N : Texture2D = preload("res://Sprites/UX/Sogard/sogard_ui_slider_knob.tres")
 const TEX_KNOB_F : Texture2D = preload("res://Sprites/UX/Sogard/sogard_ui_slider_knob_f.tres")
 const TEX_ROW_F : Texture2D = preload("res://Sprites/UX/Sogard/sogard_ui_row_f.tres")
@@ -40,8 +39,6 @@ const TEX_ROW_F_SUB : Texture2D = preload("res://Sprites/UX/Sogard/sogard_ui_row
 @export_category("Components")
 @export var focus_bar : TextureRect
 @export var label : Label
-@export var track : TextureRect
-@export var fill : TextureRect
 @export var knob : TextureRect
 
 @export_category("Value")
@@ -98,12 +95,13 @@ func _ready() -> void:
 	focus_exited.connect(_on_focus_exited)
 	if label:
 		label.text = label_text
-	_layout()
 	_apply_focus_bar_texture()
 	_apply_value_visuals()
 
 ##Sets the value and, only when it actually changes, plays sound_tick and emits value_changed. Repeats sound_error at the bounds.
 func set_value(v : int, emit : bool = true) -> void:
+	if Engine.is_editor_hint():
+		return
 	var before : int = value
 	var clamped : int = clampi(v, 0, PIP_COUNT)
 	value = clamped
@@ -131,6 +129,8 @@ func handle_direction(dir : Vector2i) -> bool:
 
 ##Mouse input: real pointer motion focuses; a left press on the track, and a drag that started there, set the value through set_value only when it changes.
 func _gui_input(event : InputEvent) -> void:
+	if Engine.is_editor_hint():
+		return
 	var mb : InputEventMouseButton = event as InputEventMouseButton
 	if mb and mb.button_index == MOUSE_BUTTON_LEFT and not mb.pressed:
 		if _dragging:
@@ -168,15 +168,18 @@ func _set_value_from_x(x : float) -> void:
 	if v != value:
 		set_value(v)
 
-##Swaps the label style and the track/fill/knob art between focused and unfocused looks.
+##Swaps the label style, the knob art and the drawn track layers between focused and unfocused looks.
 func set_focused_visual(on : bool) -> void:
 	_focused = on
 	_apply_focus_bar_texture()
 	_apply_value_visuals()
+	queue_redraw()
 	if debug_me_verbose:
 		print_rich(debug_name, ": focused ", _focused)
 
 func _on_focus_entered() -> void:
+	if Engine.is_editor_hint():
+		return
 	set_focused_visual(true)
 	if sound_focus:
 		_play(sound_focus)
@@ -188,23 +191,13 @@ func _on_focus_exited() -> void:
 	set_focused_visual(false)
 
 func _apply_focus_bar_texture() -> void:
-	if not focus_bar:
+	if not focus_bar or Engine.is_editor_hint():
 		return
 	focus_bar.texture = TEX_ROW_F_SUB if is_sub_row else TEX_ROW_F
 	focus_bar.visible = _focused
 
-func _layout() -> void:
-	if not is_node_ready():
-		return
-	if track:
-		track.position = Vector2(ART_X, TRACK_Y)
-		track.size = Vector2(ART_W, TRACK_H)
-	if fill:
-		fill.position = Vector2(TRACK_X, FILL_Y)
-		fill.size.y = FILL_H
-
 func _apply_value_visuals() -> void:
-	if not is_node_ready():
+	if not is_node_ready() or Engine.is_editor_hint():
 		return
 	if label:
 		var c : Color = COLOR_GOLD if _focused else COLOR_BONE
@@ -214,11 +207,6 @@ func _apply_value_visuals() -> void:
 		label.add_theme_constant_override("shadow_offset_y", 1)
 		label.add_theme_color_override("font_outline_color", OUTLINE_COLOR)
 		label.add_theme_constant_override("outline_size", 1 if _focused else 0)
-	if track:
-		track.texture = TEX_TRACK_F if _focused else TEX_TRACK_N
-	if fill:
-		fill.texture = TEX_FILL_F if _focused else TEX_FILL_N
-		fill.size.x = float(TRACK_W) * float(value) / float(PIP_COUNT)
 	if knob:
 		knob.texture = TEX_KNOB_F if _focused else TEX_KNOB_N
 		if knob.texture:
@@ -232,15 +220,13 @@ func _draw() -> void:
 		var bottom : float = size.y * 0.5 if is_last_child else size.y
 		draw_line(Vector2(TREE_X, 0.0), Vector2(TREE_X, bottom), COLOR_BRASS, 1.0)
 		draw_line(Vector2(TREE_X, size.y * 0.5), Vector2(TREE_X + 6.0, size.y * 0.5), COLOR_BRASS, 1.0)
-	draw_rect(Rect2(float(TRACK_X) - 1.0, float(FILL_Y) - 1.0, float(TRACK_W) + 2.0, float(FILL_H) + 2.0), COLOR_GROOVE_EDGE)
-	draw_rect(Rect2(float(TRACK_X), float(FILL_Y), float(TRACK_W), float(FILL_H)), COLOR_GROOVE)
-	var tint : Color = Color.WHITE if _focused else DIA_DIM
-	var pitch : float = float(TRACK_W) / float(PIP_COUNT)
-	for i in range(PIP_COUNT):
-		if i < value:
-			draw_texture(TEX_DIA, Vector2(float(TRACK_X) - 3.0 + float(i) * pitch, float(DIA_Y)), tint)
+	draw_texture(TEX_BG_F if _focused else TEX_BG_N, Vector2(float(BG_X), float(FILL_Y)))
+	var fill_w : float = float(TRACK_W) * float(value) / float(PIP_COUNT)
+	if fill_w > 0.0:
+		draw_texture_rect(TEX_FILL_F if _focused else TEX_FILL_N, Rect2(float(TRACK_X), float(FILL_Y), fill_w, float(FILL_H)), true)
+	draw_texture(TEX_FG_F if _focused else TEX_FG_N, Vector2(float(ART_X), float(TRACK_Y)))
 
 func _play(s : AudioStream) -> void:
-	if s and audioManager:
+	if not Engine.is_editor_hint() and s and audioManager:
 		audioManager.play(s, "UI")
 #endregion FUNCTIONS

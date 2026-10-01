@@ -13,6 +13,8 @@ extends Node
 @export var menu_container : Control
 ##The input controller for the menu.
 @export var menu_controller : MenuController
+##Maps dungeon names to item id prefixes for the DUNGEON slots; when unset, the lowercased dungeon name is the prefix.
+@export var dungeon_registry : DungeonRegistry
 
 @export_category("Fade Settings")
 ##How fast the dark overlay fades in (seconds).
@@ -166,6 +168,7 @@ func _initialize() -> void:
 			menu_controller.set_equipped_spells(player.equipped_spells)
 		menu_controller.activate()
 		menu_controller.pause_menu = self
+	_apply_dungeon_context(player)
 	if player and player.equipped_spells:
 		_spell_snapshot = _build_spell_snapshot(player.equipped_spells)
 	if menu_container:
@@ -177,6 +180,23 @@ func _initialize() -> void:
 	_fading_in = true
 	menuSfx.play_page_open()
 	set_process(true)
+
+##Resolves the player's current dungeon and item id prefix from the level, then pushes both to every DUNGEON slot cell.
+func _apply_dungeon_context(player : Player) -> void:
+	if not menu_container:
+		return
+	var in_dungeon : bool = false
+	var prefix : String = ""
+	var level : Level = Level.get_level_ancestor(player) if player else null
+	if level and level.get_effective_type() == Level.LevelType.DUNGEON:
+		in_dungeon = true
+		prefix = level.get_effective_name().to_lower()
+		if dungeon_registry:
+			prefix = dungeon_registry.get_prefix(prefix)
+	for node in menu_container.find_children("*", "Control", true, false):
+		var cell := node as MenuHoverableItemDungeon
+		if cell:
+			cell.set_dungeon_context(prefix, in_dungeon)
 #endregion INITIALIZER
 
 func _unhandled_input(event : InputEvent) -> void:
@@ -345,6 +365,8 @@ func _show_pause_ux() -> void:
 	if ux.magic_display:
 		ux.magic_display.process_mode = Node.PROCESS_MODE_WHEN_PAUSED
 		ux.magic_display.set_paused(true)
+	if ux.dungeon_item_display:
+		ux.dungeon_item_display.set_paused(true)
 	_player_ux_canvas = _find_ux_canvas_layer(ux)
 	if _player_ux_canvas:
 		_original_canvas_layer = _player_ux_canvas.layer
@@ -377,6 +399,8 @@ func _restore_ux() -> void:
 	if ux.magic_display:
 		ux.magic_display.process_mode = Node.PROCESS_MODE_INHERIT
 		ux.magic_display.set_paused(false)
+	if ux.dungeon_item_display:
+		ux.dungeon_item_display.restore_after_pause()
 	if _player_ux_canvas:
 		_player_ux_canvas.layer = _original_canvas_layer
 		_player_ux_canvas = null
@@ -724,6 +748,8 @@ func _tag_for(hover : MenuHoverable) -> String:
 		return "VITALITY"
 	if "Currency" in path:
 		return "MONEY"
+	if "Dungeon" in path:
+		return "DUNGEON"
 	return ""
 
 ##Glyph key for a slot: act1-act3 from MenuHoverableSpell.BADGE_KEYS; slot 4 is the north button (x on Switch, else y).

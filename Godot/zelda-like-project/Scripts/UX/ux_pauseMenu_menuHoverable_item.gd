@@ -51,9 +51,10 @@ var health : PlayerHealthComponent:
 ##Returns whether the player currently owns this item.
 var player_has_item : bool:
 	get:
-		if not inventory or not item_resource or item_resource.item_id.is_empty():
+		var id : String = _effective_item_id()
+		if not inventory or id.is_empty():
 			return false
-		return inventory.has_item(item_resource.item_id)
+		return inventory.has_item(id)
 ##Casts item_resource to MenuItemUpgradeResource; null if it is not an upgrade resource.
 var _as_upgrade : MenuItemUpgradeResource:
 	get:
@@ -280,9 +281,13 @@ func _stop_flash() -> void:
 
 #region QUANTITY
 
+##Returns the inventory id used for ownership and quantity lookups; item_resource.item_id by default, empty when item_resource is null. Subclasses override this to remap the id.
+func _effective_item_id() -> String:
+	return item_resource.item_id if item_resource else ""
+
 ##Returns the player's current quantity of this item, or 0 if inventory is unavailable.
 func _get_quantity() -> int:
-	return inventory.get_quantity(item_resource.item_id) if inventory else 0
+	return inventory.get_quantity(_effective_item_id()) if inventory else 0
 
 func _update_quantity() -> void:
 	if not quantity_label:
@@ -293,7 +298,7 @@ func _update_quantity() -> void:
 	if not player_has_item:
 		quantity_label.visible = false
 		return
-	var qty = inventory.get_quantity(item_resource.item_id) if inventory else 0
+	var qty = inventory.get_quantity(_effective_item_id()) if inventory else 0
 	if qty <= 0:
 		quantity_label.visible = false
 	else:

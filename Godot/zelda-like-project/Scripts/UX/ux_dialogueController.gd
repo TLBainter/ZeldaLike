@@ -11,6 +11,9 @@ signal dialogue_closed
 #endregion SIGNALS
 
 #region VARIABLES
+##Maximum characters in a resolved dialogue line before a warning is pushed.
+const MAX_LINE_CHARS : int = 128
+
 @export_category("Dialogue Components")
 @export var root : PlayerUX
 ##A reference to the text label.
@@ -99,8 +102,11 @@ func _show_next_line():
 		_end_dialogue()
 		return
 	var line_text = _current_lines[_current_line_index]
+	var line_ref = line_text
 	if textResolver:
 		line_text = textResolver.resolve(line_text)
+	if line_text.length() > MAX_LINE_CHARS:
+		push_warning("Dialogue line exceeds %d chars (%d): %s" % [MAX_LINE_CHARS, line_text.length(), line_ref])
 	dialogue_label.text = line_text
 	_visible_chars = 0.0
 	_total_chars = line_text.length()

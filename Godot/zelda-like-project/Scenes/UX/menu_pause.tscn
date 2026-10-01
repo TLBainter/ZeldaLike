@@ -55,6 +55,11 @@
 [ext_resource type="Texture2D" path="res://Sprites/UX/Sogard/sogard_ui_altar.tres" id="b7_altar"]
 [ext_resource type="Texture2D" path="res://Sprites/UX/Sogard/sogard_ui_dia7.tres" id="b7_dia7"]
 [ext_resource type="Texture2D" path="res://Sprites/UX/Sogard/sogard_ui_line_l.tres" id="b7_line_l"]
+[ext_resource type="Script" path="res://Scripts/UX/ux_pauseMenu_menuHoverable_item_dungeon.gd" id="d5_dungeon_cell"]
+[ext_resource type="Resource" uid="uid://dl07jumtv8gk1" path="res://Scripts/Resources/Resource Files/Resources_MenuItems/Resources_MenuItems_DungeonItems/resource_menuItem_dungeonKey.tres" id="d5_dungeon_key"]
+[ext_resource type="Resource" uid="uid://dbg7clim8b8rd" path="res://Scripts/Resources/Resource Files/Resources_MenuItems/Resources_MenuItems_DungeonItems/resource_menuItem_dungeonMap.tres" id="d5_dungeon_map"]
+[ext_resource type="Resource" uid="uid://v7gp03usj6jr" path="res://Scripts/Resources/Resource Files/Resources_MenuItems/Resources_MenuItems_DungeonItems/resource_menuItem_dungeonJournal.tres" id="d5_dungeon_journal"]
+[ext_resource type="Resource" uid="uid://bp7h0lo02onaf" path="res://Scripts/Resources/Resource Files/Resources_MenuItems/Resources_MenuItems_DungeonItems/resource_menuItem_dungeonBossKey.tres" id="d5_dungeon_bosskey"]
 
 [sub_resource type="Resource" id="Resource_kso5y"]
 script = ExtResource("10_fs4uv")
@@ -624,7 +629,6 @@ texture_filter = 1
 texture = ExtResource("b7_dia7")
 
 [node name="DungeonSlots" type="HBoxContainer" parent="PauseMenuCanvas/InventoryMenuMarginCont/MenuBackgroundPanel/MenuBackgroundContainer"]
-modulate = Color(1, 1, 1, 0.5)
 layout_mode = 1
 offset_left = 450.0
 offset_top = 222.0
@@ -633,25 +637,63 @@ offset_bottom = 258.0
 mouse_filter = 2
 theme_override_constants/separation = 4
 
-[node name="Slot1" type="TextureRect" parent="PauseMenuCanvas/InventoryMenuMarginCont/MenuBackgroundPanel/MenuBackgroundContainer/DungeonSlots"]
+[node name="DungeonSlot1" parent="PauseMenuCanvas/InventoryMenuMarginCont/MenuBackgroundPanel/MenuBackgroundContainer/DungeonSlots" node_paths=PackedStringArray("info_box", "up_nav", "down_nav", "right_nav") instance=ExtResource("3_05ck7")]
+custom_minimum_size = Vector2(36, 36)
 layout_mode = 2
-mouse_filter = 2
-texture = ExtResource("s3p_sock_n")
+script = ExtResource("d5_dungeon_cell")
+item_resource = ExtResource("d5_dungeon_key")
+panel_texture = ExtResource("s3p_sock_n")
+panel_texture_hovered = ExtResource("s3p_sock_f")
+info_box = NodePath("../../MenuInfoBoxCont/InfoBoxPanel/InfoBoxText")
+cursor_texture = null
+desaturate_material = SubResource("ShaderMaterial_desat")
+up_nav = NodePath("../../MenuConcoctionPanels/GridContainer/MenuConcoctionsPanel1")
+down_nav = NodePath("../../MenuCurrencyPanels/CurrencyPanel")
+right_nav = NodePath("../DungeonSlot2")
 
-[node name="Slot2" type="TextureRect" parent="PauseMenuCanvas/InventoryMenuMarginCont/MenuBackgroundPanel/MenuBackgroundContainer/DungeonSlots"]
+[node name="DungeonSlot2" parent="PauseMenuCanvas/InventoryMenuMarginCont/MenuBackgroundPanel/MenuBackgroundContainer/DungeonSlots" node_paths=PackedStringArray("info_box", "up_nav", "down_nav", "left_nav", "right_nav") instance=ExtResource("3_05ck7")]
+custom_minimum_size = Vector2(36, 36)
 layout_mode = 2
-mouse_filter = 2
-texture = ExtResource("s3p_sock_n")
+script = ExtResource("d5_dungeon_cell")
+item_resource = ExtResource("d5_dungeon_map")
+panel_texture = ExtResource("s3p_sock_n")
+panel_texture_hovered = ExtResource("s3p_sock_f")
+info_box = NodePath("../../MenuInfoBoxCont/InfoBoxPanel/InfoBoxText")
+cursor_texture = null
+desaturate_material = SubResource("ShaderMaterial_desat")
+up_nav = NodePath("../../MenuConcoctionPanels/GridContainer/MenuConcoctionsPanel2")
+down_nav = NodePath("../../MenuCurrencyPanels/CurrencyPanel")
+left_nav = NodePath("../DungeonSlot1")
+right_nav = NodePath("../DungeonSlot3")
 
-[node name="Slot3" type="TextureRect" parent="PauseMenuCanvas/InventoryMenuMarginCont/MenuBackgroundPanel/MenuBackgroundContainer/DungeonSlots"]
+[node name="DungeonSlot3" parent="PauseMenuCanvas/InventoryMenuMarginCont/MenuBackgroundPanel/MenuBackgroundContainer/DungeonSlots" node_paths=PackedStringArray("info_box", "up_nav", "down_nav", "left_nav", "right_nav") instance=ExtResource("3_05ck7")]
+custom_minimum_size = Vector2(36, 36)
 layout_mode = 2
-mouse_filter = 2
-texture = ExtResource("s3p_sock_n")
+script = ExtResource("d5_dungeon_cell")
+item_resource = ExtResource("d5_dungeon_journal")
+panel_texture = ExtResource("s3p_sock_n")
+panel_texture_hovered = ExtResource("s3p_sock_f")
+info_box = NodePath("../../MenuInfoBoxCont/InfoBoxPanel/InfoBoxText")
+cursor_texture = null
+desaturate_material = SubResource("ShaderMaterial_desat")
+up_nav = NodePath("../../MenuConcoctionPanels/GridContainer/MenuConcoctionsPanel3")
+down_nav = NodePath("../../MenuCurrencyPanels/CurrencyPanel")
+left_nav = NodePath("../DungeonSlot2")
+right_nav = NodePath("../DungeonSlot4")
 
-[node name="Slot4" type="TextureRect" parent="PauseMenuCanvas/InventoryMenuMarginCont/MenuBackgroundPanel/MenuBackgroundContainer/DungeonSlots"]
+[node name="DungeonSlot4" parent="PauseMenuCanvas/InventoryMenuMarginCont/MenuBackgroundPanel/MenuBackgroundContainer/DungeonSlots" node_paths=PackedStringArray("info_box", "up_nav", "down_nav", "left_nav") instance=ExtResource("3_05ck7")]
+custom_minimum_size = Vector2(36, 36)
 layout_mode = 2
-mouse_filter = 2
-texture = ExtResource("s3p_sock_n")
+script = ExtResource("d5_dungeon_cell")
+item_resource = ExtResource("d5_dungeon_bosskey")
+panel_texture = ExtResource("s3p_sock_n")
+panel_texture_hovered = ExtResource("s3p_sock_f")
+info_box = NodePath("../../MenuInfoBoxCont/InfoBoxPanel/InfoBoxText")
+cursor_texture = null
+desaturate_material = SubResource("ShaderMaterial_desat")
+up_nav = NodePath("../../MenuConcoctionPanels/GridContainer/MenuConcoctionsPanel4")
+down_nav = NodePath("../../MenuCurrencyPanels/CurrencyPanel")
+left_nav = NodePath("../DungeonSlot3")
 
 [node name="MenuSpellPanels" type="PanelContainer" parent="PauseMenuCanvas/InventoryMenuMarginCont/MenuBackgroundPanel/MenuBackgroundContainer" unique_id=983105635]
 self_modulate = Color(1, 1, 1, 0)
@@ -1076,7 +1118,7 @@ info_box = NodePath("../../../MenuInfoBoxCont/InfoBoxPanel/InfoBoxText")
 cursor_texture = null
 debug = SubResource("Resource_57mdv")
 up_nav = NodePath("../../../MenuMobilityItemsPanels/MenuMobilityItemsContainer/MenuMobilityItem1")
-down_nav = NodePath("../../../MenuCurrencyPanels/CurrencyPanel")
+down_nav = NodePath("../../../DungeonSlots/DungeonSlot1")
 left_nav = NodePath("../../../MenuSpellPanels/MenuSpellContainer/MenuSpellPanel5")
 right_nav = NodePath("../MenuConcoctionsPanel2")
 
@@ -1092,7 +1134,7 @@ info_box = NodePath("../../../MenuInfoBoxCont/InfoBoxPanel/InfoBoxText")
 cursor_texture = null
 debug = SubResource("Resource_57mdv")
 up_nav = NodePath("../../../MenuMobilityItemsPanels/MenuMobilityItemsContainer/MenuMobilityItem2")
-down_nav = NodePath("../../../MenuCurrencyPanels/CurrencyPanel")
+down_nav = NodePath("../../../DungeonSlots/DungeonSlot2")
 left_nav = NodePath("../MenuConcoctionsPanel1")
 right_nav = NodePath("../MenuConcoctionsPanel3")
 
@@ -1108,7 +1150,7 @@ info_box = NodePath("../../../MenuInfoBoxCont/InfoBoxPanel/InfoBoxText")
 cursor_texture = null
 debug = SubResource("Resource_57mdv")
 up_nav = NodePath("../../../MenuMobilityItemsPanels/MenuMobilityItemsContainer/MenuMobilityItem3")
-down_nav = NodePath("../../../MenuCurrencyPanels/CurrencyPanel")
+down_nav = NodePath("../../../DungeonSlots/DungeonSlot3")
 left_nav = NodePath("../MenuConcoctionsPanel2")
 right_nav = NodePath("../MenuConcoctionsPanel4")
 
@@ -1124,7 +1166,7 @@ info_box = NodePath("../../../MenuInfoBoxCont/InfoBoxPanel/InfoBoxText")
 cursor_texture = null
 debug = SubResource("Resource_57mdv")
 up_nav = NodePath("../../../MenuMobilityItemsPanels/MenuMobilityItemsContainer/MenuMobilityItem3")
-down_nav = NodePath("../../../MenuCurrencyPanels/CurrencyPanel")
+down_nav = NodePath("../../../DungeonSlots/DungeonSlot4")
 left_nav = NodePath("../MenuConcoctionsPanel3")
 
 [node name="MenuCurrencyPanels" type="PanelContainer" parent="PauseMenuCanvas/InventoryMenuMarginCont/MenuBackgroundPanel/MenuBackgroundContainer" unique_id=958024018]
@@ -1142,7 +1184,7 @@ info_description = "Carrying [cur.currency] of [cur.max]."
 info_effect = ""
 info_box = NodePath("../../MenuInfoBoxCont/InfoBoxPanel/InfoBoxText")
 debug = SubResource("Resource_jxkak")
-up_nav = NodePath("../../MenuConcoctionPanels/GridContainer/MenuConcoctionsPanel1")
+up_nav = NodePath("../../DungeonSlots/DungeonSlot1")
 left_nav = NodePath("../../MenuResourcesPanels/MenuResourcesContainer/MenuResource2")
 
 [node name="InfoAltar" type="TextureRect" parent="PauseMenuCanvas/InventoryMenuMarginCont/MenuBackgroundPanel/MenuBackgroundContainer"]

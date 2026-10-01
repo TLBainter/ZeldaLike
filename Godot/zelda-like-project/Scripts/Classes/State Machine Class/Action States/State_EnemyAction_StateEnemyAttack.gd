@@ -164,7 +164,7 @@ func _try_damage_entity(entity) -> void:
 		return
 	# TODO: check blockable flag once player blocking is implemented
 	# TODO: check parryable flag once parry system is implemented
-	var damage_amount : int = _attack_resource.get_damage_amount() if _attack_resource else 1
+	var damage_amount : int = saveManager.scale_enemy_damage(_attack_resource.get_damage_amount() if _attack_resource else 1)
 	if entity.has_method("take_damage"):
 		entity.take_damage(damage_amount)
 		_debug_log(str("Damaged player for ", damage_amount, "."))

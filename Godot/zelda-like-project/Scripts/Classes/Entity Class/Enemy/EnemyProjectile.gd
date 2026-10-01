@@ -42,7 +42,7 @@ func _process(delta : float) -> void:
 
 func _on_body_entered(body : Node2D) -> void:
 	if body is PlayerBody:
-		body.root.health.damaged(_damage, global_position)
+		body.root.health.damaged(saveManager.scale_enemy_damage(_damage), global_position)
 		var target = body.root
 		if target and target.has_method("receive_knockback"):
 			var t_class : int = target.get_weight_class() if target.has_method("get_weight_class") else 2

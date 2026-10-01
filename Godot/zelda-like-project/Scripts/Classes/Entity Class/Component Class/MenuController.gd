@@ -48,6 +48,8 @@ func _ready():
 
 ##Call this when the menu opens to set the starting hover state.
 func activate() -> void:
+	for h in _get_all_hoverables(get_parent()):
+		h.controller = self
 	if default_hoverable:
 		_navigate_to(default_hoverable, false)
 	_held_direction = ""
@@ -196,6 +198,14 @@ func _get_input_direction() -> String:
 ##Returns the currently hovered MenuHoverable.
 func get_current() -> MenuHoverable:
 	return _current
+
+##Moves the hover to the given hoverable in response to mouse input. Ignored while inactive or if the target is current, mouse-disabled, or hidden.
+func request_mouse_hover(h : MenuHoverable) -> void:
+	if not is_processing():
+		return
+	if h == _current or not h.mouse_enabled or not h.is_visible_in_tree():
+		return
+	_navigate_to(h)
 
 #endregion PUBLIC
 

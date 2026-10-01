@@ -1,4 +1,5 @@
 ##Gamepad-first Sogard menu button: nine-slice plate, centered label with optional pad glyph, poking diamond pointers and optional glow while focused. Keys and pad route through SogardNavInput; pointer motion focuses and a left click calls handle_accept.
+@tool
 class_name SogardButton
 extends Control
 
@@ -157,7 +158,7 @@ var _key_chip : PanelContainer = null
 
 #region FUNCTIONS
 func _enter_tree() -> void:
-	if settingsManager:
+	if not Engine.is_editor_hint() and settingsManager:
 		glyph_platform = settingsManager.get_glyph_platform()
 
 func _ready() -> void:
@@ -196,6 +197,8 @@ func set_focused_visual(on : bool) -> void:
 
 ##Accept routed from SogardNavInput. Emits activated and returns true unless disabled.
 func handle_accept() -> bool:
+	if Engine.is_editor_hint():
+		return false
 	if disabled:
 		return false
 	if sound_accept:
@@ -209,6 +212,8 @@ func handle_accept() -> bool:
 
 ##Mouse input: real pointer motion focuses, left press routes through handle_accept, and the matching release reaches handle_accept_released when defined.
 func _gui_input(event : InputEvent) -> void:
+	if Engine.is_editor_hint():
+		return
 	var mb : InputEventMouseButton = event as InputEventMouseButton
 	if mb and mb.button_index == MOUSE_BUTTON_LEFT and not mb.pressed:
 		if _mouse_down:
@@ -236,6 +241,8 @@ func _gui_input(event : InputEvent) -> void:
 		print_rich(debug_name, ": mouse press consumed=", _mouse_down)
 
 func _on_focus_entered() -> void:
+	if Engine.is_editor_hint():
+		return
 	set_focused_visual(true)
 	if sound_focus:
 		_play(sound_focus)
@@ -257,6 +264,11 @@ func _apply_disabled() -> void:
 
 func _apply_visual() -> void:
 	if not is_node_ready():
+		return
+	if Engine.is_editor_hint():
+		if plate and plate_normal:
+			plate.add_theme_stylebox_override("panel", plate_normal)
+		_layout()
 		return
 	if plate:
 		var sb : StyleBox = plate_focused if _focused and plate_focused else plate_normal
@@ -305,6 +317,8 @@ func _apply_label_style() -> void:
 ##Pad glyph texture on controller platforms; on keyboard a text key chip read from InputMap via SogardInputGlyphs.key_label.
 func _refresh_glyph() -> void:
 	if not is_node_ready() or not glyph_chip:
+		return
+	if Engine.is_editor_hint():
 		return
 	var tex : Texture2D = null if glyph_key.is_empty() else SogardGlyphs.get_texture(glyph_platform, glyph_key)
 	var key_text : String = ""
@@ -376,6 +390,6 @@ func _place_glow() -> void:
 	glow.position = ((size - g) * 0.5).floor()
 
 func _play(s : AudioStream) -> void:
-	if s and audioManager:
+	if not Engine.is_editor_hint() and s and audioManager:
 		audioManager.play(s, "UI")
 #endregion FUNCTIONS

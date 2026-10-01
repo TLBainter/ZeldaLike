@@ -1,4 +1,5 @@
 ## Row of Sogard tab plates (tab128 settings categories, tab72 pause pages). Screens drive it with next/prev; a left click on a plate selects it through set_active.
+@tool
 class_name SogardTabs
 extends HBoxContainer
 
@@ -96,10 +97,11 @@ func set_active(i: int, emit: bool = true) -> void:
 	if debug_me:
 		print_rich(debug_name, ": tab -> [b]", clamped, "[/b]")
 	if emit:
-		if sound_tick:
-			_play(sound_tick)
-		else:
-			menuSfx.play_page_switch()
+		if not Engine.is_editor_hint():
+			if sound_tick:
+				_play(sound_tick)
+			else:
+				menuSfx.play_page_switch()
 		tab_changed.emit(clamped)
 
 ## Moves to the next tab, wrapping when wrap is true.
@@ -119,6 +121,8 @@ func handle_direction(dir: Vector2i) -> bool:
 
 ## Mouse input: real pointer motion focuses the row when focusable; a left press on a plate selects it through set_active, focusing the row first when focusable.
 func _gui_input(event: InputEvent) -> void:
+	if Engine.is_editor_hint():
+		return
 	var mm := event as InputEventMouseMotion
 	if mm:
 		if focus_mode != Control.FOCUS_NONE and mm.relative != Vector2.ZERO and not has_focus() and SogardNavInput.mouse_hover_allowed(self):
@@ -208,6 +212,6 @@ func _style_label(label: Label, color: Color, lit: bool) -> void:
 	label.add_theme_constant_override("outline_size", 2 if lit else 0)
 
 func _play(s: AudioStream) -> void:
-	if s and audioManager:
+	if not Engine.is_editor_hint() and s and audioManager:
 		audioManager.play(s, "UI")
 #endregion FUNCTIONS

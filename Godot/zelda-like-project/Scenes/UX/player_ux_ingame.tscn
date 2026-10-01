@@ -14,19 +14,19 @@
 [ext_resource type="Resource" uid="uid://dd4r0q5rfvm4d" path="res://Scripts/Resources/Resource Files/Resources_MenuItems/resource_menuItem_arcaneSalve.tres" id="8_2bw2c"]
 [ext_resource type="AudioStream" uid="uid://beb3rdr8gqvde" path="res://Sound/SFX/Player/Player UX SFX/Status/healthLow.wav" id="8_l8e16"]
 [ext_resource type="Resource" uid="uid://bm0stmr3hatbd" path="res://Scripts/Resources/Resource Files/Resources_MenuItems/resource_menuItem_energizingSalve.tres" id="9_crfdi"]
-[ext_resource type="Texture2D" uid="uid://c1eocxag7jj8h" path="res://Sprites/UX/Backgrounds/dark ui blank.png" id="9_jwj3h"]
 [ext_resource type="Script" uid="uid://cyj54quh4uo0w" path="res://Scripts/UX/ux_dialogueController.gd" id="9_prcqu"]
 [ext_resource type="Texture2D" uid="uid://dse3fpdx1g32f" path="res://icon.svg" id="10_ktjiq"]
 [ext_resource type="Resource" uid="uid://c3nedqqe2nl6y" path="res://Scripts/Resources/Resource Files/Resources_MenuItems/resource_menuItem_bloodSalve.tres" id="10_ui11g"]
-[ext_resource type="Texture2D" uid="uid://dpqcjyf48nd5j" path="res://Sprites/UX/Backgrounds/dark ui large-long plate.png" id="10_urrej"]
-[ext_resource type="Texture2D" uid="uid://8k5l76ow05w3" path="res://Sprites/UX/Backgrounds/dark ui large plate.png" id="11_ktjiq"]
-[ext_resource type="Theme" uid="uid://bc52rxei0qqcb" path="res://Text and Style/Text/character_Name_Theme.tres" id="12_ktjiq"]
 [ext_resource type="Script" uid="uid://0v6wmtkrbub8" path="res://Scripts/UX/ux_playerElement_Display_Magic.gd" id="15_t6yf8"]
 [ext_resource type="PackedScene" uid="uid://dfbybk6c0g253" path="res://Scenes/UX/player_ux_energy.tscn" id="16_n1r0t"]
 [ext_resource type="Script" uid="uid://dwp4hegm041y7" path="res://Scripts/UX/ux_playerElement_Display_Energy.gd" id="16_xwql8"]
 [ext_resource type="PackedScene" uid="uid://21qvkrep0b38" path="res://Scenes/UX/player_ux_magic.tscn" id="18_t6yf8"]
 [ext_resource type="PackedScene" uid="uid://cv8mrdsulnqih" path="res://Scenes/UX/player_ux_currency.tscn" id="19_cmm85"]
 [ext_resource type="PackedScene" uid="uid://die7hhcftblm" path="res://Scenes/UX/player_ux_dungeonItems.tscn" id="25_2bw2c"]
+[ext_resource type="Theme" path="res://Text and Style/Text/sogard_menu_theme.tres" id="13_sgtheme"]
+[ext_resource type="StyleBoxTexture" path="res://Sprites/UX/Sogard/sogard_sb_modal300x88.tres" id="14_sgmodal"]
+[ext_resource type="StyleBoxTexture" path="res://Sprites/UX/Sogard/sogard_sb_modal300x88_p.tres" id="15_sgportrait"]
+[ext_resource type="StyleBoxTexture" path="res://Sprites/UX/Sogard/sogard_sb_tab128_a.tres" id="16_sgtab"]
 
 [sub_resource type="Resource" id="Resource_ov3gu"]
 script = ExtResource("6_2bw2c")
@@ -101,13 +101,6 @@ region = Rect2(224, 0, 16, 16)
 script = ExtResource("6_2bw2c")
 debug_name = "Player Skulls Container"
 metadata/_custom_type_script = "uid://c0gguh8o4ftae"
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_prcqu"]
-bg_color = Color(0.42352942, 0.6627451, 0.5058824, 0.0627451)
-
-[sub_resource type="FontVariation" id="FontVariation_ktjiq"]
-base_font = ExtResource("3_4d04n")
-spacing_glyph = 2
 
 [node name="PlayerUX" type="Control" unique_id=895243336 node_paths=PackedStringArray("currency_display", "dungeon_item_display", "skullsContainer", "ui_audio", "context_label", "dialogue_controller", "energy_display", "magic_display", "action_buttons_margin", "action_button_1", "action_button_2", "action_button_3", "action_button_4", "consumable_buttons", "salve_panels")]
 layout_mode = 3
@@ -335,161 +328,92 @@ skull_gui = ExtResource("5_55krk")
 root = NodePath("../../..")
 debug = SubResource("Resource_2bw2c")
 
-[node name="PlayerUI_Dialogue" type="MarginContainer" parent="PlayerInGameCanvas" unique_id=1508851987]
-custom_minimum_size = Vector2(550, 200)
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
+[node name="PlayerUI_Dialogue" type="Control" parent="PlayerInGameCanvas" unique_id=1508851987]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -275.0
-offset_top = -200.0
-offset_right = 275.0
 grow_horizontal = 2
-grow_vertical = 0
-scale = Vector2(0.5, 0.5)
-pivot_offset_ratio = Vector2(0.5, 1)
-theme_override_constants/margin_left = 16
-theme_override_constants/margin_top = 16
-theme_override_constants/margin_right = 16
-theme_override_constants/margin_bottom = 16
+grow_vertical = 2
+mouse_filter = 2
 
 [node name="PlayerUI_Dialogue_Panel" type="Panel" parent="PlayerInGameCanvas/PlayerUI_Dialogue" unique_id=127341942 node_paths=PackedStringArray("root", "dialogue_label", "char_name", "char_icon")]
-self_modulate = Color(1, 1, 1, 0)
-layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_prcqu")
+layout_mode = 0
+offset_left = 96
+offset_top = 264
+offset_right = 544
+offset_bottom = 352
+mouse_filter = 2
+theme = ExtResource("13_sgtheme")
+theme_override_styles/panel = ExtResource("14_sgmodal")
 script = ExtResource("9_prcqu")
 root = NodePath("../../..")
-dialogue_label = NodePath("PlayerUI_Dialogue_Contents_Panel/playUI_Dialogue_Bottom_Plate/Dialogue_Label")
-char_name = NodePath("PlayerUI_Dialogue_Character_Details_Panel/playUI_Dialogue_Character_Name/CharacterName_Label")
-char_icon = NodePath("PlayerUI_Dialogue_Character_Details_Panel/playUI_Dialogue_Character_Plate/Character_Icon")
+dialogue_label = NodePath("Dialogue_Label")
+char_name = NodePath("NamePlate/CharacterName_Label")
+char_icon = NodePath("PortraitBack/Character_Icon")
 
-[node name="PlayerUI_Dialogue_Character_Details_Panel" type="Panel" parent="PlayerInGameCanvas/PlayerUI_Dialogue/PlayerUI_Dialogue_Panel" unique_id=1134753859]
-self_modulate = Color(1, 1, 1, 0)
-layout_mode = 1
-anchors_preset = 4
-anchor_top = 0.5
-anchor_bottom = 0.5
-offset_top = -89.5
-offset_right = 159.5
-offset_bottom = 89.5
-grow_vertical = 2
+[node name="PortraitBack" type="Panel" parent="PlayerInGameCanvas/PlayerUI_Dialogue/PlayerUI_Dialogue_Panel" unique_id=1847263511]
+layout_mode = 0
+offset_left = 10
+offset_top = 16
+offset_right = 66
+offset_bottom = 72
+mouse_filter = 2
+theme_override_styles/panel = ExtResource("15_sgportrait")
 
-[node name="playUI_Dialogue_Character_Plate" type="TextureRect" parent="PlayerInGameCanvas/PlayerUI_Dialogue/PlayerUI_Dialogue_Panel/PlayerUI_Dialogue_Character_Details_Panel" unique_id=1583779027]
-layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -79.875
-offset_right = 79.875
-offset_bottom = 139.0
-grow_horizontal = 2
-pivot_offset_ratio = Vector2(0.5, 0)
-texture = ExtResource("9_jwj3h")
-stretch_mode = 5
-
-[node name="Character_Icon" type="TextureRect" parent="PlayerInGameCanvas/PlayerUI_Dialogue/PlayerUI_Dialogue_Panel/PlayerUI_Dialogue_Character_Details_Panel/playUI_Dialogue_Character_Plate" unique_id=2072084380]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -48.0
-offset_top = -48.0
-offset_right = 48.0
-offset_bottom = 48.0
-grow_horizontal = 2
-grow_vertical = 2
-pivot_offset_ratio = Vector2(0.5, 0.5)
+[node name="Character_Icon" type="TextureRect" parent="PlayerInGameCanvas/PlayerUI_Dialogue/PlayerUI_Dialogue_Panel/PortraitBack" unique_id=2072084380]
+layout_mode = 0
+offset_left = 4
+offset_top = 4
+offset_right = 52
+offset_bottom = 52
+mouse_filter = 2
 texture = ExtResource("10_ktjiq")
 expand_mode = 1
 stretch_mode = 4
 
-[node name="playUI_Dialogue_Character_Name" type="TextureRect" parent="PlayerInGameCanvas/PlayerUI_Dialogue/PlayerUI_Dialogue_Panel/PlayerUI_Dialogue_Character_Details_Panel" unique_id=1124208952]
-custom_minimum_size = Vector2(128, 0)
-layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -81.0
-offset_top = -40.5
-offset_right = 81.0
-grow_horizontal = 2
-grow_vertical = 0
-size_flags_horizontal = 4
-size_flags_vertical = 8
-size_flags_stretch_ratio = 0.0
-texture = ExtResource("10_urrej")
-stretch_mode = 4
+[node name="NamePlate" type="Panel" parent="PlayerInGameCanvas/PlayerUI_Dialogue/PlayerUI_Dialogue_Panel" unique_id=1193847261]
+layout_mode = 0
+offset_left = 4
+offset_top = -10
+offset_right = 132
+offset_bottom = 12
+mouse_filter = 2
+theme_override_styles/panel = ExtResource("16_sgtab")
 
-[node name="CharacterName_Label" type="Label" parent="PlayerInGameCanvas/PlayerUI_Dialogue/PlayerUI_Dialogue_Panel/PlayerUI_Dialogue_Character_Details_Panel/playUI_Dialogue_Character_Name" unique_id=386866471]
+[node name="CharacterName_Label" type="Label" parent="PlayerInGameCanvas/PlayerUI_Dialogue/PlayerUI_Dialogue_Panel/NamePlate" unique_id=386866471]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_top = 2
+offset_bottom = 2
 grow_horizontal = 2
 grow_vertical = 2
-theme = ExtResource("12_ktjiq")
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+mouse_filter = 2
+theme_type_variation = &"SogardBody16"
+theme_override_colors/font_color = Color(1, 0.823529, 0.121569, 1)
+theme_override_colors/font_shadow_color = Color(0.101961, 0.00784314, 0.0156863, 1)
+theme_override_colors/font_outline_color = Color(0.227451, 0.0156863, 0.0352941, 1)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
 theme_override_constants/outline_size = 2
-theme_override_font_sizes/font_size = 24
 text = "Character Name"
 horizontal_alignment = 1
 vertical_alignment = 1
-autowrap_mode = 2
 
-[node name="PlayerUI_Dialogue_Contents_Panel" type="Panel" parent="PlayerInGameCanvas/PlayerUI_Dialogue/PlayerUI_Dialogue_Panel" unique_id=871835872]
-self_modulate = Color(1, 1, 1, 0)
-layout_mode = 1
-anchors_preset = 6
-anchor_left = 1.0
-anchor_top = 0.5
-anchor_right = 1.0
-anchor_bottom = 0.5
-offset_left = -337.0
-offset_top = -78.5
-offset_bottom = 78.5
-grow_horizontal = 0
-grow_vertical = 2
-
-[node name="playUI_Dialogue_Bottom_Plate" type="TextureRect" parent="PlayerInGameCanvas/PlayerUI_Dialogue/PlayerUI_Dialogue_Panel/PlayerUI_Dialogue_Contents_Panel" unique_id=854687939]
-layout_mode = 1
-anchors_preset = 6
-anchor_left = 1.0
-anchor_top = 0.5
-anchor_right = 1.0
-anchor_bottom = 0.5
-offset_left = -331.0
-offset_top = -83.0
-offset_bottom = 83.0
-grow_horizontal = 0
-grow_vertical = 2
-pivot_offset_ratio = Vector2(1, 0.5)
-texture = ExtResource("11_ktjiq")
-expand_mode = 5
-stretch_mode = 4
-
-[node name="Dialogue_Label" type="Label" parent="PlayerInGameCanvas/PlayerUI_Dialogue/PlayerUI_Dialogue_Panel/PlayerUI_Dialogue_Contents_Panel/playUI_Dialogue_Bottom_Plate" unique_id=2141353800]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 27.0
-offset_top = 6.0
-offset_right = -27.0
-offset_bottom = -7.0
-grow_horizontal = 2
-grow_vertical = 2
-theme = ExtResource("12_ktjiq")
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 2
-theme_override_fonts/font = SubResource("FontVariation_ktjiq")
-theme_override_font_sizes/font_size = 32
+[node name="Dialogue_Label" type="Label" parent="PlayerInGameCanvas/PlayerUI_Dialogue/PlayerUI_Dialogue_Panel" unique_id=2141353800]
+layout_mode = 0
+offset_left = 74
+offset_top = 10
+offset_right = 438
+offset_bottom = 78
+mouse_filter = 2
+theme_type_variation = &"SogardBody16"
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
 text = "This is what a normal block of dialogue looks like! It shouldn't be longer than this!"
-vertical_alignment = 1
 autowrap_mode = 2
 
 [node name="PlayerUI_Magic" type="Control" parent="PlayerInGameCanvas" unique_id=425141234 node_paths=PackedStringArray("energy_display", "root", "gui_container")]

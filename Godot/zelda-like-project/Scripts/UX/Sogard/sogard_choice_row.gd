@@ -1,4 +1,5 @@
 ##Gamepad-first Sogard settings row: a labeled left/right choice cycling through options. Keys and pad route through SogardNavInput; pointer motion focuses and a click on an arrow steps the option.
+@tool
 class_name SogardChoiceRow
 extends Control
 
@@ -64,7 +65,7 @@ const TEX_ROW_F : Texture2D = preload("res://Sprites/UX/Sogard/sogard_ui_row_f.t
 @export var focus_texture : Texture2D = TEX_ROW_F:
 	set(v):
 		focus_texture = v
-		if focus_bar:
+		if not Engine.is_editor_hint() and focus_bar:
 			focus_bar.texture = focus_texture
 
 @export_category("Sound")
@@ -93,13 +94,15 @@ func _ready() -> void:
 	focus_exited.connect(_on_focus_exited)
 	if label:
 		label.text = label_text
-	if focus_bar:
+	if not Engine.is_editor_hint() and focus_bar:
 		focus_bar.texture = focus_texture
 		focus_bar.visible = false
 	_apply_index_visuals()
 
 ##Sets index and, only when it actually changes, plays sound_tick and emits index_changed. Repeats sound_error at the bounds.
 func set_index(i : int, emit : bool = true) -> void:
+	if Engine.is_editor_hint():
+		return
 	var before : int = index
 	var clamped : int = clampi(i, 0, maxi(options.size() - 1, 0))
 	index = clamped
@@ -124,6 +127,8 @@ func handle_direction(dir : Vector2i) -> bool:
 
 ##Accept plays the confirm sound without changing the index. Always returns true.
 func handle_accept() -> bool:
+	if Engine.is_editor_hint():
+		return true
 	if sound_accept:
 		_play(sound_accept)
 	else:
@@ -134,6 +139,8 @@ func handle_accept() -> bool:
 
 ##Mouse input: real pointer motion focuses; a left press on an arrow steps through handle_direction, elsewhere on the row it routes through handle_accept.
 func _gui_input(event : InputEvent) -> void:
+	if Engine.is_editor_hint():
+		return
 	if focus_mode == Control.FOCUS_NONE:
 		return
 	var mm : InputEventMouseMotion = event as InputEventMouseMotion
@@ -172,6 +179,8 @@ func set_focused_visual(on : bool) -> void:
 		print_rich(debug_name, ": focused ", _focused)
 
 func _on_focus_entered() -> void:
+	if Engine.is_editor_hint():
+		return
 	set_focused_visual(true)
 	if sound_focus:
 		_play(sound_focus)
@@ -183,6 +192,10 @@ func _on_focus_exited() -> void:
 
 func _apply_index_visuals() -> void:
 	if not is_node_ready():
+		return
+	if Engine.is_editor_hint():
+		if value_label:
+			value_label.text = options[index] if index < options.size() else ""
 		return
 	if label:
 		var c : Color = COLOR_GOLD if _focused else COLOR_BONE
@@ -227,6 +240,6 @@ func _draw() -> void:
 		draw_line(Vector2(TREE_X, size.y * 0.5), Vector2(TREE_X + 6.0, size.y * 0.5), COLOR_BRASS, 1.0)
 
 func _play(s : AudioStream) -> void:
-	if s and audioManager:
+	if not Engine.is_editor_hint() and s and audioManager:
 		audioManager.play(s, "UI")
 #endregion FUNCTIONS

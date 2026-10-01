@@ -125,6 +125,14 @@ func force_show(should_force : bool) -> void:
 func _can_fade_out() -> bool:
 	return true
 
+##Restores the pre-pause state after the pause menu closes, then refreshes the icons and shows the element again when inside a dungeon.
+func restore_after_pause() -> void:
+	set_paused(false)
+	if not _in_dungeon:
+		return
+	_update_display()
+	show_element()
+
 #endregion VISIBILITY OVERRIDES
 
 #endregion FUNCTIONS

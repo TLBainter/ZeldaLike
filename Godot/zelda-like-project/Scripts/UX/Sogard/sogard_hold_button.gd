@@ -1,4 +1,5 @@
 ##Hold-to-confirm Sogard button (danger Hold to Erase). Accept press ticks a tiled red fill; release before full cancels; a full fill emits hold_completed then activated.
+@tool
 class_name SogardHoldButton
 extends SogardButton
 
@@ -40,6 +41,8 @@ var _ticks : int = 0
 #region FUNCTIONS
 func _ready() -> void:
 	super._ready()
+	if Engine.is_editor_hint():
+		return
 	if hold_fill:
 		hold_fill.texture = _tileable(hold_fill.texture)
 	if plate and hold_fill:
@@ -54,6 +57,8 @@ func _ready() -> void:
 
 ##Accept press routed from SogardNavInput: starts the fill and the label jitter. Returns true unless disabled.
 func handle_accept() -> bool:
+	if Engine.is_editor_hint():
+		return false
 	if disabled:
 		return false
 	if _holding:

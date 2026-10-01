@@ -12,6 +12,8 @@ const FORMAT_VERSION     : int    = 1
 const SLOT_COUNT         : int    = 6
 ## Path to the first gameplay scene. Update when a proper first level exists.
 const GAME_START_SCENE   : String = "res://Scenes/Levels/Test/TestingArea.tscn"
+const ENEMY_DAMAGE_MULTIPLIERS : Dictionary = {"Story": 0.5, "Standard": 1.0, "Epic": 2.0}
+const RECOVERY_DROP_MULTIPLIERS : Dictionary = {"Story": 2.0, "Standard": 1.0, "Epic": 0.0}
 
 #endregion CONSTANTS
 
@@ -240,6 +242,20 @@ func has_any_save() -> bool:
 ##Returns [b]true[/b] while save data is being applied.
 func is_loading() -> bool:
 	return _is_loading
+
+##Difficulty of the active save ("Story", "Standard" or "Epic"). Legacy saves without one count as "Standard".
+func get_difficulty() -> String:
+	return _difficulty if _difficulty in ENEMY_DAMAGE_MULTIPLIERS else "Standard"
+
+##Scales enemy damage to the player by difficulty (Story x0.5, Standard x1.0, Epic x2.0). Never returns less than 1 for a positive input.
+func scale_enemy_damage(amount : int) -> int:
+	if amount <= 0:
+		return amount
+	return maxi(1, floori(float(amount) * ENEMY_DAMAGE_MULTIPLIERS[get_difficulty()]))
+
+##Drop weight multiplier for recovery pickups (Story 2.0, Standard 1.0, Epic 0.0). 0 means recovery items never drop.
+func get_recovery_drop_multiplier() -> float:
+	return RECOVERY_DROP_MULTIPLIERS[get_difficulty()]
 
 ##Debug console alias - starts a new game on slot 0 with default settings.
 func new_game() -> void:

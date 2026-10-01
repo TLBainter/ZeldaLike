@@ -3,7 +3,7 @@ class_name SogardBackground
 extends Control
 
 #region VARIABLES
-const PARTICLE_COUNTS : Array = [0, 10, 24, 64]
+const BASE_RISE : int = 24
 const EMBER_COUNT : int = 20
 
 @export_category("Components")
@@ -66,7 +66,7 @@ const EMBER_COUNT : int = 20
 			desat.visible = v
 
 @export_category("Settings")
-##Particle density for the RISE layer only. 0=Off 1=Minimal(10) 2=Standard(24) 3=Excessive(64). Plain int, no custom setter; use set_particle_level().
+##Particle density level for all layers (RISE, EMBER, DROPS). 0=Off 1=Minimal(x0.5) 2=Standard(x1.0) 3=Excessive(x1.5). Plain int, no custom setter; use set_particle_level().
 @export_range(0, 3, 1) var particle_level : int = 2
 
 @export_category("Debug")
@@ -84,18 +84,21 @@ var debug_name : String:
 func _ready() -> void:
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_to_group("sogard_particles")
-	if embers:
-		embers.count = EMBER_COUNT
 	_apply_all()
 	set_particle_level(settingsManager.get_value(&"particles") if settingsManager else particle_level)
 
-##Settings hook: sets the RISE layer's particle count from a 0-3 density level. EMBER stays fixed at EMBER_COUNT.
+##Settings hook: scales the RISE, EMBER and DROPS layers by the particle multiplier for a 0-3 density level.
 func set_particle_level(l : int) -> void:
-	particle_level = clampi(l, 0, PARTICLE_COUNTS.size() - 1)
+	particle_level = clampi(l, 0, settingsManager.PARTICLE_MULTIPLIERS.size() - 1 if settingsManager else 3)
+	var m : float = settingsManager.PARTICLE_MULTIPLIERS[particle_level] if settingsManager else 1.0
 	if rise:
-		rise.count = PARTICLE_COUNTS[particle_level]
+		rise.count = roundi(float(BASE_RISE) * m)
+	if embers:
+		embers.count = roundi(float(EMBER_COUNT) * m)
+	if drops:
+		drops.count = roundi(float(SogardBgDrops.DROP_COUNT) * m)
 	if debug_me:
-		print_rich(debug_name, ": particle_level ", particle_level, " -> ", PARTICLE_COUNTS[particle_level])
+		print_rich(debug_name, ": particle_level ", particle_level, " multiplier ", m)
 
 ##Bulk layer-visibility setter. Keys match the show_* / desaturated export names.
 func set_layers(layers : Dictionary) -> void:

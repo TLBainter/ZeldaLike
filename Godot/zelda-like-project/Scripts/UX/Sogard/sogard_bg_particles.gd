@@ -60,6 +60,7 @@ func _build_emitters() -> void:
 		p.direction = Vector2.UP
 		p.one_shot = false
 		p.color_ramp = _make_flicker_ramp(COLORS[i])
+		p.set_meta(&"no_particle_scaling", true)
 		add_child(p)
 		_emitters.append(p)
 

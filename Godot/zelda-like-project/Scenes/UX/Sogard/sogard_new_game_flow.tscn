@@ -189,39 +189,40 @@ layout_mode = 0
 offset_left = 40.0
 offset_top = 68.0
 offset_right = 216.0
-offset_bottom = 264.0
+offset_bottom = 280.0
 diff_name = "Story"
-description = "An easy game with minimal
-challenge, designed to
-experience the story."
+description = "Experience the story with
+minimal challenge."
+perks = PackedStringArray("Abundant recovery items", "Decreased enemy damage", "Forgiving parry windows")
 
 [node name="Standard" parent="DiffScreen/Cards" instance=ExtResource("11_card")]
 layout_mode = 0
 offset_left = 232.0
 offset_top = 68.0
 offset_right = 408.0
-offset_bottom = 264.0
+offset_bottom = 280.0
 diff_name = "Standard"
 description = "The way the game is meant to
 be played."
+perks = PackedStringArray("Standard recovery items", "Standard enemy damage", "Standard parry windows")
 
 [node name="Epic" parent="DiffScreen/Cards" instance=ExtResource("11_card")]
 layout_mode = 0
 offset_left = 424.0
 offset_top = 68.0
 offset_right = 600.0
-offset_bottom = 264.0
+offset_bottom = 280.0
 diff_name = "Epic"
 description = "A challenge for seasoned
-players. Parrying is a
-necessity."
+players."
+perks = PackedStringArray("No recovery items will drop", "Increased enemy damage", "Standard parry windows")
 
 [node name="BeginningLabel" type="Label" parent="DiffScreen"]
 layout_mode = 0
 offset_left = 254.0
-offset_top = 287.0
+offset_top = 295.0
 offset_right = 321.0
-offset_bottom = 301.0
+offset_bottom = 309.0
 mouse_filter = 2
 theme_type_variation = &"SogardBody16"
 theme_override_colors/font_color = Color(0.627451, 0.56078434, 0.54901963, 1)
@@ -230,9 +231,9 @@ text = "Beginning as"
 [node name="FooterName" type="Label" parent="DiffScreen"]
 layout_mode = 0
 offset_left = 327.0
-offset_top = 284.0
+offset_top = 292.0
 offset_right = 387.0
-offset_bottom = 300.0
+offset_bottom = 308.0
 mouse_filter = 2
 theme_type_variation = &"SogardScript16"
 theme_override_colors/font_color = Color(1, 0.8235294, 0.12156863, 1)

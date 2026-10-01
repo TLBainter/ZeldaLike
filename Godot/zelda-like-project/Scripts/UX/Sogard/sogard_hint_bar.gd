@@ -1,4 +1,5 @@
 ##Right-aligned row of button glyph + label hints for Sogard screens. Rebuilt from "key:Label" strings and faded in on every change.
+@tool
 class_name SogardHintBar
 extends HBoxContainer
 
@@ -50,7 +51,7 @@ var debug_name : String:
 
 #region FUNCTIONS
 func _enter_tree() -> void:
-	if settingsManager:
+	if not Engine.is_editor_hint() and settingsManager:
 		glyph_platform = settingsManager.get_glyph_platform()
 
 func _ready() -> void:
@@ -73,7 +74,7 @@ func _rebuild(fade : bool) -> void:
 		c.queue_free()
 	for spec in hints:
 		add_child(_make_pair(spec))
-	if fade and fade_ms > 0:
+	if fade and fade_ms > 0 and not Engine.is_editor_hint():
 		SogardStepper.run(self, self, ^"modulate:a", 0.0, 1.0, fade_ms, fade_steps)
 	if debug_me:
 		print_rich(debug_name, ": [color=cyan]hints[/color] ", hints)
@@ -107,7 +108,7 @@ func _make_glyph(k : String) -> Control:
 	if not SogardGlyphs.KEYS.has(k.to_lower()):
 		return _make_key_chip(k)
 	if glyph_platform == SogardInputGlyphs.KEYBOARD:
-		return _make_key_chip(SogardInputGlyphs.key_label(k))
+		return _make_key_chip(k if Engine.is_editor_hint() else SogardInputGlyphs.key_label(k))
 	var tex : TextureRect = TextureRect.new()
 	tex.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	tex.custom_minimum_size = GLYPH_SIZE

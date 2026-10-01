@@ -781,7 +781,7 @@ tile_map_data = PackedByteArray("AAD4//z/AAAeABAAAAD4//3/AAAeABEAAAD4/wMAAAAeABA
 tile_set = SubResource("TileSet_dwulq")
 
 [node name="Chest" parent="TileMap" unique_id=495694602 instance=ExtResource("6_fi1cx")]
-position = Vector2(-105, 54)
+position = Vector2(-88, 70)
 reward = SubResource("Resource_j7yw7")
 
 [node name="Chest2" parent="TileMap" unique_id=1604505474 instance=ExtResource("6_fi1cx")]
